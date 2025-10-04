@@ -396,9 +396,11 @@ if config["enable"]["retrieve"]:
 
     rule retrieve_worldbank_urban_population:
         params:
-            zip_file="API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2.zip",
+            # zip_file="API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2.zip",
+            zip_file="API_SP.URB.TOTL.IN.ZS_DS2_EN_csv_v2.zip",
         output:
-            gpkg="data/worldbank/API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2.csv",
+            # gpkg="data/worldbank/API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2.csv",
+            gpkg="data/worldbank/API_SP.URB.TOTL.IN.ZS_DS2_EN_csv_v2.csv",
         run:
             response = requests.get(
                 "https://api.worldbank.org/v2/en/indicator/SP.URB.TOTL.IN.ZS?downloadformat=csv",
@@ -411,7 +413,8 @@ if config["enable"]["retrieve"]:
 
             for f in os.listdir(output_folder):
                 if f.startswith(
-                    "API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2_"
+                    # "API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2_"
+                    "API_SP.URB.TOTL.IN.ZS_DS2_EN_csv_v2_"
                 ) and f.endswith(".csv"):
                     os.rename(os.path.join(output_folder, f), output.gpkg)
                     break
