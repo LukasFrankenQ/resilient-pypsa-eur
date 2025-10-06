@@ -193,6 +193,8 @@ if config["enable"].get("build_cutout", False):
         params:
             cutouts=config_provider("atlite", "cutouts"),
         input:
+            # regions_onshore=resources("regions_onshore.geojson"),
+            # regions_offshore=resources("regions_offshore.geojson"),
             regions_onshore=resources("regions_onshore.geojson"),
             regions_offshore=resources("regions_offshore.geojson"),
         output:

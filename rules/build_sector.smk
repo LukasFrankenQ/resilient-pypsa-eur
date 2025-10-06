@@ -6,7 +6,7 @@
 rule build_population_layouts:
     input:
         nuts3_shapes=resources("nuts3_shapes.geojson"),
-        urban_percent="data/worldbank/API_SP.URB.TOTL.IN.ZS_DS2_en_csv_v2.csv",
+        urban_percent="data/worldbank/API_SP.URB.TOTL.IN.ZS_DS2_EN_csv_v2.csv",
         cutout=lambda w: input_cutout(w),
     output:
         pop_layout_total=resources("pop_layout_total.nc"),

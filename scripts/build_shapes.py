@@ -347,6 +347,7 @@ def create_regions(
     # GDP
     logger.info(f"Importing JRC ARDECO GDP data for year {GDP_YEAR}.")
     nuts3_gdp = pd.read_csv(nuts3_gdp, index_col=[0])
+    print('nuts3_gdp', nuts3_gdp)
     nuts3_gdp = nuts3_gdp.query("LEVEL_ID == 3 and UNIT == 'EUR'")
     nuts3_gdp.index = nuts3_gdp.index.str.replace("UK", "GB").str.replace("EL", "GR")
     nuts3_gdp = nuts3_gdp[str(GDP_YEAR)]
