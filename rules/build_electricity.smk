@@ -11,11 +11,12 @@ rule build_electricity_demand:
         load=config_provider("load"),
     input:
         reported=ancient("data/electricity_demand_raw.csv"),
-        synthetic=lambda w: (
-            ancient("data/load_synthetic_raw.csv")
-            if config_provider("load", "supplement_synthetic")(w)
-            else []
-        ),
+        # synthetic=lambda w: (
+        #     ancient("data/load_synthetic_raw.csv")
+        #     if config_provider("load", "supplement_synthetic")(w)
+        #     else []
+        # ),
+        synthetic='data/demand_hourly_2024.csv', # same code used as for synthetic load data, but for 2024
     output:
         resources("electricity_demand.csv"),
     log:

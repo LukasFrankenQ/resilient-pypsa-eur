@@ -15,6 +15,7 @@ def basic_axis_formatting(ax, ylabel=None, xlim=None, ylim=None, xticks=None, xt
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
 
     ax.yaxis.grid(True, which='major', linestyle='--', linewidth=0.5, alpha=0.7)
     ax.set_axisbelow(True)

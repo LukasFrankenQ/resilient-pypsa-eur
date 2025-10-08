@@ -196,7 +196,7 @@ if __name__ == "__main__":
     norm_year = config_hydro.get("eia_norm_year")
     missing_years = years_in_time.difference(eia_stats.index)
     if norm_year:
-        eia_stats.loc[years_in_time] = eia_stats.loc[norm_year]
+        eia_stats.loc[years_in_time[0]] = eia_stats.loc[norm_year]
     elif missing_years.any():
         eia_stats.loc[missing_years] = eia_stats.median()
 

@@ -40,6 +40,11 @@ if __name__ == "__main__":
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
 
     totals = pd.read_csv(snakemake.input.energy_totals, index_col=[0, 1])
+    
+    print(snakemake.wildcards)
+    print(totals)
+    print(totals.loc[idx[:, [2021, 2022, 2023], :]])
+
     totals = totals.loc[idx[:, data_years], :].groupby("country").mean()
 
     nodal_totals = totals.loc[pop_layout.ct].fillna(0.0)

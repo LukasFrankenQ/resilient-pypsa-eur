@@ -289,7 +289,15 @@ if __name__ == "__main__":
         # UA, MD, XK, CY, MT do not appear in synthetic load data
         countries = list(set(countries) - set(["UA", "MD", "XK", "CY", "MT"]))
         synthetic_load = synthetic_load.loc[snapshots, countries]
+
         load = load.combine_first(synthetic_load)
+        # print('====================================================')
+        # print(load)
+        # print(load.isna().any())
+
+        # assuming Kosovo has a 6th of the demand of Serbia
+        load['XK'] = load['RS'] / 6
+
 
     assert not load.isna().any().any(), (
         "Load data contains nans. Adjust the parameters "
