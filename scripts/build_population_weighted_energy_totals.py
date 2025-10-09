@@ -41,13 +41,22 @@ if __name__ == "__main__":
 
     totals = pd.read_csv(snakemake.input.energy_totals, index_col=[0, 1])
 
-    if len(uncovered_years := data_years.difference(totals.index.get_level_values(1))):
+    years_in_totals = totals.index.get_level_values(1).unique()
+    orig_type = type(data_years)
+    if isinstance(data_years, int):
+        data_years = pd.Index([data_years])
+    elif not isinstance(data_years, pd.Index):
+        data_years = pd.Index(data_years)
+
+    uncovered_years = data_years.difference(years_in_totals)
+    if len(uncovered_years):
         logger.warning('Uncovered years: %s', uncovered_years)
         logger.warning('Taking latest available year')
-        data_years = data_years.where(
-            data_years <= totals.index.get_level_values(1).max(),
-            totals.index.get_level_values(1).max()
-        )
+        max_year = years_in_totals.max()
+        data_years = pd.Index([y if y <= max_year else max_year for y in data_years])
+
+    if orig_type == int:
+        data_years = data_years[0]
 
     totals = totals.loc[idx[:, data_years], :].groupby("country").mean()
 

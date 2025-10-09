@@ -417,7 +417,12 @@ def plot_residential_commercial_demand(
     ss = ss.loc[mask].dropna()
     ss = ss.loc[~ss.index.get_level_values(2).str[2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
 
-    rescom_consumption = ss.groupby(level=1).sum().T[rescom_demands].sum(axis=1).mul(n.snapshot_weightings['generators'])
+    rescom_consumption = ss.groupby(level=1).sum().T
+    rescom_consumption = (
+        rescom_consumption[rescom_consumption.columns.intersection(rescom_demands)]
+        .sum(axis=1)
+        .mul(n.snapshot_weightings['generators'])
+    )
 
     model_data = rescom_consumption.groupby(rescom_consumption.index.to_period('M')).sum().mul(1e-6)
     model_data.index = right_data.index

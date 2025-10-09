@@ -49,6 +49,24 @@ spatial = SimpleNamespace()
 logger = logging.getLogger(__name__)
 
 
+def insert_feb29(profile, snapshots):
+
+    idx = pd.DatetimeIndex(profile.index)
+    snaps = pd.DatetimeIndex(snapshots)
+    feb29s = [dt for dt in snaps if dt.month == 2 and dt.day == 29 and dt not in idx]
+
+    for dt in feb29s:
+        feb28 = dt.replace(day=28)
+        if feb28 in idx:
+            row = profile.loc[feb28].copy()
+            if isinstance(profile, pd.DataFrame):
+                row.name = dt
+                profile = pd.concat([profile, row.to_frame().T])
+            else:
+                profile.loc[dt] = row
+    return profile.sort_index()
+
+
 def define_spatial(nodes, options):
     """
     Namespace for spatial.
@@ -1276,6 +1294,11 @@ def add_co2limit(n, options, co2_totals_file, countries, nyears, limit):
 
     co2_limit *= limit * nyears
 
+    print('-==---------------------------------------------------------------------')
+    print('inserting co2 limit')
+    print('co2_limit', co2_limit)
+    print('-==---------------------------------------------------------------------')
+
     n.add(
         "GlobalConstraint",
         "CO2Limit",
@@ -2317,6 +2340,10 @@ def add_EVs(
     # Calculate load profile
     profile = electric_share * p_set.div(efficiency)
 
+    profile = insert_feb29(profile, n.snapshots)
+    avail_profile = insert_feb29(avail_profile, n.snapshots)
+    dsm_profile = insert_feb29(dsm_profile, n.snapshots)
+
     # Add EV load
     n.add(
         "Load",
@@ -2554,6 +2581,8 @@ def add_ice_cars(
         carrier="land transport oil",
         unit="land transport",
     )
+
+    profile = insert_feb29(profile, n.snapshots)
 
     # Add transport oil demand
     n.add(
@@ -2944,6 +2973,8 @@ def add_heat(
                     factor * (1 + options["district_heating"]["district_heating_loss"])
                 )
             )
+        
+        heat_load = insert_feb29(heat_load, n.snapshots)
 
         n.add(
             "Load",
