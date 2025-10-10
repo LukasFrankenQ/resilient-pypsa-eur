@@ -4910,6 +4910,7 @@ def add_industry(
             )
 
     # TODO simplify bus expression
+
     n.add(
         "Load",
         nodes,
@@ -4926,10 +4927,17 @@ def add_industry(
         p_set=industrial_demand.loc[nodes, "low-temperature heat"] / nhours,
     )
 
+    print(industrial_demand)    
+
+    el = n.loads.index[n.loads.carrier == "electricity"]
+    print("before remove today's industry electricity")
+    print(n.loads_t.p_set[el].head())
+
+    weights = n.snapshot_weightings.generators[0]
+
     # remove today's industrial electricity demand by scaling down total electricity demand
     for ct in n.buses.country.dropna().unique():
         # TODO map onto n.bus.country
-
         loads_i = n.loads.index[
             (n.loads.index.str[:2] == ct) & (n.loads.carrier == "electricity")
         ]
@@ -4938,9 +4946,13 @@ def add_industry(
         factor = (
             1
             - industrial_demand.loc[loads_i, "current electricity"].sum()
-            / n.loads_t.p_set[loads_i].sum().sum()
+            / (n.loads_t.p_set[loads_i].sum().sum() * weights)
         )
+        print(ct, factor)
         n.loads_t.p_set[loads_i] *= factor
+
+    print("after remove today's industry electricity")
+    print(n.loads_t.p_set[el].head())
 
     n.add(
         "Load",
@@ -6232,6 +6244,7 @@ if __name__ == "__main__":
         for tech, settings in snakemake.params.renewable.items()
         if "landfall_length" in settings.keys()
     }
+
     patch_electricity_network(n, costs, carriers_to_keep, profiles, landfall_lengths)
 
     fn = snakemake.input.heating_efficiencies
@@ -6517,6 +6530,7 @@ if __name__ == "__main__":
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
     sanitize_carriers(n, snakemake.config)
+
     sanitize_locations(n)
 
     n.export_to_netcdf(snakemake.output[0])

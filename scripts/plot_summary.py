@@ -104,7 +104,7 @@ def plot_costs():
     handles.reverse()
     labels.reverse()
 
-    ax.set_ylim([0, snakemake.params.plotting["costs_max"]])
+    # ax.set_ylim([0, snakemake.params.plotting["costs_max"]])
 
     ax.set_ylabel("System Cost [EUR billion per year]")
 
@@ -173,12 +173,14 @@ def plot_energy():
     handles.reverse()
     labels.reverse()
 
+    '''
     ax.set_ylim(
         [
             snakemake.params.plotting["energy_min"],
             snakemake.params.plotting["energy_max"],
         ]
     )
+    '''
 
     ax.set_ylabel("Energy [TWh/a]")
 
