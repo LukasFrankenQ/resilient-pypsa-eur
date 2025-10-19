@@ -311,12 +311,6 @@ def add_carbon_constraint(n: pypsa.Network, snapshots: pd.DatetimeIndex) -> None
             lhs = final_e.loc[time_i, :] - final_e.shift(snapshot=1).loc[time_i, :]
 
             rhs = glc.constant
-
-            print('inserting co2 constraint')
-            print('name', name)
-            print('lhs', lhs)
-            print('rhs', rhs)
-
             n.model.add_constraints(lhs <= rhs, name=f"GlobalConstraint-{name}")
 
 
