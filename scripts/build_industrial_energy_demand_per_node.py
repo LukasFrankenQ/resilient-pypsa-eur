@@ -62,10 +62,6 @@ if __name__ == "__main__":
     nodal_production_stacked = nodal_production.stack()
     nodal_production_stacked.index.names = [None, None]
 
-    print('nodal sector ratio', nodal_sector_ratios)
-    print('nodal production', nodal_production)
-    print('============================================')
-
     # final energy consumption per node and industry (TWh/a)
     nodal_df = (
         (nodal_sector_ratios.multiply(nodal_production_stacked))
@@ -83,8 +79,6 @@ if __name__ == "__main__":
     nodal_df["current electricity"] = nodal_today["electricity"]
 
     nodal_df.index.name = "TWh/a (MtCO2/a)"
-
-    print('result', nodal_df)
 
     fn = snakemake.output.industrial_energy_demand_per_node
     nodal_df.to_csv(fn, float_format="%.2f")

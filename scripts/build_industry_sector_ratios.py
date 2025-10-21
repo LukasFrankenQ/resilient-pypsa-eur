@@ -7,8 +7,11 @@ Build best case specific energy consumption by carrier and category.
 Description
 -------
 
-This script uses the `JRC-IDEES <https://joint-research-centre.ec.europa.eu/potencia-policy-oriented-tool-energy-and-climate-change-impact-assessment/jrc-idees_en>` data to calculate an EU28 average specific energy consumption by carrier and industries.
-The industries are according to the rule `industrial_production_per_country <https://pypsa-eur.readthedocs.io/en/latest/sector.html#module-build_industrial_production_per_country>`.
+This script uses the `JRC-IDEES 
+<https://joint-research-centre.ec.europa.eu/potencia-policy-oriented-tool-energy-and-climate-change-impact-assessment/jrc-idees_en>`
+data to calculate an EU28 average specific energy consumption by carrier and industries.
+The industries are according to the rule `industrial_production_per_country
+<https://pypsa-eur.readthedocs.io/en/latest/sector.html#module-build_industrial_production_per_country>`.
 
 The following carriers are considered:
 - elec

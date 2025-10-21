@@ -4943,12 +4943,16 @@ def add_industry(
         ]
         if n.loads_t.p_set[loads_i].empty:
             continue
+        # factor = (
+        #     1
+        #     - industrial_demand.loc[loads_i, "current electricity"].sum()
+            # / (n.loads_t.p_set[loads_i].sum().sum() * weights)
+        # )
         factor = (
             1
             - industrial_demand.loc[loads_i, "current electricity"].sum()
-            / (n.loads_t.p_set[loads_i].sum().sum() * weights)
+            / n.loads_t.p_set[loads_i].sum().sum()
         )
-        print(ct, factor)
         n.loads_t.p_set[loads_i] *= factor
 
     print("after remove today's industry electricity")
