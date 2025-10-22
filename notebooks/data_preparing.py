@@ -1,11 +1,13 @@
 import pandas as pd
+from pathlib import Path
 
 
 industry_demands = ['gas for industry', 'gas for industry CC', 'SMR', 'SMR CC']
 rescom_demands = ['services rural gas boiler', 'services urban decentral gas boiler', 'urban central gas boiler', 'urban central gas CHP', 'urban central gas CHP CC']
+remove_countries = ['NO', 'AL', 'BA', 'ME', 'MK', 'NO', 'RS', 'XK']
 
 
-def basic_axis_formatting(ax, ylabel=None, xlim=None, ylim=None, xticks=None, xticklabels=None):
+def basic_axis_formatting(ax, ylabel=None, xlim=None, ylim=None, xticks=None, xticklabels=None, xrotation=0):
     """
     Apply basic formatting to a matplotlib axis.
     """
@@ -28,7 +30,7 @@ def basic_axis_formatting(ax, ylabel=None, xlim=None, ylim=None, xticks=None, xt
     if xticks is not None:
         ax.set_xticks(xticks)
     if xticklabels is not None:
-        ax.set_xticklabels(xticklabels, rotation=0)
+        ax.set_xticklabels(xticklabels, rotation=xrotation)
 
     ax.axhline(0, color='black', linewidth=0.5)
 
@@ -47,6 +49,20 @@ def plot_stacked_bars(
     """
     Plot stacked bars (with positive/negative support) on ax for the given data.
     Optionally overlays a total line if present.
+    
+    Args:
+        ax (matplotlib.axes.Axes): The axis to plot on.
+        data (pd.DataFrame): DataFrame with index as categories and columns as stack components.
+        stack_cols (list): List of column names from data to stack.
+        colors (list): List of colors corresponding to each stack_col.
+        labels (list): List of labels corresponding to each stack_col.
+        nice_names_data (dict, optional): Dictionary mapping labels to display names. Defaults to None.
+        bar_width (float, optional): Width of the bars. Defaults to 0.7.
+        y_offset (float, optional): Vertical offset for total line text annotations. Defaults to 25.
+        total_line_name (str, optional): Column name for the total supply line. Defaults to 'Total_Supply'.
+    
+    Returns:
+        pd.Index: The index of the data (quarters_plot).
     """
     quarters_plot = data.index
     pos_bottoms = [0] * len(quarters_plot)
@@ -102,6 +118,139 @@ def plot_stacked_bars(
             ax.text(i, ts + y_offset, f"{ts:.1f}", ha='center', va='bottom', fontsize=9, color='black')
 
     return quarters_plot
+
+
+def plot_electricity_mix(
+    ax_left,
+    ax_right,
+    n,
+    _,
+    fig,
+    row_idx
+    ):
+
+    add_shared_row_title(fig, ax_left, ax_right, "EU-27 + UK + Electricity Mix", row_idx)
+
+    em = pd.read_csv(
+        Path.cwd().parent / 'data' / 'europe_monthly_full_release_long_format.csv', index_col=[1,2]
+    )
+
+    em = em.loc[
+        (em['Unit'] == 'TWh') &
+        (em['Subcategory'] == 'Fuel')
+        ]
+    em = em.set_index('Variable', append=True)
+    em = em.loc[em.Area.isin(['EU', 'United Kingdom'])]
+
+    em = em.groupby([em.index.get_level_values(2), em.index.get_level_values(1).str[:7]])['Value'].sum().unstack()
+    em = em.loc[:, em.columns.str.contains('2024')].T
+
+    keepers = [
+        'Pumped Hydro Storage',
+        'Reservoir & Dam',
+        'Offshore Wind (AC)',
+        'Offshore Wind (DC)',
+        'Offshore Wind (Floating)',
+        'Onshore Wind',
+        'Run of River',
+        'Solar',
+        'nuclear',
+        'lignite',
+        'solar-hsat',
+        'Combined-Cycle Gas',
+        'Open-Cycle Gas',
+        'coal',
+        'urban central gas CHP CC',
+        'urban central solid biomass CHP',
+        'urban central solid biomass CHP CC',
+    ]
+    grouper = {
+        "Offshore Wind (AC)": "Offshore wind",
+        "Offshore Wind (DC)": "Offshore wind",
+        "Offshore Wind (Floating)": "Offshore wind",
+        "Onshore Wind": "Onshore wind",
+        "Run of River": "Hydro",
+        "Pumped Hydro Storage": "Hydro",
+        "Reservoir & Dam": "Hydro",
+        "urban central gas CHP CC": "Gas",
+        "urban central solid biomass CHP CC": "Bioenergy",
+        "urban central solid biomass CHP": "Bioenergy",
+        "Open-Cycle Gas": "Gas",
+        "Combined-Cycle Gas": "Gas",
+        "coal": "Hard coal",
+        "lignite": "Lignite",
+        "nuclear": "Nuclear",
+        "solar": "Solar",
+        "solar-hsat": "Solar",
+    }
+    grouper = {
+        origin: grouper.get(origin, origin) for origin in keepers
+    }
+
+    weight = n.snapshot_weightings['generators'].iloc[0]
+    idx = pd.IndexSlice
+
+    # ns = n.statistics.energy_balance(aggregate_time=False).loc[idx[:,:,'AC']]
+    # ns.index = ns.index.get_level_values(1)
+
+    ns = n.statistics.energy_balance(groupby=['bus', 'carrier'], aggregate_time=False)
+    ns = ns.loc[~ns.index.get_level_values(1).str.startswith(tuple(remove_countries))]
+    ns = ns.loc[ns.index.get_level_values(1) != '']
+
+    ns = ns.loc[list(map(lambda x: n.buses.loc[x, 'carrier'] == 'AC', ns.index.get_level_values(1)))]
+    ns = ns.groupby(level=2).sum()
+
+    ns = ns.groupby(grouper).sum().T
+    ns = ns.groupby(ns.index.month).sum().T.mul(weight * 1e-6)
+    ns.columns = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    ns = ns.T
+
+    energy_colors = {
+        'Bioenergy': '#e3d37d',
+        'Nuclear': '#ff8c00',
+        'Gas': '#db6a25',
+        'Hard coal': '#545454',
+        'Lignite': '#826837',
+        'Hydro': '#298c81',
+        'Other fossil': '#95A5A6',
+        'Other renewables': '#27AE60',
+        'Offshore wind': "#6895dd",
+        'Onshore wind': "#235ebc",
+        'Solar': '#ffbf2b',
+    }
+
+    ns.loc[:, pd.Index(energy_colors.keys()).difference(ns.columns)] = 0
+    em.loc[:, pd.Index(energy_colors.keys()).difference(em.columns)] = 0
+
+    ns = ns[list(energy_colors.keys())]
+    em = em[list(energy_colors.keys())]
+    ymax = max(ns.sum(axis=1).max(), em.sum(axis=1).max())
+
+    for ax, data, is_left in [
+        (ax_left, ns, True),
+        (ax_right, em, False)
+    ]:
+
+        plot_stacked_bars(
+            ax, data, ns.columns, energy_colors.values(), ns.columns, bar_width=1
+        )
+
+        basic_axis_formatting(
+            ax,
+            ylabel="TWh",
+            xlim=(-0.5, len(ns.index) - 0.5),
+            xticks=range(len(ns.index)),
+            xticklabels=ns.index,
+            ylim=(0, ymax),
+            xrotation=90
+        )
+
+        if not is_left:
+            ax.legend(loc='upper left', bbox_to_anchor=(1.01, 1.2), frameon=False)
+
+        # For left side, keep axis visible (for now), but could be ax.axis('off') if desired
+        if is_left:
+            pass  # Optionally: ax.axis('off')
 
 
 def get_model_pipeline_imports(n):
