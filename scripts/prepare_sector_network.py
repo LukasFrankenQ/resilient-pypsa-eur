@@ -1294,11 +1294,6 @@ def add_co2limit(n, options, co2_totals_file, countries, nyears, limit):
 
     co2_limit *= limit * nyears
 
-    print('-==---------------------------------------------------------------------')
-    print('inserting co2 limit')
-    print('co2_limit', co2_limit)
-    print('-==---------------------------------------------------------------------')
-
     n.add(
         "GlobalConstraint",
         "CO2Limit",
@@ -4927,13 +4922,7 @@ def add_industry(
         p_set=industrial_demand.loc[nodes, "low-temperature heat"] / nhours,
     )
 
-    print(industrial_demand)    
-
     el = n.loads.index[n.loads.carrier == "electricity"]
-    print("before remove today's industry electricity")
-    print(n.loads_t.p_set[el].head())
-
-    weights = n.snapshot_weightings.generators[0]
 
     # remove today's industrial electricity demand by scaling down total electricity demand
     for ct in n.buses.country.dropna().unique():
@@ -4954,9 +4943,6 @@ def add_industry(
             / n.loads_t.p_set[loads_i].sum().sum()
         )
         n.loads_t.p_set[loads_i] *= factor
-
-    print("after remove today's industry electricity")
-    print(n.loads_t.p_set[el].head())
 
     n.add(
         "Load",
@@ -6193,6 +6179,88 @@ def add_import_options(
         )
 
 
+def insert_ets(
+    n,
+    eu_ets_price,
+    uk_ets_price,
+    eu_co2_bus="co2 atmosphere",
+    uk_co2_bus="GB-co2 atmosphere",
+    p_nom_sink=1e9,
+):
+    """
+    Replace a capped CO2 Store with ETS-priced 'sink' Generators (negative dispatch),
+    and split EU vs UK accounting.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+    eu_ets_price : float  (e.g. EUR/tCO2)
+    uk_ets_price : float  (e.g. EUR/tCO2)
+    eu_co2_bus : str      name of existing EU CO2 bus
+    uk_co2_bus : str      name of new UK CO2 bus
+    eu_ets_gen : str      name of EU ETS sink generator
+    uk_ets_gen : str      name of UK ETS sink generator
+    co2_carrier : str     name of CO2 carrier
+    p_nom_sink : float    nameplate used for sink generators (very large)
+
+    Returns
+    -------
+    None (modifies `n` in-place)
+    Returns
+    -------
+    None (modifies `n` in-place)
+    """
+
+    def ensure_bus(name):
+        if name not in n.buses.index:
+            n.add("Bus", name, carrier="co2", unit="t_co2")
+
+    def remove_store_if_exists(name):
+        if name in n.stores.index:
+            n.remove("Store", name)
+
+    def add_ets_generator(gen_name, bus_name, ets_price):
+        mcost = -float(ets_price)
+
+        n.add(
+            "Generator",
+            gen_name,
+            bus=bus_name,
+            carrier=f"co2-ets",
+            p_nom=p_nom_sink,
+            p_min_pu=-1.0,   # allow full withdrawal
+            p_max_pu=0.0,    # forbid injection
+            marginal_cost=mcost,
+        )
+
+    def rewire_gb_assets_to_uk_bus():
+        if n.links.empty:
+            return
+        bus_cols = [c for c in n.links.columns if c.startswith("bus")]
+        if not bus_cols:
+            return
+        gb_links = n.links.index[n.links.index.str.startswith("GB")]
+        for idx in gb_links:
+            for bc in bus_cols:
+                if n.links.at[idx, bc] == eu_co2_bus:
+                    n.links.at[idx, bc] = uk_co2_bus
+
+    eu_ets_gen = "eu_ets"
+    uk_ets_gen = "uk_ets"
+
+    ensure_bus(eu_co2_bus)
+    ensure_bus(uk_co2_bus)
+
+    remove_store_if_exists(eu_co2_bus)
+    remove_store_if_exists(uk_co2_bus)
+
+    rewire_gb_assets_to_uk_bus()
+
+    add_ets_generator(eu_ets_gen, eu_co2_bus, eu_ets_price)
+    add_ets_generator(uk_ets_gen, uk_co2_bus, uk_ets_price)
+
+
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from scripts._helpers import mock_snakemake
@@ -6530,6 +6598,9 @@ if __name__ == "__main__":
     maybe_adjust_costs_and_potentials(
         n, snakemake.params["adjustments"], investment_year
     )
+
+    carbon_prices = snakemake.params.carbon_prices
+    insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
