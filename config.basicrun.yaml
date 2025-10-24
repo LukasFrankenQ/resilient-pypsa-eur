@@ -37,7 +37,7 @@ scenario:
   clusters:
   - 50
   opts:
-  - '24H'
+  - ''
   sector_opts:
   - '24H-T-H-B-I-A-dist1'
   planning_horizons:
@@ -128,10 +128,11 @@ electricity:
     H2: 168
 
   extendable_carriers:
-    Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, OCGT, CCGT]
-    # Generator: []
+    # Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, OCGT, CCGT]
+    Generator: []
     StorageUnit: [] # battery, H2
-    Store: [battery, H2]
+    # Store: [battery, H2]
+    Store: []
     Link: [] # H2 pipeline
 
   powerplants_filter: (DateOut >= 2024 or DateOut != DateOut) and not (Country == 'Germany' and Fueltype == 'Nuclear')
@@ -1601,7 +1602,7 @@ plotting:
     heat pump: '#2fb537'
     air heat pump: '#36eb41'
     residential urban decentral air heat pump: '#48f74f'
-    services urban decentral air heat pump: '#5af95d'
+    services urban decentral air heat pump: 'forestgreen'
     services rural air heat pump: '#5af95d'
     urban central air heat pump: '#6cfb6b'
     ptes heat pump: '#5dade2'
@@ -1680,6 +1681,7 @@ plotting:
     methanol transport: '#FF7B00'
     shipping methanol: '#468c8b'
     industry methanol: '#468c8b'
+    co2-ets: 'magenta'
     # co2
     CC: '#f29dae'
     CCS: '#f29dae'
