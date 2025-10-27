@@ -715,6 +715,27 @@ def add_heating_capacities_installed_before_baseyear(
             )
 
 
+    # make heat tech non-extendable
+    print('setting heat tech non-extendable')
+
+    heat_carriers = [
+        'residential urban decentral heat',
+        'services urban decentral heat',
+        'urban central heat',
+        'residential rural heat',
+        'services rural heat',
+    ]
+
+    bs = n.buses.index[
+        n.buses.carrier.isin(heat_carriers)
+        ]
+
+    ls = n.links.index[n.links.bus1.isin(bs)]
+    gas_part = ls[ls.str.contains('gas boiler')]
+    n.links.loc[ls, 'p_nom_extendable'] = False
+    n.links.loc[gas_part, 'p_nom_extendable'] = True
+
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from scripts._helpers import mock_snakemake
