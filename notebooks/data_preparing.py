@@ -439,7 +439,7 @@ def plot_eu_gas_stock(ax_left, ax_right, n, right_data, fig, row_idx):
 
     gasstores = n.stores.index[
         (n.stores.carrier == 'gas')
-        & (~n.stores.index.str[:2].isin(['CH', 'GB', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK']))
+        & (~n.stores.index.str[:2].isin(remove_countries))
         ]
 
     eustock = n.stores_t.e[gasstores].sum(axis=1)# .mul(n.snapshot_weightings['stores'])
@@ -564,7 +564,7 @@ def plot_residential_commercial_demand(
     mask = [mask[entry] for entry in ss.index.get_level_values(2)]
 
     ss = ss.loc[mask].dropna()
-    ss = ss.loc[~ss.index.get_level_values(2).str[2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
+    ss = ss.loc[~ss.index.get_level_values(2).str[:2].isin(remove_countries)]
 
     rescom_consumption = ss.groupby(level=1).sum().T
     rescom_consumption = (
@@ -608,7 +608,7 @@ def plot_industry_demand(
     mask = [mask[entry] for entry in ss.index.get_level_values(2)]
 
     ss = ss.loc[mask].dropna()
-    ss = ss.loc[~ss.index.get_level_values(2).str[2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
+    ss = ss.loc[~ss.index.get_level_values(2).str[:2].isin(remove_countries)]
 
     industry_consumption = ss.groupby(level=1).sum().T[industry_demands].sum(axis=1).mul(n.snapshot_weightings['generators'])
 
@@ -640,7 +640,7 @@ def plot_country_consumption(ax_left, ax_right, n, right_data, fig, row_idx):
     mask = [mask[entry] for entry in ss.index.get_level_values(2)]
 
     ss = ss.loc[mask].dropna()
-    ss = ss.loc[~ss.index.get_level_values(2).str[2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
+    ss = ss.loc[~ss.index.get_level_values(2).str[:2].isin(remove_countries)]
     ss = ss.loc[~ss.index.get_level_values(1).isin(['gas pipeline', 'gas pipeline new', 'biogas to gas'])]
 
     model_data = (

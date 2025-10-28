@@ -10,6 +10,7 @@ import logging
 import re
 from types import SimpleNamespace
 
+import sys
 import country_converter as coco
 import numpy as np
 import pandas as pd
@@ -17,16 +18,23 @@ import powerplantmatching as pm
 import pypsa
 import xarray as xr
 
+from pathlib import Path
+
 from scripts._helpers import (
     configure_logging,
     sanitize_custom_columns,
     set_scenario_config,
     update_config_from_wildcards,
 )
+
+sys.path.append(str(Path.cwd().parent / 'scripts'))
+
 from scripts.add_electricity import load_costs, sanitize_carriers
 from scripts.build_energy_totals import cartesian
 from scripts.definitions.heat_system import HeatSystem
 from scripts.prepare_sector_network import cluster_heat_buses, define_spatial
+from scripts.gas_validation_data import df_2024_industrial
+from scripts.unit_helpers import bcm_to_twh
 
 logger = logging.getLogger(__name__)
 cc = coco.CountryConverter()
@@ -793,18 +801,45 @@ def enforce_proportional_heating(n):
             continue
 
         shares = supply_capacities.div(supply_capacities.sum())
-        operation_profile = busload / busload.max() * (supply_capacities.sum() / busload.max())
+        # operation_profile = busload / busload.max() * (supply_capacities.sum() / busload.max())
+        operation_profile = busload / supply_capacities.sum()
+        print(operation_profile)
 
         for link, share in shares.items():
 
             if 'gas boiler' in n.links.loc[link, 'carrier']:
                 continue
 
-            p_pu = share * operation_profile 
+            # p_pu = share * operation_profile 
+            p_pu = operation_profile 
             p_pu.columns = [link]
 
             n.links_t.p_min_pu.loc[:, link] = (p_pu - p_pu_wiggle).clip(lower=0)
-            n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(upper=1)
+            # n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(upper=1)
+            n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(lower=0)
+
+
+def adjust_industry_gas_demand(n):
+
+    real_industry_gas_demand = bcm_to_twh(df_2024_industrial.sum())
+    model_gas_demand = n.loads.loc[n.loads.carrier == 'gas for industry']
+    model_gas_demand = model_gas_demand.loc[~model_gas_demand.index.str[:2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
+
+    w = n.snapshot_weightings.generators.iloc[0]
+    num_snapshots = len(n.snapshots)
+
+    model_gas_demand = model_gas_demand.sum() * w * num_snapshots * 1e-6
+
+    adjustment_factor = real_industry_gas_demand / model_gas_demand
+
+    n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'] *= adjustment_factor
+    logger.info(f"Adjusted industry gas demand by {adjustment_factor:.2f}")
+
+    print('real: ', real_industry_gas_demand)
+    print('model: ', model_gas_demand)
+    print('adjustment factor: ', adjustment_factor)
+    print('adjusted industry gas demand:')
+    print(n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'].sum())
 
 
 
@@ -896,7 +931,7 @@ if __name__ == "__main__":
 
 
     enforce_proportional_heating(n)
-
+    adjust_industry_gas_demand(n)
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
