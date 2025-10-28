@@ -823,7 +823,7 @@ def adjust_industry_gas_demand(n):
 
     real_industry_gas_demand = bcm_to_twh(df_2024_industrial.sum())
     model_gas_demand = n.loads.loc[n.loads.carrier == 'gas for industry']
-    model_gas_demand = model_gas_demand.loc[~model_gas_demand.index.str[:2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK'])]
+    model_gas_demand = model_gas_demand.loc[~model_gas_demand.index.str[:2].isin(['CH', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK']), 'p_set']
 
     w = n.snapshot_weightings.generators.iloc[0]
     num_snapshots = len(n.snapshots)
