@@ -442,7 +442,7 @@ def plot_eu_gas_stock(ax_left, ax_right, n, right_data, fig, row_idx):
         & (~n.stores.index.str[:2].isin(['CH', 'GB', 'NO', 'AL', 'BG', 'ME', 'MK', 'RS', 'XK']))
         ]
 
-    eustock = n.stores_t.e[gasstores].sum(axis=1).mul(n.snapshot_weightings['stores'])
+    eustock = n.stores_t.e[gasstores].sum(axis=1)# .mul(n.snapshot_weightings['stores'])
     eustock = eustock.groupby(eustock.index.month).mean() / 1e6
 
     model_data = pd.Series(

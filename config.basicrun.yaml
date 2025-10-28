@@ -972,6 +972,7 @@ clustering:
     hac_features:
     - wnd100m
     - influx_direct
+  # exclude_carriers: [coal, nuclear, lignite]
   exclude_carriers: []
   consider_efficiency_classes: false
   aggregation_strategies:

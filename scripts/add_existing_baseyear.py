@@ -736,6 +736,78 @@ def add_heating_capacities_installed_before_baseyear(
     n.links.loc[gas_part, 'p_nom_extendable'] = True
 
 
+def enforce_proportional_heating(n):
+    """
+    This function implements the operational logic of heat generators:
+    The vast majority of homes/services etc have one heating technology
+    and cannot fuel switch.
+    Normally, the model makes operational decisions based on the marginal cost
+    of each generator, and by that token can yield heating supply that
+    is misaligned from the actual installed capacities.
+    This function enforces that the operation of the heat generators is more realistic.
+
+    For each bus, and heat carrier, ensures that the operation of the attached heat generators
+    is proportional to the installed capacities.
+
+    Not implemented for central/district heating, which usually has a larger degree of freedom.
+    
+    It is further not applied gas boilers, giving the model infeasibility-preventing freedom
+    to operate.
+    """
+
+    p_pu_wiggle = 0.0001
+
+    load_carriers = [
+        'urban decentral heat',
+        'rural heat',
+        ]
+    
+    print(n.loads.carrier.unique())
+
+    heat_buses = n.loads.loc[n.loads.carrier.isin(load_carriers), 'bus'].unique()
+    print(heat_buses)
+    for bus in heat_buses:
+
+        try:
+            busload = n.loads_t.p_set.loc[:, n.loads.index[n.loads.index.str.contains(bus)]]
+        except KeyError:
+            continue
+
+        inc_links = n.links.index[n.links.bus1 == bus]
+
+        supply_capacities = pd.Series(0, index=inc_links)
+        efficiencies = pd.Series(0, index=inc_links)
+
+        for link in inc_links:
+            if link in n.links_t.efficiency.columns:
+                link_eff = n.links_t.efficiency.loc[:, link].mean()
+                efficiencies.loc[link] = link_eff
+            else:
+                link_eff = n.links.loc[link, 'efficiency']
+                efficiencies.loc[link] = link_eff
+
+            link_cap = n.links.loc[link, 'p_nom']
+            supply_capacities.loc[link] = link_cap * link_eff
+
+        if supply_capacities.sum() == 0:
+            continue
+
+        shares = supply_capacities.div(supply_capacities.sum())
+        operation_profile = busload / busload.max() * (supply_capacities.sum() / busload.max())
+
+        for link, share in shares.items():
+
+            if 'gas boiler' in n.links.loc[link, 'carrier']:
+                continue
+
+            p_pu = share * operation_profile 
+            p_pu.columns = [link]
+
+            n.links_t.p_min_pu.loc[:, link] = (p_pu - p_pu_wiggle).clip(lower=0)
+            n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(upper=1)
+
+
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from scripts._helpers import mock_snakemake
@@ -821,6 +893,10 @@ if __name__ == "__main__":
 
     if options.get("cluster_heat_buses", False):
         cluster_heat_buses(n)
+
+
+    enforce_proportional_heating(n)
+
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
