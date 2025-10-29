@@ -8,6 +8,7 @@ horizon.
 
 import logging
 import re
+from telnetlib import EXOPL
 from types import SimpleNamespace
 
 import sys
@@ -621,7 +622,7 @@ def add_heating_capacities_installed_before_baseyear(
                     lifetime=costs.at[costs_name, "lifetime"],
                 )
 
-            # add resistive heater, gas boilers and oil boilers
+            # add resistive heater, gas boilers, oil boilers and biomass boilers
             n.add(
                 "Link",
                 nodes,
@@ -701,6 +702,30 @@ def add_heating_capacities_installed_before_baseyear(
                 ],
             )
 
+            efficiency = get_efficiency(
+                heat_system, "biomass", nodes, heating_efficiencies, costs
+            )
+
+            # prevents redundant addition of urban central biomass boiler which tends to crash
+            if existing_capacities.loc[nodes, (heat_system.value, "biomass boiler")].sum() > 0:
+
+                n.add(
+                    "Link",
+                    nodes,
+                    suffix=f" {heat_system} biomass boiler-{grouping_year}",
+                    bus0=spatial.biomass.nodes,
+                    bus1=nodes + " " + heat_system.value + " heat",
+                    carrier=heat_system.value + " biomass boiler",
+                    efficiency=efficiency,
+                    capital_cost=efficiency * costs.at["biomass boiler", "capital_cost"],
+                    p_nom=(
+                        existing_capacities.loc[nodes, (heat_system.value, "biomass boiler")]
+                        * ratio / efficiency
+                    ),
+                    build_year=int(grouping_year),
+                    lifetime=costs.at["biomass boiler", "lifetime"],
+                )
+
             # delete links with p_nom=nan corresponding to extra nodes in country
             n.remove(
                 "Link",
@@ -721,7 +746,6 @@ def add_heating_capacities_installed_before_baseyear(
                     and n.links.p_nom[index] < capacity_threshold
                 ],
             )
-
 
     # make heat tech non-extendable
     print('setting heat tech non-extendable')
@@ -748,7 +772,7 @@ def enforce_proportional_heating(n):
     """
     This function implements the operational logic of heat generators:
     The vast majority of homes/services etc have one heating technology
-    and cannot fuel switch.
+    and cannot switch fuels.
     Normally, the model makes operational decisions based on the marginal cost
     of each generator, and by that token can yield heating supply that
     is misaligned from the actual installed capacities.
@@ -801,21 +825,17 @@ def enforce_proportional_heating(n):
             continue
 
         shares = supply_capacities.div(supply_capacities.sum())
-        # operation_profile = busload / busload.max() * (supply_capacities.sum() / busload.max())
         operation_profile = busload / supply_capacities.sum()
-        print(operation_profile)
 
         for link, share in shares.items():
 
             if 'gas boiler' in n.links.loc[link, 'carrier']:
                 continue
 
-            # p_pu = share * operation_profile 
             p_pu = operation_profile 
             p_pu.columns = [link]
 
             n.links_t.p_min_pu.loc[:, link] = (p_pu - p_pu_wiggle).clip(lower=0)
-            # n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(upper=1)
             n.links_t.p_max_pu.loc[:, link] = (p_pu + p_pu_wiggle).clip(lower=0)
 
 
@@ -834,13 +854,6 @@ def adjust_industry_gas_demand(n):
 
     n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'] *= adjustment_factor
     logger.info(f"Adjusted industry gas demand by {adjustment_factor:.2f}")
-
-    print('real: ', real_industry_gas_demand)
-    print('model: ', model_gas_demand)
-    print('adjustment factor: ', adjustment_factor)
-    print('adjusted industry gas demand:')
-    print(n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'].sum())
-
 
 
 if __name__ == "__main__":
