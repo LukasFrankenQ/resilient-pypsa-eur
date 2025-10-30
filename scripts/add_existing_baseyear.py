@@ -856,6 +856,34 @@ def adjust_industry_gas_demand(n):
     logger.info(f"Adjusted industry gas demand by {adjustment_factor:.2f}")
 
 
+def add_must_run_coal_and_lignite(n):
+
+    lignite_2024_avg_gen = 17_550 #MWel
+    coal_2024_avg_gen = 11_935 #MWel
+
+    lgn = n.links.index[n.links.carrier == 'lignite']
+    lgn_cap = n.links.loc[lgn, 'p_nom'].mul(n.links.loc[lgn, 'efficiency'], axis=0).sum()
+
+    print('lignite capacity', lgn_cap)
+    print('lignite average generation', lignite_2024_avg_gen)
+
+    factor = lignite_2024_avg_gen / lgn_cap
+
+    n.links.loc[lgn, 'p_min_pu'] = factor
+    print('factor', factor)
+
+    hc = n.links.index[n.links.carrier == 'coal']
+    hc_cap = n.links.loc[hc, 'p_nom'].mul(n.links.loc[hc, 'efficiency'], axis=0).sum()
+
+    print('coal capacity', hc_cap)
+    print('coal average generation', coal_2024_avg_gen)
+
+    factor = coal_2024_avg_gen / hc_cap
+    n.links.loc[hc, 'p_min_pu'] = factor
+    print('factor', factor)
+
+
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from scripts._helpers import mock_snakemake
@@ -945,6 +973,7 @@ if __name__ == "__main__":
 
     enforce_proportional_heating(n)
     adjust_industry_gas_demand(n)
+    add_must_run_coal_and_lignite(n)
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
