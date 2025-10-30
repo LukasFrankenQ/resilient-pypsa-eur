@@ -4921,6 +4921,9 @@ def add_industry(
         carrier="low-temperature heat for industry",
         p_set=industrial_demand.loc[nodes, "low-temperature heat"] / nhours,
     )
+    # save electricity demand before scaling
+    electricity_loads_before = n.loads_t.p_set[n.loads[n.loads.carrier == "electricity"].index].copy()
+    electricity_loads_before.to_csv('electricity_demand_before_industrial_scaling.csv')
 
     # remove today's industrial electricity demand by scaling down total electricity demand
     for ct in n.buses.country.dropna().unique():
@@ -4930,17 +4933,18 @@ def add_industry(
         ]
         if n.loads_t.p_set[loads_i].empty:
             continue
-        # factor = (
-        #     1
-        #     - industrial_demand.loc[loads_i, "current electricity"].sum()
-            # / (n.loads_t.p_set[loads_i].sum().sum() * weights)
-        # )
+
         factor = (
             1
             - industrial_demand.loc[loads_i, "current electricity"].sum()
             / n.loads_t.p_set[loads_i].sum().sum()
         )
         n.loads_t.p_set[loads_i] *= factor
+
+    # save electricity demand after scaling
+    electricity_loads_after = n.loads_t.p_set[n.loads[n.loads.carrier == "electricity"].index].copy()
+    electricity_loads_after.to_csv('electricity_demand_after_industrial_scaling.csv')
+
 
     n.add(
         "Load",
@@ -4950,6 +4954,8 @@ def add_industry(
         carrier="industry electricity",
         p_set=industrial_demand.loc[nodes, "electricity"] / nhours,
     )
+
+    n.loads.loc[n.loads.carrier == 'industry electricity', ['p_set']].to_csv('industry_elec_loads.csv')
 
     n.add(
         "Bus",
