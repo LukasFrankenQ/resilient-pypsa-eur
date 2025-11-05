@@ -6292,8 +6292,18 @@ if __name__ == "__main__":
     nhours = n.snapshot_weightings.generators.sum()
     nyears = nhours / 8760
 
+    cost_file = snakemake.input.costs
+    # Round down investment year to nearest 5-year interval if not already divisible by 5
+    if investment_year % 5 != 0:
+        rounded_year = (investment_year // 5) * 5
+        logger.info(
+            f"Investment year {investment_year} is not divisible by 5. "
+            f"Rounding down to {rounded_year} for cost data."
+        )
+        cost_file = cost_file.replace(str(investment_year), str(rounded_year))
+
     costs = load_costs(
-        snakemake.input.costs,
+        cost_file,
         snakemake.params.costs,
         nyears=nyears,
     )

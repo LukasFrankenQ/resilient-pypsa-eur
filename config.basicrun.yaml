@@ -43,6 +43,15 @@ scenario:
   planning_horizons:
   - 2025
   - 2026
+  - 2027
+  - 2028
+  - 2029
+  - 2030
+  - 2031
+  - 2032
+  - 2033
+  - 2034
+  - 2035
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
 countries:
@@ -129,11 +138,11 @@ electricity:
     H2: 168
 
   extendable_carriers:
-    # Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, OCGT, CCGT]
-    Generator: []
+    Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, OCGT, CCGT]
+    # Generator: []
     StorageUnit: [] # battery, H2
-    # Store: [battery, H2]
-    Store: []
+    Store: [battery, H2]
+    # Store: []
     Link: [] # H2 pipeline
 
   powerplants_filter: (DateOut >= 2024 or DateOut != DateOut) and not (Country == 'Germany' and Fueltype == 'Nuclear')

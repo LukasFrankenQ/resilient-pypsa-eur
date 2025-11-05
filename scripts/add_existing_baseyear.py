@@ -1002,9 +1002,21 @@ if __name__ == "__main__":
         cluster_heat_buses(n)
 
 
-    enforce_proportional_heating(n)
+    # enforce_proportional_heating(n)
     adjust_industry_gas_demand(n)
     add_must_run_coal_and_lignite(n)
+
+    '''
+    logger.warning('adding load shedding')
+    n.add(
+        'Generator',
+        n.buses.index + ' load shedding',
+        bus=n.buses.index,
+        carrier='load shedding',
+        p_nom_extendable=True,
+        marginal_cost=10000,
+    )
+    '''
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
