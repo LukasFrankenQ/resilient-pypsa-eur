@@ -4,6 +4,7 @@
 - added decentral/rural biomass boilers
 - added must-run to lignite and hard coal without considering DH
 - fixed industrial gas demand to actual
+- made heating p_nom_extendable = False
 - fixed p_min/max_pu of decentral heating to ensure realistic operation
 - removed fixed carbon constraints and instead added (UK) ETS
 - set basically everything non-extendable

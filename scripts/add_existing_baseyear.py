@@ -753,8 +753,9 @@ def add_heating_capacities_installed_before_baseyear(
     heat_carriers = [
         'residential urban decentral heat',
         'services urban decentral heat',
-        'urban central heat',
+        'urban decentral heat',
         'residential rural heat',
+        'rural heat',
         'services rural heat',
     ]
 
@@ -766,6 +767,20 @@ def add_heating_capacities_installed_before_baseyear(
     gas_part = ls[ls.str.contains('gas boiler')]
     n.links.loc[ls, 'p_nom_extendable'] = False
     n.links.loc[gas_part, 'p_nom_extendable'] = True
+
+    # set urban central explicitly
+
+    urban_central_carriers = [
+        'urban central air heat pump',
+        'urban central gas CHP',
+        'urban central gas CHP CC',
+        # 'urban central gas boiler',
+        'urban central solid biomass CHP',
+        'urban central solid biomass CHP CC',
+    ]
+
+    ls = n.links.index[n.links.carrier.isin(urban_central_carriers)]
+    n.links.loc[ls, 'p_nom_extendable'] = False
 
 
 def enforce_proportional_heating(n):
@@ -791,8 +806,16 @@ def enforce_proportional_heating(n):
 
     load_carriers = [
         'urban decentral heat',
+        # 'urban central heat',
         'rural heat',
         ]
+    
+    excluded = [
+        'Fischer-Tropsch',
+        'H2 Electrolysis',
+        'Haber-Bosch',
+        'Sabatier',
+    ]
     
     print(n.loads.carrier.unique())
 
@@ -805,7 +828,15 @@ def enforce_proportional_heating(n):
         except KeyError:
             continue
 
+        # inc_links = n.links.index[(n.links.bus1 == bus) | (n.links.bus2 == bus) | (n.links.bus3 == bus)]
         inc_links = n.links.index[n.links.bus1 == bus]
+        # print('inc links')
+        # print(n.links.loc[inc_links, 'carrier'].unique())
+
+        inc_links = inc_links[~n.links.loc[inc_links, 'carrier'].isin(excluded)]
+        # print('constrained carriers')
+        # print(n.links.loc[inc_links, 'carrier'].unique())
+        # import sys; sys.exit()
 
         supply_capacities = pd.Series(0, index=inc_links)
         efficiencies = pd.Series(0, index=inc_links)

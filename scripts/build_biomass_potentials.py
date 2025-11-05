@@ -306,8 +306,20 @@ def add_unsustainable_potentials(df):
 
     df_unsustainable = df_unsustainable[bio_carriers]
 
+    def interpolate_parameter(param_dict, year, step=5):
+        """Linearly interpolate between neighbouring values in a parameter dictionary."""
+        before = int(np.floor(year / step) * step)
+        after = int(np.ceil(year / step) * step)
+        value_before = param_dict.get(before)
+        value_after = param_dict.get(after)
+        fraction = (year - before) / (after - before)
+        return value_before + fraction * (value_after - value_before)
+
     # Phase out unsustainable biomass potentials linearly from 2020 to 2035 while phasing in sustainable potentials
     share_unsus = params.get("share_unsustainable_use_retained").get(investment_year)
+
+    if share_unsus is None:
+        share_unsus = interpolate_parameter(params.get("share_unsustainable_use_retained"), investment_year)
 
     df_wo_ch = df.drop(df.filter(regex=r"CH\d*", axis=0).index)
 
@@ -330,6 +342,10 @@ def add_unsustainable_potentials(df):
     )
 
     share_sus = params.get("share_sustainable_potential_available").get(investment_year)
+
+    if share_sus is None:
+        share_sus = interpolate_parameter(params.get("share_sustainable_potential_available"), investment_year)
+
     df.loc[df_wo_ch.index] *= share_sus
 
     df = df.join(df_wo_ch.filter(like="unsustainable")).fillna(0)
