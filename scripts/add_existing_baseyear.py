@@ -763,10 +763,11 @@ def add_heating_capacities_installed_before_baseyear(
         n.buses.carrier.isin(heat_carriers)
         ]
 
+    logger.warning('No longer setting heating tech non-extendable')
     ls = n.links.index[n.links.bus1.isin(bs)]
     gas_part = ls[ls.str.contains('gas boiler')]
-    n.links.loc[ls, 'p_nom_extendable'] = False
-    n.links.loc[gas_part, 'p_nom_extendable'] = True
+    # n.links.loc[ls, 'p_nom_extendable'] = False
+    # n.links.loc[gas_part, 'p_nom_extendable'] = True
 
     # set urban central explicitly
 
@@ -780,7 +781,8 @@ def add_heating_capacities_installed_before_baseyear(
     ]
 
     ls = n.links.index[n.links.carrier.isin(urban_central_carriers)]
-    n.links.loc[ls, 'p_nom_extendable'] = False
+    
+    # n.links.loc[ls, 'p_nom_extendable'] = False
 
 
 def enforce_proportional_heating(n):
