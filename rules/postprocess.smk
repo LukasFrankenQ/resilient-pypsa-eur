@@ -394,6 +394,32 @@ rule plot_summary:
         "../scripts/plot_summary.py"
 
 
+rule plot_tyndp_validation:
+    input:
+        energy=RESULTS + "graphs/energy.svg",
+        valpath='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
+        existing_capacities='data/net_generation_capacity_2024.csv',
+        networks=expand(
+            RESULTS
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{year}.nc",
+            clusters=config["scenario"]["clusters"],
+            opts=config["scenario"]["opts"],
+            sector_opts=config["scenario"]["sector_opts"],
+            year=range(2025, 2036),
+        ),
+    output:
+        RESULTS + 'tyndp_validation.pdf',
+    threads: 2
+    resources:
+        mem_mb=10000,
+    log:
+        RESULTS + "logs/plot_summary.log",
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/plot_tyndp_validation.py"
+
+
 rule plot_balance_timeseries:
     params:
         plotting=config_provider("plotting"),

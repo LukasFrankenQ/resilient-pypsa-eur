@@ -916,6 +916,52 @@ def add_must_run_coal_and_lignite(n):
     print('factor', factor)
 
 
+def fix_new_boiler_profiles(n):
+    logger.info("Forcing boiler profiles for new ones")
+
+    decentral_boilers = n.links.index[
+        n.links.carrier.str.contains("boiler")
+        & ~n.links.carrier.str.contains("urban central")
+        & n.links.p_nom_extendable
+    ]
+
+    if decentral_boilers.empty:
+        return
+
+    boiler_loads = n.links.loc[decentral_boilers, "bus1"]
+    boiler_loads = boiler_loads[boiler_loads.isin(n.loads_t.p_set.columns)]
+    decentral_boilers = boiler_loads.index
+    boiler_profiles_pu = n.loads_t.p_set[boiler_loads].div(
+        n.loads_t.p_set[boiler_loads].max(), axis=1
+    )
+    boiler_profiles_pu.columns = decentral_boilers
+
+    for attr in ["p_min_pu", "p_max_pu"]:
+        n.links_t[attr] = pd.concat([n.links_t[attr], boiler_profiles_pu], axis=1)
+
+
+def remove_old_boiler_profiles(n):
+    """
+    Removed because this is handled in additional_functionality.
+
+    This removes p_min/max_pu constraints added in previous years and
+    carried over by add_brownfield.
+    """
+
+    logger.info("Removing p_min/max_pu constraints on old boiler profiles")
+
+    decentral_boilers = n.links.index[
+        n.links.carrier.str.contains("boiler")
+        & ~n.links.carrier.str.contains("urban central")
+        & ~n.links.p_nom_extendable
+    ]
+
+    for attr in ["p_min_pu", "p_max_pu"]:
+        to_drop = decentral_boilers.intersection(n.links_t[attr].columns)
+        logger.info(f"Dropping {to_drop} from n.links_t.{attr}")
+        n.links_t[attr].drop(to_drop, axis=1, inplace=True)
+
+
 
 if __name__ == "__main__":
     if "snakemake" not in globals():
@@ -1007,6 +1053,9 @@ if __name__ == "__main__":
     # enforce_proportional_heating(n)
     adjust_industry_gas_demand(n)
     add_must_run_coal_and_lignite(n)
+
+    # fix_new_boiler_profiles(n)
+    # remove_old_boiler_profiles(n)
 
     '''
     logger.warning('adding load shedding')

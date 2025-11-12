@@ -8,4 +8,5 @@
 - fixed p_min/max_pu of decentral heating to ensure realistic operation
 - removed fixed carbon constraints and instead added (UK) ETS
 - set basically everything non-extendable
+- fixing boiler operation to proportion of capacity that is boilers, implementation from PyPSA-DE, see add_existing_baseyear and solve_network
 - 
