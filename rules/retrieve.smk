@@ -173,7 +173,7 @@ if config["enable"]["retrieve"] and config["enable"].get("retrieve_cutout", True
             move(input[0], output[0])
             validate_checksum(output[0], input[0])
 
-
+'''
 if config["enable"]["retrieve"]:
 
     rule retrieve_tyndp_bundle:
@@ -185,6 +185,112 @@ if config["enable"]["retrieve"]:
         retries: 2
         script:
             "../scripts/retrieve_tyndp_bundle.py"
+'''
+
+if config["enable"]["retrieve"]:
+
+    rule retrieve_tyndp_bundle:
+        output:
+            dir=directory("data/tyndp_2024_bundle"),
+            elec_reference_grid="data/tyndp_2024_bundle/Line data/ReferenceGrid_Electricity.xlsx",
+            buses="data/tyndp_2024_bundle/Nodes/LIST OF NODES.xlsx",
+            h2_reference_grid="data/tyndp_2024_bundle/Line data/ReferenceGrid_Hydrogen.xlsx",
+            electricity_demand=directory("data/tyndp_2024_bundle/Demand Profiles"),
+            h2_imports="data/tyndp_2024_bundle/Hydrogen/H2 IMPORTS GENERATORS PROPERTIES.xlsx",
+            offshore_nodes="data/tyndp_2024_bundle/Offshore hubs/NODE.xlsx",
+            offshore_grid="data/tyndp_2024_bundle/Offshore hubs/GRID.xlsx",
+            offshore_electrolysers="data/tyndp_2024_bundle/Offshore hubs/ELECTROLYSER.xlsx",
+            offshore_generators="data/tyndp_2024_bundle/Offshore hubs/GENERATOR.xlsx",
+            trajectories="data/tyndp_2024_bundle/Investment Datasets/TRAJECTORY.xlsx",
+        log:
+            "logs/retrieve_tyndp_bundle.log",
+        retries: 2
+        script:
+            "../scripts/retrieve_tyndp_bundle.py"
+
+    rule retrieve_tyndp_pecd_data_raw:
+        params:
+            # TODO Integrate into Zenodo tyndp data bundle
+            url="https://storage.googleapis.com/open-tyndp-data-store/PECD/PECD_{pecd_version}.zip",
+            source="PECD raw",
+        input:
+            "data/tyndp_2024_bundle",
+        output:
+            dir=directory("data/tyndp_2024_bundle/PECD/PECD_{pecd_version}"),
+        log:
+            "logs/retrieve_tyndp_pecd_data_raw_{pecd_version}.log",
+        retries: 2
+        wildcard_constraints:
+            pecd_version="(?!.*pre-built).*",  # Cannot be pre-built version
+        script:
+            "../scripts/retrieve_additional_tyndp_data.py"
+
+    use rule retrieve_tyndp_pecd_data_raw as retrieve_tyndp_hydro_inflows with:
+        params:
+            # TODO Integrate into Zenodo tyndp data bundle
+            url="https://storage.googleapis.com/open-tyndp-data-store/Hydro_Inflows.zip",
+            source="Hydro Inflows",
+        output:
+            dir=directory("data/tyndp_2024_bundle/Hydro Inflows"),
+        log:
+            "logs/retrieve_tyndp_hydro_inflows.log",
+
+    use rule retrieve_tyndp_pecd_data_raw as retrieve_tyndp_pemmdb_data with:
+        params:
+            # TODO Integrate into Zenodo tyndp data bundle
+            url="https://storage.googleapis.com/open-tyndp-data-store/PEMMDB.zip",
+            source="PEMMDB",
+        output:
+            dir=directory("data/tyndp_2024_bundle/PEMMDB2"),
+        log:
+            "logs/retrieve_tyndp_pemmdb_data.log",
+
+    if config["electricity"]["pecd_renewable_profiles"]["pre_built"]["retrieve"]:
+
+        use rule retrieve_tyndp_pecd_data_raw as retrieve_tyndp_pecd_data_prebuilt with:
+            params:
+                url="https://storage.googleapis.com/open-tyndp-data-store/PECD/PECD_{pecd_prebuilt_version}.zip",
+                source="PECD prebuilt",
+            output:
+                dir=directory(
+                    "data/tyndp_2024_bundle/PECD/PECD_{pecd_prebuilt_version}"
+                ),
+            log:
+                "logs/retrieve_tyndp_pecd_data_raw_{pecd_prebuilt_version}.log",
+
+    use rule retrieve_tyndp_pecd_data_raw as retrieve_tyndp_benchmark with:
+        params:
+            # TODO Integrate into Zenodo tyndp data bundle
+            url="https://storage.googleapis.com/open-tyndp-data-store/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx",
+            source="Benchmarks",
+        output:
+            dir=directory("data/tyndp_2024_bundle/TYNDP-2024-Scenarios-Package"),
+            file="data/tyndp_2024_bundle/TYNDP-2024-Scenarios-Package/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx",
+        log:
+            "logs/retrieve_tyndp_benchmark.log",
+
+    use rule retrieve_tyndp_pecd_data_raw as retrieve_tyndp_vp_data with:
+        params:
+            # TODO Integrate into Zenodo tyndp data bundle
+            url="https://storage.googleapis.com/open-tyndp-data-store/250117-TYNDP-2024-Visualisation-Platform.zip",
+            source="Visualisation Platform",
+        output:
+            dir=directory("data/tyndp_2024_bundle/TYNDP-2024-Visualisation-Platform"),
+            elec_demand="data/tyndp_2024_bundle/TYNDP-2024-Visualisation-Platform/250117_TYNDP2024Scenarios_Electricity_Demand.xlsx",
+            elec_flex="data/tyndp_2024_bundle/TYNDP-2024-Visualisation-Platform/250117_TYNDP2024Scenarios_Electricity_Flexibility.xlsx",
+            elec_supply="data/tyndp_2024_bundle/TYNDP-2024-Visualisation-Platform/250117_TYNDP2024Scenarios_Electricity_SupplyMix.xlsx",
+        log:
+            "logs/retrieve_tyndp_vp_data.log",
+
+    rule retrieve_countries_centroids:
+        output:
+            "data/countries_centroids.geojson",
+        log:
+            "logs/retrieve_countries_centroids.log",
+        retries: 2
+        shell:
+            "wget -O {output} https://cdn.jsdelivr.net/gh/gavinr/world-countries-centroids@v1.0.0/dist/countries.geojson"
+
 
 
 if config["enable"]["retrieve"] and config["enable"].get("retrieve_cost_data", True):
