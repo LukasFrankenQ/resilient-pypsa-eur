@@ -44,7 +44,6 @@ from scripts.build_transport_demand import transport_degree_factor
 from scripts.definitions.heat_sector import HeatSector
 from scripts.definitions.heat_system import HeatSystem
 from scripts.prepare_network import maybe_adjust_costs_and_potentials
-from scripts.add_electricity import attach_wind_and_solar
 
 spatial = SimpleNamespace()
 logger = logging.getLogger(__name__)
@@ -6335,48 +6334,6 @@ if __name__ == "__main__":
     patch_electricity_network(n, costs, carriers_to_keep, profiles, landfall_lengths)
 
     carriers_to_keep = snakemake.params.pypsa_eur
-
-    profiles_atlite = {
-        key: snakemake.input[key]
-        for key in snakemake.input.keys()
-        if key.startswith("profile") and "pecd" not in key and "pemmdb" not in key
-    }
-    # profiles_pecd = (
-        # pd.read_csv(snakemake.input.carrier_mapping)
-        # .set_index("open_tyndp_index")
-        # .pecd_carrier.dropna()
-        # .to_dict()
-    # )
-    tyndp_renewable_carriers = snakemake.params.electricity["tyndp_renewable_carriers"]
-    profiles_pecd = {
-        f"profile_{k}": snakemake.input.get(f"profile_pecd_{v}")
-        for k, v in profiles_pecd.items()
-        if k in tyndp_renewable_carriers
-    }
-
-    tyndp_solar_onwind = [
-        c for c in tyndp_renewable_carriers if "solar" in c or "onwind" in c
-    ]
-    if tyndp_solar_onwind:
-        ppl = pd.read_csv(snakemake.input.pemmdb_capacities).query(
-            "carrier.isin(@tyndp_solar_onwind)"
-        )
-
-        trajectories = (
-            pd.read_csv(snakemake.input.tyndp_trajectories)
-            .query("pyear == @investment_year")
-            .query("carrier.isin(@tyndp_solar_onwind)")
-        )
-
-        attach_wind_and_solar(
-            n=n,
-            costs=costs,
-            ppl=ppl,
-            profile_filenames=profiles_pecd,
-            carriers=tyndp_solar_onwind,
-            extendable_carriers=snakemake.params.electricity["extendable_carriers"],
-            trajectories=trajectories,
-        )
 
     fn = snakemake.input.heating_efficiencies
     year = int(snakemake.params["energy_totals_year"])

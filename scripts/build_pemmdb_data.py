@@ -107,6 +107,8 @@ def read_pemmdb_data(
     )
 
     if not fn.is_file():
+        print('fn')
+        print(fn)
         logger.info(f"No PEMMDB data available for {node} in {pyear}.")
         return None
 
@@ -849,6 +851,7 @@ def process_pemmdb_capacities(
     pd.DataFrame
         Dataframe containing NT capacities (p_nom) in long format for the given PEMMDB technology and node.
     """
+    print(node_tech_data)
     try:
         # Conventionals & Hydrogen
         if pemmdb_tech_sheet == "Thermal":
@@ -1200,6 +1203,7 @@ if __name__ == "__main__":
         "desc": "Loading PEMMDB data...",
     }
 
+
     func_read = partial(
         read_pemmdb_data,
         pemmdb_dir=pemmdb_dir,
@@ -1208,6 +1212,9 @@ if __name__ == "__main__":
         required_sheets=pemmdb_tech_sheets,
     )
 
+    print('read pemmdb')
+    print(read_pemmdb_data)
+
     with mp.Pool(processes=snakemake.threads) as pool:
         pemmdb_data_list = [
             data
@@ -1215,7 +1222,15 @@ if __name__ == "__main__":
             if data is not None
         ]
 
+    print('pemmdb_data_list')
+    print(pemmdb_data_list)
+
     pemmdb_data = {node: data for d in pemmdb_data_list for node, data in d.items()}
+    print('pemmdb data')
+    print(pemmdb_data)
+
+    import sys
+    sys.exit(0)
 
     ####################
     # Process capacities
@@ -1258,6 +1273,8 @@ if __name__ == "__main__":
             f"Please specify different technologies, climate year or planning year."
         )
         # Save empty file
+        assert False, "No PEMMDB capacities available"        
+
         pd.DataFrame().to_csv(snakemake.output.pemmdb_capacities)
         sys.exit(0)
 
@@ -1265,6 +1282,7 @@ if __name__ == "__main__":
     pemmdb_capacities_df = pd.concat(pemmdb_capacities, axis=0)
     pemmdb_capacities_df.to_csv(snakemake.output.pemmdb_capacities, index=False)
 
+    '''
     ##################
     # Process profiles
     ##################
@@ -1320,3 +1338,4 @@ if __name__ == "__main__":
         },
     )
     ds.to_netcdf(snakemake.output.pemmdb_profiles)
+    '''

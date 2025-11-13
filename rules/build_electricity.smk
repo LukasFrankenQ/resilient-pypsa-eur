@@ -446,7 +446,7 @@ rule build_pemmdb_data:
         busmap=resources("busmap_base_s_all.csv"),
     output:
         pemmdb_capacities=resources("pemmdb_capacities_{planning_horizons}.csv"),
-        pemmdb_profiles=resources("pemmdb_profiles_{planning_horizons}.nc"),
+        # pemmdb_profiles=resources("pemmdb_profiles_{planning_horizons}.nc"),
     log:
         logs("build_pemmdb_data_{planning_horizons}.log"),
     threads: config_provider("electricity", "pemmdb_capacities", "nprocesses")
@@ -463,20 +463,20 @@ rule build_pemmdb_data:
 rule build_tyndp_trajectories:
     params:
         tyndp_scenario=config_provider("tyndp_scenario"),
-    input:
-        trajectories="data/tyndp_2024_bundle/Investment Datasets/TRAJECTORY.xlsx",
-        carrier_mapping="data/tyndp_technology_map.csv",
-    output:
-        tyndp_trajectories=resources("tyndp_trajectories.csv"),
-    log:
-        logs("build_tyndp_trajectories.log"),
-    threads: 4
-    benchmark:
-        benchmarks("build_tyndp_trajectories")
-    conda:
-        "../envs/environment.yaml"
-    script:
-        "../scripts/build_tyndp_trajectories.py"
+    # input:
+        # trajectories="data/tyndp_2024_bundle/Investment Datasets/TRAJECTORY.xlsx",
+        # carrier_mapping="data/tyndp_technology_map.csv",
+    # output:
+        # tyndp_trajectories=resources("tyndp_trajectories.csv"),
+    # log:
+        # logs("build_tyndp_trajectories.log"),
+    # threads: 4
+    # benchmark:
+        # benchmarks("build_tyndp_trajectories")
+    # conda:
+        # "../envs/environment.yaml"
+    # script:
+        # "../scripts/build_tyndp_trajectories.py"
 
 
 rule build_line_rating:

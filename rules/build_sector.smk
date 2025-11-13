@@ -1265,6 +1265,26 @@ def input_heat_source_power(w):
     }
 
 
+def build_tyndp_trajectories(w):
+    params:
+        tyndp_scenario=config_provider("tyndp_scenario"),
+    input:
+        tyndp_supply_inputs='data/20231103 - Final Supply Inputs for TYNDP 2024 Scenarios.xlsx'
+    output:
+        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv')
+    threads: 1
+    resources:
+        mem_mb=2000,
+    log:
+        logs("build_tyndp_capacities_{planning_horizons}.log"),
+    benchmark:
+        benchmarks("build_tyndp_capacities_{planning_horizons}")
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/build_tyndp_capacities.py"
+
+
 rule prepare_sector_network:
     params:
         time_resolution=config_provider("clustering", "temporal", "resolution_sector"),
@@ -1274,6 +1294,7 @@ rule prepare_sector_network:
         ),
         foresight=config_provider("foresight"),
         costs=config_provider("costs"),
+        electricity=config_provider("electricity"),
         sector=config_provider("sector"),
         industry=config_provider("industry"),
         renewable=config_provider("renewable"),
@@ -1302,6 +1323,7 @@ rule prepare_sector_network:
     input:
         unpack(input_profile_offwind),
         unpack(input_heat_source_power),
+        unpack(input_profile_tech),
         **rules.cluster_gas_network.output,
         **rules.build_gas_input_locations.output,
         snapshot_weightings=resources(
@@ -1422,15 +1444,17 @@ rule prepare_sector_network:
             if config_provider("sector", "district_heating", "ates", "enable")(w)
             else []
         ),
-        profile_pemmdb_hydro=branch(
-            config_provider("electricity", "pemmdb_hydro_profiles", "enable"),
-            resources("profile_pemmdb_hydro.nc"),
-            [],
-        ),
-        tyndp_trajectories=branch(
-            config_provider("electricity", "tyndp_renewable_carriers"),
-            resources("tyndp_trajectories.csv"),
-        ),
+        # pemmdb_capacities=resources("pemmdb_capacities_{planning_horizons}.csv"),
+        # profile_pemmdb_hydro=branch(
+            # config_provider("electricity", "pemmdb_hydro_profiles", "enable"),
+            # resources("profile_pemmdb_hydro.nc"),
+            # [],
+        # ),
+        # tyndp_trajectories=branch(
+        #     config_provider("electricity", "tyndp_renewable_carriers"),
+        #     resources("tyndp_trajectories.csv"),
+        # ),
+        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv')
         carrier_mapping="data/tyndp_technology_map.csv",
     output:
         resources(

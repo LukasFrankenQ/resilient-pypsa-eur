@@ -31,7 +31,7 @@ run:
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#foresight
 foresight: myopic
 
-tyndp_scenario: 'NT'  # NT, DE or GA
+tyndp_scenario: 'DE'  # NT, DE or GA
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#scenario
 # Wildcard docs in https://pypsa-eur.readthedocs.io/en/latest/wildcards.html
@@ -44,15 +44,15 @@ scenario:
   - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   - 2025
-  - 2026
-  - 2027
-  - 2028
-  - 2029
+  # - 2026
+  # - 2027
+  # - 2028
+  # - 2029
   - 2030
-  - 2031
-  - 2032
-  - 2033
-  - 2034
+  # - 2031
+  # - 2032
+  # - 2033
+  # - 2034
   - 2035
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries

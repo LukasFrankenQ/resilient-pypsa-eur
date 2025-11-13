@@ -44,7 +44,8 @@ if __name__ == "__main__":
 
     # download .zip file
     logger.info(f"Downloading TYNDP data bundle from '{url}'.")
-    progress_retrieve(url, to_fn_zp, disable=disable_progress)
+    # progress_retrieve(url, to_fn_zp, disable=disable_progress)
+    to_fn_zp = 'data/bundle/TYNDP_2024_data_bundle.zip'
 
     # extract
     logger.info("Extracting TYNDP data bundle.")
@@ -52,6 +53,6 @@ if __name__ == "__main__":
         zip_ref.extractall(to_fn)
 
     # remove .zip file
-    os.remove(to_fn_zp)
+    # os.remove(to_fn_zp)
 
     logger.info(f"TYNDP data bundle available in '{to_fn}'.")
