@@ -1265,13 +1265,13 @@ def input_heat_source_power(w):
     }
 
 
-def build_tyndp_trajectories(w):
+rule build_tyndp_capacities:
     params:
         tyndp_scenario=config_provider("tyndp_scenario"),
     input:
-        tyndp_supply_inputs='data/20231103 - Final Supply Inputs for TYNDP 2024 Scenarios.xlsx'
+        tyndp_supply_inputs='data/20231103 - Final Supply Inputs for TYNDP 2024 Scenarios.xlsx',
     output:
-        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv')
+        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv'),
     threads: 1
     resources:
         mem_mb=2000,
@@ -1454,7 +1454,7 @@ rule prepare_sector_network:
         #     config_provider("electricity", "tyndp_renewable_carriers"),
         #     resources("tyndp_trajectories.csv"),
         # ),
-        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv')
+        tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv'),
         carrier_mapping="data/tyndp_technology_map.csv",
     output:
         resources(

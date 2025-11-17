@@ -130,7 +130,7 @@ def _extract_from_sheet(
     return out
 
 
-def extract_supply_inputs(year: int, carrier: str, path: str = FILE_PATH) -> dict:
+def extract_supply_inputs(year: int, carrier: str, path: str) -> dict:
     """
     Extract LOW, BE (best estimate), and HIGH trajectories for a given carrier and year.
 
@@ -232,8 +232,35 @@ def to_dataframe(data):
 
 if __name__ == "__main__":
 
-    year = snakemake.wildcards.planning_horizons
+    year = int(snakemake.wildcards.planning_horizons)
+    assert year in [2025, 2030, 2035, 2040], "year must be 2025, 2030, 2035, or 2040"
+
+    path = snakemake.input.tyndp_supply_inputs
 
     carriers = ['onwind', 'offwind', 'solar', 'battery', 'nuclear']
-    tyndp_capacities = pd.concat([to_dataframe(extract_supply_inputs(year, c)) for c in carriers], axis=1, keys=carriers)
-    tyndp_capacities.to_csv(snakemake.output.tyndp_capacities)
+
+    if year == 2025:
+        # Save an empty dataframe for 2025
+        caps = pd.DataFrame()
+    elif year == 2035:
+        # Linear interpolation between 2030 and 2040
+        caps_2030 = []
+        caps_2040 = []
+
+        for c in carriers:
+            caps_2030.append(to_dataframe(extract_supply_inputs(2030, c, path)))
+            caps_2040.append(to_dataframe(extract_supply_inputs(2040, c, path)))
+
+        caps_2030 = pd.concat(caps_2030, axis=1, keys=carriers)
+        caps_2040 = pd.concat(caps_2040, axis=1, keys=carriers)
+
+        # Linear interpolation: 2035 is halfway between 2030 and 2040
+        caps = caps_2030 + (caps_2040 - caps_2030) * 0.5
+    else:
+        # For 2030 and 2040, extract directly
+        caps = []
+        for c in carriers:
+            caps.append(to_dataframe(extract_supply_inputs(year, c, path)))
+        caps = pd.concat(caps, axis=1, keys=carriers)
+
+    caps.to_csv(snakemake.output.tyndp_capacities)

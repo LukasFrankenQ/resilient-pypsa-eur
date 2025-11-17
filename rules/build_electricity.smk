@@ -479,6 +479,7 @@ rule build_tyndp_trajectories:
         # "../scripts/build_tyndp_trajectories.py"
 
 
+
 rule build_line_rating:
     params:
         snapshots=config_provider("snapshots"),
