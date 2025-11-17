@@ -1295,6 +1295,7 @@ rule prepare_sector_network:
         foresight=config_provider("foresight"),
         costs=config_provider("costs"),
         electricity=config_provider("electricity"),
+        tyndp_scenario=config_provider("tyndp_scenario"),
         sector=config_provider("sector"),
         industry=config_provider("industry"),
         renewable=config_provider("renewable"),
@@ -1323,7 +1324,7 @@ rule prepare_sector_network:
     input:
         unpack(input_profile_offwind),
         unpack(input_heat_source_power),
-        unpack(input_profile_tech),
+        # unpack(input_profile_tech),
         **rules.cluster_gas_network.output,
         **rules.build_gas_input_locations.output,
         snapshot_weightings=resources(
@@ -1455,7 +1456,7 @@ rule prepare_sector_network:
         #     resources("tyndp_trajectories.csv"),
         # ),
         tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv'),
-        carrier_mapping="data/tyndp_technology_map.csv",
+        # carrier_mapping="data/tyndp_technology_map.csv",
     output:
         resources(
             "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.nc"

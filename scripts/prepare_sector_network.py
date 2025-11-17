@@ -6264,6 +6264,88 @@ def insert_ets(
     add_ets_generator(uk_ets_gen, uk_co2_bus, uk_ets_price)
 
 
+def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, scenario: str):
+    """
+    Insert TYNDP capacities into the network.
+    """
+
+    df = pd.read_csv(tyndp_capacities, index_col=0, header=[0,1])
+
+    print(df)
+    assert scenario in ['NT'], "Scenario must be 'NT'"
+
+    nt_deviation_tolerance = 0.01
+
+    carrier_mapper = {
+        'solar': ['solar', 'solar rooftop', 'solar hsat'],
+        'offwind': ['offwind-ac', 'offwind-dc', 'offwind-float'],
+        'onwind': ['onwind'],
+        'nuclear': ['nuclear'],
+    }
+
+    for carrier, carriers in carrier_mapper.items():
+
+        unmatched_capacity = 0
+        for country in df.index:
+
+            p_nom = df.loc[country, (carrier, 'NT')]
+            if scenario != 'NT':
+                p_nom_max = df.loc[country, (carrier, 'HIGH')]
+                p_nom_min = df.loc[country, (carrier, 'LOW')]
+            else: 
+                p_nom_max = p_nom * (1 + nt_deviation_tolerance)
+                p_nom_min = p_nom * (1 - nt_deviation_tolerance)
+
+            gens = n.generators.index[
+                (n.generators.carrier.isin(carriers)) &
+                (n.generators.bus.str.startswith(country))
+            ]
+            
+            if len(gens) == 0:
+                unmatched_capacity += p_nom
+                print(f'No generators found for {carrier} in {country}, p_nom = {p_nom}')
+                continue
+
+            existing = n.generators.loc[gens, 'p_nom'].sum()
+
+            if existing == 0:
+                n.generators.loc[gens, 'p_nom'] = p_nom / len(gens)
+            else:
+                factor = p_nom / existing
+                n.generators.loc[gens, 'p_nom'] *= factor
+
+
+            if scenario != 'NT':
+
+                max_factor = p_nom_max / n.generators.loc[gens, 'p_nom_max'].sum()
+                min_factor = p_nom_min / n.generators.loc[gens, 'p_nom_max'].sum() # minimal buildout likely to align with higher spatial variability
+
+                assert not np.isnan(max_factor), f'Max factor is NaN for {carrier} in {country}'
+
+                n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom_max'] * max_factor
+                n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom_max'] * min_factor
+
+            else:
+
+                n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
+                n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
+
+            print(f'Setting {carrier} capacities for {country} to {p_nom}, {p_nom_max}, {p_nom_min}')
+        
+        print(f'Unmatched capacity: {unmatched_capacity/1000} GW')
+
+        all_gens = n.generators.index[n.generators.carrier.isin(carriers)]
+
+        existing = n.generators.loc[all_gens, 'p_nom'].sum()
+        factor = (unmatched_capacity + existing) / existing
+        print('before', existing)
+
+        n.generators.loc[all_gens, ['p_nom', 'p_nom_max', 'p_nom_min']] *= factor
+
+        print('after', n.generators.loc[all_gens, 'p_nom'].sum())
+        print('=--='*10)
+    
+
 
 if __name__ == "__main__":
     if "snakemake" not in globals():
@@ -6617,6 +6699,13 @@ if __name__ == "__main__":
 
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
+
+    if snakemake.wildcards.planning_horizons != 2025:
+        insert_tyndp_capacities(
+            n,
+            snakemake.input.tyndp_capacities,
+            scenario=snakemake.params.tyndp_scenario
+            )
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

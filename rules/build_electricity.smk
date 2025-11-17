@@ -426,60 +426,6 @@ rule build_hydro_profile:
         "../scripts/build_hydro_profile.py"
 
 
-pemmdb_techs = branch(
-    config_provider("electricity", "pemmdb_capacities", "enable"),
-    config_provider("electricity", "pemmdb_capacities", "technologies"),
-)
-
-rule build_pemmdb_data:
-    params:
-        pemmdb_techs=pemmdb_techs,
-        snapshots=config_provider("snapshots"),
-        drop_leap_day=config_provider("enable", "drop_leap_day"),
-        available_years=config_provider(
-            "electricity", "pemmdb_capacities", "available_years"
-        ),
-        tyndp_scenario=config_provider("tyndp_scenario"),
-    input:
-        pemmdb_dir="data/tyndp_2024_bundle/PEMMDB2",
-        carrier_mapping="data/tyndp_technology_map.csv",
-        busmap=resources("busmap_base_s_all.csv"),
-    output:
-        pemmdb_capacities=resources("pemmdb_capacities_{planning_horizons}.csv"),
-        # pemmdb_profiles=resources("pemmdb_profiles_{planning_horizons}.nc"),
-    log:
-        logs("build_pemmdb_data_{planning_horizons}.log"),
-    threads: config_provider("electricity", "pemmdb_capacities", "nprocesses")
-    resources:
-        mem_mb=16000,
-    benchmark:
-        benchmarks("build_pemmdb_data_{planning_horizons}")
-    conda:
-        "../envs/environment.yaml"
-    script:
-        "../scripts/build_pemmdb_data.py"
-
-
-rule build_tyndp_trajectories:
-    params:
-        tyndp_scenario=config_provider("tyndp_scenario"),
-    # input:
-        # trajectories="data/tyndp_2024_bundle/Investment Datasets/TRAJECTORY.xlsx",
-        # carrier_mapping="data/tyndp_technology_map.csv",
-    # output:
-        # tyndp_trajectories=resources("tyndp_trajectories.csv"),
-    # log:
-        # logs("build_tyndp_trajectories.log"),
-    # threads: 4
-    # benchmark:
-        # benchmarks("build_tyndp_trajectories")
-    # conda:
-        # "../envs/environment.yaml"
-    # script:
-        # "../scripts/build_tyndp_trajectories.py"
-
-
-
 rule build_line_rating:
     params:
         snapshots=config_provider("snapshots"),
