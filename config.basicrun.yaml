@@ -29,7 +29,8 @@ run:
   use_shadow_directory: false
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#foresight
-foresight: myopic
+# foresight: myopic
+foresight: overnight
 
 tyndp_scenario: 'NT'  # NT, DE or GA
 
