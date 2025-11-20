@@ -30,7 +30,11 @@ def _extract_scenario_values(path, sheet_name, row_label):
             scen_row_candidates.append(idx)
 
     if not scen_row_candidates:
-        raise ValueError(f"No scenario header row found in sheet {sheet_name}")
+        for idx in range(len(df)):
+            row = df.iloc[idx, :]
+            if row.astype(str).str.contains('Reference', na=False).any():
+                scen_row_candidates.append(idx)
+        # raise ValueError(f"No scenario header row found in sheet {sheet_name}")
 
     scen_row = scen_row_candidates[0]
     year_row = scen_row + 1
@@ -74,7 +78,7 @@ def _extract_scenario_values(path, sheet_name, row_label):
     r = candidates[0]
 
     # 5. Build result dict (ignore the "Reference" column / 2019)
-    result = {'National Trends': {}, 'Distributed Energy': {}, 'Global Ambition': {}}
+    result = {'National Trends': {}, 'Distributed Energy': {}, 'Global Ambition': {}, 'Reference': {}}
 
     for col, scen in scenario_by_col.items():
         if scen not in result:
