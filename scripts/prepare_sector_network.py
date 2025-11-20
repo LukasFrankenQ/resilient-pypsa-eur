@@ -6330,22 +6330,71 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
                 n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
                 n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
 
-            print(f'Setting {carrier} capacities for {country} to {p_nom}, {p_nom_max}, {p_nom_min}')
-        
-        print(f'Unmatched capacity: {unmatched_capacity/1000} GW')
+            logger.info(f'Setting {carrier} capacities for {country} to {p_nom}, {p_nom_max}, {p_nom_min}')
 
         all_gens = n.generators.index[n.generators.carrier.isin(carriers)]
 
         existing = n.generators.loc[all_gens, 'p_nom'].sum()
         factor = (unmatched_capacity + existing) / existing
-        print('before', existing)
 
         n.generators.loc[all_gens, ['p_nom', 'p_nom_max', 'p_nom_min']] *= factor
 
-        print('after', n.generators.loc[all_gens, 'p_nom'].sum())
-        print('=--='*10)
-    
 
+    # batteries
+    for btype, max_hours in zip(['home battery', 'battery'], [2.5, 4]): # max hours from TYNDP 2024 Methodology Page 37, Section 4.7.4
+
+        unmatched_capacity = 0
+        for country in df.index:
+
+            e_nom = df.loc[country, (btype, 'NT')]
+
+            bats = n.stores.index[(n.stores.carrier == btype) & (n.stores.bus.str.startswith(country))]
+            if len(bats) == 0:
+                unmatched_capacity += e_nom
+                logger.info(f'No batteries found for {btype} in {country}, e_nom = {e_nom}')
+                continue
+
+            existing = n.stores.loc[bats, 'e_nom'].sum()
+            if existing == 0:
+                n.stores.loc[bats, 'e_nom'] = e_nom / len(bats)
+            else:
+
+                factor = e_nom / existing
+                n.stores.loc[bats, 'e_nom'] *= factor
+            
+            charging_cap = e_nom / max_hours
+            n.links.loc[bats + ' charger', 'p_nom'] = charging_cap
+
+            logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap/1e3:.1f} GW')
+            print(n.links.loc[bats + ' charger', ['p_nom']])
+            print(n.stores.loc[bats, ['e_nom']])
+            print('='*10)
+        
+    
+        all_bats = n.stores.index[n.stores.carrier == btype]
+        existing = n.stores.loc[all_bats, 'e_nom'].sum()
+
+        print(f'Network {btype} capacity: {existing/1e3:.1f} GWh')
+        print(f'Unmatched {btype} capacity: {unmatched_capacity/1e3:.1f} GWh')
+
+        # distribute unmatched capacity to existing batteries
+        print(f'Unmatched {btype} capacity: {unmatched_capacity/1e3:.1f} GWh')
+        factor = (unmatched_capacity + existing) / existing
+        print(f'Existing {btype} capacity: {existing/1e3:.1f} GWh')
+        print(f'Factor: {factor}')
+
+        n.stores.loc[all_bats, 'e_nom'] *= factor
+        n.links.loc[all_bats + ' charger', 'p_nom'] *= factor
+
+        if scenario == 'NT':
+            n.links.loc[all_bats + ' charger', 'p_nom_max'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 + nt_deviation_tolerance)
+            n.links.loc[all_bats + ' charger', 'p_nom_min'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 - nt_deviation_tolerance)
+
+            n.stores.loc[all_bats, 'e_nom_max'] = n.stores.loc[all_bats, 'e_nom'] * (1 + nt_deviation_tolerance)
+            n.stores.loc[all_bats, 'e_nom_min'] = n.stores.loc[all_bats, 'e_nom'] * (1 - nt_deviation_tolerance)
+        else:
+            raise ValueError(f'Scenario {scenario} not supported')
+    
 
 if __name__ == "__main__":
     if "snakemake" not in globals():

@@ -764,7 +764,7 @@ sector:
   use_fuel_cell_waste_heat: 1
   use_electrolysis_waste_heat: 0.25
   electricity_transmission_grid: true
-  electricity_distribution_grid: false
+  electricity_distribution_grid: true
   electricity_grid_connection: true
   transmission_efficiency:
     enable:

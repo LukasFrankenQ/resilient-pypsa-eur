@@ -139,7 +139,7 @@ def extract_supply_inputs(year: int, carrier: str, path: str) -> dict:
     year : int
         2030 or 2040.
     carrier : str
-        One of: 'onwind', 'offwind', 'solar', 'battery', 'nuclear'.
+        One of: 'onwind', 'offwind', 'solar', 'battery_prosumer', 'battery_utility', 'nuclear'.
     path : str
         Path to the Excel workbook
         "20231103 - Final Supply Inputs for TYNDP 2024 Scenarios.xlsx".
@@ -187,38 +187,20 @@ def extract_supply_inputs(year: int, carrier: str, path: str) -> dict:
             }
             return _extract_from_sheet(xls, sheet, year, scenario_labels)
 
-        elif carrier == "battery":
-            # Combine Prosumer + Utility battery capacities (both in MWh)
+        elif carrier == "home battery":
+            # Prosumer battery capacities (in MWh)
             prosumer_sheet = _find_sheet_name(xls, contents_df, "Prosumer Battery")
-            utility_sheet = _find_sheet_name(xls, contents_df, "Utility Battery")
-
             scenario_labels = {"LOW": "LOW", "BE": "Best Estimate", "HIGH": "HIGH"}
+            return _extract_from_sheet(xls, prosumer_sheet, year, scenario_labels)
 
-            prosumer = _extract_from_sheet(xls, prosumer_sheet, year, scenario_labels)
-            utility = _extract_from_sheet(xls, utility_sheet, year, scenario_labels)
-
-            result = {}
-            countries = set(prosumer) | set(utility)
-            for c in countries:
-                result[c] = {}
-                for key in ("LOW", "BE", "HIGH"):
-                    v1 = prosumer.get(c, {}).get(key)
-                    v2 = utility.get(c, {}).get(key)
-
-                    if v1 is None and v2 is None:
-                        total = None
-                    elif v1 is None:
-                        total = v2
-                    elif v2 is None:
-                        total = v1
-                    else:
-                        total = v1 + v2
-
-                    result[c][key] = total
-            return result
+        elif carrier == "battery":
+            # Utility battery capacities (in MWh)
+            utility_sheet = _find_sheet_name(xls, contents_df, "Utility Battery")
+            scenario_labels = {"LOW": "LOW", "BE": "Best Estimate", "HIGH": "HIGH"}
+            return _extract_from_sheet(xls, utility_sheet, year, scenario_labels)
 
         else:
-            raise ValueError("carrier must be one of: 'onwind', 'offwind', 'solar', 'battery', 'nuclear'")
+            raise ValueError("carrier must be one of: 'onwind', 'offwind', 'solar', 'home battery', 'battery', 'nuclear'")
 
 
 def to_dataframe(data):
@@ -237,7 +219,7 @@ if __name__ == "__main__":
 
     path = snakemake.input.tyndp_supply_inputs
 
-    carriers = ['onwind', 'offwind', 'solar', 'battery', 'nuclear']
+    carriers = ['onwind', 'offwind', 'solar', 'home battery', 'battery', 'nuclear']
 
     if year == 2025:
         # Save an empty dataframe for 2025
