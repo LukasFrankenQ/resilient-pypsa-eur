@@ -6394,7 +6394,70 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             n.stores.loc[all_bats, 'e_nom_min'] = n.stores.loc[all_bats, 'e_nom'] * (1 - nt_deviation_tolerance)
         else:
             raise ValueError(f'Scenario {scenario} not supported')
-    
+
+
+def final_electricity_transport(path):
+    return _extract_scenario_values(path, sheet_name='6-', row_label='Transport')
+
+
+def insert_exogenous_tyndp(
+    n, tyndp_fn, year, scenario):
+    """
+    Insert exogenous TYNDP assumptions into the network, in particular
+
+    - Electric road transport demand in EU27
+
+    """
+
+    if year <= 2040 and year >= 2030:   
+        logger.info('Inserting exogenous TYNDP assumptions for year {}'.format(year))
+    else:
+        logger.warning('Year {} is not between 2030 and 2040, skipping exogenous TYNDP assumptions'.format(year))
+        return
+
+    scenario_mapper = {
+        'NT': 'National Trends',
+        'DE': 'Distributed Energy',
+        'GA': 'Global Ambition',
+        'REF': 'Reference',
+    }
+
+    time_weight = (year - 2030) / (2040 - 2030)
+    sw = n.snapshot_weightings['generators'].iloc[0]
+
+    assert (n.snapshot_weightings == sw).all().all(), 'Currently we assume that the snapshot weightings are the same for all years'
+
+    eu27_countries = [
+        "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU",
+        "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+    ]
+
+    eu27_buses = n.buses.index[
+        (n.buses.country.isin(eu27_countries)) &
+        (n.buses.carrier == 'AC')
+    ]
+    all_eu27_buses = n.buses.index[
+        (n.buses.country.isin(eu27_countries))
+    ]
+
+    # electricity land transport
+    ev_loads = n.loads.index[
+        (n.loads.carrier == 'land transport EV') &
+        (n.loads.index.str.contains('|'.join(eu27_countries)))
+    ]
+
+    tyndp_ev_demand = final_electricity_transport(tyndp_fn)
+    p_set = tyndp_ev_demand['National Trends'][2030] * (1 - time_weight) + tyndp_ev_demand[scenario_mapper[scenario]][2040] * time_weight
+
+    factor = p_set * 1e6 / (n.loads_t.p_set[ev_loads].sum().sum() * sw)
+    n.loads_t.p_set[ev_loads] *= factor
+
+    logger.warning('does this work properly  with the substraction of existing electricity demand, should be subtracted then!')
+
+
+
+
+  
 
 if __name__ == "__main__":
     if "snakemake" not in globals():
