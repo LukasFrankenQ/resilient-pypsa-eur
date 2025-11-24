@@ -44,6 +44,7 @@ from scripts.build_transport_demand import transport_degree_factor
 from scripts.definitions.heat_sector import HeatSector
 from scripts.definitions.heat_system import HeatSystem
 from scripts.prepare_network import maybe_adjust_costs_and_potentials
+from scripts.tyndp_helpers import _extract_scenario_values, _extract_scenario_values_rowwise
 
 spatial = SimpleNamespace()
 logger = logging.getLogger(__name__)
@@ -6399,9 +6400,17 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 def final_electricity_transport(path):
     return _extract_scenario_values(path, sheet_name='6-', row_label='Transport')
 
+def district_heating_methane(path):
+    return _extract_scenario_values(path, sheet_name='12-', row_label='Methane')
+
 
 def insert_exogenous_tyndp(
-    n, tyndp_fn, year, scenario):
+    n,
+    tyndp_fn,
+    year,
+    scenario,
+    existing_heating_distribution,
+    ):
     """
     Insert exogenous TYNDP assumptions into the network, in particular
 
@@ -6450,14 +6459,97 @@ def insert_exogenous_tyndp(
     p_set = tyndp_ev_demand['National Trends'][2030] * (1 - time_weight) + tyndp_ev_demand[scenario_mapper[scenario]][2040] * time_weight
 
     factor = p_set * 1e6 / (n.loads_t.p_set[ev_loads].sum().sum() * sw)
+    
+    original_demand = n.loads_t.p_set[ev_loads].copy()
     n.loads_t.p_set[ev_loads] *= factor
 
-    logger.warning('does this work properly  with the substraction of existing electricity demand, should be subtracted then!')
+    # get difference between original and new demand to add to overall electricity demand
+    diff = original_demand - n.loads_t.p_set[ev_loads]
+    # diff.columns = diff.columns.map(lambda x: x + ')
+
+    print('============================================')
+    print('diff.columns', diff.columns)
+    diff.columns = [n.loads.index[(n.loads.carrier == 'AC') & (n.loads.bus == n.loads.loc[l, 'bus'])][0] for l in diff.columns]
+
+    print('diff.columns after', diff.columns)
+    n.loads_t.p_set[diff.columns] += diff
+    print('diff.columns after addition', n.loads_t.p_set[diff.columns])
+
+    # fix gas contribution to district heating
+    dh_gas_heat_supply = district_heating_methane(tyndp_fn)
+    dh_gas_heat_supply = (
+        dh_gas_heat_supply['National Trends'][2030] * (1 - time_weight) +
+        dh_gas_heat_supply[scenario_mapper[scenario]][2040] * time_weight
+    )
+
+    existing = pd.read_csv(existing_heating_distribution, header=[0, 1], index_col=0).loc[eu27_buses]
+    idx = pd.IndexSlice
+
+    res = existing.loc[:, idx['residential urban decentral', :]]
+    res.columns = res.columns.get_level_values(1)
+    ser = existing.loc[:, idx['services urban decentral', :]]
+    ser.columns = ser.columns.get_level_values(1)
+
+    existing = (res + ser)['gas boiler'] # using existing gas boiler distribution to approximate district heat gas boiler distribution
+    target_share = dh_gas_heat_supply * existing / existing.sum()
+
+    def to_ac_bus(x):
+        return ' '.join(x.split(' ')[:2])
+
+    uc = pd.Index(n.loads.loc[n.loads.carrier == 'urban central heat', 'bus'])
+    lt = pd.Index(n.loads.loc[n.loads.carrier == 'low-temperature heat for industry', 'bus'])
+    inter = uc.intersection(lt)
+    inter = inter.map(to_ac_bus).intersection(eu27_buses)
+
+    print('inter', inter)
+
+    # getting time series of demand
+    urban_central_load = (
+        n.loads_t
+        .p_set[inter + ' urban central heat']
+        .add(
+            n.loads.loc[
+                inter + ' low-temperature heat for industry',
+                'p_set'
+            ].to_list(), axis=1
+        )
+    )
+    p_max_pu = urban_central_load.div(urban_central_load.max(), axis=1)
+    eta = n.links.loc[inter + ' gas boiler', 'efficiency'].mean()
+
+    w = n.snapshot_weightings['generators'].iloc[0]
+
+    for bus in existing.index:
+
+        current_annual_generation = (existing.loc[bus] * p_max_pu[bus + ' urban central heat'] / eta).sum() * w
+
+        factor = target_share.loc[bus] / current_annual_generation
+
+        p_set = p_max_pu[bus + ' urban central heat'] * factor * existing.loc[bus]
+        p_nom = p_set.max()
+
+        n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
+        n.links_t.p_set.loc[:, bus + ' urban central gas boiler'] = p_set
+
+        print('===============================')
+        print(bus)
+        print(p_nom)
+        print(p_set.head())
 
 
 
 
-  
+
+
+
+
+
+
+
+
+    import sys
+    sys.exit()
+
 
 if __name__ == "__main__":
     if "snakemake" not in globals():
@@ -6817,7 +6909,15 @@ if __name__ == "__main__":
             n,
             snakemake.input.tyndp_capacities,
             scenario=snakemake.params.tyndp_scenario
-            )
+           )
+
+    insert_exogenous_tyndp(
+        n,
+        snakemake.input.tyndp_figures_data,
+        year=snakemake.wildcards.planning_horizons,
+        scenario=snakemake.params.tyndp_scenario,
+        existing_heating_distribution=snakemake.input.existing_heating_distribution,
+    )
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
