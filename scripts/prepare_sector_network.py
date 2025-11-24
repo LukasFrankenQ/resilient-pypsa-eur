@@ -44,7 +44,7 @@ from scripts.build_transport_demand import transport_degree_factor
 from scripts.definitions.heat_sector import HeatSector
 from scripts.definitions.heat_system import HeatSystem
 from scripts.prepare_network import maybe_adjust_costs_and_potentials
-from scripts.tyndp_helpers import _extract_scenario_values, _extract_scenario_values_rowwise
+from scripts._tyndp_helpers import _extract_scenario_values, _extract_scenario_values_rowwise
 
 spatial = SimpleNamespace()
 logger = logging.getLogger(__name__)
@@ -6403,6 +6403,9 @@ def final_electricity_transport(path):
 def district_heating_methane(path):
     return _extract_scenario_values(path, sheet_name='12-', row_label='Methane')
 
+def to_ac_bus(x):
+    return ' '.join(x.split(' ')[:2])
+
 
 def insert_exogenous_tyndp(
     n,
@@ -6417,6 +6420,8 @@ def insert_exogenous_tyndp(
     - Electric road transport demand in EU27
 
     """
+
+    year = int(year)
 
     if year <= 2040 and year >= 2030:   
         logger.info('Inserting exogenous TYNDP assumptions for year {}'.format(year))
@@ -6433,8 +6438,6 @@ def insert_exogenous_tyndp(
 
     time_weight = (year - 2030) / (2040 - 2030)
     sw = n.snapshot_weightings['generators'].iloc[0]
-
-    assert (n.snapshot_weightings == sw).all().all(), 'Currently we assume that the snapshot weightings are the same for all years'
 
     eu27_countries = [
         "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU",
@@ -6467,20 +6470,15 @@ def insert_exogenous_tyndp(
     diff = original_demand - n.loads_t.p_set[ev_loads]
     # diff.columns = diff.columns.map(lambda x: x + ')
 
-    print('============================================')
-    print('diff.columns', diff.columns)
-    diff.columns = [n.loads.index[(n.loads.carrier == 'AC') & (n.loads.bus == n.loads.loc[l, 'bus'])][0] for l in diff.columns]
-
-    print('diff.columns after', diff.columns)
+    diff.columns = diff.columns.map(to_ac_bus)
     n.loads_t.p_set[diff.columns] += diff
-    print('diff.columns after addition', n.loads_t.p_set[diff.columns])
 
     # fix gas contribution to district heating
     dh_gas_heat_supply = district_heating_methane(tyndp_fn)
     dh_gas_heat_supply = (
         dh_gas_heat_supply['National Trends'][2030] * (1 - time_weight) +
         dh_gas_heat_supply[scenario_mapper[scenario]][2040] * time_weight
-    )
+    ) * 1e6 # convert to MWh
 
     existing = pd.read_csv(existing_heating_distribution, header=[0, 1], index_col=0).loc[eu27_buses]
     idx = pd.IndexSlice
@@ -6493,15 +6491,10 @@ def insert_exogenous_tyndp(
     existing = (res + ser)['gas boiler'] # using existing gas boiler distribution to approximate district heat gas boiler distribution
     target_share = dh_gas_heat_supply * existing / existing.sum()
 
-    def to_ac_bus(x):
-        return ' '.join(x.split(' ')[:2])
-
     uc = pd.Index(n.loads.loc[n.loads.carrier == 'urban central heat', 'bus'])
     lt = pd.Index(n.loads.loc[n.loads.carrier == 'low-temperature heat for industry', 'bus'])
     inter = uc.intersection(lt)
     inter = inter.map(to_ac_bus).intersection(eu27_buses)
-
-    print('inter', inter)
 
     # getting time series of demand
     urban_central_load = (
@@ -6515,11 +6508,14 @@ def insert_exogenous_tyndp(
         )
     )
     p_max_pu = urban_central_load.div(urban_central_load.max(), axis=1)
-    eta = n.links.loc[inter + ' gas boiler', 'efficiency'].mean()
+    eta = n.links.loc[inter + ' urban central gas boiler', 'efficiency'].mean()
 
     w = n.snapshot_weightings['generators'].iloc[0]
 
     for bus in existing.index:
+
+        if existing.loc[bus] == 0:
+            continue
 
         current_annual_generation = (existing.loc[bus] * p_max_pu[bus + ' urban central heat'] / eta).sum() * w
 
@@ -6530,11 +6526,7 @@ def insert_exogenous_tyndp(
 
         n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
         n.links_t.p_set.loc[:, bus + ' urban central gas boiler'] = p_set
-
-        print('===============================')
-        print(bus)
-        print(p_nom)
-        print(p_set.head())
+        n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = False
 
 
 
@@ -6543,12 +6535,6 @@ def insert_exogenous_tyndp(
 
 
 
-
-
-
-
-    import sys
-    sys.exit()
 
 
 if __name__ == "__main__":
