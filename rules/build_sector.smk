@@ -1463,18 +1463,18 @@ rule prepare_sector_network:
         ),
     output:
         resources(
-            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.nc"
+            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.nc"
         ),
     threads: 1
     resources:
         mem_mb=2000,
     log:
         logs(
-            "prepare_sector_network_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.log"
+            "prepare_sector_network_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.log"
         ),
     benchmark:
         benchmarks(
-            "prepare_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}"
+            "prepare_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}"
         )
     conda:
         "../envs/environment.yaml"

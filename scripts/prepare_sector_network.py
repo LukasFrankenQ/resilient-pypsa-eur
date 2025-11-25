@@ -6629,6 +6629,28 @@ def insert_exogenous_tyndp(
     n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
 
 
+def wiggle_gas_demand(n, phaseout):
+    """
+    Slightly reduces gas usage by the model in industry and heating.
+    Its meant to represent changes in investment decisions, not operational ones.
+    """
+
+    phaseout = float(phaseout)
+
+    assert 0 <= phaseout <= 1, 'Phaseout must be between 0 and 1. phaseout = 0.01 would reduce gas demand in heating and industry by 1%.'
+
+    factor = 1 - phaseout
+
+    n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'] *= factor
+
+    # gas boilers have a p_set, so its the easiest way to reduce gas demand
+    gas_boilers = n.links.index[
+        (n.links.carrier.str.contains('gas boiler')) &
+        (n.links.bus1.str.contains('|'.join(['decentral urban heat', 'rural heat', 'urban central heat'])))
+    ].intersection(n.links_t.p_set.columns)
+
+    n.links_t.p_set.loc[:, gas_boilers] *= factor
+
 
 if __name__ == "__main__":
     if "snakemake" not in globals():
@@ -6641,6 +6663,7 @@ if __name__ == "__main__":
             sector_opts="168H-T-H-B-I-A-dist1",
             planning_horizons="2030",
             tyndp_scenario="NT",
+            phaseout=0.02,
         )
 
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -6655,6 +6678,7 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
+    phaseout = snakemake.wildcards.phaseout
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
     nhours = n.snapshot_weightings.generators.sum()
@@ -6993,6 +7017,8 @@ if __name__ == "__main__":
 
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
+
+    wiggle_gas_demand(n, phaseout)
 
     if snakemake.wildcards.planning_horizons != 2025:
         insert_tyndp_capacities(

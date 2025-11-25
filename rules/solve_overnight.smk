@@ -13,22 +13,22 @@ rule solve_sector_network:
         custom_extra_functionality=input_custom_extra_functionality,
     input:
         network=resources(
-            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.nc"
+            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.nc"
         ),
     output:
         network=RESULTS
-        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.nc",
+        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.nc",
         config=RESULTS
-        + "configs/config.base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.yaml",
+        + "configs/config.base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.yaml",
     shadow:
         shadow_config
     log:
         solver=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_solver.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}_solver.log",
         memory=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_memory.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}_memory.log",
         python=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_python.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}_python.log",
     threads: solver_threads
     resources:
         mem_mb=config_provider("solving", "mem_mb"),
@@ -36,7 +36,7 @@ rule solve_sector_network:
     benchmark:
         (
             RESULTS
-            + "benchmarks/solve_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}"
+            + "benchmarks/solve_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}"
         )
     conda:
         "../envs/environment.yaml"
