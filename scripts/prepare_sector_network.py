@@ -21,6 +21,13 @@ from networkx.algorithms.connectivity.edge_augmentation import k_edge_augmentati
 from pypsa.geo import haversine_pts
 from scipy.stats import beta
 
+from pathlib import Path
+print(Path.cwd())
+import sys
+sys.path.append(str(Path.cwd()))
+# import os
+# os.chdir(os.path.dirname(Path.cwd()))
+
 from scripts._helpers import (
     configure_logging,
     get,
@@ -6403,6 +6410,9 @@ def final_electricity_transport(path):
 def district_heating_methane(path):
     return _extract_scenario_values(path, sheet_name='12-', row_label='Methane')
 
+def homes_heating_percentage_methane(path):
+    return _extract_scenario_values(path, sheet_name='13-', row_label='Methane boiler')
+
 def to_ac_bus(x):
     return ' '.join(x.split(' ')[:2])
 
@@ -6522,18 +6532,82 @@ def insert_exogenous_tyndp(
         factor = target_share.loc[bus] / current_annual_generation
 
         p_set = p_max_pu[bus + ' urban central heat'] * factor * existing.loc[bus]
+
+        p_set = p_set.clip(upper=urban_central_load[bus + ' urban central heat'] / eta * 0.99) # safety precaution that adds a small mistake
+
         p_nom = p_set.max()
 
         n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
+        n.links.loc[bus + ' urban central gas boiler', 'p_nom_max'] = p_nom
+
         n.links_t.p_set.loc[:, bus + ' urban central gas boiler'] = p_set
-        n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = False
+        n.links_t.p_max_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom
 
+        n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = True
 
+    # fix gas contribution to residential and services heating
 
+    # TYNDP does not provide a share of gas boilers in households/services for National Trends, so we 
+    # are working with Reference 2019, and Global Ambition 2040 and Distributed Energy 2040.
 
+    # if the scenario arg in this function is National Trends, then we will interpolate for the year between
+    # Reference and the average of Global Ambition and Distributed Energy 2040.
+    # if the scenario arg in this function is Global Ambition or Distributed Energy, then we interpolate between
+    # Reference and only that scenario 2040.
 
+    methane_homes_heating_percentages = homes_heating_percentage_methane(tyndp_fn)
 
+    if scenario == 'NT':
+        value_2040 = (methane_homes_heating_percentages['Global Ambition'][2040] + methane_homes_heating_percentages['Distributed Energy'][2040]) / 2
+    else:
+        value_2040 = methane_homes_heating_percentages[scenario][2040]
 
+    time_weight_2019 = (year - 2019) / (2040 - 2019)
+    target_share = methane_homes_heating_percentages['Reference'][2019] * (1 - time_weight_2019) + value_2040 * time_weight_2019
+
+    logger.info(f'Fixing methane residential and services heating percentage: {target_share*100:.2%}')
+
+    for context in ['rural', 'urban decentral']:
+    
+        demands = n.loads.index[
+            (n.loads.bus.str.contains(context + ' heat')) &
+            (n.loads.index.str.startswith(tuple(eu27_countries)))
+        ]
+
+        varying = demands.intersection(n.loads_t.p_set.columns)
+        static = demands.difference(varying)
+
+        p_set_static = pd.DataFrame({i: [n.loads.loc[i, 'p_set']] * len(n.snapshots) for i in static}, index=n.snapshots)
+        p_set_varying = n.loads_t.p_set.loc[:, varying]
+
+        total_tseries = p_set_varying.T.groupby(to_ac_bus).sum().add(p_set_static.T.groupby(to_ac_bus).sum(), fill_value=0).T
+        total = total_tseries.sum() * w
+
+        existing_relative = existing / existing.sum()
+        target_annual_generation = target_share * total.sum() * existing_relative
+
+        for bus in existing.index:
+
+            if existing.loc[bus] == 0:
+                continue
+
+            eta = n.links.loc[f'{bus} {context} gas boiler', 'efficiency']
+
+            profile = total_tseries[bus] / total_tseries[bus].max()
+
+            bustarget = target_annual_generation.loc[bus]
+            bustarget = min(bustarget, total.loc[bus]) # safety precaution that adds a small mistake
+
+            p_nom = bustarget / (eta * w * profile.sum())
+            p_set = profile * p_nom
+
+            n.links.loc[f'{bus} {context} gas boiler', 'p_nom'] = p_nom
+            n.links.loc[f'{bus} {context} gas boiler', 'p_nom_max'] = p_nom
+
+            n.links_t.p_set.loc[:, f'{bus} {context} gas boiler'] = p_set.values
+            n.links_t.p_max_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
+
+            n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = True
 
 
 
@@ -6544,9 +6618,10 @@ if __name__ == "__main__":
         snakemake = mock_snakemake(
             "prepare_sector_network",
             opts="",
-            clusters="10",
-            sector_opts="",
-            planning_horizons="2050",
+            clusters="50",
+            sector_opts="168H-T-H-B-I-A-dist1",
+            planning_horizons="2030",
+            tyndp_scenario="NT",
         )
 
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -6559,6 +6634,8 @@ if __name__ == "__main__":
     investment_year = int(snakemake.wildcards.planning_horizons)
 
     n = pypsa.Network(snakemake.input.network)
+
+    tyndp_scenario = snakemake.wildcards.tyndp_scenario
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
     nhours = n.snapshot_weightings.generators.sum()
@@ -6887,6 +6964,14 @@ if __name__ == "__main__":
         n, snakemake.params["adjustments"], investment_year
     )
 
+    insert_exogenous_tyndp(
+        n,
+        snakemake.input["tyndp_figures_data"],
+        year=investment_year,
+        scenario=tyndp_scenario,
+        existing_heating_distribution=snakemake.input.existing_heating_distribution,
+    )
+
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
@@ -6896,14 +6981,6 @@ if __name__ == "__main__":
             snakemake.input.tyndp_capacities,
             scenario=snakemake.params.tyndp_scenario
            )
-
-    insert_exogenous_tyndp(
-        n,
-        snakemake.input.tyndp_figures_data,
-        year=snakemake.wildcards.planning_horizons,
-        scenario=snakemake.params.tyndp_scenario,
-        existing_heating_distribution=snakemake.input.existing_heating_distribution,
-    )
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

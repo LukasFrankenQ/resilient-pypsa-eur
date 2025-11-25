@@ -13,22 +13,22 @@ rule solve_sector_network:
         custom_extra_functionality=input_custom_extra_functionality,
     input:
         network=resources(
-            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.nc"
+            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.nc"
         ),
     output:
         network=RESULTS
-        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.nc",
+        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.nc",
         config=RESULTS
-        + "configs/config.base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.yaml",
+        + "configs/config.base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}.yaml",
     shadow:
         shadow_config
     log:
         solver=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_solver.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_solver.log",
         memory=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_memory.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_memory.log",
         python=RESULTS
-        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_python.log",
+        + "logs/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_python.log",
     threads: solver_threads
     resources:
         mem_mb=config_provider("solving", "mem_mb"),
@@ -36,7 +36,7 @@ rule solve_sector_network:
     benchmark:
         (
             RESULTS
-            + "benchmarks/solve_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}"
+            + "benchmarks/solve_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}"
         )
     conda:
         "../envs/environment.yaml"
