@@ -22,11 +22,8 @@ from pypsa.geo import haversine_pts
 from scipy.stats import beta
 
 from pathlib import Path
-print(Path.cwd())
 import sys
 sys.path.append(str(Path.cwd()))
-# import os
-# os.chdir(os.path.dirname(Path.cwd()))
 
 from scripts._helpers import (
     configure_logging,
@@ -6279,7 +6276,6 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
     df = pd.read_csv(tyndp_capacities, index_col=0, header=[0,1])
 
-    print(df)
     assert scenario in ['NT'], "Scenario must be 'NT'"
 
     nt_deviation_tolerance = 0.01
@@ -6311,7 +6307,6 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             
             if len(gens) == 0:
                 unmatched_capacity += p_nom
-                print(f'No generators found for {carrier} in {country}, p_nom = {p_nom}')
                 continue
 
             existing = n.generators.loc[gens, 'p_nom'].sum()
@@ -6338,7 +6333,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
                 n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
                 n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
 
-            logger.info(f'Setting {carrier} capacities for {country} to {p_nom}, {p_nom_max}, {p_nom_min}')
+            logger.info(f'Setting {carrier} capacities for {country} to {p_nom/1e3:.1f} GW, {p_nom_max/1e3:.1f} GW, {p_nom_min/1e3:.1f} GW')
 
         all_gens = n.generators.index[n.generators.carrier.isin(carriers)]
 
@@ -6374,22 +6369,13 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             n.links.loc[bats + ' charger', 'p_nom'] = charging_cap
 
             logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap/1e3:.1f} GW')
-            print(n.links.loc[bats + ' charger', ['p_nom']])
-            print(n.stores.loc[bats, ['e_nom']])
-            print('='*10)
         
     
         all_bats = n.stores.index[n.stores.carrier == btype]
         existing = n.stores.loc[all_bats, 'e_nom'].sum()
 
-        print(f'Network {btype} capacity: {existing/1e3:.1f} GWh')
-        print(f'Unmatched {btype} capacity: {unmatched_capacity/1e3:.1f} GWh')
-
         # distribute unmatched capacity to existing batteries
-        print(f'Unmatched {btype} capacity: {unmatched_capacity/1e3:.1f} GWh')
         factor = (unmatched_capacity + existing) / existing
-        print(f'Existing {btype} capacity: {existing/1e3:.1f} GWh')
-        print(f'Factor: {factor}')
 
         n.stores.loc[all_bats, 'e_nom'] *= factor
         n.links.loc[all_bats + ' charger', 'p_nom'] *= factor
@@ -6560,7 +6546,7 @@ def insert_exogenous_tyndp(
     if scenario == 'NT':
         value_2040 = (methane_homes_heating_percentages['Global Ambition'][2040] + methane_homes_heating_percentages['Distributed Energy'][2040]) / 2
     else:
-        value_2040 = methane_homes_heating_percentages[scenario][2040]
+        value_2040 = methane_homes_heating_percentages[scenario_mapper[scenario]][2040]
 
     time_weight_2019 = (year - 2019) / (2040 - 2019)
     target_share = methane_homes_heating_percentages['Reference'][2019] * (1 - time_weight_2019) + value_2040 * time_weight_2019
