@@ -6399,6 +6399,13 @@ def district_heating_methane(path):
 def homes_heating_percentage_methane(path):
     return _extract_scenario_values(path, sheet_name='13-', row_label='Methane boiler')
 
+def methane_industry_energetic(path):
+    return _extract_scenario_values(path, sheet_name='8-', row_label='Industry')
+
+def methane_industry_nonenergetic(path):
+    return _extract_scenario_values(path, sheet_name='8-', row_label='Non-energy use')
+
+
 def to_ac_bus(x):
     return ' '.join(x.split(' ')[:2])
 
@@ -6551,7 +6558,7 @@ def insert_exogenous_tyndp(
     time_weight_2019 = (year - 2019) / (2040 - 2019)
     target_share = methane_homes_heating_percentages['Reference'][2019] * (1 - time_weight_2019) + value_2040 * time_weight_2019
 
-    logger.info(f'Fixing methane residential and services heating percentage: {target_share*100:.2%}')
+    logger.info(f'Fixing methane residential and services heating percentage: {target_share:.2%}')
 
     for context in ['rural', 'urban decentral']:
     
@@ -6594,6 +6601,32 @@ def insert_exogenous_tyndp(
             n.links_t.p_max_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
 
             n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = True
+
+
+    # fix gas demand in industry
+
+    demand_energetic = methane_industry_energetic(tyndp_fn)
+    demand_nonenergetic = methane_industry_nonenergetic(tyndp_fn)
+
+    energetic_target = (
+        demand_energetic['National Trends'][2030] * (1 - time_weight) +
+        demand_energetic[scenario_mapper[scenario]][2040] * time_weight
+    ) # convert to MWh
+    nonenergetic_target = (
+        demand_nonenergetic['National Trends'][2030] * (1 - time_weight) +
+        demand_nonenergetic[scenario_mapper[scenario]][2040] * time_weight
+    ) # convert to MWh
+
+    logger.info(f'Fixing methane industry energetic demand: {energetic_target:.1f} TWh')
+    logger.info(f'Fixing methane industry nonenergetic demand: {nonenergetic_target:.1f} TWh')
+
+    current_demand = (
+        n.loads.p_set.loc[n.loads.index[n.loads.carrier == 'gas for industry']].sum() * w * len(n.snapshots) * 1e-6 # TWh
+    )
+
+    adjustment_factor = (energetic_target + nonenergetic_target) / current_demand
+
+    n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
 
 
 
