@@ -32,7 +32,7 @@ run:
 # foresight: myopic
 foresight: overnight
 
-tyndp_scenario: 'NT'  # NT, DE or GA
+# tyndp_scenario: 'NT'  # NT, DE or GA
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#scenario
 # Wildcard docs in https://pypsa-eur.readthedocs.io/en/latest/wildcards.html
@@ -59,7 +59,7 @@ scenario:
   tyndp_scenario:
   - 'NT'
   # - 'DE'
-  - 'GA'
+  # - 'GA'
   phaseout:
   - 0.00
   # - 0.02
