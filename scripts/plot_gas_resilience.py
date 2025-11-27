@@ -62,18 +62,17 @@ if __name__ == "__main__":
         demands.append(get_gas_demand(n).rename(n_fn))
         system_costs.append(n.statistics()[['Capital Expenditure', 'Operational Expenditure']].sum().sum() / 1e9) # in billions of EUR
 
-    demands = pd.concat(demands, axis=1).T.sum()
-    print(demands)
+    demands = pd.concat(demands, axis=1).T
+    demands = demands.sum(axis=1)
 
     system_costs = pd.Series(system_costs, index=demands.index)
-    print(system_costs)
 
     combined = pd.concat([demands.rename('demand'), system_costs.rename('cost')], axis=1)
     combined = combined.sort_values('demand')
 
     fig, ax = plt.subplots(figsize=(12, 8))
 
-    ax.fill_between(combined['demand'], np.zeros(len(combined)), combined['cost'], color='blue', alpha=0.3)
+    ax.fill_between(combined['demand'], np.ones(len(combined)) * 900, combined['cost'], color='blue', alpha=0.3)
     ax.plot(combined['demand'], combined['cost'], color='blue', marker='o')
 
     ax.set_xlabel('Gas Demand [TWh/a]')
