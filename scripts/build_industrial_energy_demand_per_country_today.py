@@ -98,7 +98,7 @@ fuels = {
     "Solid fossil fuels": "solid",
     "Peat and peat products": "solid",
     "Oil shale and oil sands": "solid",
-    "Oil and petroleum products": "liquid",
+    # "Oil and petroleum products": "liquid",
     "Manufactured gases": "gas",
     "Natural gas": "gas",
     "Nuclear heat": "heat",
@@ -106,6 +106,29 @@ fuels = {
     "Renewables and biofuels": "biomass",
     "Non-renewable waste": "waste",
     "Electricity": "electricity",
+
+    "Crude oil": "fuel oil",
+    "Natural gas liquids": "naphtha",
+    "Refinery feedstocks": "naphtha",
+    "Additives and oxygenates (excluding biofuel portion)": "fuel oil",
+    "Other hydrocarbons": "fuel oil",
+    "Refinery gas": "fuel oil",
+    "Ethane": "naphtha",
+    "Liquefied petroleum gases": "fuel oil",
+    "Motor gasoline (excluding biofuel portion)": "fuel oil",
+    "Aviation gasoline": "fuel oil",
+    "Gasoline-type jet fuel": "fuel oil",
+    "Kerosene-type jet fuel (excluding biofuel portion)": "fuel oil",
+    "Other kerosene": "fuel oil",
+    "Naphtha": "naphtha",
+    "Gas oil and diesel oil (excluding biofuel portion)": "fuel oil",
+    "Fuel oil": "fuel oil",
+    "White spirit and special boiling point industrial spirits": "naphtha",
+    "Lubricants": "fuel oil",
+    "Bitumen": "fuel oil",
+    "Petroleum coke": "fuel oil",
+    "Paraffin waxes": "fuel oil",
+    "Other oil products": "fuel oil",
 }
 
 eu27 = cc.EU27as("ISO2").ISO2.tolist()
@@ -299,6 +322,7 @@ if __name__ == "__main__":
 
     demand = add_non_eu27_industrial_energy_demand(countries, demand, production)
 
+    print(demand.stack(future_stack=True))
     # for format compatibility
     demand = demand.stack(future_stack=True).unstack(level=[0, 2])
 
