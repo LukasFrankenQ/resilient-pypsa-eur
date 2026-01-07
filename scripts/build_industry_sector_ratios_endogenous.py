@@ -30,10 +30,87 @@ import numpy as np
 import pandas as pd
 
 from scripts._helpers import configure_logging, set_scenario_config
+from _tyndp_helpers import _extract_scenario_values, _extract_scenario_values_rowwise
+
+def methane_industry_energetic(path):
+    return _extract_scenario_values(path, sheet_name='8-', row_label='Industry')
+
 
 logger = logging.getLogger(__name__)
 
 idx = pd.IndexSlice
+
+
+def take_cumulative_amount(obj, y, *, from_start=True, clip_negative=True):
+    """
+    Take the first `y` of cumulative mass from a non-negative Series (or each column of a DataFrame),
+    either from the start (left) or from the end (right), returning an object of the same shape.
+
+    `y` can be:
+      - float/int (applied to the whole Series, or to every column of a DataFrame), or
+      - pd.Series indexed by DataFrame columns (per-column y).
+
+    Example:
+        s = pd.Series([1,2,3])
+        take_cumulative_amount(s, 2.5, from_start=True)  -> [1, 1.5, 0]
+        take_cumulative_amount(s, 2.5, from_start=False) -> [0, 0, 2.5]
+    """
+
+    def _take_array(a: np.ndarray, y_val: float) -> np.ndarray:
+        a = a.astype(float, copy=True)
+        if clip_negative:
+            a = np.maximum(a, 0.0)
+
+        if not np.isfinite(y_val):
+            raise ValueError("y must be a finite number (or a Series of finite numbers).")
+        if y_val <= 0.0:
+            return np.zeros_like(a)
+
+        total = float(a.sum())
+        if y_val >= total:
+            return a
+
+        if from_start:
+            remaining_before = y_val - np.cumsum(np.r_[0.0, a[:-1]])
+            return np.clip(remaining_before, 0.0, a)
+        else:
+            ar = a[::-1]
+            remaining_before = y_val - np.cumsum(np.r_[0.0, ar[:-1]])
+            outr = np.clip(remaining_before, 0.0, ar)
+            return outr[::-1]
+
+    # --- Series input ---
+    if isinstance(obj, pd.Series):
+        y_val = float(y)  # must be scalar for Series input
+        out = _take_array(obj.to_numpy(), y_val)
+        return pd.Series(out, index=obj.index, name=obj.name)
+
+    # --- DataFrame input ---
+    if isinstance(obj, pd.DataFrame):
+        if isinstance(y, pd.Series):
+            # align to columns; require all columns present
+            y_aligned = y.reindex(obj.columns)
+            missing = y_aligned.isna()
+            if missing.any():
+                missing_cols = list(obj.columns[missing.to_numpy()])
+                raise ValueError(
+                    f"y is missing values for columns: {missing_cols}. "
+                    "Provide a y Series indexed by all DataFrame columns."
+                )
+            y_map = y_aligned.astype(float)
+        else:
+            y_scalar = float(y)
+            if not np.isfinite(y_scalar):
+                raise ValueError("y must be a finite number (or a Series of finite numbers).")
+            y_map = pd.Series(y_scalar, index=obj.columns, dtype=float)
+
+        out = obj.copy()
+        for col in obj.columns:
+            out[col] = _take_array(obj[col].to_numpy(), float(y_map.loc[col]))
+        return out
+
+    raise TypeError("obj must be a pandas Series or DataFrame.")
+
 
 # maps processes to temperature bands distributions from Fleiter et al. 2025
 process_temperature_band_mapper = {
@@ -132,7 +209,8 @@ backup_temperature_band_shares = {
 }
 
 
-def build_industry_sector_ratios_endogenous():
+def build_industry_sector_ratios_endogenous(phaseout):
+
     # in TWh/a
     demand = pd.read_csv(
         snakemake.input.industrial_energy_demand_per_country_today,
@@ -195,8 +273,19 @@ def build_industry_sector_ratios_endogenous():
         endogenous_sector_ratios.index.union(bands)
     ).replace(np.nan, 0)
 
+    skip_processes = [
+        'Electric arc',
+        'Integrated steelworks',
+        'Methanol',
+        'Other chemicals',
+    ]
+    assert pd.Series(skip_processes).isin(endogenous_sector_ratios.columns.unique(1)).all()
+
     # for each heat-endogenous process, split energy in heat carriers into the respective temperature bands
     for process, key in process_temperature_band_mapper.items():
+        if process in skip_processes:
+            continue
+
         as_fuels = endogenous_sector_ratios.loc[heat_carriers, idx[:, process]]
 
         as_heat = pd.DataFrame(
@@ -207,11 +296,27 @@ def build_industry_sector_ratios_endogenous():
             columns=as_fuels.sum().index,
         )
 
-        endogenous_sector_ratios.loc[bands, idx[:, process]] = as_heat
-        endogenous_sector_ratios.loc[heat_carriers, idx[:, process]] = 0.0
+        gas_heat_share = take_cumulative_amount(
+            as_heat,
+            as_fuels.loc['methane'],
+            from_start=False
+            )
+
+        decarbonise_heat_share = take_cumulative_amount(
+            gas_heat_share,
+            as_fuels.loc['methane'] * phaseout,
+            from_start=True
+            )
+
+        endogenous_sector_ratios.loc[bands, idx[:, process]] = decarbonise_heat_share
+        endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
+    
 
     # for processes not covered by Fleiter et al. 2025
     for process, band_shares in backup_temperature_band_shares.items():
+        if process in skip_processes:
+            continue
+
         band_shares = pd.Series(band_shares)
 
         as_fuels = endogenous_sector_ratios.loc[heat_carriers, idx[:, process]]
@@ -222,8 +327,20 @@ def build_industry_sector_ratios_endogenous():
             columns=as_fuels.sum().index,
         )
 
-        endogenous_sector_ratios.loc[bands, idx[:, process]] = as_heat
-        endogenous_sector_ratios.loc[heat_carriers, idx[:, process]] = 0.0
+        gas_heat_share = take_cumulative_amount(
+            as_heat,
+            as_fuels.loc['methane'],
+            from_start=False
+            )
+
+        decarbonise_heat_share = take_cumulative_amount(
+            gas_heat_share,
+            as_fuels.loc['methane'] * phaseout,
+            from_start=True
+            )
+
+        endogenous_sector_ratios.loc[bands, idx[:, process]] = decarbonise_heat_share
+        endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
 
     # heat is only nonzero in processes that are not endogenous here, so this does not produce an error
     endogenous_sector_ratios.loc["heat<100"] += endogenous_sector_ratios.loc["heat"]
@@ -271,4 +388,20 @@ if __name__ == "__main__":
     configure_logging(snakemake)
     set_scenario_config(snakemake)
 
-    build_industry_sector_ratios_endogenous()
+    year = int(snakemake.wildcards['planning_horizons'])
+
+    assert year < 2041, f'endogenous industry heating only implemented between 2025 and 2040, but year is {year}'
+
+    heat_gas_demand = methane_industry_energetic(snakemake.input.tyndp_path)
+
+    if year <= 2030:
+        phaseout_2030 = 1 - heat_gas_demand['National Trends'][2030] / heat_gas_demand['Reference'][2019]
+        weight = (year - 2025) / (2030 - 2025)
+        phaseout = weight * phaseout_2030
+    else:
+        phaseout_2030 = 1 - heat_gas_demand['National Trends'][2030] / heat_gas_demand['Reference'][2019]
+        phaseout_2040 = 1 - heat_gas_demand['National Trends'][2040] / heat_gas_demand['Reference'][2019]
+        weight = (year - 2030) / (2040 - 2030)
+        phaseout = weight * phaseout_2040 + (1 - weight) * phaseout_2030
+
+    build_industry_sector_ratios_endogenous(phaseout)

@@ -93,6 +93,7 @@ sector_sheets = {
 }
 
 
+'''
 fuels = {
     "Total": "all",
     "Solid fossil fuels": "solid",
@@ -129,6 +130,21 @@ fuels = {
     "Petroleum coke": "fuel oil",
     "Paraffin waxes": "fuel oil",
     "Other oil products": "fuel oil",
+}
+'''
+fuels = {
+    "Total": "all",
+    "Solid fossil fuels": "solid",
+    "Peat and peat products": "solid",
+    "Oil shale and oil sands": "solid",
+    "Oil and petroleum products": "liquid",
+    "Manufactured gases": "gas",
+    "Natural gas": "gas",
+    "Nuclear heat": "heat",
+    "Heat": "heat",
+    "Renewables and biofuels": "biomass",
+    "Non-renewable waste": "waste",
+    "Electricity": "electricity",
 }
 
 eu27 = cc.EU27as("ISO2").ISO2.tolist()

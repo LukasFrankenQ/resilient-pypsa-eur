@@ -924,6 +924,7 @@ rule build_industrial_production_per_node:
 
 rule build_industry_sector_ratios_endogenous:
     input:
+        tyndp_path='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
         industrial_energy_demand_per_country_today=resources(
             "industrial_energy_demand_per_country_today.csv"
         ),
@@ -933,26 +934,27 @@ rule build_industry_sector_ratios_endogenous:
         process_temperature_bands="data/ente202300981-sup-0001-suppdata-s1.xlsx",
     output:
         industry_sector_ratios_endogenous=resources(
-            "industry_sector_ratios_endogenous.csv"
+            "industry_sector_ratios_endogenous_{planning_horizons}.csv"
         ),
     threads: 1
     resources:
         mem_mb=1000,
     log:
-        logs("build_industry_sector_ratios_endogenous.log"),
+        logs("build_industry_sector_ratios_endogenous_{planning_horizons}.log"),
     benchmark:
-        benchmarks("build_industry_sector_ratios_endogenous")
+        benchmarks("build_industry_sector_ratios_endogenous_{planning_horizons}")
     script:
         "../scripts/build_industry_sector_ratios_endogenous.py"
 
 
 rule build_industrial_energy_demand_per_node:
     input:
+        tyndp_path='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
         industry_sector_ratios=resources(
             "industry_sector_ratios_{planning_horizons}.csv"
         ),
         industry_sector_ratios_endogenous=resources(
-            "industry_sector_ratios_endogenous.csv"
+            "industry_sector_ratios_endogenous_{planning_horizons}.csv"
         ),
         industrial_production_per_node=resources(
             "industrial_production_base_s_{clusters}_{planning_horizons}.csv"
