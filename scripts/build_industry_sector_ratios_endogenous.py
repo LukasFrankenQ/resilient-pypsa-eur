@@ -403,11 +403,11 @@ if __name__ == "__main__":
         phaseout_2040 = 1 - heat_gas_demand['National Trends'][2040] / heat_gas_demand['Reference'][2019]
         weight = (year - 2030) / (2040 - 2030)
         phaseout = weight * phaseout_2040 + (1 - weight) * phaseout_2030
-    
+
     wiggle = snakemake.wildcards['wiggle']
 
     assert wiggle[0] in ['-', '+']
-    wiggle = float(wiggle[1:])**int(wiggle[0] == '+')
+    wiggle = float(wiggle[1:]) * (-1)**(1 - int(wiggle[0] == '+'))
 
     assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = "+0.01" would increase gas demand in heating and industry by 1%.'
 

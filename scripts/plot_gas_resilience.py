@@ -70,6 +70,10 @@ if __name__ == "__main__":
     combined = pd.concat([demands.rename('demand'), system_costs.rename('cost')], axis=1)
     combined = combined.sort_values('demand')
 
+    combined.index = map(lambda x: x[-20:], combined.index)
+
+    print(combined)
+
     fig, ax = plt.subplots(figsize=(12, 8))
 
     ax.fill_between(combined['demand'], np.ones(len(combined)) * 900, combined['cost'], color='blue', alpha=0.3)

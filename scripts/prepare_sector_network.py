@@ -7070,9 +7070,9 @@ def wiggle_heating_gas_demand(n, wiggle):
 
     assert wiggle[0] in ['-', '+']
 
-    wiggle = float(wiggle[1:])**int(wiggle[0] == '+')
+    wiggle = float(wiggle[1:])* (-1)**int(wiggle[0] == '+')
 
-    assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = 0.01 would reduce gas demand in heating and industry by 1%.'
+    assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = "+0.01" would increase gas demand in heating by 1%.'
 
     factor = 1 + wiggle
 
