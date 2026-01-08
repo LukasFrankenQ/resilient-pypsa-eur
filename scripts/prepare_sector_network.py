@@ -7055,19 +7055,26 @@ def insert_exogenous_tyndp(
     n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
 
 
-def wiggle_gas_demand(n, phaseout):
+def wiggle_heating_gas_demand(n, wiggle):
     """
-    Slightly reduces gas usage by the model in industry and heating.
+    Slightly changes gas usage by the model in industry and heating.
     Its meant to represent changes in investment decisions, not operational ones.
+
+    Wiggle is a string like '+0.01' or '-0.01'.
+    A plus sign means an increase in gas demand, a minus sign means a decrease.
+
+    This function only changes consumption in residential and services heating.
+    
+    Industry wiggle is done in build_industry_sector_ratios_endogenous
     """
 
-    phaseout = float(phaseout)
+    assert wiggle[0] in ['-', '+']
 
-    assert 0 <= phaseout <= 1, 'Phaseout must be between 0 and 1. phaseout = 0.01 would reduce gas demand in heating and industry by 1%.'
+    wiggle = float(wiggle[1:])**int(wiggle[0] == '+')
 
-    factor = 1 - phaseout
+    assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = 0.01 would reduce gas demand in heating and industry by 1%.'
 
-    n.loads.loc[n.loads.carrier == 'gas for industry', 'p_set'] *= factor
+    factor = 1 + wiggle
 
     # gas boilers have a p_set, so its the easiest way to reduce gas demand
     gas_boilers = n.links.index[
@@ -7089,7 +7096,7 @@ if __name__ == "__main__":
             sector_opts="168H-T-H-B-I-A-dist1",
             planning_horizons="2030",
             tyndp_scenario="NT",
-            phaseout=0.02,
+            wiggle='+0.01',
         )
 
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -7104,7 +7111,6 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
-    phaseout = snakemake.wildcards.phaseout
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
     nhours = n.snapshot_weightings.generators.sum()
@@ -7444,7 +7450,7 @@ if __name__ == "__main__":
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
-    wiggle_gas_demand(n, phaseout)
+    wiggle_heating_gas_demand(n, snakemake.wildcards['wiggle'])
 
     if snakemake.wildcards.planning_horizons != 2025:
         insert_tyndp_capacities(

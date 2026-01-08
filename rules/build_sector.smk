@@ -934,15 +934,15 @@ rule build_industry_sector_ratios_endogenous:
         process_temperature_bands="data/ente202300981-sup-0001-suppdata-s1.xlsx",
     output:
         industry_sector_ratios_endogenous=resources(
-            "industry_sector_ratios_endogenous_{planning_horizons}.csv"
+            "industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}.csv"
         ),
     threads: 1
     resources:
         mem_mb=1000,
     log:
-        logs("build_industry_sector_ratios_endogenous_{planning_horizons}.log"),
+        logs("build_industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}.log"),
     benchmark:
-        benchmarks("build_industry_sector_ratios_endogenous_{planning_horizons}")
+        benchmarks("build_industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}")
     script:
         "../scripts/build_industry_sector_ratios_endogenous.py"
 
@@ -954,7 +954,7 @@ rule build_industrial_energy_demand_per_node:
             "industry_sector_ratios_{planning_horizons}.csv"
         ),
         industry_sector_ratios_endogenous=resources(
-            "industry_sector_ratios_endogenous_{planning_horizons}.csv"
+            "industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}.csv"
         ),
         industrial_production_per_node=resources(
             "industrial_production_base_s_{clusters}_{planning_horizons}.csv"
@@ -964,19 +964,19 @@ rule build_industrial_energy_demand_per_node:
         ),
     output:
         industrial_energy_demand_per_node=resources(
-            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}.csv"
+            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}_{wiggle}.csv"
         ),
     threads: 1
     resources:
         mem_mb=1000,
     log:
         logs(
-            "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}.log"
+            "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}_{wiggle}.log"
         ),
     benchmark:
         (
             benchmarks(
-                "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}"
+                "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}_{wiggle}"
             )
         )
     conda:
@@ -1408,7 +1408,7 @@ rule prepare_sector_network:
         busmap=resources("busmap_base_s_{clusters}.csv"),
         clustered_pop_layout=resources("pop_layout_base_s_{clusters}.csv"),
         industrial_demand=resources(
-            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}.csv"
+            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}_{wiggle}.csv"
         ),
         hourly_heat_demand_total=resources(
             "hourly_heat_demand_total_base_s_{clusters}.nc"
@@ -1492,18 +1492,18 @@ rule prepare_sector_network:
         ),
     output:
         resources(
-            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.nc"
+            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc"
         ),
     threads: 1
     resources:
         mem_mb=2000,
     log:
         logs(
-            "prepare_sector_network_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.log"
+            "prepare_sector_network_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.log"
         ),
     benchmark:
         benchmarks(
-            "prepare_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}"
+            "prepare_sector_network/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}"
         )
     conda:
         "../envs/environment.yaml"

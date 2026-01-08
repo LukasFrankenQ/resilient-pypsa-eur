@@ -54,7 +54,7 @@ rule solve_sector_networks:
     input:
         expand(
             RESULTS
-            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{phaseout}.nc",
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc",
             **config["scenario"],
             run=config["run"]["name"],
         ),
