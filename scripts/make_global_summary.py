@@ -44,18 +44,20 @@ if __name__ == "__main__":
         logger.info(f"Creating global summary for {kind}")
 
         summaries_dict = {
-            (cluster, opt + sector_opt, planning_horizon): "results/"
+            (cluster, opt + sector_opt, planning_horizon, tyndp_scenario, wiggle): "results/"
             + snakemake.params.RDIR
-            + f"csvs/individual/{kind}_s_{cluster}_{opt}_{sector_opt}_{planning_horizon}.csv"
+            + f"csvs/individual/{kind}_s_{cluster}_{opt}_{sector_opt}_{planning_horizon}_{tyndp_scenario}_{wiggle}.csv"
             for cluster in snakemake.params.scenario["clusters"]
             for opt in snakemake.params.scenario["opts"]
             for sector_opt in snakemake.params.scenario["sector_opts"]
             for planning_horizon in snakemake.params.scenario["planning_horizons"]
+            for tyndp_scenario in snakemake.params.scenario["tyndp_scenario"]
+            for wiggle in snakemake.params.scenario["wiggle"]
         }
 
         columns = pd.MultiIndex.from_tuples(
             summaries_dict.keys(),
-            names=["cluster", "opt", "planning_horizon"],
+            names=["cluster", "opt", "planning_horizon", "tyndp_scenario", "wiggle"],
         )
 
         summaries = []

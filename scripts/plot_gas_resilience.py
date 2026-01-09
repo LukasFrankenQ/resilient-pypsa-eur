@@ -84,5 +84,17 @@ if __name__ == "__main__":
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.set_axisbelow(True)
 
+    # Add secondary x-axis showing bcm
+    ax2 = ax.twiny()
+    ax2.set_xlim(ax.get_xlim())
+    
+    # Get the current x-tick locations and convert to bcm
+    xticks = ax.get_xticks()
+    xticks_bcm = xticks / 10.83
+    
+    ax2.set_xticks(xticks)
+    ax2.set_xticklabels([f'{int(ix)}' for ix in xticks_bcm])
+    ax2.set_xlabel('Gas Demand [bcm/a]')
+
     fig.savefig(snakemake.output[0], bbox_inches='tight')
     plt.close(fig)

@@ -136,7 +136,7 @@ def add_land_use_constraint_perfect(n: pypsa.Network) -> None:
         n.buses.loc[bus, name] = df_carrier.p_nom_max.values
 
 
-def add_land_use_constraint(n: pypsa.Network, planning_horizons: str) -> None:
+def add_land_use_constraint(n: pypsa.Network, planning_horizons: str, hike_run=False) -> None:
     """
     Add land use constraints for renewable energy potential.
 
@@ -153,6 +153,9 @@ def add_land_use_constraint(n: pypsa.Network, planning_horizons: str) -> None:
         Modified PyPSA network with constraints added
     """
     # warning: this will miss existing offwind which is not classed AC-DC and has carrier 'offwind'
+
+    if hike_run:
+        return
 
     for carrier in [
         "solar",
@@ -187,7 +190,11 @@ def add_land_use_constraint(n: pypsa.Network, planning_horizons: str) -> None:
     n.generators["p_nom_max"] = n.generators["p_nom_max"].clip(lower=0)
 
 
-def add_solar_potential_constraints(n: pypsa.Network, config: dict) -> None:
+def add_solar_potential_constraints(
+    n: pypsa.Network,
+    config: dict,
+    hike_run=False,
+    ) -> None:
     """
     Add constraint to make sure the sum capacity of all solar technologies (fixed, tracking, ets. ) is below the region potential.
 
@@ -198,6 +205,9 @@ def add_solar_potential_constraints(n: pypsa.Network, config: dict) -> None:
     The constraint ensures that:
            solar_p_nom + solar_hsat_p_nom * 1.13 <= 10 GW
     """
+    if hike_run:
+        return
+
     land_use_factors = {
         "solar-hsat": config["renewable"]["solar"]["capacity_per_sqkm"]
         / config["renewable"]["solar-hsat"]["capacity_per_sqkm"],
@@ -1211,7 +1221,10 @@ def force_boiler_profiles_existing_per_boiler(n):
 
 
 def extra_functionality(
-    n: pypsa.Network, snapshots: pd.DatetimeIndex, planning_horizons: str | None = None
+    n: pypsa.Network,
+    snapshots: pd.DatetimeIndex,
+    planning_horizons: str | None = None,
+    hike_run=False,
 ) -> None:
     """
     Add custom constraints and functionality.
@@ -1253,7 +1266,7 @@ def extra_functionality(
     ) and {"solar-hsat", "solar"}.issubset(
         config["electricity"]["extendable_carriers"]["Generator"]
     ):
-        add_solar_potential_constraints(n, config)
+        add_solar_potential_constraints(n, config, hike_run)
 
     if n.config.get("sector", {}).get("tes", False):
         if n.buses.index.str.contains(
@@ -1282,6 +1295,8 @@ def extra_functionality(
     if config["sector"]["imports"]["enable"]:
         add_import_limit_constraint(n, snapshots)
 
+    logger.warning('custom extra functionality commented out')
+    '''
     if n.params.custom_extra_functionality:
         source_path = n.params.custom_extra_functionality
         assert os.path.exists(source_path), f"{source_path} does not exist"
@@ -1290,6 +1305,7 @@ def extra_functionality(
         module = importlib.import_module(module_name)
         custom_extra_functionality = getattr(module, module_name)
         custom_extra_functionality(n, snapshots, snakemake)  # pylint: disable=E0601
+    '''
 
 
 def check_objective_value(n: pypsa.Network, solving: dict) -> None:
@@ -1327,6 +1343,7 @@ def solve_network(
     solving: dict,
     rule_name: str | None = None,
     planning_horizons: str | None = None,
+    hike_run=False,
     **kwargs,
 ) -> None:
     """
@@ -1374,7 +1391,7 @@ def solve_network(
     )
     kwargs["solver_name"] = solving["solver"]["name"]
     kwargs["extra_functionality"] = partial(
-        extra_functionality, planning_horizons=planning_horizons
+        extra_functionality, planning_horizons=planning_horizons, hike_run=hike_run
     )
     kwargs["transmission_losses"] = cf_solving.get("transmission_losses", False)
     kwargs["linearized_unit_commitment"] = cf_solving.get(

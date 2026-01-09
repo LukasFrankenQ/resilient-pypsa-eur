@@ -498,7 +498,7 @@ if __name__ == "__main__":
     configure_logging(snakemake)
     set_scenario_config(snakemake)
 
-    n_header = 3
+    n_header = 5
 
     plot_costs()
 
