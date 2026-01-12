@@ -260,12 +260,14 @@ if __name__ == "__main__":
 
     carrier = 'heat200-500 industry solid biomass'
 
+    '''
     print('before')
     print(n.links.loc[
         n.links.carrier == carrier,
         ['p_nom', 'p_nom_opt', 'p_nom_extendable', 'p_set', 'p_nom_min', 'p_nom_max', 'capital_cost']
         ]
         )
+    '''
 
     for c in ['Link']:
         df = n.components[c].static
@@ -280,17 +282,14 @@ if __name__ == "__main__":
         df.loc[mask, 'p_nom_min'] = 0.
         df.loc[mask, 'p_nom_max'] = threshold
 
-        nocap = df.index[df.capital_cost == 0.]
-        print(nocap)
-        # n.links.loc[nocap, 'p_nom_extendable'] = True
-
-
+    '''
     print('after')
     print(n.links.loc[
         n.links.carrier == carrier,
         ['p_nom', 'p_nom_opt', 'p_nom_extendable', 'p_set', 'p_nom_min', 'p_nom_max']
         ]
         )
+    '''
 
     # n.optimize.fix_optimal_capacities()
     # n.optimize.add_load_shedding()

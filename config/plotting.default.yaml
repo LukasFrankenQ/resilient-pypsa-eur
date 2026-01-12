@@ -24,7 +24,7 @@ plotting:
   costs_threshold: 1
   energy_max: 20000
   energy_min: -20000
-  energy_threshold: 50.
+  energy_threshold: 1.
   balance_timeseries:
     max_threshold: 5 # GW
     mean_threshold: 1 # GW

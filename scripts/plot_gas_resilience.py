@@ -54,6 +54,8 @@ if __name__ == "__main__":
     configure_logging(snakemake)
 
     demands = list()
+    hike_run = []
+
     system_costs = list()
 
     for n_fn in snakemake.input:
@@ -62,12 +64,19 @@ if __name__ == "__main__":
         demands.append(get_gas_demand(n).rename(n_fn))
         system_costs.append(n.statistics()[['Capital Expenditure', 'Operational Expenditure']].sum().sum() / 1e9) # in billions of EUR
 
+        if '_50.nc' in n_fn:
+            hike_run.append(True)
+        else:
+            hike_run.append(False)
+
+
     demands = pd.concat(demands, axis=1).T
     demands = demands.sum(axis=1)
 
     system_costs = pd.Series(system_costs, index=demands.index)
+    hike_run = pd.Series(hike_run, index=demands.index)
 
-    combined = pd.concat([demands.rename('demand'), system_costs.rename('cost')], axis=1)
+    combined = pd.concat([demands.rename('demand'), system_costs.rename('cost'), hike_run.rename('hike_run')], axis=1)
     combined = combined.sort_values('demand')
 
     combined.index = map(lambda x: x[-20:], combined.index)
@@ -76,8 +85,13 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(figsize=(12, 8))
 
-    ax.fill_between(combined['demand'], np.ones(len(combined)) * 900, combined['cost'], color='blue', alpha=0.3)
-    ax.plot(combined['demand'], combined['cost'], color='blue', marker='o')
+    inv_ss = combined.loc[combined['hike_run'] == False]
+    ax.fill_between(inv_ss['demand'], np.ones(len(inv_ss)) * 900, inv_ss['cost'], color='blue', alpha=0.3)
+    ax.plot(inv_ss['demand'], inv_ss['cost'], color='blue', marker='o')
+
+    inv_hike = combined.loc[combined['hike_run'] == True]
+    ax.fill_between(inv_hike['demand'], inv_ss['cost'], inv_hike['cost'], color='red', alpha=0.3)
+    ax.plot(inv_hike['demand'], inv_hike['cost'], color='red', marker='o')
 
     ax.set_xlabel('Gas Demand [TWh/a]')
     ax.set_ylabel('System Cost [EUR billion]')

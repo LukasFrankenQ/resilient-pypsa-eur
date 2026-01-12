@@ -226,6 +226,56 @@ rule make_summary:
         "../scripts/make_summary.py"
 
 
+rule make_summary_hike:
+    input:
+        network=RESULTS
+        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.nc",
+    output:
+        nodal_costs=RESULTS
+        + "csvs/individual/nodal_costs_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        nodal_capacities=RESULTS
+        + "csvs/individual/nodal_capacities_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        nodal_capacity_factors=RESULTS
+        + "csvs/individual/nodal_capacity_factors_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        capacity_factors=RESULTS
+        + "csvs/individual/capacity_factors_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        costs=RESULTS
+        + "csvs/individual/costs_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        capacities=RESULTS
+        + "csvs/individual/capacities_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        curtailment=RESULTS
+        + "csvs/individual/curtailment_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        energy=RESULTS
+        + "csvs/individual/energy_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        energy_balance=RESULTS
+        + "csvs/individual/energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        nodal_energy_balance=RESULTS
+        + "csvs/individual/nodal_energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        prices=RESULTS
+        + "csvs/individual/prices_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        weighted_prices=RESULTS
+        + "csvs/individual/weighted_prices_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        market_values=RESULTS
+        + "csvs/individual/market_values_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        metrics=RESULTS
+        + "csvs/individual/metrics_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+    threads: 1
+    resources:
+        mem_mb=8000,
+    log:
+        RESULTS
+        + "logs/make_summary_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.log",
+    benchmark:
+        (
+            RESULTS
+            + "benchmarks/make_summary_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}"
+        )
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/make_summary.py"
+
+
 rule make_global_summary:
     params:
         scenario=config_provider("scenario"),
@@ -341,6 +391,36 @@ rule make_global_summary:
         "../envs/environment.yaml"
     script:
         "../scripts/make_global_summary.py"
+
+
+rule plot_comparison:
+    params:
+        scenario=config_provider("scenario"),
+        plotting=config_provider("plotting"),
+        RDIR=RDIR,
+    input:
+        energy_nohike= RESULTS
+            + "csvs/individual/energy_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.csv",
+        energy_hike=RESULTS
+            + "csvs/individual/energy_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+        energy_balance_nohike=RESULTS
+            + "csvs/individual/energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.csv",
+        energy_balance_hike=RESULTS
+            + "csvs/individual/energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.csv",
+    output:
+        energy_difference=RESULTS + "resilient/energy_difference_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.pdf",
+        balances_difference=RESULTS + "resilient/s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}_balances_difference.pdf",
+    threads: 1
+    resources:
+        mem_mb=8000,
+    log:
+        RESULTS + "logs/compare_energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.log",
+    benchmark:
+        RESULTS + "benchmarks/compare_energy_balance_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}"
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/plot_comparison.py"
 
 
 rule make_cumulative_costs:
