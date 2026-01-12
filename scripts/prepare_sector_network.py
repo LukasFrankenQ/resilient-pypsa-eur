@@ -6959,6 +6959,31 @@ def insert_exogenous_tyndp(
 
         # n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = True
 
+    # Handle buses without existing gas boilers
+    all_buses = inter.map(to_ac_bus).intersection(eu27_buses)
+    existing_buses = existing.index[existing > 0]
+    non_existing_buses = all_buses.difference(existing_buses)
+
+    logger.info('Filling gaps for urban central gas boilers')
+
+    if len(existing_buses) > 0 and len(non_existing_buses) > 0:
+        # Calculate average profile across existing buses
+        avg_profile = p_max_pu[[bus + ' urban central heat' for bus in existing_buses]].mean(axis=1)
+
+        # Apply to non-existing buses
+        for bus in non_existing_buses:
+            # Use target share to determine p_nom
+            current_annual_generation = (existing.loc[existing_buses].mean() * avg_profile.mul(w, axis=0) / eta).sum()
+            factor = target_share.loc[bus] / current_annual_generation if current_annual_generation > 0 else 0
+
+            p_set = avg_profile * factor * existing.loc[existing_buses].mean()
+            p_set = p_set.clip(upper=urban_central_load[bus + ' urban central heat'] / eta * 0.99)
+            p_nom = p_set.max()
+
+            n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
+            n.links_t.p_max_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom if p_nom > 0 else avg_profile
+            n.links_t.p_min_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom if p_nom > 0 else avg_profile
+
     # fix gas contribution to residential and services heating
 
     # TYNDP does not provide a share of gas boilers in households/services for National Trends, so we 
@@ -7000,8 +7025,6 @@ def insert_exogenous_tyndp(
         existing_relative = existing / existing.sum()
         target_annual_generation = target_share * total.sum() * existing_relative
 
-        print(existing.index)
-
         for bus in existing.index:
 
             if existing.loc[bus] == 0:
@@ -7027,6 +7050,41 @@ def insert_exogenous_tyndp(
             n.links_t.p_min_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
 
             # n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = True
+
+        # Handle buses without existing gas boilers for rural and urban decentral
+
+        covered = existing.loc[existing > 0].index
+        missing = n.buses.index[n.buses.carrier == 'AC'].difference(covered)
+        logger.info(f'Filling gaps for {context} gas boilers: {missing}')
+
+        if len(missing) > 0:
+            # Calculate average ratio of p_nom to heat load for existing buses
+            existing_heat_load_context = total_tseries[covered].max()
+            existing_p_nom_context = n.links.loc[covered + ' ' + context + ' gas boiler', 'p_nom']
+
+            avg_ratio_context = (existing_p_nom_context.values / existing_heat_load_context.values).mean()
+
+            # Calculate average p_max_pu and p_min_pu across existing buses
+            avg_p_max_pu_context = n.links_t.p_max_pu[covered + ' ' + context + ' gas boiler'].mean(axis=1)
+            avg_p_min_pu_context = n.links_t.p_min_pu[covered + ' ' + context + ' gas boiler'].mean(axis=1)
+
+            # Apply to non-existing buses
+            for bus in missing:
+                # heat_load_max_context = total_tseries[bus].max()
+                heat_load_max_context = n.loads_t.p_set.loc[:, bus + ' ' + context + ' heat'].max()
+
+                p_nom_context = avg_ratio_context * heat_load_max_context
+
+                n.links.loc[bus + ' ' + context + ' gas boiler', 'p_nom'] = p_nom_context
+                n.links_t.p_max_pu.loc[:, bus + ' ' + context + ' gas boiler'] = avg_p_max_pu_context
+                n.links_t.p_min_pu.loc[:, bus + ' ' + context + ' gas boiler'] = avg_p_min_pu_context
+
+        # print(n.links_t.p_max_pu.loc[:, missing + ' ' + context + ' gas boiler'].head())
+        # print(n.links_t.p_min_pu.loc[:, missing + ' ' + context + ' gas boiler'].head())
+        # print(n.links.loc[missing + ' ' + context + ' gas boiler', 'p_nom'].head())
+
+    # import sys
+    # sys.exit()
 
 
     # fix gas demand in industry
@@ -7463,5 +7521,10 @@ if __name__ == "__main__":
     sanitize_carriers(n, snakemake.config)
 
     sanitize_locations(n)
+
+    logger.info('Adding must run for nuclear generators')
+    nu = n.generators.index[n.generators.carrier == 'nuclear']
+    n.generators.loc[nu, 'p_max_pu'] = 0.7
+    n.generators.loc[nu, 'p_min_pu'] = 0.7
 
     n.export_to_netcdf(snakemake.output[0])
