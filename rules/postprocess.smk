@@ -587,3 +587,17 @@ rule plot_base_statistics:
         + "figures/.statistics_plots_base_s_{clusters}_elec_{opts}",
     script:
         "../scripts/plot_statistics.py"
+
+
+rule validate_gas_consumption:
+    input:
+        expand(
+            RESULTS
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc",
+            **config["scenario"],
+            run=config["run"]["name"],
+        ),
+    output:
+        RESULTS + "resilient/gas_consumption_validation.pdf",
+    script:
+        "../scripts/validate_gas_consumption.py"
