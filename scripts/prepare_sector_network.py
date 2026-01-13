@@ -7087,6 +7087,7 @@ def insert_exogenous_tyndp(
     # sys.exit()
 
 
+    '''
     # fix gas demand in industry
 
     demand_energetic = methane_industry_energetic(tyndp_fn)
@@ -7111,6 +7112,7 @@ def insert_exogenous_tyndp(
     adjustment_factor = (energetic_target + nonenergetic_target) / current_demand
 
     n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
+    '''
 
 
 def wiggle_heating_gas_demand(n, wiggle):

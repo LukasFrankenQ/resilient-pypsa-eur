@@ -45,8 +45,8 @@ scenario:
   - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
-  # - 2030
-  - 2035
+  - 2030
+  # - 2035
   # - 2040
   tyndp_scenario:
   - 'NT'

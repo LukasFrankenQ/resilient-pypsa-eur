@@ -83,15 +83,20 @@ if __name__ == "__main__":
 
     print(combined)
 
+    lower_y = 880
+
     fig, ax = plt.subplots(figsize=(12, 8))
 
     inv_ss = combined.loc[combined['hike_run'] == False]
-    ax.fill_between(inv_ss['demand'], np.ones(len(inv_ss)) * 900, inv_ss['cost'], color='blue', alpha=0.3)
-    ax.plot(inv_ss['demand'], inv_ss['cost'], color='blue', marker='o')
-
     inv_hike = combined.loc[combined['hike_run'] == True]
-    ax.fill_between(inv_hike['demand'], inv_ss['cost'], inv_hike['cost'], color='red', alpha=0.3)
-    ax.plot(inv_hike['demand'], inv_hike['cost'], color='red', marker='o')
+
+    # ax.fill_between(inv_hike['demand'], lower_y, inv_hike['cost'], color='red', alpha=0.3)
+    ax.fill_between(inv_ss['demand'], lower_y, inv_hike['cost'], color='red', alpha=0.3)
+    # ax.plot(inv_hike['demand'], inv_hike['cost'], color='red', marker='o')
+    ax.plot(inv_ss['demand'], inv_hike['cost'], color='red', marker='o')
+
+    ax.fill_between(inv_ss['demand'], lower_y, inv_ss['cost'], color='blue', alpha=0.3)
+    ax.plot(inv_ss['demand'], inv_ss['cost'], color='blue', marker='o')
 
     ax.set_xlabel('Gas Demand [TWh/a]')
     ax.set_ylabel('System Cost [EUR billion]')
@@ -109,6 +114,8 @@ if __name__ == "__main__":
     ax2.set_xticks(xticks)
     ax2.set_xticklabels([f'{int(ix)}' for ix in xticks_bcm])
     ax2.set_xlabel('Gas Demand [bcm/a]')
+
+    ax.set_title('2030')
 
     fig.savefig(snakemake.output[0], bbox_inches='tight')
     plt.close(fig)
