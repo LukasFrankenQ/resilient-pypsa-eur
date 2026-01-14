@@ -599,5 +599,11 @@ rule validate_gas_consumption:
         ),
     output:
         RESULTS + "resilient/gas_consumption_validation.pdf",
+    log:
+        RESULTS + "logs/validate_gas_consumption.log",
+    benchmark:
+        RESULTS + "benchmarks/validate_gas_consumption"
+    conda:
+        "../envs/environment.yaml"
     script:
         "../scripts/validate_gas_consumption.py"

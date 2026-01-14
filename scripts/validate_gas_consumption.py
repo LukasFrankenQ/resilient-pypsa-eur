@@ -8,18 +8,16 @@ import matplotlib.colors as mcolors
 from _tyndp_helpers import _extract_scenario_values, _extract_scenario_values_rowwise
 from _helpers import configure_logging
 
-def extract_wiggle(network_path):
+def extract_wiggle(filename):
     """Extract cost variation string (e.g., '+0.00', '-0.3') from network filename"""
-    filename = network_path.name
     # Find pattern like +0.00.nc or -0.3.nc
     match = re.search(r'([+-]\d+\.\d+)\.nc$', filename)
     return float(match.group(1)) if match else 0.0
 
 
 # Sort networks by year (2025, 2030, 2035, etc.)
-def extract_year(network_path):
+def extract_year(filename):
     """Extract year from network filename"""
-    filename = network_path.name
     # Find year pattern like _2030_, _2035_, etc.
 
     assert '_2025_' in filename or '_2030_' in filename or '_2035_' in filename, f"Model must have planning horizon 2025, 2030 or 2035"
@@ -119,7 +117,7 @@ if __name__ == "__main__":
     x_tick_labels = []
     added_labels = False
 
-    for n_fn, year in zip(ns, model_years):
+    for n_fn, year in zip(networks, model_years):
 
         if year != previous_year:
 
@@ -156,10 +154,6 @@ if __name__ == "__main__":
 
         model_values = [ind, elec, heat]
 
-        if not added_labels:
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3, frameon=False)
-            added_labels = True
-
         bottom_model = 0
         for i, (value, color, category) in enumerate(zip(model_values, colors, categories)):
             if not added_labels:
@@ -173,7 +167,7 @@ if __name__ == "__main__":
                     ha='center', va='center', fontweight='bold', fontsize=9)
             bottom_model += value
 
-            added_labels = True
+        added_labels = True
         
         x_position += 1
         x_tick_labels.append(f'Model {year} {wiggle}')
@@ -182,11 +176,13 @@ if __name__ == "__main__":
     ax.set_xticks(range(len(x_tick_labels)))
     ax.set_xticklabels(x_tick_labels, rotation=45, ha='right')
     ax.set_ylabel('Gas Consumption (TWh/a)')
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3, frameon=False)
+
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, frameon=False)
     ax.grid(True, alpha=0.3, axis='y')
     ax.set_xlim(-0.5, len(x_tick_labels) - 0.5)
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
 
-    plt.show()
+    fig.savefig(snakemake.output[0], bbox_inches='tight')
+    plt.close(fig)
