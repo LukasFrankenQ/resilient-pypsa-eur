@@ -11,8 +11,7 @@ from _helpers import configure_logging
 def extract_wiggle(filename):
     """Extract cost variation string (e.g., '+0.00', '-0.3') from network filename"""
     # Find pattern like +0.00.nc or -0.3.nc
-    match = re.search(r'([+-]\d+\.\d+)\.nc$', filename)
-    return float(match.group(1)) if match else 0.0
+    return float(filename.split('.nc')[0][-4:])
 
 
 # Sort networks by year (2025, 2030, 2035, etc.)

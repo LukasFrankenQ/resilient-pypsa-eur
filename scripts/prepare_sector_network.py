@@ -7086,7 +7086,6 @@ def insert_exogenous_tyndp(
     # import sys
     # sys.exit()
 
-
     '''
     # fix gas demand in industry
 
@@ -7509,7 +7508,7 @@ if __name__ == "__main__":
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
-    wiggle_heating_gas_demand(n, snakemake.wildcards['wiggle'])
+    # wiggle_heating_gas_demand(n, snakemake.wildcards['wiggle'])
 
     if snakemake.wildcards.planning_horizons != 2025:
         insert_tyndp_capacities(
@@ -7517,6 +7516,9 @@ if __name__ == "__main__":
             snakemake.input.tyndp_capacities,
             scenario=snakemake.wildcards.tyndp_scenario
            )
+        
+    gas_consumption = float(snakemake.wildcards['wiggle'])
+    assert 1000 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

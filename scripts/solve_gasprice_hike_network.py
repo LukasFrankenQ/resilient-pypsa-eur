@@ -242,10 +242,10 @@ if __name__ == "__main__":
             sector_opts="168H-T-H-B-I-A-dist1",
             planning_horizons="2030",
             tyndp_scenario="NT",
-            wiggle='+0.01',
+            wiggle=3000,
             hike=50,
         )
-
+    
     configure_logging(snakemake)  # pylint: disable=E0606
     set_scenario_config(snakemake)
     update_config_from_wildcards(snakemake.config, snakemake.wildcards)
@@ -309,6 +309,8 @@ if __name__ == "__main__":
         planning_horizons=snakemake.wildcards.planning_horizons,
         co2_sequestration_potential=snakemake.params.co2_sequestration_potential,
         )
+    
+    gas_consumption = float(snakemake.wildcards['wiggle'])
 
     solve_network(
         n,
@@ -318,6 +320,7 @@ if __name__ == "__main__":
         log_fn=snakemake.log.solver,
         rule_name=snakemake.rule,
         hike_run=True,
+        gas_consumption=gas_consumption,
     )
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))

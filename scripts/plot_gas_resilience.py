@@ -32,9 +32,14 @@ def get_gas_demand(n):
         'urban decentral gas boiler': 'heating'
     }
 
-    eb = n.statistics.energy_balance().loc[idx[:, :, 'gas']] / 1e6
-    eb.index = eb.index.droplevel(0)
-    return eb.groupby(sector_grouping).sum().mul(-1)
+    g = n.generators.index[n.generators.carrier == 'gas']
+    gas_dispatch = n.generators_t.p.loc[:, g].sum(axis=1).mul(n.snapshot_weightings.generators, axis=0).sum() / 1e6
+
+    # eb = n.statistics.energy_balance().loc[idx[:, :, 'gas']] / 1e6
+    # eb.index = eb.index.droplevel(0)
+    # return eb.groupby(sector_grouping).sum().mul(-1)
+
+    return gas_dispatch
 
 
 if __name__ == "__main__":
@@ -61,7 +66,7 @@ if __name__ == "__main__":
     for n_fn in snakemake.input:
 
         n = pypsa.Network(n_fn)
-        demands.append(get_gas_demand(n).rename(n_fn))
+        demands.append(get_gas_demand(n))#.rename(n_fn))
         system_costs.append(n.statistics()[['Capital Expenditure', 'Operational Expenditure']].sum().sum() / 1e9) # in billions of EUR
 
         if '_50.nc' in n_fn:
@@ -70,8 +75,7 @@ if __name__ == "__main__":
             hike_run.append(False)
 
 
-    demands = pd.concat(demands, axis=1).T
-    demands = demands.sum(axis=1)
+    demands = pd.Series(demands, index=snakemake.input)
 
     system_costs = pd.Series(system_costs, index=demands.index)
     hike_run = pd.Series(hike_run, index=demands.index)

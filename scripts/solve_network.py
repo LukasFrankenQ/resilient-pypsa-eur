@@ -1220,6 +1220,35 @@ def force_boiler_profiles_existing_per_boiler(n):
     n.links["fixed_profile_scaling_opt"] = 0.0
 
 
+def add_gas_consumption_constraint(n):
+    """
+    Add constraint to limit total gas generator dispatch.
+    
+    Parameters
+    ----------
+    n : pypsa.Network
+        The PyPSA network instance
+    gas_consumption : float
+        Maximum gas consumption in TWh
+    """
+    gas_consumption = n.config['gas_consumption']
+    logger.info(f"Adding gas consumption constraint: {gas_consumption} TWh")
+    
+    gas_generators = n.generators.index[n.generators.carrier == "gas"]
+    
+    if gas_generators.empty:
+        logger.warning("No gas generators found, skipping gas consumption constraint")
+        return
+
+    # Total weighted dispatch across all snapshots and gas generators
+    lhs = n.model["Generator-p"].loc[:, gas_generators].sum().sum() * n.snapshot_weightings.generators.mean()
+
+    # gas_consumption is in TWh, so multiply by 1e6 to get MWh
+    rhs = gas_consumption * 1e6
+    
+    n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
+
+
 def extra_functionality(
     n: pypsa.Network,
     snapshots: pd.DatetimeIndex,
@@ -1307,6 +1336,8 @@ def extra_functionality(
         custom_extra_functionality(n, snapshots, snakemake)  # pylint: disable=E0601
     '''
 
+    add_gas_consumption_constraint(n)
+
 
 def check_objective_value(n: pypsa.Network, solving: dict) -> None:
     """
@@ -1344,6 +1375,7 @@ def solve_network(
     rule_name: str | None = None,
     planning_horizons: str | None = None,
     hike_run=False,
+    gas_consumption=None,
     **kwargs,
 ) -> None:
     """
@@ -1382,6 +1414,9 @@ def solve_network(
     ObjectiveValueError
         If objective value differs from expected value
     """
+
+    config['gas_consumption'] = gas_consumption
+
     set_of_options = solving["solver"]["options"]
     cf_solving = solving["options"]
 
@@ -1391,8 +1426,7 @@ def solve_network(
     )
     kwargs["solver_name"] = solving["solver"]["name"]
     kwargs["extra_functionality"] = partial(
-        extra_functionality, planning_horizons=planning_horizons, hike_run=hike_run
-    )
+        extra_functionality, planning_horizons=planning_horizons, hike_run=hike_run)
     kwargs["transmission_losses"] = cf_solving.get("transmission_losses", False)
     kwargs["linearized_unit_commitment"] = cf_solving.get(
         "linearized_unit_commitment", False
@@ -1474,6 +1508,8 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
     planning_horizons = snakemake.wildcards.get("planning_horizons", None)
 
+    gas_consumption = float(snakemake.wildcards['wiggle'])
+
     prepare_network(
         n,
         solve_opts=snakemake.params.solving["options"],
@@ -1497,6 +1533,7 @@ if __name__ == "__main__":
             planning_horizons=planning_horizons,
             rule_name=snakemake.rule,
             log_fn=snakemake.log.solver,
+            gas_consumption=gas_consumption,
         )
 
     logger.info(f"Maximum memory usage: {mem.mem_usage}")

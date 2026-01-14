@@ -209,7 +209,8 @@ backup_temperature_band_shares = {
 }
 
 
-def build_industry_sector_ratios_endogenous(phaseout):
+# def build_industry_sector_ratios_endogenous(phaseout):
+def build_industry_sector_ratios_endogenous():
 
     # in TWh/a
     demand = pd.read_csv(
@@ -265,6 +266,8 @@ def build_industry_sector_ratios_endogenous(phaseout):
     ]
 
     heat_carriers = ["heat", "biomass", "methane"]
+    # heat_carriers = ["methane"] # the present study only looks at methane heating displacement
+
     bands = ["heat<100", "heat100-200", "heat200-500", "heat>500"]
 
     endogenous_sector_ratios = today_sector_ratios.copy()
@@ -302,14 +305,8 @@ def build_industry_sector_ratios_endogenous(phaseout):
             from_start=False
             )
 
-        decarbonise_heat_share = take_cumulative_amount(
-            gas_heat_share,
-            as_fuels.loc['methane'] * phaseout,
-            from_start=True
-            )
-
-        endogenous_sector_ratios.loc[bands, idx[:, process]] = decarbonise_heat_share
-        endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
+        endogenous_sector_ratios.loc[bands, idx[:, process]] = gas_heat_share
+        endogenous_sector_ratios.loc[['methane'], idx[:, process]] = 0.
     
 
     # for processes not covered by Fleiter et al. 2025
@@ -335,12 +332,13 @@ def build_industry_sector_ratios_endogenous(phaseout):
 
         decarbonise_heat_share = take_cumulative_amount(
             gas_heat_share,
-            as_fuels.loc['methane'] * phaseout,
+            # as_fuels.loc['methane'] * phaseout,
+            as_fuels.loc['methane'],
             from_start=True
             )
 
         endogenous_sector_ratios.loc[bands, idx[:, process]] = decarbonise_heat_share
-        endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
+        # endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
 
     # heat is only nonzero in processes that are not endogenous here, so this does not produce an error
     endogenous_sector_ratios.loc["heat<100"] += endogenous_sector_ratios.loc["heat"]
@@ -388,6 +386,7 @@ if __name__ == "__main__":
     configure_logging(snakemake)
     set_scenario_config(snakemake)
 
+    '''
     year = int(snakemake.wildcards['planning_horizons'])
 
     assert year < 2041, f'endogenous industry heating only implemented between 2025 and 2040, but year is {year}'
@@ -412,5 +411,7 @@ if __name__ == "__main__":
     assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = "+0.01" would increase gas demand in heating and industry by 1%.'
 
     phaseout += wiggle
+    '''
 
-    build_industry_sector_ratios_endogenous(phaseout)
+    # build_industry_sector_ratios_endogenous(phaseout)
+    build_industry_sector_ratios_endogenous()
