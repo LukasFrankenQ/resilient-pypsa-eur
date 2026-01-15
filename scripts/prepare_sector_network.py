@@ -6957,7 +6957,7 @@ def insert_exogenous_tyndp(
         n.links_t.p_max_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom
         n.links_t.p_min_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom
 
-        # n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = True
+        n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = False
 
     # Handle buses without existing gas boilers
     all_buses = inter.map(to_ac_bus).intersection(eu27_buses)
@@ -7049,7 +7049,7 @@ def insert_exogenous_tyndp(
             n.links_t.p_max_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
             n.links_t.p_min_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
 
-            # n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = True
+            n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = False
 
         # Handle buses without existing gas boilers for rural and urban decentral
 
@@ -7497,6 +7497,7 @@ if __name__ == "__main__":
         n, snakemake.params["adjustments"], investment_year
     )
 
+    '''
     insert_exogenous_tyndp(
         n,
         snakemake.input["tyndp_figures_data"],
@@ -7504,6 +7505,7 @@ if __name__ == "__main__":
         scenario=tyndp_scenario,
         existing_heating_distribution=snakemake.input.existing_heating_distribution,
     )
+    '''
 
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])

@@ -24,16 +24,77 @@ def extract_year(filename):
     return int(match.group(1)) if match else 0
 
 
-eu27_countries = [
+countries = [
     "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU",
     "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+    "GB", "NO", "CH", "ME", "XK", "AL", "MK", "BA", "RS"
 ]
+
+# values taken from FES 2025, Data Workbook, Sheet F.20, (optimistic) Holistic Transition Scenario
+uk_gas_consumption = {
+    2030: {
+        'Power Generation': 59.1, # TWh/a
+        'Residential&Tertiary': 304.6, # TWh/a
+        'Industry': 158.7, # TWh/a
+    },
+    2035: {
+        'Power Generation': 58.8, # TWh/a
+        'Residential&Tertiary': 231.9, # TWh/a
+        'Industry': 113.8, # TWh/a
+    },
+}
+
+# Norway; values taken from Energy Transition Outlook 2024, Page 33
+# https://www.norskindustri.no/siteassets/dokumenter/rapporter-og-brosjyrer/energy-transition-norway/energy-transition-norway-2024.pdf
+no_gas_consumption = {
+    2030: {
+        'Power Generation': 0., # TWh/a (approximately zero)
+        'Residential&Tertiary': 0., # TWh/a (approximately zero, dominated by electric and biomass heating)
+        'Industry': 250 * 0.278, # TWh/a (0.278 is conversion from PJ to TWh)
+    },
+    2035: {
+        'Power Generation': 0., # TWh/a (approximately zero)
+        'Residential&Tertiary': 0., # TWh/a (approximately zero, dominated by electric and biomass heating)
+        'Industry': 300 * 0.278, # TWh/a (0.278 is conversion from PJ to TWh)
+    },
+}
+
+# Switzerland; from Energieperspektiven 2050+, Tabelle 62
+# see https://www.bfe.admin.ch/bfe/de/home/politik/energieperspektiven-2050-plus.html
+ch_gas_consumption = {
+    2030: {
+        'Power Generation': 0., # TWh/a
+        'Residential&Tertiary': 12., # TWh/a
+        'Industry': 12., # TWh/a
+    },
+    2035: {
+        'Power Generation': 0., # TWh/a (approximately zero)
+        'Residential&Tertiary': 9., # TWh/a
+        'Industry': 90., # TWh/a
+    },
+}
+
+# Combine into a single DataFrame
+data = []
+for country, consumption_dict in [('UK', uk_gas_consumption), ('NO', no_gas_consumption), ('CH', ch_gas_consumption)]:
+    for year in [2030, 2035]:
+        for sector in ['Power Generation', 'Residential&Tertiary', 'Industry']:
+            data.append({
+                'Country': country,
+                'Year': year,
+                'Sector': sector,
+                'Gas Consumption (TWh/a)': consumption_dict[year][sector]
+            })
+
+noneu_df = pd.DataFrame(data)
+noneu_df = noneu_df.groupby(['Year', 'Sector'])['Gas Consumption (TWh/a)'].sum()
+
 
 def get_industry_gas_consumption(n):
     
     fixed_demand = n.loads.loc[n.loads.carrier.isin(['gas for industry', 'gas for industry CC']), ['p_set']]
 
-    fixed_demand = fixed_demand.loc[fixed_demand.index.str.startswith(tuple(eu27_countries))]
+    fixed_demand = fixed_demand.loc[fixed_demand.index.str.startswith(tuple(countries))]
     w = n.snapshot_weightings['generators']
 
     fixed_demand = w.sum() * fixed_demand.sum()
@@ -41,7 +102,7 @@ def get_industry_gas_consumption(n):
 
     ls = n.links.index[
             n.links.carrier.isin(['SMR', 'SMR CC']) &
-            n.links.index.str.startswith(tuple(eu27_countries))
+            n.links.index.str.startswith(tuple(countries))
         ]
     
     varying_demand = n.links_t.p0.loc[:, ls].sum(axis=1).mul(w, axis=0).sum() / 1e6
@@ -54,7 +115,7 @@ def get_electricity_gas_consumption(n):
     w = n.snapshot_weightings['generators']
 
     ls = n.links.index[n.links.carrier.isin(['CCGT', 'OCGT', 'urban central gas CHP', 'urban central gas CHP CC'])]
-    ls = ls[ls.str.startswith(tuple(eu27_countries))]
+    ls = ls[ls.str.startswith(tuple(countries))]
 
     return n.links_t.p0.loc[:, ls].sum(axis=1).mul(w, axis=0).sum() / 1e6
 
@@ -65,7 +126,7 @@ def get_heating_gas_consumption(n):
 
     ls = n.links.index[(
             n.links.carrier.str.contains('gas boiler') &
-            n.links.index.str.startswith(tuple(eu27_countries)) &
+            n.links.index.str.startswith(tuple(countries)) &
             n.links.bus1.str.contains('|'.join(['rural', 'urban']))
         )]
 
@@ -124,7 +185,11 @@ if __name__ == "__main__":
             ref_industry = get_reference_value("Industry", year) + get_reference_value("Non-energy use", year)
             ref_power = get_reference_value("Power Generation", year)
             ref_residential = get_reference_value("Residential&Tertiary", year)
-            ref_values = [ref_industry, ref_power, ref_residential]
+            ref_values = [
+                ref_industry + noneu_df.loc[year, 'Industry'],
+                ref_power + noneu_df.loc[year, 'Power Generation'],
+                ref_residential + noneu_df.loc[year, 'Residential&Tertiary']
+                ]
 
             previous_year = year
 
