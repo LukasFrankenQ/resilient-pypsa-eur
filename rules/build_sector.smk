@@ -1517,3 +1517,28 @@ rule prepare_sector_network:
         "../envs/environment.yaml"
     script:
         "../scripts/prepare_sector_network.py"
+
+
+rule build_future_gas_heating_progress_factors:
+    input:
+        existing_heating_distribution=resources(
+            "existing_heating_distribution_base_s_{clusters}_2025.csv"
+        ),
+        network=resources(
+            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc"
+        )
+    output:
+        gas_heating_progress_factors=resources(
+            "gas_heating_progress_factors_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.csv"
+        )
+    threads: 1
+    resources:
+        mem_mb=2000
+    log:
+        logs("build_gas_heating_progress_factors_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}"),
+    benchmark:
+        benchmarks("build_gas_heating_progress_factors_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}")
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/build_future_gas_heating_progress_factors.py"
