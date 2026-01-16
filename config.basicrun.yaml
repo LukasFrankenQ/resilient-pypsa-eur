@@ -1052,7 +1052,8 @@ carbon_prices:
     2028: 103.2 # EUR/tCO2
     2029: 108.3 # EUR/tCO2
     2030: 113.4 # EUR/tCO2
-  uk_ets:
+    2035: 130.2 # EUR/tCO2
+  uk_ets: # DESNZ values: https://www.gov.uk/government/publications/traded-carbon-values-used-for-modelling-purposes-2024/traded-carbon-values-used-for-modelling-purposes-2024
     2024: 54. # EUR/tCO2
     2025: 74.4 # EUR/tCO2
     2026: 102.5 # EUR/tCO2
@@ -1060,6 +1061,7 @@ carbon_prices:
     2028: 103.5 # EUR/tCO2
     2029: 94.5 # EUR/tCO2
     2030: 92.1 # EUR/tCO2
+    2035: 121.1 # EUR/tCO2
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#solving
