@@ -1249,6 +1249,87 @@ def add_gas_consumption_constraint(n):
     n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
 
 
+def add_gas_heating_progress_factors_constraint(n):
+    """
+    Add constraint to limit total gas generator dispatch.
+    
+    Parameters
+    ----------
+    n : pypsa.Network
+        The PyPSA network instance
+    gas_heating_progress_factors : dict
+        Dictionary of gas heating progress factors
+    """
+
+    frac = 0.2 # share of per-bus deviation where gas boiler capex doubles
+
+    capacities_rural = n.config['gas_heating_progress_factors_rural']
+    capacities_urban_decentral = n.config['gas_heating_progress_factors_urban_decentral']
+
+    speedy_phaseout_penalty = 0.
+    '''
+    ##### my version (somehow makes the problem MIP, tbc)
+
+    for bus, cap in capacities_rural.items():
+        if cap == 0:
+            continue
+
+        x = n.model["Link-p_nom"].loc[f'{bus} rural gas boiler']
+        cost = float(n.links.loc[f'{bus} rural gas boiler', 'capital_cost'])
+
+        gamma_bus = cost / cap**2 / (frac**2 - 1.)
+        speedy_phaseout_penalty += gamma_bus * (x**2 - 2 * cap * x)
+    
+
+    for bus, cap in capacities_urban_decentral.items():
+        if cap == 0:
+            continue
+    
+        x = n.model["Link-p_nom"].loc[f'{bus} urban decentral gas boiler']
+        cost = n.links.loc[f'{bus} urban decentral gas boiler', 'capital_cost']
+
+        gamma_bus = cost / cap**2 / (frac**2 - 1.)
+        speedy_phaseout_penalty += gamma_bus * (x**2 - 2 * cap * x)
+    
+    base_obj = n.model.objective.expression
+
+    n.model.add_objective(base_obj + speedy_phaseout_penalty, overwrite=True, sense="min")
+    '''
+
+    ##### ChatGPT version
+    def add_group(cap_dict, suffix):
+        nonlocal speedy_phaseout_penalty
+
+        for bus, cap in cap_dict.items():
+            if cap == 0:
+                continue
+
+            link_name = f"{bus} {suffix}"
+
+            # investment variable x (MW)
+            term = n.model["Link-p_nom"].loc[link_name]
+
+            # boiler annualised CAPEX c (€/MW-year) from the network table
+            # (must exist + be meaningful for the calibration to make sense)
+            c = float(n.links.loc[link_name, "capital_cost"])
+
+            # gamma_i so that penalty at d=frac*cap equals c*(1-frac)*cap (doubling CAPEX at that point)
+            # derived gamma_i = 2*c*(1-frac)/(frac^2*cap)
+            # for frac=0.2 -> gamma_i = 40*c/cap
+            gamma_i = 2.0 * c * (1.0 - frac) / ((frac**2) * cap)
+
+            # penalty = 0.5*gamma*(cap - x)^2
+            # but written without constant term to satisfy linopy:
+            # 0.5*gamma*(x^2 - 2*cap*x)   (+const dropped)
+            speedy_phaseout_penalty += 0.5 * gamma_i * (term**2 - 2.0 * cap * term)
+
+    add_group(capacities_rural, "rural gas boiler")
+    add_group(capacities_urban_decentral, "urban decentral gas boiler")
+
+    base_obj = n.model.objective.expression
+    n.model.add_objective(base_obj + speedy_phaseout_penalty, overwrite=True, sense="min")
+
+
 def extra_functionality(
     n: pypsa.Network,
     snapshots: pd.DatetimeIndex,
@@ -1338,6 +1419,9 @@ def extra_functionality(
 
     add_gas_consumption_constraint(n)
 
+    if config['gas_heating_progress_factors_rural'] is not None:
+        add_gas_heating_progress_factors_constraint(n)
+
 
 def check_objective_value(n: pypsa.Network, solving: dict) -> None:
     """
@@ -1376,6 +1460,7 @@ def solve_network(
     planning_horizons: str | None = None,
     hike_run=False,
     gas_consumption=None,
+    gas_heating_progress_factors=None,
     **kwargs,
 ) -> None:
     """
@@ -1416,6 +1501,13 @@ def solve_network(
     """
 
     config['gas_consumption'] = gas_consumption
+
+    if gas_heating_progress_factors is not None:
+        config['gas_heating_progress_factors_rural'] = gas_heating_progress_factors['rural'].to_dict()
+        config['gas_heating_progress_factors_urban_decentral'] = gas_heating_progress_factors['urban decentral'].to_dict()
+    else:
+        config['gas_heating_progress_factors_rural'] = None
+        config['gas_heating_progress_factors_urban_decentral'] = None
 
     set_of_options = solving["solver"]["options"]
     cf_solving = solving["options"]
@@ -1508,6 +1600,11 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
     planning_horizons = snakemake.wildcards.get("planning_horizons", None)
 
+    gas_heating_progress_factors = pd.read_csv(
+        snakemake.input.gas_heating_progress_factors,
+        index_col=0
+        )
+
     gas_consumption = float(snakemake.wildcards['wiggle'])
 
     prepare_network(
@@ -1534,6 +1631,7 @@ if __name__ == "__main__":
             rule_name=snakemake.rule,
             log_fn=snakemake.log.solver,
             gas_consumption=gas_consumption,
+            gas_heating_progress_factors=gas_heating_progress_factors,
         )
 
     logger.info(f"Maximum memory usage: {mem.mem_usage}")

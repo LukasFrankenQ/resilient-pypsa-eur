@@ -178,6 +178,7 @@ if __name__ == "__main__":
     added_labels = False
 
     for n_fn, year in zip(networks, model_years):
+        print(f'Opening {n_fn}.')
 
         if year != previous_year:
 

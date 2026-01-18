@@ -130,18 +130,20 @@ if __name__ == "__main__":
 
     target_year = int(snakemake.wildcards.planning_horizons)
 
-    target_factors = pd.Series(0, index=existing_shares.dropna().index)
+    target_capacities = pd.DataFrame(0, index=existing_shares.dropna().index, columns=['rural', 'urban decentral'])
 
     target_2040 = tyndp_heating.loc['Methane boiler', ('Distributed Energy', '2040')]
 
-    for bus in target_factors.index:
+    for bus in target_capacities.index:
 
         current_gas_share = existing_shares.loc[bus, 'gas boiler'] * 100
         year_target = (target_year - 2024) / (2040 - 2024) * (target_2040 - current_gas_share) + current_gas_share
 
         year_share = year_target
 
-        target_factors.loc[bus] = year_share / current_gas_share if current_gas_share > 0 else 0
+        factor = year_share / current_gas_share if current_gas_share > 0 else 0
 
-    target_factors = target_factors.clip(lower=0, upper=1).rename('gas_phaseout_factor')
-    target_factors.to_csv(snakemake.output.gas_heating_progress_factors)
+        target_capacities.loc[bus, 'rural'] = factor * existing.loc[bus, idx['rural', 'gas boiler']]
+        target_capacities.loc[bus, 'urban decentral'] = factor * existing.loc[bus, idx['urban decentral', 'gas boiler']]
+
+    target_capacities.to_csv(snakemake.output.gas_heating_progress_factors)
