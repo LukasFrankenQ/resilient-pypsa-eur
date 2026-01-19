@@ -1190,7 +1190,7 @@ solving:
     atol: 1_000_000
     rtol: 0.01
 
-  mem_mb: 128000
+  mem_mb: 2000
   memory_logging_frequency: 5 # in seconds
   runtime: 48h #runtime in humanfriendly style https://humanfriendly.readthedocs.io/en/latest/
 

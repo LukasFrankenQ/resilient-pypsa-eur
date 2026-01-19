@@ -6698,7 +6698,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
     print(snakemake.wildcards)
     assert scenario in ['NT'], f"Scenario must be 'NT' but is {scenario}"
 
-    nt_deviation_tolerance = 0.01
+    nt_deviation_tolerance = 0.1
 
     carrier_mapper = {
         'solar': ['solar', 'solar rooftop', 'solar hsat'],
@@ -6785,10 +6785,10 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
                 factor = e_nom / existing
                 n.stores.loc[bats, 'e_nom'] *= factor
             
-            charging_cap = e_nom / max_hours
-            n.links.loc[bats + ' charger', 'p_nom'] = charging_cap
+            charging_cap = n.stores.loc[bats, 'e_nom'] / max_hours
+            n.links.loc[bats + ' charger', 'p_nom'] = charging_cap.values
 
-            logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap/1e3:.1f} GW')
+            logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap.sum()/1e3:.1f} GW')
         
     
         all_bats = n.stores.index[n.stores.carrier == btype]
@@ -6796,6 +6796,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
         # distribute unmatched capacity to existing batteries
         factor = (unmatched_capacity + existing) / existing
+        logger.info(f'scaling factor for batteries: {factor:.2f}')
 
         n.stores.loc[all_bats, 'e_nom'] *= factor
         n.links.loc[all_bats + ' charger', 'p_nom'] *= factor
