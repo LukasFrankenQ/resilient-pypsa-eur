@@ -54,12 +54,13 @@ scenario:
   # - 'GA'
   wiggle:
   # - '+0.00'
-  # - 1000
+  - 1000
   - 1500
+  - 1750
   - 2000
-  - 2500
+  - 2200
+  - 2600
   - 3000
-  # - 3500
   # - 4000
   # - 4500
   # - '+0.01'
@@ -1136,7 +1137,7 @@ solving:
       dual_feasibility_tolerance: 1e-5
       random_seed: 123
     gurobi-default:
-      threads: 32
+      threads: 4
       method: 2 # barrier
       crossover: 0
       BarConvTol: 1.e-5

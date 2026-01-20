@@ -1296,6 +1296,7 @@ def add_gas_heating_progress_factors_constraint(n):
     n.model.add_objective(base_obj + speedy_phaseout_penalty, overwrite=True, sense="min")
     '''
 
+
     ##### ChatGPT version
     def add_group(cap_dict, suffix):
         nonlocal speedy_phaseout_penalty

@@ -73,6 +73,7 @@ ch_gas_consumption = {
         'Industry': 90., # TWh/a
     },
 }
+print('\nDOUBLE CHECK SWITZERLAND INDUSTRY GAS CONSUMPTION\n')
 
 # Combine into a single DataFrame
 data = []
@@ -107,7 +108,12 @@ def get_industry_gas_consumption(n):
     
     varying_demand = n.links_t.p0.loc[:, ls].sum(axis=1).mul(w, axis=0).sum() / 1e6
 
-    return fixed_demand.sum() / 1e6 + varying_demand
+    cs = ['heat100-200 industry gas', 'heat200-500 industry gas', 'heat>500 industry gas']
+    l = n.links.index[n.links.carrier.isin(cs)]
+    
+    heating_dispatch = n.links_t.p0.loc[:, l].mul(n.snapshot_weightings.objective, axis=0).sum().sum() / 1e6
+
+    return fixed_demand.sum() / 1e6 + varying_demand + heating_dispatch
 
 
 def get_electricity_gas_consumption(n):
@@ -235,12 +241,13 @@ if __name__ == "__main__":
         added_labels = True
         
         x_position += 1
-        x_tick_labels.append(f'Model {year} {wiggle}')
+        x_tick_labels.append(f'{int(wiggle)}')
 
     # Formatting
     ax.set_xticks(range(len(x_tick_labels)))
     ax.set_xticklabels(x_tick_labels, rotation=45, ha='right')
     ax.set_ylabel('Gas Consumption (TWh/a)')
+    ax.set_xlabel('Gas Consumption Constraint [TWh]')
 
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, frameon=False)
     ax.grid(True, alpha=0.3, axis='y')
