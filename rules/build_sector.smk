@@ -1519,6 +1519,7 @@ rule prepare_sector_network:
         "../scripts/prepare_sector_network.py"
 
 
+'''
 rule build_future_gas_heating_progress_factors:
     input:
         existing_heating_distribution=resources(
@@ -1542,3 +1543,4 @@ rule build_future_gas_heating_progress_factors:
         "../envs/environment.yaml"
     script:
         "../scripts/build_future_gas_heating_progress_factors.py"
+'''

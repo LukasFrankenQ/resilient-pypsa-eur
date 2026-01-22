@@ -1261,6 +1261,9 @@ def add_gas_heating_progress_factors_constraint(n):
         Dictionary of gas heating progress factors
     """
 
+    logger.warning('Quadratic gas heating progress currently switched off.')
+    return
+
     frac = 0.2 # share of per-bus deviation where gas boiler capex doubles
 
     capacities_rural = n.config['gas_heating_progress_factors_rural']
@@ -1420,8 +1423,8 @@ def extra_functionality(
 
     add_gas_consumption_constraint(n)
 
-    if config['gas_heating_progress_factors_rural'] is not None:
-        add_gas_heating_progress_factors_constraint(n)
+    # if config['gas_heating_progress_factors_rural'] is not None:
+    #     add_gas_heating_progress_factors_constraint(n)
 
 
 def check_objective_value(n: pypsa.Network, solving: dict) -> None:
@@ -1601,10 +1604,10 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
     planning_horizons = snakemake.wildcards.get("planning_horizons", None)
 
-    gas_heating_progress_factors = pd.read_csv(
-        snakemake.input.gas_heating_progress_factors,
-        index_col=0
-        )
+    # gas_heating_progress_factors = pd.read_csv(
+    #     snakemake.input.gas_heating_progress_factors,
+    #     index_col=0
+    #     )
 
     gas_consumption = float(snakemake.wildcards['wiggle'])
 
@@ -1632,7 +1635,7 @@ if __name__ == "__main__":
             rule_name=snakemake.rule,
             log_fn=snakemake.log.solver,
             gas_consumption=gas_consumption,
-            gas_heating_progress_factors=gas_heating_progress_factors,
+            # gas_heating_progress_factors=gas_heating_progress_factors,
         )
 
     logger.info(f"Maximum memory usage: {mem.mem_usage}")

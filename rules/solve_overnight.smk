@@ -15,9 +15,9 @@ rule solve_sector_network:
         network=resources(
             "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc"
         ),
-        gas_heating_progress_factors=resources(
-            "gas_heating_progress_factors_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.csv"
-        )
+        # gas_heating_progress_factors=resources(
+        #     "gas_heating_progress_factors_base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.csv"
+        # )
     output:
         network=RESULTS
         + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc",
