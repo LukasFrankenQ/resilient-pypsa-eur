@@ -1009,6 +1009,8 @@ def add_lossy_bidirectional_link_constraints(n):
     if not n.links.p_nom_extendable.any() or not any(n.links.get("reversed", [])):
         return
 
+    print(n.links)
+    print(n.links.reversed)
     carriers = n.links.loc[n.links.reversed, "carrier"].unique()  # noqa: F841
     backwards = n.links.query(
         "carrier in @carriers and p_nom_extendable and reversed"
@@ -1394,8 +1396,8 @@ def extra_functionality(
     force_boiler_profiles_existing_per_boiler(n)
 
     add_battery_constraints(n)
-    add_lossy_bidirectional_link_constraints(n)
-    add_pipe_retrofit_constraint(n)
+    # add_lossy_bidirectional_link_constraints(n)
+    # add_pipe_retrofit_constraint(n)
     if n._multi_invest:
         add_carbon_constraint(n, snapshots)
         add_carbon_budget_constraint(n, snapshots)

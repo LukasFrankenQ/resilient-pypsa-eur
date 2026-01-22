@@ -6827,6 +6827,51 @@ def methane_industry_nonenergetic(path):
     return _extract_scenario_values(path, sheet_name='8-', row_label='Non-energy use')
 
 
+def add_accelerated_heat_pumps(
+    n,
+    carriers,
+    num,
+    cost_increase_factor,
+    capacity_increase_factor
+    ):
+
+    for carrier in carriers:
+
+        links = n.links.index[n.links.carrier == carrier]
+
+        for link_name in links:
+
+            link = n.links.loc[link_name]
+
+            if link.loc['p_nom_extendable'] == True or link.loc['p_nom'] == 0:
+                continue
+
+            cc = link.loc['capital_cost']
+            mc = link.loc['marginal_cost']
+
+            cost_factor = 1
+
+            for i in range(num):
+
+                cost_factor *= cost_increase_factor
+
+                logger.info(f'Adding accelerated {carrier} {i}')
+                n.add(
+                    'Link',
+                    link_name + f' accelerated {i}',
+                    bus0=link.bus0,
+                    bus1=link.bus1,
+                    carrier=carrier + f' accelerated {i}',
+                    p_nom_extendable=True,
+                    p_nom_max=link.p_nom * capacity_increase_factor,
+                    capital_cost=cc * cost_factor,
+                    marginal_cost=mc,
+                    p_min_pu=n.links_t.p_min_pu.loc[:, link_name].values,
+                    p_max_pu=n.links_t.p_max_pu.loc[:, link_name].values,
+                    efficiency=n.links_t.efficiency.loc[:, link_name].values,
+                )
+
+
 def to_ac_bus(x):
     if isinstance(x, pd.Index):
         return pd.Index([to_ac_bus(i) for i in x])
@@ -6838,9 +6883,21 @@ def adjust_heating_capacities(
     installed_fn,
     target_year
     ):
+    '''
+    This methods sets the total energy output of rural and urban decentral heat systems to the TYNDP targets.
+
+    In this, it sets the dispatch of heat pumps and biomass boilers.
+    The dispatch of gas boilers is not set. The first reason is numerical stability.
+    The second is that the model should be able to build additional heat pump if econoimcally optimal.
+    This additional (accelerated) heat pumps have higher capital costs than normal heat pumps and are
+    added in the function `add_accelerated_heat_pumps`.
+    '''
+
+    logger.warning('Are all countries converging to the same heat pump share?')
+
 
     # must run wiggle space between p_max_pu and p_min_pu
-    wiggle = 0.01
+    wiggle = 0.001
 
     idx = pd.IndexSlice
 
@@ -6987,9 +7044,10 @@ def adjust_heating_capacities(
         if not bus_served:
             continue
 
-
         n.remove('Link', bus + ' rural air heat pump')
-        # n.remove('Link', bus + ' rural solar air heat pump')
+        # n.remove('Link', bus + ' rural solar thermal')
+        # n.generators_t.p_min_pu.loc[:, bus + ' rural solar thermal'] = (relative_load - wiggle).clip(lower=0).values
+        # n.generators_t.p_max_pu.loc[:, bus + ' rural solar thermal'] = (relative_load + wiggle).clip(lower=0).values
 
         n.add(
             'StorageUnit',
@@ -7077,19 +7135,6 @@ def adjust_heating_capacities(
     current_p_nom_udh = p_nom_udh.mul(excess_capacity, axis=0)
     eff_current_percentage_udh = eff_p_nom_udh.div(eff_p_nom_udh.sum(axis=1), axis=0) * 100
 
-    '''
-    print('=====================================')
-    print('excess capacity')
-    print(excess_capacity.head())
-    print('=====================================')
-    print('effective percentage urban decentral')
-    print(eff_current_percentage_udh.head())
-    print('=====================================')
-    print('urban decentral capacities')
-    print(p_nom_udh.head())
-    print('=====================================')
-    '''
-
     udh_carriers = [
         'air heat pump',
         'gas boiler',
@@ -7128,10 +7173,6 @@ def adjust_heating_capacities(
                 continue
 
             target_percentage = interpolate_to_target_year(current_percentage, target_2040, target_year)
-
-            # if carrier == 'air heat pump':
-            #     print(bus, carrier, round(current_percentage), round(target_percentage), round(target_2040))
-
             factor = target_percentage / current_percentage
 
             n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom'] = current_capacity * factor
@@ -7892,12 +7933,6 @@ if __name__ == "__main__":
     )
     '''
 
-    adjust_heating_capacities(
-        n,
-        snakemake.input.existing_heating_distribution,
-        int(snakemake.wildcards['planning_horizons'])
-        )
-
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
@@ -7909,6 +7944,20 @@ if __name__ == "__main__":
             snakemake.input.tyndp_capacities,
             scenario=snakemake.wildcards.tyndp_scenario
            )
+
+    adjust_heating_capacities(
+        n,
+        snakemake.input.existing_heating_distribution,
+        int(snakemake.wildcards['planning_horizons'])
+        )
+
+    add_accelerated_heat_pumps(
+        n,
+        carriers=['urban decentral air heat pump', 'rural ground heat pump'],
+        num=5,
+        cost_increase_factor=1.1,
+        capacity_increase_factor=1.1,
+    )
         
     gas_consumption = float(snakemake.wildcards['wiggle'])
     assert 1000 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
