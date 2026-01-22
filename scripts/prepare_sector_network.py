@@ -6987,6 +6987,10 @@ def adjust_heating_capacities(
         if not bus_served:
             continue
 
+
+        n.remove('Link', bus + ' rural air heat pump')
+        # n.remove('Link', bus + ' rural solar air heat pump')
+
         n.add(
             'StorageUnit',
             bus + ' rural heat vent',
