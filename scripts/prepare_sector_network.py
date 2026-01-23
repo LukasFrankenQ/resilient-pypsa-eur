@@ -6853,7 +6853,7 @@ def add_accelerated_heat_pumps(
 
             for i in range(num):
 
-                cost_factor *= cost_increase_factor
+                cost_factor *= (1 + cost_increase_factor)
 
                 logger.info(f'Adding accelerated {carrier} {i}')
                 n.add(
@@ -7955,8 +7955,8 @@ if __name__ == "__main__":
         n,
         carriers=['urban decentral air heat pump', 'rural ground heat pump'],
         num=5,
-        cost_increase_factor=1.1,
-        capacity_increase_factor=1.1,
+        cost_increase_factor=0.1,
+        capacity_increase_factor=0.1,
     )
         
     gas_consumption = float(snakemake.wildcards['wiggle'])
