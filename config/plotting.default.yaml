@@ -270,6 +270,7 @@ plotting:
     offwind: "#6895dd"
     offshore wind: "#6895dd"
     offwind-ac: "#6895dd"
+    Offshore Wind: "#6895dd"
     offshore wind (AC): "#6895dd"
     Offshore Wind (AC): "#6895dd"
     offshore wind ac: "#6895dd"
@@ -296,6 +297,7 @@ plotting:
     solar: "#f9d002"
     Solar: "#f9d002"
     solar PV: "#f9d002"
+    Solar PV: "#f9d002"
     solar-hsat: "#fdb915"
     solar thermal: '#ffbf2b'
     residential rural solar thermal: '#f1c069'
@@ -321,6 +323,7 @@ plotting:
     natural gas: '#e05b09'
     biogas to gas: '#e36311'
     biogas to gas CC: '#e51245'
+    Gas Turbine: '#a85522'
     CCGT: '#a85522'
     Combined-Cycle Gas: '#a85522'
     CCGT marginal: '#a85522'
@@ -377,6 +380,7 @@ plotting:
     solid biomass for industry CC: '#47411c'
     solid biomass for industry co2 from atmosphere: '#736412'
     solid biomass for industry co2 to stored: '#47411c'
+    biomass CHP: '#9d9042'
     urban central solid biomass CHP: '#9d9042'
     urban central solid biomass CHP CC: '#6c5d28'
     biomass boiler: '#8A9A5B'
@@ -495,6 +499,7 @@ plotting:
     services rural ground heat pump: '#5af95d'
     Ambient: '#98eb9d'
     CHP: '#8a5751'
+    gas CHP: '#8d5e56'
     urban central gas CHP: '#8d5e56'
     CHP CC: '#634643'
     urban central gas CHP CC: '#6e4e4c'
@@ -502,6 +507,7 @@ plotting:
     CHP electric: '#8a5751'
     district heating: '#e8beac'
     resistive heater: '#d8f9b8'
+    electric boiler: '#d8f9b8'
     residential rural resistive heater: '#bef5b5'
     residential urban decentral resistive heater: '#b2f1a9'
     services rural resistive heater: '#a5ed9d'
@@ -515,6 +521,8 @@ plotting:
     H2 for shipping: "#ebaee0"
     H2: '#bf13a0'
     hydrogen: '#bf13a0'
+    electrolysis: '#bf13a0'
+    hydrogen boiler: '#c251ae'
     retrofitted H2 boiler: '#e5a0d9'
     SMR: '#870c71'
     SMR CC: '#4f1745'
