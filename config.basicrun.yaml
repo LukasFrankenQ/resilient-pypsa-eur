@@ -54,15 +54,15 @@ scenario:
   # - 'GA'
   wiggle:
   # - '+0.00'
-  - 1000
-  - 1250
+  # - 1000
+  # - 1250
   - 1500
-  - 1750
+  # - 1750
   - 2000
-  - 2250
+  # - 2250
   - 2500
-  - 2750
-  - 3000
+  # - 2750
+  # - 3000
   # - 4000
   # - 4500
   # - '+0.01'
@@ -824,6 +824,11 @@ sector:
     endogen: true  # if heat supply for industry should be enodgenously optimised (does not cover steel sector)
     must_run: 0.8 # NB: industrial heat demand is in reality supplied at site by discrete plants
     # Options in case of endogenous industry heat supply, heat<100 is unchanged low-temperature heat supply
+    heat<100:
+      biomass: true
+      methane: true # we are assessing gas displacement
+      heat_pumps: true
+      electric_boiler: true
     heat100-200:
       biomass: true
       methane: true # we are assessing gas displacement
