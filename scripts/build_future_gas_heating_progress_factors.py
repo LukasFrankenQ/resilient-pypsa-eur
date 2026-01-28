@@ -108,9 +108,9 @@ if __name__ == "__main__":
             sector_opts="168H-T-H-B-I-A-dist1",
         )
 
-    # n = pypsa.Network(
-    #     snakemake.input.network
-    # )
+    n = pypsa.Network(
+        snakemake.input.network
+    )
 
     idx = pd.IndexSlice
     ex0 = pd.read_csv(
