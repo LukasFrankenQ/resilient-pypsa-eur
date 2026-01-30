@@ -4464,7 +4464,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat<100 industry",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat<100 industry",
             carrier="heat<100 industry solid biomass",
             p_nom_extendable=True,
@@ -4476,11 +4476,12 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["solid biomass boiler steam", "lifetime"],
         )
 
+    if options["industry_t"]["heat<100"]["biomass_CC"]:
         n.add(
             "Link",
             nodes,
             suffix=" solid biomass for heat<100 industry CC",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat<100 industry",
             bus2="co2 atmosphere",
             bus3=spatial.co2.nodes,
@@ -4520,6 +4521,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["gas boiler steam", "lifetime"],
         )
 
+    if options["industry_t"]["heat<100"]["methane_CC"]:
         eta = (
             costs.at["gas boiler steam", "efficiency"]
             - costs.at["gas", "CO2 intensity"]
@@ -4627,7 +4629,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat100-200 industry",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat100-200 industry",
             carrier="heat100-200 industry solid biomass",
             p_nom_extendable=True,
@@ -4639,11 +4641,12 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["solid biomass boiler steam", "lifetime"],
         )
 
+    if options["industry_t"]["heat100-200"]["biomass_CC"]:
         n.add(
             "Link",
             nodes,
             suffix=" solid biomass for heat100-200 industry CC",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat100-200 industry",
             bus2="co2 atmosphere",
             bus3=spatial.co2.nodes,
@@ -4683,6 +4686,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["gas boiler steam", "lifetime"],
         )
 
+    if options["industry_t"]["heat100-200"]["methane_CC"]:
         eta = (
             costs.at["gas boiler steam", "efficiency"]
             - costs.at["gas", "CO2 intensity"]
@@ -4782,7 +4786,7 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" heat200-500 industry solid biomass",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat200-500 industry",
             carrier="heat200-500 industry solid biomass",
             p_nom_extendable=True,
@@ -4795,11 +4799,12 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["direct firing solid fuels", "lifetime"],
         )
 
+    if options["industry_t"]["heat200-500"]["biomass_CC"]:
         n.add(
             "Link",
             nodes,
             suffix=" heat200-500 industry solid biomass CC",
-            bus0=spatial.biomass.industry,
+            bus0=spatial.biomass,
             bus1=nodes + " heat200-500 industry",
             bus2=spatial.co2.nodes,
             bus3="co2 atmosphere",
@@ -4840,6 +4845,7 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["direct firing gas", "lifetime"],
         )
 
+    if options["industry_t"]["heat200-500"]["methane_CC"]:
         eta = (
             costs.at["direct firing gas", "efficiency"]
             - costs.at["gas", "CO2 intensity"]

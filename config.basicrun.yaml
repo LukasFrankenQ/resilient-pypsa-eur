@@ -826,21 +826,27 @@ sector:
     # Options in case of endogenous industry heat supply, heat<100 is unchanged low-temperature heat supply
     heat<100:
       biomass: true
-      methane: true # we are assessing gas displacement
+      biomass_CC: false
+      methane: true
+      methane_CC: false
       heat_pumps: true
       electric_boiler: true
     heat100-200:
       biomass: true
-      methane: true # we are assessing gas displacement
+      biomass_CC: false
+      methane: true
+      methane_CC: false
       heat_pumps: true
       electric_boiler: true
     heat200-500:
       biomass: true
-      methane: true # we are assessing gas displacement
+      biomass_CC: false
+      methane: true
+      methane_CC: false
       hydrogen: true
     heat>500:
       hydrogen: true
-      methane: true # we are assessing gas displacement
+      methane: true
   biomass_to_liquid: true
   biomass_to_liquid_cc: false
   electrobiofuels: true

@@ -1248,7 +1248,8 @@ def add_gas_consumption_constraint(n):
     # gas_consumption is in TWh, so multiply by 1e6 to get MWh
     rhs = gas_consumption * 1e6
     
-    n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
+    # n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
+    n.model.add_constraints(lhs == rhs, name="fixed_gas_consumption")
 
 
 def add_gas_heating_progress_factors_constraint(n):
