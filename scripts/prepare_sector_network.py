@@ -3445,6 +3445,7 @@ def add_heat(
                     lifetime=costs.at["central gas CHP", "lifetime"],
                 )
 
+                '''
                 n.add(
                     "Link",
                     nodes + f" urban central {fuel} CHP CC",
@@ -3482,6 +3483,7 @@ def add_heat(
                     * costs.at["biomass CHP capture", "capture_rate"],
                     lifetime=costs.at["central gas CHP", "lifetime"],
                 )
+                '''
 
         if (
             options["chp"]["enable"]
@@ -4464,7 +4466,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat<100 industry",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat<100 industry",
             carrier="heat<100 industry solid biomass",
             p_nom_extendable=True,
@@ -4481,7 +4483,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat<100 industry CC",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat<100 industry",
             bus2="co2 atmosphere",
             bus3=spatial.co2.nodes,
@@ -4629,7 +4631,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat100-200 industry",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat100-200 industry",
             carrier="heat100-200 industry solid biomass",
             p_nom_extendable=True,
@@ -4646,7 +4648,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" solid biomass for heat100-200 industry CC",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat100-200 industry",
             bus2="co2 atmosphere",
             bus3=spatial.co2.nodes,
@@ -4786,7 +4788,7 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" heat200-500 industry solid biomass",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat200-500 industry",
             carrier="heat200-500 industry solid biomass",
             p_nom_extendable=True,
@@ -4804,7 +4806,7 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             "Link",
             nodes,
             suffix=" heat200-500 industry solid biomass CC",
-            bus0=spatial.biomass,
+            bus0=spatial.biomass.nodes,
             bus1=nodes + " heat200-500 industry",
             bus2=spatial.co2.nodes,
             bus3="co2 atmosphere",
