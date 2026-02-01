@@ -4430,7 +4430,7 @@ def add_biomass(
         )
 
 
-def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
+def add_t_industry100(n, nodes, industrial_demand, costs, must_run, heat_pump_progress):
     """
     Adds industry heat demands and supplies in the temperature band <100 °C.
     """
@@ -4445,13 +4445,14 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
         unit="MWh_LHV",
     )
 
+    p_set = industrial_demand.loc[nodes, "low-temperature heat"] / 8760.0
     n.add(
         "Load",
         nodes,
         suffix=" heat<100 industry",
         bus=nodes + " heat<100 industry",
         carrier="heat<100 industry",
-        p_set=industrial_demand.loc[nodes, "low-temperature heat"] / 8760.0,
+        p_set=p_set,
     )
 
     if (
@@ -4566,6 +4567,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
             p_nom_extendable=True,
             p_min_pu=must_run,
             efficiency=eta,
+            p_nom_max=p_set / eta * heat_pump_progress,
             capital_cost=costs.at[
                 "industrial heat pump medium temperature", "capital_cost"
             ]
@@ -4594,7 +4596,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run):
         )
 
 
-def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
+def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run, heat_pump_progress):
     """
     Adds industry heat demands and supplies in the temperature band 100-200 °C.
     """
@@ -4610,13 +4612,14 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
         unit="MWh_LHV",
     )
 
+    p_set = industrial_demand.loc[nodes, "heat100-200"] / 8760.0
     n.add(
         "Load",
         nodes,
         suffix=" heat100-200 industry",
         bus=nodes + " heat100-200 industry",
         carrier="heat100-200 industry",
-        p_set=industrial_demand.loc[nodes, "heat100-200"] / 8760.0,
+        p_set=p_set,
     )
 
     if (
@@ -4731,6 +4734,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run):
             p_nom_extendable=True,
             p_min_pu=must_run,
             efficiency=eta,
+            p_nom_max=p_set / eta * heat_pump_progress,
             capital_cost=costs.at[
                 "industrial heat pump high temperature", "capital_cost"
             ]
@@ -4998,6 +5002,7 @@ def add_industry(
     spatial: SimpleNamespace,
     cf_industry: dict,
     investment_year: int,
+    hp_pace,
 ):
     """
     Add industry and their corresponding carrier buses to the network.
@@ -5081,6 +5086,23 @@ def add_industry(
 
     industrial_demand = pd.read_csv(industrial_demand_file, index_col=0, header=[0, 1])
 
+    heat_pump_adoption_pace = {
+        'slow': {
+            2030: 0.125,
+            2035: 0.25,
+        },
+        'medium': {
+            2030: 0.25,
+            2035: 0.5,
+        },
+        'fast': {
+            2030: 0.5,
+            2035: 1.,
+        }
+    }
+
+    heat_pump_progress = heat_pump_adoption_pace[hp_pace][investment_year]
+
     # 1e6 to convert TWh to MWh
     industrial_demand = industrial_demand * 1e6 * nyears
     industrial_demand.index.name = "MWh"
@@ -5093,8 +5115,8 @@ def add_industry(
 
         must_run = options["industry_t"]["must_run"]
 
-        add_t_industry100(n, nodes, industrial_demand, costs, must_run)
-        add_t_industry100_200(n, nodes, industrial_demand, costs, must_run)
+        add_t_industry100(n, nodes, industrial_demand, costs, must_run, heat_pump_progress)
+        add_t_industry100_200(n, nodes, industrial_demand, costs, must_run, heat_pump_progress)
         add_t_industry200_500(n, nodes, industrial_demand, costs, must_run)
         add_t_industry500(n, nodes, industrial_demand, costs, must_run)
 
@@ -6854,17 +6876,24 @@ def insert_ets(
     add_ets_generator(uk_ets_gen, uk_co2_bus, uk_ets_price)
 
 
-def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, scenario: str):
+def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, scenario: str, year):
     """
     Insert TYNDP capacities into the network.
     """
 
     df = pd.read_csv(tyndp_capacities, index_col=0, header=[0,1])
 
+    year = int(year)
+
+    deviation_tolarances = {
+        2030: 0.25,
+        2035: 0.35,
+    }
+
+    nt_deviation_tolerance = deviation_tolarances[year]
+
     print(snakemake.wildcards)
     assert scenario in ['NT'], f"Scenario must be 'NT' but is {scenario}"
-
-    nt_deviation_tolerance = 0.1
 
     carrier_mapper = {
         'solar': ['solar', 'solar rooftop', 'solar hsat'],
@@ -7422,7 +7451,7 @@ def adjust_heating_capacities(
 
 
 
-def insert_exogenous_tyndp(
+def insert_tyndp_electricity_transport(
     n,
     tyndp_fn,
     year,
@@ -7488,6 +7517,7 @@ def insert_exogenous_tyndp(
     diff.columns = diff.columns.map(to_ac_bus)
     n.loads_t.p_set[diff.columns] += diff
 
+    '''
     # fix gas contribution to district heating
     dh_gas_heat_supply = district_heating_methane(tyndp_fn)
     dh_gas_heat_supply = (
@@ -7678,7 +7708,6 @@ def insert_exogenous_tyndp(
     # import sys
     # sys.exit()
 
-    '''
     # fix gas demand in industry
 
     demand_energetic = methane_industry_energetic(tyndp_fn)
@@ -7703,36 +7732,8 @@ def insert_exogenous_tyndp(
     adjustment_factor = (energetic_target + nonenergetic_target) / current_demand
 
     n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
+
     '''
-
-
-def wiggle_heating_gas_demand(n, wiggle):
-    """
-    Slightly changes gas usage by the model in industry and heating.
-    Its meant to represent changes in investment decisions, not operational ones.
-
-    Wiggle is a string like '+0.01' or '-0.01'.
-    A plus sign means an increase in gas demand, a minus sign means a decrease.
-
-    This function only changes consumption in residential and services heating.
-    
-    Industry wiggle is done in build_industry_sector_ratios_endogenous
-    """
-
-    assert wiggle[0] in ['-', '+']
-    wiggle = float(wiggle[1:]) * (-1)**(1 - int(wiggle[0] == '+'))
-
-    assert -1 <= wiggle <= 1, 'Wiggle must be between -1 and 1. wiggle = "+0.01" would increase gas demand in heating by 1%.'
-
-    factor = 1 + wiggle
-
-    # gas boilers have a p_set, so its the easiest way to reduce gas demand
-    gas_boilers = n.links.index[
-        (n.links.carrier.str.contains('gas boiler')) &
-        (n.links.bus1.str.contains('|'.join(['decentral urban heat', 'rural heat', 'urban central heat'])))
-    ].intersection(n.links_t.p_set.columns)
-
-    n.links_t.p_set.loc[:, gas_boilers] *= factor
 
 
 if __name__ == "__main__":
@@ -7745,7 +7746,7 @@ if __name__ == "__main__":
             clusters="50",
             sector_opts="168H-T-H-B-I-A-dist1",
             planning_horizons="2030",
-            tyndp_scenario="NT",
+            tyndp_scenario="NT+fast",
             wiggle='+0.01',
         )
 
@@ -7761,6 +7762,8 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
+    hp_pace = tyndp_scenario.split('+')[1]
+    tyndp_scenario = tyndp_scenario.split('+')[0]
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
     nhours = n.snapshot_weightings.generators.sum()
@@ -7943,6 +7946,7 @@ if __name__ == "__main__":
             spatial=spatial,
             cf_industry=cf_industry,
             investment_year=investment_year,
+            hp_pace=hp_pace,
         )
 
     if options["shipping"]:
@@ -8089,26 +8093,23 @@ if __name__ == "__main__":
         n, snakemake.params["adjustments"], investment_year
     )
 
-    '''
-    insert_exogenous_tyndp(
+    insert_tyndp_electricity_transport(
         n,
         snakemake.input["tyndp_figures_data"],
         year=investment_year,
         scenario=tyndp_scenario,
         existing_heating_distribution=snakemake.input.existing_heating_distribution,
     )
-    '''
 
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
-
-    # wiggle_heating_gas_demand(n, snakemake.wildcards['wiggle'])
 
     if snakemake.wildcards.planning_horizons != 2025:
         insert_tyndp_capacities(
             n,
             snakemake.input.tyndp_capacities,
-            scenario=snakemake.wildcards.tyndp_scenario
+            scenario=tyndp_scenario,
+            year=snakemake.wildcards.planning_horizons
            )
 
     adjust_heating_capacities(

@@ -45,11 +45,13 @@ scenario:
   - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
-  # - 2030
+  - 2030
   - 2035
   # - 2040
   tyndp_scenario:
-  - 'NT'
+  - 'NT+slow'
+  - 'NT+medium'
+  - 'NT+fast'
   # - 'DE'
   # - 'GA'
   wiggle:
@@ -58,11 +60,12 @@ scenario:
   # - 1250
   - 1500
   # - 1750
-  - 2000
+  # - 2000
   # - 2250
   - 2500
   # - 2750
   # - 3000
+  - 3500
   # - 4000
   # - 4500
   # - '+0.01'
@@ -984,7 +987,7 @@ industry:
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#costs
 costs:
-  year: 2025
+  year: 2030
   version: v0.13.3
   social_discountrate: 0.02
   fill_values:
