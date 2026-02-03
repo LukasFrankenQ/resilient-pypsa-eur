@@ -53,7 +53,7 @@ wildcard_constraints:
     sector_opts=r"[-+a-zA-Z0-9\.\s]*",
     planning_horizons=r"[0-9]{4}",
     # wiggle=r"[-+][0-9.]+", # like '+0.01' or '-0.01'
-    wiggle=r"[0-9]{4}",
+    wiggle=r"[0-9]{3,4}",
     tyndp_scenario=r"NT\+(slow|medium|fast)",
 
 

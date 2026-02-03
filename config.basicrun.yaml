@@ -45,27 +45,46 @@ scenario:
   - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
-  - 2030
+  # - 2030
   - 2035
   # - 2040
   tyndp_scenario:
-  - 'NT+slow'
-  - 'NT+medium'
+  # - 'NT+slow'
+  # - 'NT+medium'
   - 'NT+fast'
   # - 'DE'
   # - 'GA'
   wiggle:
   # - '+0.00'
-  # - 1000
-  # - 1250
+  # - 500
+  # - 675
+  # - 750
+  # - 875
+  - 1000
+  - 1125
+  - 1250
+  - 1375
   - 1500
-  # - 1750
-  # - 2000
-  # - 2250
+  - 1625
+  - 1750
+  - 1875
+  - 2000
+  - 2125
+  - 2250
+  - 2375
   - 2500
-  # - 2750
-  # - 3000
+  - 2625
+  - 2750
+  - 2875
+  - 3000
+  - 3125
+  - 3250
+  - 3375
   - 3500
+  - 3625
+  - 3750
+  - 3875
+  - 4000
   # - 4000
   # - 4500
   # - '+0.01'
@@ -734,7 +753,7 @@ sector:
   hydrogen_fuel_cell: false
   hydrogen_turbine: false
   SMR: true
-  SMR_cc: true
+  SMR_cc: false
   regional_oil_demand: true
   regional_coal_demand: false
   regional_co2_sequestration_potential:
