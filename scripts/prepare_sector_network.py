@@ -8127,7 +8127,7 @@ if __name__ == "__main__":
     )
         
     gas_consumption = float(snakemake.wildcards['wiggle'])
-    assert 1000 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
+    assert 100 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

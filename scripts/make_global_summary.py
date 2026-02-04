@@ -68,6 +68,9 @@ if __name__ == "__main__":
         summaries = pd.concat(summaries, axis=1)
 
         summaries.columns = columns
+        summaries.columns = summaries.columns.set_levels(
+            summaries.columns.levels[-1].astype(int), level="wiggle"
+        )
 
         summaries.sort_index().to_csv(snakemake.output[kind])
 

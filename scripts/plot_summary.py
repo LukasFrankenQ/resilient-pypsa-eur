@@ -65,6 +65,9 @@ def plot_costs():
     cost_df = pd.read_csv(
         snakemake.input.costs, index_col=list(range(3)), header=list(range(n_header))
     )
+    cost_df.columns = cost_df.columns.set_levels(
+        cost_df.columns.levels[-1].astype(int), level="wiggle"
+    )
 
     df = cost_df.groupby("carrier").sum()
 
@@ -123,6 +126,9 @@ def plot_costs():
 def plot_energy():
     energy_df = pd.read_csv(
         snakemake.input.energy, index_col=list(range(2)), header=list(range(n_header))
+    )
+    energy_df.columns = energy_df.columns.set_levels(
+        energy_df.columns.levels[-1].astype(int), level="wiggle"
     )
 
     df = energy_df.groupby("carrier").sum()
@@ -201,6 +207,9 @@ def plot_balances():
 
     balances_df = pd.read_csv(
         snakemake.input.balances, index_col=list(range(3)), header=list(range(n_header))
+    )
+    balances_df.columns = balances_df.columns.set_levels(
+        balances_df.columns.levels[-1].astype(int), level="wiggle"
     )
 
     balances = {k: df for k, df in balances_df.groupby("bus_carrier")}
