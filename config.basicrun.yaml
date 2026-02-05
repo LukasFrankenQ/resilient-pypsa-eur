@@ -871,6 +871,7 @@ sector:
     heat>500:
       hydrogen: true
       methane: true
+      methane_CC: false
   biomass_to_liquid: true
   biomass_to_liquid_cc: false
   electrobiofuels: true
