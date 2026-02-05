@@ -4943,6 +4943,7 @@ def add_t_industry500(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["direct firing gas", "lifetime"],
         )
 
+    if options["industry_t"]["heat>500"]["methane_CC"]:
         eta = (
             costs.at["direct firing gas", "efficiency"]
             - costs.at["gas", "CO2 intensity"]
