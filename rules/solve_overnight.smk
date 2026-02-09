@@ -23,6 +23,10 @@ rule solve_sector_network:
         + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc",
         config=RESULTS
         + "configs/config.base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.yaml",
+        upper_mu=RESULTS
+        + "duals/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_upper_mu.csv",
+        lower_mu=RESULTS
+        + "duals/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_lower_mu.csv",
     shadow:
         shadow_config
     log:

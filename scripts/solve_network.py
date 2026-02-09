@@ -1591,10 +1591,12 @@ if __name__ == "__main__":
         snakemake = mock_snakemake(
             "solve_sector_network",
             opts="",
-            clusters="5",
-            configfiles="config/test/config.overnight.yaml",
-            sector_opts="",
-            planning_horizons="2030",
+            clusters="50",
+            configfiles="config.basicrun.yaml",
+            sector_opts="168H-T-H-B-I-A-dist1",
+            planning_horizons="2035",
+            tyndp_scenario="NT+fast",
+            wiggle=1750,
         )
     configure_logging(snakemake)
     set_scenario_config(snakemake)
@@ -1642,6 +1644,42 @@ if __name__ == "__main__":
         )
 
     logger.info(f"Maximum memory usage: {mem.mem_usage}")
+
+
+    print('===============================================================')
+    
+    print('upper')
+    print(n.model.dual['Generator-ext-p_nom-upper'].to_pandas())
+    n.model.dual['Generator-ext-p_nom-upper'].to_pandas().to_csv('upper.csv')
+    print('upper link')
+    print(n.model.dual['Link-ext-p_nom-upper'].to_pandas())
+    n.model.dual['Link-ext-p_nom-upper'].to_pandas().to_csv('upper_link.csv')
+
+    print(pd.concat([
+        n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+        n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+    ], axis=0, keys=['Generator', 'Link']))
+
+    # print('lower')
+    # print(n.model.dual['Generator-ext-p_nom-lower'])
+    # n.model.dual['Generator-ext-p_nom-lower'].to_pandas().to_csv('lower.csv')
+    # print('lower link')
+    # print(n.model.dual['Link-ext-p_nom-lower'].to_pandas())
+    # n.model.dual['Link-ext-p_nom-lower'].to_pandas().to_csv('lower_link.csv')
+
+    print('===============================================================')
+
+    pd.concat([
+        n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+        n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+    ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.upper_mu)
+
+    pd.concat([
+        n.model.dual['Generator-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
+        n.model.dual['Link-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
+    ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.lower_mu)
+
+    # breakpoint()
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
     n.export_to_netcdf(snakemake.output.network)
