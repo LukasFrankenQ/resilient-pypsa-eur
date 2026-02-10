@@ -5102,7 +5102,10 @@ def add_industry(
         }
     }
 
-    heat_pump_progress = heat_pump_adoption_pace[hp_pace][investment_year]
+    if hp_pace == np.inf:
+        heat_pump_progress = np.inf
+    else:
+        heat_pump_progress = heat_pump_adoption_pace[hp_pace][investment_year]
 
     # 1e6 to convert TWh to MWh
     industrial_demand = industrial_demand * 1e6 * nyears
@@ -7763,7 +7766,12 @@ if __name__ == "__main__":
     n = pypsa.Network(snakemake.input.network)
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
-    hp_pace = tyndp_scenario.split('+')[1]
+    
+    if tyndp_scenario != 'free':
+        hp_pace = tyndp_scenario.split('+')[1]
+    else:
+        hp_pace = np.inf
+        
     tyndp_scenario = tyndp_scenario.split('+')[0]
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
@@ -8090,22 +8098,33 @@ if __name__ == "__main__":
     if options["cluster_heat_buses"] and not first_year_myopic:
         cluster_heat_buses(n)
 
+    print(
+        n.generators.loc[n.generators.index.str.contains('onwind'), ['p_nom_opt', 'p_nom_min', 'p_nom_max']].head()
+    )
+
     maybe_adjust_costs_and_potentials(
         n, snakemake.params["adjustments"], investment_year
     )
 
-    insert_tyndp_electricity_transport(
-        n,
-        snakemake.input["tyndp_figures_data"],
-        year=investment_year,
-        scenario=tyndp_scenario,
-        existing_heating_distribution=snakemake.input.existing_heating_distribution,
+    print(
+        n.generators.loc[n.generators.index.str.contains('onwind'), ['p_nom_opt', 'p_nom_min', 'p_nom_max']].head()
     )
 
+    if tyndp_scenario != 'free':
+
+        insert_tyndp_electricity_transport(
+            n,
+            snakemake.input["tyndp_figures_data"],
+            year=investment_year,
+            scenario=tyndp_scenario,
+            existing_heating_distribution=snakemake.input.existing_heating_distribution,
+        )
+
+    # if tyndp_scenario != 'free':
     carbon_prices = snakemake.params.carbon_prices
     insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
 
-    if snakemake.wildcards.planning_horizons != 2025:
+    if snakemake.wildcards.planning_horizons != 2025 and tyndp_scenario != 'free':
         insert_tyndp_capacities(
             n,
             snakemake.input.tyndp_capacities,
@@ -8113,20 +8132,21 @@ if __name__ == "__main__":
             year=snakemake.wildcards.planning_horizons
            )
 
-    adjust_heating_capacities(
-        n,
-        snakemake.input.existing_heating_distribution,
-        int(snakemake.wildcards['planning_horizons'])
-        )
+    if tyndp_scenario != 'free':
+        adjust_heating_capacities(
+            n,
+            snakemake.input.existing_heating_distribution,
+            int(snakemake.wildcards['planning_horizons'])
+            )
 
-    add_accelerated_heat_pumps(
-        n,
-        carriers=['urban decentral air heat pump', 'rural ground heat pump'],
-        num=5,
-        cost_increase_factor=0.1,
-        capacity_increase_factor=0.1,
-    )
-        
+    # add_accelerated_heat_pumps(
+    #     n,
+    #     carriers=['urban decentral air heat pump', 'rural ground heat pump'],
+    #     num=5,
+    #     cost_increase_factor=0.1,
+    #     capacity_increase_factor=0.1,
+    # )
+
     gas_consumption = float(snakemake.wildcards['wiggle'])
     assert 100 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
 

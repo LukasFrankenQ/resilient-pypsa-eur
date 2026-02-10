@@ -1646,19 +1646,19 @@ if __name__ == "__main__":
     logger.info(f"Maximum memory usage: {mem.mem_usage}")
 
 
-    print('===============================================================')
+    # print('===============================================================')
     
-    print('upper')
-    print(n.model.dual['Generator-ext-p_nom-upper'].to_pandas())
-    n.model.dual['Generator-ext-p_nom-upper'].to_pandas().to_csv('upper.csv')
-    print('upper link')
-    print(n.model.dual['Link-ext-p_nom-upper'].to_pandas())
-    n.model.dual['Link-ext-p_nom-upper'].to_pandas().to_csv('upper_link.csv')
+    # print('upper')
+    # print(n.model.dual['Generator-ext-p_nom-upper'].to_pandas())
+    # n.model.dual['Generator-ext-p_nom-upper'].to_pandas().to_csv('upper.csv')
+    # print('upper link')
+    # print(n.model.dual['Link-ext-p_nom-upper'].to_pandas())
+    # n.model.dual['Link-ext-p_nom-upper'].to_pandas().to_csv('upper_link.csv')
 
-    print(pd.concat([
-        n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
-        n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
-    ], axis=0, keys=['Generator', 'Link']))
+    # print(pd.concat([
+    #     n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+    #     n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+    # ], axis=0, keys=['Generator', 'Link']))
 
     # print('lower')
     # print(n.model.dual['Generator-ext-p_nom-lower'])
@@ -1666,18 +1666,23 @@ if __name__ == "__main__":
     # print('lower link')
     # print(n.model.dual['Link-ext-p_nom-lower'].to_pandas())
     # n.model.dual['Link-ext-p_nom-lower'].to_pandas().to_csv('lower_link.csv')
+    # print('===============================================================')
 
-    print('===============================================================')
+    try:
+        pd.concat([
+            n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+            n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
+        ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.upper_mu)
+    except KeyError:
+        pd.DataFrame().to_csv(snakemake.output.upper_mu)
 
-    pd.concat([
-        n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
-        n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
-    ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.upper_mu)
-
-    pd.concat([
-        n.model.dual['Generator-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
-        n.model.dual['Link-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
-    ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.lower_mu)
+    try:
+        pd.concat([
+            n.model.dual['Generator-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
+            n.model.dual['Link-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
+        ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.lower_mu)
+    except KeyError:
+        pd.DataFrame().to_csv(snakemake.output.lower_mu)
 
     # breakpoint()
 
