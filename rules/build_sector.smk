@@ -950,48 +950,6 @@ rule build_industry_sector_ratios_endogenous:
         "../scripts/build_industry_sector_ratios_endogenous.py"
 
 
-rule build_industrial_energy_demand_per_node:
-    input:
-        tyndp_path='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
-        industry_sector_ratios=resources(
-            "industry_sector_ratios_{planning_horizons}.csv"
-        ),
-        industry_sector_ratios_endogenous=resources(
-            # "industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}.csv"
-            "industry_sector_ratios_endogenous.csv"
-        ),
-        industrial_production_per_node=resources(
-            "industrial_production_base_s_{clusters}_{planning_horizons}.csv"
-        ),
-        industrial_energy_demand_per_node_today=resources(
-            "industrial_energy_demand_today_base_s_{clusters}.csv"
-        ),
-    output:
-        industrial_energy_demand_per_node=resources(
-            # "industrial_energy_demand_base_s_{clusters}_{planning_horizons}_{wiggle}.csv"
-            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}.csv"
-        ),
-    threads: 1
-    resources:
-        mem_mb=1000,
-    log:
-        logs(
-            # "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}_{wiggle}.log"
-            "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}.log"
-        ),
-    benchmark:
-        (
-            benchmarks(
-                # "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}_{wiggle}"
-                "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}"
-            )
-        )
-    conda:
-        "../envs/environment.yaml"
-    script:
-        "../scripts/build_industrial_energy_demand_per_node.py"
-
-
 rule build_industrial_energy_demand_per_country_today:
     params:
         countries=config_provider("countries"),
@@ -1043,6 +1001,48 @@ rule build_industrial_energy_demand_per_node_today:
         "../envs/environment.yaml"
     script:
         "../scripts/build_industrial_energy_demand_per_node_today.py"
+
+
+rule build_industrial_energy_demand_per_node:
+    input:
+        tyndp_path='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
+        industry_sector_ratios=resources(
+            "industry_sector_ratios_{planning_horizons}.csv"
+        ),
+        industry_sector_ratios_endogenous=resources(
+            # "industry_sector_ratios_endogenous_{planning_horizons}_{wiggle}.csv"
+            "industry_sector_ratios_endogenous.csv"
+        ),
+        industrial_production_per_node=resources(
+            "industrial_production_base_s_{clusters}_{planning_horizons}.csv"
+        ),
+        industrial_energy_demand_per_node_today=resources(
+            "industrial_energy_demand_today_base_s_{clusters}.csv"
+        ),
+    output:
+        industrial_energy_demand_per_node=resources(
+            # "industrial_energy_demand_base_s_{clusters}_{planning_horizons}_{wiggle}.csv"
+            "industrial_energy_demand_base_s_{clusters}_{planning_horizons}.csv"
+        ),
+    threads: 1
+    resources:
+        mem_mb=1000,
+    log:
+        logs(
+            # "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}_{wiggle}.log"
+            "build_industrial_energy_demand_per_node_{clusters}_{planning_horizons}.log"
+        ),
+    benchmark:
+        (
+            benchmarks(
+                # "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}_{wiggle}"
+                "build_industrial_energy_demand_per_node/s_{clusters}_{planning_horizons}"
+            )
+        )
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/build_industrial_energy_demand_per_node.py"
 
 
 rule build_retro_cost:

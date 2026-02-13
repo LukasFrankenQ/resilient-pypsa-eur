@@ -338,7 +338,7 @@ def build_industry_sector_ratios_endogenous():
             )
 
         endogenous_sector_ratios.loc[bands, idx[:, process]] = decarbonise_heat_share
-        # endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 1 - phaseout
+        endogenous_sector_ratios.loc[['methane'], idx[:, process]] *= 0.
 
     # heat is only nonzero in processes that are not endogenous here, so this does not produce an error
     endogenous_sector_ratios.loc["heat<100"] += endogenous_sector_ratios.loc["heat"]
