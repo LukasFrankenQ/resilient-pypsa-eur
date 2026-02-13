@@ -5181,16 +5181,65 @@ def add_industry(
     industrial_demand = industrial_demand * 1e6 * nyears
     industrial_demand.index.name = "MWh"
 
-    if snakemake.params.sector["endogenous_sectors"]:
-        # adjust the industrial energy demand excluding endogenously modelled carriers
-        adjusted_demand, steel = adjust_industry_demand(nodes)
-        adjusted_demand["current electricity"] = industrial_demand[
-            "current electricity"
-        ]
-        industrial_demand = adjusted_demand.copy()
-
     if options["industry_t"]["endogen"]:
         industrial_demand = industrial_demand.loc[:, "endogenous"]
+    else:
+        industrial_demand = industrial_demand.loc[:, "exogenous"]
+
+    if snakemake.params.sector["endogenous_steel"]:
+
+        # remove demands for steel production from industrial demand
+        nodal_production = pd.read_csv(
+            snakemake.input.industrial_production, index_col=0
+        ) / 1e3
+
+        sector_ratios_en = pd.read_csv(
+            snakemake.input.industry_sector_ratios_endogenous, header=[0, 1], index_col=0
+        )
+        sector_ratios_ex = pd.read_csv(
+            snakemake.input.industry_sector_ratios, header=[0, 1], index_col=0
+        )
+
+        sectors_copied_from_exogenous = [
+            "HVC (chemical recycling)",
+            "HVC (mechanical recycling)",
+            "DRI + Electric arc",
+        ]
+
+        sector_ratios = pd.concat((
+            sector_ratios_en,
+            sector_ratios_ex.loc[:, idx[:, sectors_copied_from_exogenous]]
+        ), axis=1).sort_index(axis=1).replace(np.nan, 0)
+        sector_ratios.loc['heat<100'] += sector_ratios.loc['heat']
+        sector_ratios.drop('heat', inplace=True)
+
+        nodal_sector_ratios = pd.concat(
+            {node: sector_ratios[node[:2]] for node in nodal_production.index}, axis=1
+        )
+
+        nodal_production_stacked = nodal_production.stack()
+        nodal_production_stacked.index.names = [None, None]
+
+        # final energy consumption per node and industry (TWh/a)
+        nodal_df = (nodal_sector_ratios.multiply(nodal_production_stacked)).T
+        # rename the columns to correct unit
+        nodal_df.columns.name = "TWh/a"
+
+        steel_input_carrier_demand = (
+            nodal_df.loc[
+                idx[:, ['Integrated steelworks', 'DRI + Electric arc']], :
+                ]
+                .groupby(level=0).sum()
+        )
+        steel_demand = nodal_production[["Integrated steelworks", "DRI + Electric arc"]].sum(
+            axis=1
+        )
+
+        steel_demand.name = "Mt/a"
+        industrial_demand -= steel_input_carrier_demand
+
+
+    if options["industry_t"]["endogen"]:
 
         logger.warning("Treating process emissions naively.")
         industrial_demand.loc[:, "process emission"] = 0.0
@@ -5202,8 +5251,6 @@ def add_industry(
         add_t_industry200_500(n, nodes, industrial_demand, costs, must_run)
         add_t_industry500(n, nodes, industrial_demand, costs, must_run)
 
-    else:
-        industrial_demand = industrial_demand.loc[:, "exogenous"]
 
     if options.get("biomass_spatial", options["biomass_transport"]):
         p_set = (

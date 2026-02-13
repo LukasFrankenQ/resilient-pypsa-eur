@@ -847,6 +847,7 @@ sector:
   conventional_generation:
     OCGT: gas
     CCGT: gas
+  endogenous_steel: true
   industry_t:  # heat supply industry
     endogen: true  # if heat supply for industry should be enodgenously optimised (does not cover steel sector)
     must_run: 0.8 # NB: industrial heat demand is in reality supplied at site by discrete plants
