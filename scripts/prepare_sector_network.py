@@ -245,12 +245,8 @@ def define_spatial(nodes, options):
 
     # industry
     spatial.hbi = SimpleNamespace()
-    if options["hbi_relocation"]:
-        spatial.hbi.nodes = ["EU hbi"]
-        spatial.hbi.location = ["EU"]
-    else:
-        spatial.hbi.nodes = nodes + " hbi"
-        spatial.hbi.location = nodes
+    spatial.hbi.nodes = nodes + " hbi"
+    spatial.hbi.location = nodes
 
     spatial.steel = SimpleNamespace()
     spatial.steel.nodes = nodes + " steel"
@@ -5124,6 +5120,9 @@ def add_industry(
     - Heat systems
     - Process emission handling
     """
+
+    idx = pd.IndexSlice
+
     logger.info("Add industrial demand")
     # add oil buses for shipping, aviation and naptha for industry
     add_carrier_buses(
@@ -5186,19 +5185,24 @@ def add_industry(
     else:
         industrial_demand = industrial_demand.loc[:, "exogenous"]
 
+    print('industrial demand before steel removal:\n', industrial_demand.sum(axis=0).mul(1e-6).astype(int))
     if snakemake.params.sector["endogenous_steel"]:
 
         # remove demands for steel production from industrial demand
         nodal_production = pd.read_csv(
             snakemake.input.industrial_production, index_col=0
-        ) / 1e3
+        ) * 1e3
+        nodal_production.index.name = 't/a'
+        # print('nodal_production index name:', nodal_production.index.name)
 
         sector_ratios_en = pd.read_csv(
             snakemake.input.industry_sector_ratios_endogenous, header=[0, 1], index_col=0
         )
+        print('sector_ratios_en index name:', sector_ratios_en.index.name)
         sector_ratios_ex = pd.read_csv(
             snakemake.input.industry_sector_ratios, header=[0, 1], index_col=0
         )
+        print('sector_ratios_ex index name:', sector_ratios_ex.index.name)
 
         sectors_copied_from_exogenous = [
             "HVC (chemical recycling)",
@@ -5223,21 +5227,46 @@ def add_industry(
         # final energy consumption per node and industry (TWh/a)
         nodal_df = (nodal_sector_ratios.multiply(nodal_production_stacked)).T
         # rename the columns to correct unit
-        nodal_df.columns.name = "TWh/a"
+        nodal_df.columns.name = "MWh/a"
 
-        steel_input_carrier_demand = (
+        steel_corr = (
             nodal_df.loc[
                 idx[:, ['Integrated steelworks', 'DRI + Electric arc']], :
                 ]
                 .groupby(level=0).sum()
         )
-        steel_demand = nodal_production[["Integrated steelworks", "DRI + Electric arc"]].sum(
+        steel = nodal_production[["Integrated steelworks", "DRI + Electric arc"]].sum(
             axis=1
         )
+        steel.name = "t/a"
 
-        steel_demand.name = "Mt/a"
-        industrial_demand -= steel_input_carrier_demand
+        steel_corr.rename(
+            columns={
+                'heat<100': 'low-temperature heat',
+                'biomass': 'solid biomass',
+                'elec': 'electricity',
+            }
+        )
 
+        # print('steel corrected demand:')
+        # print(steel_corr.mul(1e-6).astype(int))
+
+        # print('industrial demand before steel removal:')
+        # print(industrial_demand.mul(1e-6).astype(int).head())
+
+        # print('steel correction col comparison: ')
+        # print(steel_corr.columns.difference(industrial_demand.columns))
+        # print(industrial_demand.columns.difference(steel_corr.columns))
+
+        inter = industrial_demand.columns.intersection(steel_corr.columns)
+        industrial_demand[inter] = industrial_demand[inter].sub(steel_corr[inter])
+
+        logger.warning('lower clipping steel at 0.')
+        industrial_demand = industrial_demand.clip(lower=0)
+
+
+    print('industrial demand after steel removal:\n', industrial_demand.sum(axis=0).mul(1e-6).astype(int))
+    # import sys; sys.exit()
 
     if options["industry_t"]["endogen"]:
 
@@ -5315,7 +5344,7 @@ def add_industry(
         lifetime=costs.at["cement capture", "lifetime"],
     )
 
-    if "steel" in snakemake.params.sector["endogenous_sectors"]:
+    if snakemake.params.sector["endogenous_steel"]:
         # add steel load
         logger.info("Adding steel production technologies.")
         n.add("Carrier", "steel", unit="t")

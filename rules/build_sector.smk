@@ -1424,6 +1424,12 @@ rule prepare_sector_network:
         industrial_production=resources(
             "industrial_production_base_s_{clusters}_{planning_horizons}.csv"
         ),
+        industry_sector_ratios_endogenous=resources(
+            "industry_sector_ratios_endogenous.csv"
+        ),
+        industry_sector_ratios=resources(
+            "industry_sector_ratios_{planning_horizons}.csv"
+        ),
         district_heat_share=resources(
             "district_heat_share_base_s_{clusters}_{planning_horizons}.csv"
         ),
