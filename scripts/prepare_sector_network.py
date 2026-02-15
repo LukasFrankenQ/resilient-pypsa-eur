@@ -5477,6 +5477,9 @@ def add_industry(
             p_nom=0,
             p_nom_extendable=True,
         )
+
+        logger.warning('Switched off CC for steel emissions.')
+        '''
         if investment_year > 2025:
             # Assumption: enough waste heat to recover sorbent
             capture_rate = costs.at["cement capture", "capture_rate"]
@@ -5519,6 +5522,7 @@ def add_industry(
                 p_nom_extendable=True,
                 lifetime=costs.at["cement capture", "lifetime"],
             )
+        '''
 
     n.add(
         "Bus",
