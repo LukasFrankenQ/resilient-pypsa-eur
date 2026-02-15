@@ -5002,62 +5002,6 @@ def add_t_industry500(n, nodes, industrial_demand, costs, must_run):
         )
 
 
-def adjust_industry_demand(nodes):
-    # import ratios [MWh/t_Material]
-    fn = snakemake.input.industry_sector_ratios
-    sector_ratios = pd.read_csv(fn, header=[0, 1], index_col=0)
-
-    # material demand per node and industry [kt/a]
-    fn = snakemake.input.industrial_production
-    nodal_production = pd.read_csv(fn, index_col=0) / 1e3  # kt/a -> Mt/a
-
-    nodal_sector_ratios = pd.concat(
-        {node: sector_ratios[node[:2]] for node in nodal_production.index}, axis=1
-    )
-
-    nodal_production_stacked = nodal_production.stack()
-    nodal_production_stacked.index.names = [None, None]
-
-    # final energy consumption per node and industry (TWh/a)
-    nodal_df = (nodal_sector_ratios.multiply(nodal_production_stacked)).T
-    # rename the columns to correct unit
-    nodal_df.columns.name = "TWh/a"
-
-    # add up all industry sectors except the ones endogenously modelled
-    endogenous_sector = snakemake.params.sector["endogenous_sectors"]
-
-    sector_dict = {
-        "steel": ["Integrated steelworks", "DRI + Electric arc"],
-        # "cement": "Cement",
-    }
-    keys = [sector_dict[k] for k in endogenous_sector if k in sector_dict]
-
-    remaining_sectors = ~nodal_df.index.get_level_values(1).isin(keys)
-
-    remaining_demand = (
-        nodal_df.loc[(nodes, remaining_sectors), :].groupby(level=0).sum()
-    ).mul(1e6)
-    remaining_demand.columns.name = "MWh/a"
-    remaining_demand.rename(
-        columns={
-            "elec": "electricity",
-            "biomass": "solid biomass",
-            "heat": "low-temperature heat",
-        },
-        inplace=True,
-    )
-    # adjust initial demand
-
-    # get the demand of steel and cement
-    steel = nodal_production[["Integrated steelworks", "DRI + Electric arc"]].sum(
-        axis=1
-    )
-    steel.name = "Mt/a"
-    # cement = nodal_production["Cement"]
-    # cement.name = "Mt/a"
-
-    return remaining_demand, steel#, cement
-
 
 def add_industry(
     n: pypsa.Network,
@@ -5261,6 +5205,7 @@ def add_industry(
         inter = industrial_demand.columns.intersection(steel_corr.columns)
         industrial_demand[inter] = industrial_demand[inter].sub(steel_corr[inter])
 
+        print(industrial_demand)
         logger.warning('lower clipping steel at 0.')
         industrial_demand = industrial_demand.clip(lower=0)
 
@@ -5368,7 +5313,7 @@ def add_industry(
             unit="t",
         )
 
-        p_set = steel * 1e6 / 8760
+        p_set = steel / 8760
         n.add(
             "Load",
             spatial.steel.nodes,
