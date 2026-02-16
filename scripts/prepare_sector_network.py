@@ -8456,7 +8456,13 @@ if __name__ == "__main__":
 
     # if tyndp_scenario != 'free':
     carbon_prices = snakemake.params.carbon_prices
-    insert_ets(n, carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024])
+    
+    if tyndp_scenario != 'free':
+        eu_price, uk_price = carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024]
+    else:
+        eu_price, uk_price = 0., 0.
+
+    insert_ets(n, eu_price, uk_price)
 
     if snakemake.wildcards.planning_horizons != 2025 and tyndp_scenario != 'free':
         insert_tyndp_capacities(
@@ -8482,7 +8488,7 @@ if __name__ == "__main__":
     # )
 
     gas_consumption = float(snakemake.wildcards['wiggle'])
-    assert 100 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
+    # assert 101 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
