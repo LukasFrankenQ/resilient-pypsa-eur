@@ -51,10 +51,11 @@ scenario:
   - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
-  # - 2030
+  - 2030
   - 2035
   # - 2040
   tyndp_scenario:
+  - 'NT+very_slow'
   - 'NT+slow'
   - 'NT+medium'
   - 'NT+fast'
@@ -62,6 +63,7 @@ scenario:
   # - 'DE'
   # - 'GA'
   wiggle:
+  - endo
   # - '+0.00'
   # - 0
   # - 125
@@ -79,7 +81,7 @@ scenario:
   # - 1625
   # - 1750
   # - 1875
-  - 2000
+  # - 2000
   # - 2125
   # - 2250
   # - 2375
@@ -87,7 +89,7 @@ scenario:
   # - 2625
   # - 2750
   # - 2875
-  - 3000
+  # - 3000
   # - 3125
   # - 3250
   # - 3375
@@ -95,7 +97,7 @@ scenario:
   # - 3625
   # - 3750
   # - 3875
-  - 4000
+  # - 4000
   # - 4125
   # - 4250
   # - 4375
@@ -108,18 +110,6 @@ scenario:
   # - 5250
   # - 5375
   # - 5500
-  # - '+0.01'
-  # - '+0.02'
-  # - '+0.03'
-  # - '+0.04'
-  # - '+0.06'
-  # - '+0.3'
-  # - '-0.01'
-  # - '-0.02'
-  # - '-0.03'
-  # - '-0.04'
-  # - '-0.06'
-  # - '-0.3'
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
@@ -874,14 +864,14 @@ sector:
       methane: true
       methane_CC: false
       heat_pumps: true
-      electric_boiler: true
+      electric_boiler: false
     heat100-200:
       biomass: true
       biomass_CC: false
       methane: true
       methane_CC: false
       heat_pumps: true
-      electric_boiler: true
+      electric_boiler: false
     heat200-500:
       biomass: true
       biomass_CC: false

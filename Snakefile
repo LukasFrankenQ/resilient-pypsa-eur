@@ -53,12 +53,13 @@ wildcard_constraints:
     sector_opts=r"[-+a-zA-Z0-9\.\s]*",
     planning_horizons=r"[0-9]{4}",
     # wiggle=r"[-+][0-9.]+", # like '+0.01' or '-0.01'
-    wiggle=r"[0-9]+",
-    tyndp_scenario=r"NT\+(slow|medium|fast)|free",
+    wiggle=r"[0-9]+|endo",
+    tyndp_scenario=r"NT\+(very_slow|slow|medium|fast)|free",
+    # tyndp_scenario=r"NT\+(slow|medium|fast)",
 
 
 include: "rules/common.smk"
-include: "rules/collect.smk"
+# include: "rules/collect.smk"
 include: "rules/retrieve.smk"
 include: "rules/build_electricity.smk"
 include: "rules/build_sector.smk"

@@ -1,3 +1,4 @@
+'''
 rule plot_gas_resilience:
     input:
         expand(
@@ -20,3 +21,5 @@ rule plot_gas_resilience:
 # rule plot_validation_power_sector:
 #     pass
     
+
+'''

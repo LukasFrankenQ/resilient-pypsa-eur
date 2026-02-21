@@ -1245,11 +1245,15 @@ def add_gas_consumption_constraint(n):
     # Total weighted dispatch across all snapshots and gas generators
     lhs = n.model["Generator-p"].loc[:, gas_generators].sum().sum() * n.snapshot_weightings.generators.mean()
 
-    # gas_consumption is in TWh, so multiply by 1e6 to get MWh
-    rhs = gas_consumption * 1e6
-    
-    # n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
-    n.model.add_constraints(lhs == rhs, name="fixed_gas_consumption")
+    if gas_consumption is None:
+        pass
+
+    else:
+        # gas_consumption is in TWh, so multiply by 1e6 to get MWh
+        rhs = gas_consumption * 1e6
+        
+        # n.model.add_constraints(lhs <= rhs, name="gas_consumption_limit")
+        n.model.add_constraints(lhs == rhs, name="fixed_gas_consumption")
 
 
 def add_gas_heating_progress_factors_constraint(n):
@@ -1614,7 +1618,11 @@ if __name__ == "__main__":
     #     index_col=0
     #     )
 
-    gas_consumption = float(snakemake.wildcards['wiggle'])
+    gas_consumption = snakemake.wildcards['wiggle']
+    if gas_consumption == 'endo':
+        gas_consumption = None
+    else:
+        gas_consumption = float(gas_consumption)
 
     prepare_network(
         n,

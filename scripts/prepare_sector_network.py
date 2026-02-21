@@ -5101,6 +5101,10 @@ def add_industry(
     industrial_demand = pd.read_csv(industrial_demand_file, index_col=0, header=[0, 1])
 
     heat_pump_adoption_pace = {
+        'very_slow': {
+            2030: 0.02,
+            2035: 0.1,
+        },
         'slow': {
             2030: 0.125,
             2035: 0.25,
@@ -8486,9 +8490,6 @@ if __name__ == "__main__":
     #     cost_increase_factor=0.1,
     #     capacity_increase_factor=0.1,
     # )
-
-    gas_consumption = float(snakemake.wildcards['wiggle'])
-    # assert 101 <= gas_consumption <= 10000, 'Gas consumption should be in TWh and have realistic values.'
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

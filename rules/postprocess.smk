@@ -41,6 +41,7 @@ if config["foresight"] != "perfect":
         script:
             "../scripts/plot_power_network_clustered.py"
 
+    '''
     rule plot_power_network:
         params:
             plotting=config_provider("plotting"),
@@ -67,6 +68,7 @@ if config["foresight"] != "perfect":
             "../envs/environment.yaml"
         script:
             "../scripts/plot_power_network.py"
+    '''
 
     rule plot_hydrogen_network:
         params:
@@ -588,7 +590,7 @@ rule plot_base_statistics:
     script:
         "../scripts/plot_statistics.py"
 
-
+'''
 rule validate_gas_consumption:
     input:
         expand(
@@ -607,3 +609,4 @@ rule validate_gas_consumption:
         "../envs/environment.yaml"
     script:
         "../scripts/validate_gas_consumption.py"
+'''
