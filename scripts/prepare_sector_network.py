@@ -7227,12 +7227,12 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
     year = int(year)
 
-    deviation_tolarances = {
-        2030: 0.25,
-        2035: 0.35,
-    }
+    # deviation_tolarances = {
+    #     2030: 0.01,
+    #     2035: 0.01,
+    # }
 
-    nt_deviation_tolerance = deviation_tolarances[year]
+    # nt_deviation_tolerance = deviation_tolarances[year]
 
     print(snakemake.wildcards)
     assert scenario in ['NT'], f"Scenario must be 'NT' but is {scenario}"
@@ -7249,13 +7249,17 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
         unmatched_capacity = 0
         for country in df.index:
 
-            p_nom = df.loc[country, (carrier, 'NT')]
-            if scenario != 'NT':
-                p_nom_max = df.loc[country, (carrier, 'HIGH')]
-                p_nom_min = df.loc[country, (carrier, 'LOW')]
-            else: 
-                p_nom_max = p_nom * (1 + nt_deviation_tolerance)
-                p_nom_min = p_nom * (1 - nt_deviation_tolerance)
+            # p_nom = df.loc[country, (carrier, 'NT')]
+            p_nom_max = df.loc[country, (carrier, 'HIGH')]
+            # if scenario != 'NT':
+            #     p_nom_max = df.loc[country, (carrier, 'HIGH')]
+            #     p_nom_min = df.loc[country, (carrier, 'LOW')]
+            # else: 
+            #     p_nom_max = p_nom * (1 + nt_deviation_tolerance)
+            #     p_nom_min = p_nom * (1 - nt_deviation_tolerance)
+        
+            # p_nom_max = p_nom * (1 + nt_deviation_tolerance)
+            # p_nom_min = p_nom * (1 - nt_deviation_tolerance)
 
             gens = n.generators.index[
                 (n.generators.carrier.isin(carriers)) &
@@ -7263,38 +7267,33 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             ]
             
             if len(gens) == 0:
-                unmatched_capacity += p_nom
+                unmatched_capacity += p_nom_max
                 continue
 
             existing = n.generators.loc[gens, 'p_nom'].sum()
 
             if existing == 0:
-                n.generators.loc[gens, 'p_nom'] = p_nom / len(gens)
+                # n.generators.loc[gens, 'p_nom'] = p_nom / len(gens)
+                # p_nom_ = pd.Series(p_nom / len(gens), index=gens)
+
+                n.generators.loc[gens, 'p_nom_max'] = p_nom_max / len(gens)
             else:
-                factor = p_nom / existing
-                n.generators.loc[gens, 'p_nom'] *= factor
+                # factor = p_nom_max / existing
+                # n.generators.loc[gens, 'p_nom'] *= factor
+                # p_nom = p_nom * factor
 
+                n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * p_nom_max / existing
 
-            if scenario != 'NT':
+            # n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
+            # n.generators.loc[gens, 'p_nom_max'] = p_nom
+            # n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
+            n.generators.loc[gens, 'p_nom_min'] = 0.
 
-                max_factor = p_nom_max / n.generators.loc[gens, 'p_nom_max'].sum()
-                min_factor = p_nom_min / n.generators.loc[gens, 'p_nom_max'].sum() # minimal buildout likely to align with higher spatial variability
-
-                assert not np.isnan(max_factor), f'Max factor is NaN for {carrier} in {country}'
-
-                n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom_max'] * max_factor
-                n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom_max'] * min_factor
-
-            else:
-
-                n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
-                n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
-
-            logger.info(f'Setting {carrier} capacities for {country} to {p_nom/1e3:.1f} GW, {p_nom_max/1e3:.1f} GW, {p_nom_min/1e3:.1f} GW')
+            # logger.info(f'Setting {carrier} capacities for {country} to {p_nom/1e3:.1f} GW, {p_nom_max/1e3:.1f} GW, {p_nom_min/1e3:.1f} GW')
 
         all_gens = n.generators.index[n.generators.carrier.isin(carriers)]
 
-        existing = n.generators.loc[all_gens, 'p_nom'].sum()
+        existing = n.generators.loc[all_gens, 'p_nom_max'].sum()
         factor = (unmatched_capacity + existing) / existing
 
         n.generators.loc[all_gens, ['p_nom', 'p_nom_max', 'p_nom_min']] *= factor
@@ -7306,47 +7305,60 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
         unmatched_capacity = 0
         for country in df.index:
 
-            e_nom = df.loc[country, (btype, 'NT')]
+            e_nom_max = df.loc[country, (btype, 'HIGH')] * max_hours # the TYNDP value is in GW
 
             bats = n.stores.index[(n.stores.carrier == btype) & (n.stores.bus.str.startswith(country))]
             if len(bats) == 0:
-                unmatched_capacity += e_nom
-                logger.info(f'No batteries found for {btype} in {country}, e_nom = {e_nom}')
+                unmatched_capacity += e_nom_max
+                logger.info(f'No batteries found for {btype} in {country}, e_nom_max = {e_nom_max}')
                 continue
 
             existing = n.stores.loc[bats, 'e_nom'].sum()
-            if existing == 0:
-                n.stores.loc[bats, 'e_nom'] = e_nom / len(bats)
+            if existing == 0 or np.isnan(existing):
+                n.stores.loc[bats, 'e_nom_max'] = e_nom_max / len(bats)
             else:
 
-                factor = e_nom / existing
-                n.stores.loc[bats, 'e_nom'] *= factor
-            
-            charging_cap = n.stores.loc[bats, 'e_nom'] / max_hours
-            n.links.loc[bats + ' charger', 'p_nom'] = charging_cap.values
+                factor = e_nom_max / existing
+                n.stores.loc[bats, 'e_nom_max'] *= factor
 
-            logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap.sum()/1e3:.1f} GW')
-        
-    
+            charging_cap = n.stores.loc[bats, 'e_nom_max'] / max_hours
+            n.links.loc[bats + ' charger', 'p_nom_max'] = charging_cap.values
+
+            # logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap.sum()/1e3:.1f} GW')
+
+
         all_bats = n.stores.index[n.stores.carrier == btype]
-        existing = n.stores.loc[all_bats, 'e_nom'].sum()
+
+        # remove inf before summing as a safety precaution
+        existing = n.stores.loc[all_bats, 'e_nom_max'].replace([np.inf, -np.inf], np.nan).dropna().sum()
 
         # distribute unmatched capacity to existing batteries
         factor = (unmatched_capacity + existing) / existing
         logger.info(f'scaling factor for batteries: {factor:.2f}')
 
-        n.stores.loc[all_bats, 'e_nom'] *= factor
-        n.links.loc[all_bats + ' charger', 'p_nom'] *= factor
+        n.stores.loc[all_bats, 'e_nom_max'] *= factor
+        n.links.loc[all_bats + ' charger', 'p_nom_max'] *= factor
 
-        if scenario == 'NT':
-            n.links.loc[all_bats + ' charger', 'p_nom_max'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 + nt_deviation_tolerance)
-            n.links.loc[all_bats + ' charger', 'p_nom_min'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 - nt_deviation_tolerance)
+        # if scenario == 'NT':
+        # if 'NT' in scenario:
+            # n.links.loc[all_bats + ' charger', 'p_nom_max'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 + nt_deviation_tolerance)
+            # n.links.loc[all_bats + ' charger', 'p_nom_min'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 - nt_deviation_tolerance)
 
-            n.stores.loc[all_bats, 'e_nom_max'] = n.stores.loc[all_bats, 'e_nom'] * (1 + nt_deviation_tolerance)
-            n.stores.loc[all_bats, 'e_nom_min'] = n.stores.loc[all_bats, 'e_nom'] * (1 - nt_deviation_tolerance)
-        else:
-            raise ValueError(f'Scenario {scenario} not supported')
+            # n.stores.loc[all_bats, 'e_nom_max'] = n.stores.loc[all_bats, 'e_nom'] * (1 + nt_deviation_tolerance)
+            # n.stores.loc[all_bats, 'e_nom_min'] = n.stores.loc[all_bats, 'e_nom'] * (1 - nt_deviation_tolerance)
+        # else:
+        #     raise ValueError(f'Scenario {scenario} not supported')
 
+        # print(n.stores.loc[all_bats, ['e_nom_max', 'e_nom_min', 'e_nom']].replace(np.inf, 0).mul(1e-3).astype(int).round())
+        # print('===============================')
+        # print(n.links.loc[all_bats + ' charger', ['p_nom_max', 'p_nom_min', 'p_nom']].replace(np.inf, 0).mul(1e-3).astype(int).round())
+        # print('===============================')
+        # print('===============================')
+        # print('===============================')
+        # print('===============================')
+
+    # import sys
+    # sys.exit()
 
 def final_electricity_transport(path):
     return _extract_scenario_values(path, sheet_name='6-', row_label='Transport')
@@ -8462,7 +8474,9 @@ if __name__ == "__main__":
     carbon_prices = snakemake.params.carbon_prices
     
     if tyndp_scenario != 'free':
-        eu_price, uk_price = carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024]
+        # eu_price, uk_price = carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024]
+        eu_price = carbon_prices['eu_ets'][int(investment_year)]
+        uk_price = carbon_prices['uk_ets'][int(investment_year)]
     else:
         eu_price, uk_price = 0., 0.
 
