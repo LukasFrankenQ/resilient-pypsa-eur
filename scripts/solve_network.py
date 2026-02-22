@@ -1680,7 +1680,8 @@ if __name__ == "__main__":
         pd.concat([
             n.model.dual['Generator-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
             n.model.dual['Link-ext-p_nom-upper'].to_pandas().dropna().rename('p_nom-upper'),
-        ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.upper_mu)
+            n.model.dual['Store-ext-e_nom-upper'].to_pandas().dropna().rename('e_nom-upper'),
+        ], axis=0, keys=['Generator', 'Link', 'Store']).to_csv(snakemake.output.upper_mu)
     except KeyError:
         pd.DataFrame().to_csv(snakemake.output.upper_mu)
 
@@ -1688,7 +1689,8 @@ if __name__ == "__main__":
         pd.concat([
             n.model.dual['Generator-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
             n.model.dual['Link-ext-p_nom-lower'].to_pandas().dropna().rename('p_nom-lower'),
-        ], axis=0, keys=['Generator', 'Link']).to_csv(snakemake.output.lower_mu)
+            n.model.dual['Store-ext-e_nom-lower'].to_pandas().dropna().rename('e_nom-lower'),
+        ], axis=0, keys=['Generator', 'Link', 'Store']).to_csv(snakemake.output.lower_mu)
     except KeyError:
         pd.DataFrame().to_csv(snakemake.output.lower_mu)
 
