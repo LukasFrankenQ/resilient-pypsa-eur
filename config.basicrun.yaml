@@ -48,7 +48,8 @@ scenario:
   opts:
   - ''
   sector_opts:
-  - '168H-T-H-B-I-A-dist1'
+  # - '168H-T-H-B-I-A-dist1'
+  - '3H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
   - 2030
@@ -58,21 +59,21 @@ scenario:
   - 'NT+very_slow'
   # - 'NT+slow'
   # - 'NT+medium'
-  # - 'NT+fast'
+  - 'NT+fast'
   # - 'free'
   # - 'DE'
   # - 'GA'
   wiggle:
-  # - endo
-  - 2900
-  - 3000
-  - 3020
-  - 3040
-  - 3050
-  - 3060
-  - 3080
-  - 3100
-  - 3200
+  - endo
+  # - 2900
+  # - 3000
+  # - 3020
+  # - 3040
+  # - 3050
+  # - 3060
+  # - 3080
+  # - 3100
+  # - 3200
   # - 0
   # - 125
   # - 250
