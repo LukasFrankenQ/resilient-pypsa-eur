@@ -52,19 +52,27 @@ scenario:
   planning_horizons:
   # - 2025
   - 2030
-  - 2035
+  # - 2035
   # - 2040
   tyndp_scenario:
   - 'NT+very_slow'
-  - 'NT+slow'
-  - 'NT+medium'
-  - 'NT+fast'
+  # - 'NT+slow'
+  # - 'NT+medium'
+  # - 'NT+fast'
   # - 'free'
   # - 'DE'
   # - 'GA'
   wiggle:
-  - endo
-  # - '+0.00'
+  # - endo
+  - 2900
+  - 3000
+  - 3020
+  - 3040
+  - 3050
+  - 3060
+  - 3080
+  - 3100
+  - 3200
   # - 0
   # - 125
   # - 250
