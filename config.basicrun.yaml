@@ -48,25 +48,25 @@ scenario:
   opts:
   - ''
   sector_opts:
-  # - '168H-T-H-B-I-A-dist1'
-  - '3H-T-H-B-I-A-dist1'
+  - '168H-T-H-B-I-A-dist1'
   planning_horizons:
   # - 2025
   - 2030
-  # - 2035
+  - 2035
   # - 2040
   tyndp_scenario:
-  - 'NT+very_slow'
+  - 'NT+freepumps+freepumps'
   # - 'NT+slow'
   # - 'NT+medium'
-  - 'NT+fast'
+  # - 'NT+fast'
   # - 'free'
   # - 'DE'
   # - 'GA'
   wiggle:
   - endo
   # - 2900
-  # - 3000
+  - 3000
+  - 2000
   # - 3020
   # - 3040
   # - 3050
@@ -662,7 +662,8 @@ sector:
   bev_charge_rate: 0.011
   bev_avail_max: 0.95
   bev_avail_mean: 0.8
-  v2g: true
+  # v2g: true
+  v2g: false
   land_transport_fuel_cell_share:
     2020: 0
     2025: 0

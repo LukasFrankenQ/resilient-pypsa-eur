@@ -7237,6 +7237,8 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
     print(snakemake.wildcards)
     assert scenario in ['NT'], f"Scenario must be 'NT' but is {scenario}"
 
+    nt_deviation_tolerance = 0.01
+
     carrier_mapper = {
         'solar': ['solar', 'solar rooftop', 'solar hsat'],
         'offwind': ['offwind-ac', 'offwind-dc', 'offwind-float'],
@@ -7287,7 +7289,8 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             # n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
             # n.generators.loc[gens, 'p_nom_max'] = p_nom
             # n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
-            n.generators.loc[gens, 'p_nom_min'] = 0.
+            n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom_max'] * (1 - nt_deviation_tolerance)
+            n.generators.loc[gens, 'p_nom_max'] *= 2
 
             # logger.info(f'Setting {carrier} capacities for {country} to {p_nom/1e3:.1f} GW, {p_nom_max/1e3:.1f} GW, {p_nom_min/1e3:.1f} GW')
 
@@ -7320,9 +7323,15 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
                 factor = e_nom_max / existing
                 n.stores.loc[bats, 'e_nom_max'] *= factor
+            
+            n.stores.loc[bats, 'e_nom_min'] = n.stores.loc[bats, 'e_nom_max'] * (1 - nt_deviation_tolerance)
 
             charging_cap = n.stores.loc[bats, 'e_nom_max'] / max_hours
             n.links.loc[bats + ' charger', 'p_nom_max'] = charging_cap.values
+            n.links.loc[bats + ' charger', 'p_nom_min'] = charging_cap.values * (1 - nt_deviation_tolerance)
+
+            n.stores.loc[bats, 'e_nom_max'] *= 2
+            n.links.loc[bats + ' charger', 'p_nom_max'] *= 2
 
             # logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap.sum()/1e3:.1f} GW')
 
@@ -8118,9 +8127,15 @@ if __name__ == "__main__":
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
     
     if tyndp_scenario != 'free':
-        hp_pace = tyndp_scenario.split('+')[1]
+        industry_hp_pace = tyndp_scenario.split('+')[1]
+        if industry_hp_pace == 'freepumps':
+            industry_hp_pace = np.inf
     else:
-        hp_pace = np.inf
+        industry_hp_pace = np.inf
+
+    if tyndp_scenario != 'free':
+        res_hp_pace = tyndp_scenario.split('+')[2]
+        assert res_hp_pace in ['freepumps', 'NT']
         
     tyndp_scenario = tyndp_scenario.split('+')[0]
 
@@ -8305,7 +8320,7 @@ if __name__ == "__main__":
             spatial=spatial,
             cf_industry=cf_industry,
             investment_year=investment_year,
-            hp_pace=hp_pace,
+            hp_pace=industry_hp_pace,
         )
 
     if options["shipping"]:
@@ -8491,11 +8506,12 @@ if __name__ == "__main__":
            )
 
     if tyndp_scenario != 'free':
-        adjust_heating_capacities(
-            n,
-            snakemake.input.existing_heating_distribution,
-            int(snakemake.wildcards['planning_horizons'])
-            )
+        if res_hp_pace == 'NT':
+            adjust_heating_capacities(
+                n,
+                snakemake.input.existing_heating_distribution,
+                int(snakemake.wildcards['planning_horizons'])
+                )
 
     # add_accelerated_heat_pumps(
     #     n,
