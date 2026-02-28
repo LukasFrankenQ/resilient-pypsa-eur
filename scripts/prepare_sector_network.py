@@ -8099,6 +8099,77 @@ def insert_tyndp_electricity_transport(
     '''
 
 
+def add_production_constraints(n, carrier, value):
+    """
+    Enforce total energy usage of all links with a given carrier by adding
+    a virtual store that accumulates their output. The store starts at `value`
+    and must be empty by the end of the horizon.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+    carrier : str
+    value : float
+        Total energy throughput in MWh.
+    """
+    links_i = n.links.query("carrier == @carrier").index
+
+    if links_i.empty:
+        raise ValueError(f"No links found with carrier '{carrier}'")
+
+    bus_name = f"forced {carrier}"
+    store_name = f"forced {carrier}"
+
+    link_efficiency = n.links.loc[links_i, 'efficiency'].mean()
+
+    # Add a virtual bus
+    n.add("Bus", bus_name, carrier=f"{carrier}")
+
+    # Find a free bus port (bus2, bus3, bus4) for each link
+    for bus_col in ["bus2", "bus3", "bus4"]:
+        # Check which links have this port unoccupied
+        free_mask = n.links.loc[links_i, bus_col] == ""
+        if free_mask.any():
+            free_links = links_i[free_mask]
+            n.links.loc[free_links, bus_col] = bus_name
+
+            # The efficiency for this port determines how much energy
+            # is "deposited" into the store per unit of p0.
+            # Negative efficiency means energy is withdrawn from the bus,
+            # i.e. the store is drained. We want to drain `value` MWh total.
+            eff_col = bus_col.replace("bus", "efficiency")
+            # n.links.loc[free_links, eff_col] = -1
+            n.links.loc[free_links, eff_col] = -1.
+
+            links_i = links_i[~free_mask]
+
+        if links_i.empty:
+            break
+
+    if not links_i.empty:
+        raise RuntimeError(
+            f"Could not find free bus port for links: {links_i.tolist()}"
+        )
+
+    # Add a store that starts full and must be emptied
+    n.add(
+        "Store",
+        store_name,
+        bus=bus_name,
+        carrier=f"forced {carrier}",
+        e_nom=value * 1e6 / link_efficiency,
+        # e_set=pd.Series(np.linspace(value * 1e6 / link_efficiency, 0, len(n.snapshots)), index=n.snapshots),
+        e_initial=value * 1e6 / link_efficiency,
+    )
+
+    # Force the store to be empty at the final snapshot
+    # We do this via extra_functionality later, or by setting e_cyclic
+    # constraints. Here we add a global constraint approach:
+    # Actually, we can handle this by requiring e_final = 0 via
+    # an extra_functionality callback. Store it for later use.
+
+
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from scripts._helpers import mock_snakemake
@@ -8131,6 +8202,7 @@ if __name__ == "__main__":
         if industry_hp_pace == 'freepumps':
             industry_hp_pace = np.inf
     else:
+
         industry_hp_pace = np.inf
 
     if tyndp_scenario != 'free':
@@ -8520,6 +8592,48 @@ if __name__ == "__main__":
     #     cost_increase_factor=0.1,
     #     capacity_increase_factor=0.1,
     # )
+    print('tyndp_scenario:')
+    print(tyndp_scenario)
+    if tyndp_scenario != 'free':
+
+        production_constraints = snakemake.wildcards.tyndp_scenario.split('+')[3:]
+
+        print(production_constraints)
+
+        pypsa_carriers_matcher = pd.Series({
+            ''.join(ch for ch in c.lower() if ch.isalnum()):
+            c
+            for c in n.links.carrier.unique()
+        })
+        print(pypsa_carriers_matcher.head(30))
+        print(pypsa_carriers_matcher.tail(39))
+
+        cleaned_production_constraints = {}
+
+        for constraint in production_constraints:
+
+            carrier = constraint.split('-')[0].lower()
+            value = float(constraint.split('-')[1])
+
+            assert carrier in pypsa_carriers_matcher.index, f"Carrier {carrier} not found in network"
+
+            cleaned_production_constraints[pypsa_carriers_matcher[carrier]] = value
+        
+        production_constraints = cleaned_production_constraints
+        logger.info(f"Passing production constraints:\n{cleaned_production_constraints}")
+    
+    else:
+        production_constraints = {}
+    
+    print('production constraints:')
+    print(production_constraints)
+
+    for carrier, value in production_constraints.items():
+        logger.info(f"Adding production constraint for {carrier}: {value} TWh")
+        add_production_constraints(n, carrier, value)
+        
+    # import sys
+    # sys.exit()
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

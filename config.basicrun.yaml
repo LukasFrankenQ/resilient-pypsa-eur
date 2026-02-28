@@ -52,10 +52,14 @@ scenario:
   planning_horizons:
   # - 2025
   - 2030
-  - 2035
+  # - 2035
   # - 2040
   tyndp_scenario:
-  - 'NT+freepumps+freepumps'
+  # - 'NT+freepumps+freepumps'
+  - 'NT+freepumps+freepumps+biogas-1'
+  - 'NT+freepumps+freepumps+biogas-100'
+  - 'NT+freepumps+freepumps+biogas-200'
+  - 'NT+freepumps+freepumps+biogas-300'
   # - 'NT+slow'
   # - 'NT+medium'
   # - 'NT+fast'
@@ -63,10 +67,10 @@ scenario:
   # - 'DE'
   # - 'GA'
   wiggle:
-  - endo
+  # - endo
   # - 2900
   - 3000
-  - 2000
+  # - 2000
   # - 3020
   # - 3040
   # - 3050

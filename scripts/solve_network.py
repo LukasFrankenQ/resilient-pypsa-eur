@@ -1275,7 +1275,7 @@ def enforce_link_carrier_usage(n, carrier, value):
         raise ValueError(f"No links found with carrier '{carrier}'")
     
     # Get the link dispatch variable (p) for the relevant links
-    p = n.model["Link-p"].sel({"Link": links_i})
+    p = n.model["Link-p"].loc[:, links_i]
     
     # Weight each snapshot by its duration (hours) to get MWh
     weights = n.snapshot_weightings.loc[:, "generators"]
@@ -1283,7 +1283,7 @@ def enforce_link_carrier_usage(n, carrier, value):
     # Total energy = sum over all snapshots and links of (p * weight)
     lhs = (p * weights).sum()
     
-    n.model.add_constraints(lhs == value, name=f"link_carrier_usage_{carrier}")
+    n.model.add_constraints(lhs == - value * 1e6, name=f"link_carrier_usage_{carrier}")
 
 
 def add_gas_heating_progress_factors_constraint(n):
@@ -1336,7 +1336,6 @@ def add_gas_heating_progress_factors_constraint(n):
     n.model.add_objective(base_obj + speedy_phaseout_penalty, overwrite=True, sense="min")
     '''
 
-
     ##### ChatGPT version
     def add_group(cap_dict, suffix):
         nonlocal speedy_phaseout_penalty
@@ -1369,6 +1368,30 @@ def add_gas_heating_progress_factors_constraint(n):
 
     base_obj = n.model.objective.expression
     n.model.add_objective(base_obj + speedy_phaseout_penalty, overwrite=True, sense="min")
+
+
+def add_forced_store_constraints(n, snapshots):
+    """
+    Constrain all stores with 'forced' in their name to be empty at the last snapshot.
+    
+    Parameters
+    ----------
+    n : pypsa.Network
+    snapshots : pd.DatetimeIndex
+    """
+    forced_stores = n.stores.index[n.stores.index.str.contains('forced')]
+    initial_value = n.stores.e_initial.loc[forced_stores]
+    
+    if forced_stores.empty:
+        return
+    
+    last_snapshot = snapshots[-1]
+    
+    for store in forced_stores:
+        n.model.add_constraints(
+            n.model["Store-e"].loc[last_snapshot, store] <= initial_value * 0.01,
+            name=f"Store-forced_empty-{store}"
+        )
 
 
 def extra_functionality(
@@ -1446,6 +1469,13 @@ def extra_functionality(
     if config["sector"]["imports"]["enable"]:
         add_import_limit_constraint(n, snapshots)
 
+    if config['production_constraints'] is not None:
+        for carrier, value in config['production_constraints'].items():
+            # enforce_link_carrier_usage(n, carrier, value)
+            pass
+    if n.stores.index.str.contains('forced').any():
+        add_forced_store_constraints(n, snapshots)
+
     logger.warning('custom extra functionality commented out')
     '''
     if n.params.custom_extra_functionality:
@@ -1501,6 +1531,7 @@ def solve_network(
     planning_horizons: str | None = None,
     hike_run=False,
     gas_consumption=None,
+    production_constraints=None,
     gas_heating_progress_factors=None,
     **kwargs,
 ) -> None:
@@ -1549,6 +1580,11 @@ def solve_network(
     else:
         config['gas_heating_progress_factors_rural'] = None
         config['gas_heating_progress_factors_urban_decentral'] = None
+    
+    if production_constraints is not None:
+        config['production_constraints'] = production_constraints
+    else:
+        config['production_constraints'] = None
 
     set_of_options = solving["solver"]["options"]
     cf_solving = solving["options"]
@@ -1636,22 +1672,13 @@ if __name__ == "__main__":
     set_scenario_config(snakemake)
     update_config_from_wildcards(snakemake.config, snakemake.wildcards)
 
-
-    tyndp_scenario = snakemake.wildcards.tyndp_scenario
-    if tyndp_scenario != 'free':
-        production_constraints = {}
-    else:
-        production_constraints = tyndp_scenario.split('+')[3:]
-        
-
-
-
-
     solve_opts = snakemake.params.solving["options"]
 
     np.random.seed(solve_opts.get("seed", 123))
 
     n = pypsa.Network(snakemake.input.network)
+
+    tyndp_scenario = snakemake.wildcards.tyndp_scenario
     planning_horizons = snakemake.wildcards.get("planning_horizons", None)
 
     # gas_heating_progress_factors = pd.read_csv(
@@ -1689,6 +1716,7 @@ if __name__ == "__main__":
             rule_name=snakemake.rule,
             log_fn=snakemake.log.solver,
             gas_consumption=gas_consumption,
+            # production_constraints=production_constraints,
             # gas_heating_progress_factors=gas_heating_progress_factors,
         )
 
