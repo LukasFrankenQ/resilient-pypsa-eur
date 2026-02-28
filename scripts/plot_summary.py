@@ -120,6 +120,17 @@ def plot_costs():
 
     ax.grid(axis="x")
 
+    # Wrap long xticklabels
+    xticklabels = [label.get_text() for label in ax.get_xticklabels()]
+    wrapped_labels = []
+    for label in xticklabels:
+        if len(label) > 50:
+            wrapped = '\n'.join([label[i:i+50] for i in range(0, len(label), 50)])
+            wrapped_labels.append(wrapped)
+        else:
+            wrapped_labels.append(label)
+    ax.set_xticklabels(wrapped_labels)
+
     ax.legend(
         handles, labels, ncol=1, loc="upper left", bbox_to_anchor=[1, 1], frameon=False
     )
@@ -204,6 +215,17 @@ def plot_energy():
 
     ax.grid(axis="x")
 
+    # Wrap long xticklabels
+    xticklabels = [label.get_text() for label in ax.get_xticklabels()]
+    wrapped_labels = []
+    for label in xticklabels:
+        if len(label) > 50:
+            wrapped = '\n'.join([label[i:i+50] for i in range(0, len(label), 50)])
+            wrapped_labels.append(wrapped)
+        else:
+            wrapped_labels.append(label)
+    ax.set_xticklabels(wrapped_labels)
+
     ax.legend(
         handles, labels, ncol=1, loc="upper left", bbox_to_anchor=[1, 1], frameon=False
     )
@@ -285,6 +307,17 @@ def plot_balances():
         ax.set_xlabel("")
 
         ax.grid(axis="x")
+
+        # Wrap long xticklabels
+        xticklabels = [label.get_text() for label in ax.get_xticklabels()]
+        wrapped_labels = []
+        for label in xticklabels:
+            if len(label) > 50:
+                wrapped = '\n'.join([label[i:i+50] for i in range(0, len(label), 50)])
+                wrapped_labels.append(wrapped)
+            else:
+                wrapped_labels.append(label)
+        ax.set_xticklabels(wrapped_labels)
 
         ax.legend(
             handles,
@@ -508,6 +541,18 @@ def plot_carbon_budget_distribution(input_eurostat, options):
     )
 
     plt.grid(axis="y")
+
+    # Wrap long xticklabels
+    xticklabels = [label.get_text() for label in ax1.get_xticklabels()]
+    wrapped_labels = []
+    for label in xticklabels:
+        if len(label) > 50:
+            wrapped = '\n'.join([label[i:i+50] for i in range(0, len(label), 50)])
+            wrapped_labels.append(wrapped)
+        else:
+            wrapped_labels.append(label)
+    ax1.set_xticklabels(wrapped_labels)
+
     path = snakemake.output.balances.split("balances")[0] + "carbon_budget.svg"
     plt.savefig(path, bbox_inches="tight")
     plt.close()
