@@ -56,10 +56,13 @@ scenario:
   # - 2040
   tyndp_scenario:
   # - 'NT+freepumps+freepumps'
-  - 'NT+freepumps+freepumps+biogas-1'
-  - 'NT+freepumps+freepumps+biogas-100'
-  - 'NT+freepumps+freepumps+biogas-200'
-  - 'NT+freepumps+freepumps+biogas-300'
+  - 'NT+freepumps+freepumps+h2electrolysis-100+biogastogas-115'
+  - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
+  # - 'NT+freepumps+freepumps+h2electrolysis-300+biogastogas-115'
+  - 'NT+freepumps+freepumps+h2electrolysis-400+biogastogas-115'
+  # - 'NT+freepumps+freepumps+h2electrolysis-500+biogastogas-115'
+  - 'NT+freepumps+freepumps+h2electrolysis-600+biogastogas-115'
+  # - 'NT+freepumps+freepumps+h2electrolysis-700+biogastogas-115'
   # - 'NT+slow'
   # - 'NT+medium'
   # - 'NT+fast'
@@ -533,7 +536,8 @@ biomass:
   share_unsustainable_use_retained:
     2020: 1
     2025: 1
-    2030: 0.66
+    # 2030: 0.66
+    2030: 0.
     2035: 0.33
     2040: 0
     2045: 0
@@ -1875,3 +1879,4 @@ plotting:
     import NH3: '#e2ed74'
     import oil: '#93eda2'
     import methanol: '#87d0e6'
+    forced H2 Electrolysis: '#e3d37d'

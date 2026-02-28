@@ -8160,7 +8160,10 @@ def add_production_constraints(n, carrier, value):
         e_nom=value * 1e6 / link_efficiency,
         # e_set=pd.Series(np.linspace(value * 1e6 / link_efficiency, 0, len(n.snapshots)), index=n.snapshots),
         e_initial=value * 1e6 / link_efficiency,
+        # e_min_pu=-10000,
+        e_cyclic=False,
     )
+
 
     # Force the store to be empty at the final snapshot
     # We do this via extra_functionality later, or by setting e_cyclic

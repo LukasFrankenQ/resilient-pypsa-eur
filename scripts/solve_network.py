@@ -1389,9 +1389,16 @@ def add_forced_store_constraints(n, snapshots):
     
     for store in forced_stores:
         n.model.add_constraints(
-            n.model["Store-e"].loc[last_snapshot, store] <= initial_value * 0.01,
+            n.model["Store-e"].loc[last_snapshot, store] <= initial_value[store] * 0.05,
             name=f"Store-forced_empty-{store}"
         )
+    
+    # print(last_snapshot)
+    # print(initial_value)
+    # print(store)
+    # print(initial_value[store])
+    # import sys
+    # sys.exit()
 
 
 def extra_functionality(
