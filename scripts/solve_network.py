@@ -1256,6 +1256,36 @@ def add_gas_consumption_constraint(n):
         n.model.add_constraints(lhs == rhs, name="fixed_gas_consumption")
 
 
+def enforce_link_carrier_usage(n, carrier, value):
+    """
+    Constrain the total energy usage (MWh) of all links with a given carrier
+    to equal a specified value over the optimization horizon.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+    carrier : str
+        The carrier name to filter links by.
+    value : float
+        The total energy throughput in MWh.
+    """
+    links_i = n.links.query("carrier == @carrier").index
+    
+    if links_i.empty:
+        raise ValueError(f"No links found with carrier '{carrier}'")
+    
+    # Get the link dispatch variable (p) for the relevant links
+    p = n.model["Link-p"].sel({"Link": links_i})
+    
+    # Weight each snapshot by its duration (hours) to get MWh
+    weights = n.snapshot_weightings.loc[:, "generators"]
+    
+    # Total energy = sum over all snapshots and links of (p * weight)
+    lhs = (p * weights).sum()
+    
+    n.model.add_constraints(lhs == value, name=f"link_carrier_usage_{carrier}")
+
+
 def add_gas_heating_progress_factors_constraint(n):
     """
     Add constraint to limit total gas generator dispatch.
@@ -1605,6 +1635,17 @@ if __name__ == "__main__":
     configure_logging(snakemake)
     set_scenario_config(snakemake)
     update_config_from_wildcards(snakemake.config, snakemake.wildcards)
+
+
+    tyndp_scenario = snakemake.wildcards.tyndp_scenario
+    if tyndp_scenario != 'free':
+        production_constraints = {}
+    else:
+        production_constraints = tyndp_scenario.split('+')[3:]
+        
+
+
+
 
     solve_opts = snakemake.params.solving["options"]
 
