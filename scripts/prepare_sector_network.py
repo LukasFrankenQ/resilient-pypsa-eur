@@ -8200,15 +8200,25 @@ if __name__ == "__main__":
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
     
-    if tyndp_scenario != 'free':
+    print(tyndp_scenario)
+    if not tyndp_scenario.startswith('free'):
         industry_hp_pace = tyndp_scenario.split('+')[1]
         if industry_hp_pace == 'freepumps':
             industry_hp_pace = np.inf
     else:
 
-        industry_hp_pace = np.inf
 
-    if tyndp_scenario != 'free':
+        if 'carbonprice' in tyndp_scenario:
+            carbon_price = float(tyndp_scenario.split('+')[1].split('-')[1])
+        else:
+            carbon_price = None
+
+        industry_hp_pace = np.inf
+    
+    print('received carbon price:')
+    print(carbon_price)
+
+    if not tyndp_scenario.startswith('free'):
         res_hp_pace = tyndp_scenario.split('+')[2]
         assert res_hp_pace in ['freepumps', 'NT']
         
@@ -8550,7 +8560,7 @@ if __name__ == "__main__":
         n.generators.loc[n.generators.index.str.contains('onwind'), ['p_nom_opt', 'p_nom_min', 'p_nom_max']].head()
     )
 
-    if tyndp_scenario != 'free':
+    if not tyndp_scenario.startswith('free'):
 
         insert_tyndp_electricity_transport(
             n,
@@ -8563,16 +8573,25 @@ if __name__ == "__main__":
     # if tyndp_scenario != 'free':
     carbon_prices = snakemake.params.carbon_prices
     
-    if tyndp_scenario != 'free':
+    if not tyndp_scenario.startswith('free'):
         # eu_price, uk_price = carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024]
         eu_price = carbon_prices['eu_ets'][int(investment_year)]
         uk_price = carbon_prices['uk_ets'][int(investment_year)]
     else:
-        eu_price, uk_price = 0., 0.
+        if carbon_price is not None:
+            eu_price = carbon_price
+            uk_price = carbon_price
+        else:
+            eu_price, uk_price = 0., 0.
+
+    # print('eu_price:')
+    # print(eu_price)
+    # print('uk_price:')
+    # print(uk_price)
 
     insert_ets(n, eu_price, uk_price)
 
-    if snakemake.wildcards.planning_horizons != 2025 and tyndp_scenario != 'free':
+    if snakemake.wildcards.planning_horizons != 2025 and not tyndp_scenario.startswith('free'):
         insert_tyndp_capacities(
             n,
             snakemake.input.tyndp_capacities,
@@ -8580,7 +8599,7 @@ if __name__ == "__main__":
             year=snakemake.wildcards.planning_horizons
            )
 
-    if tyndp_scenario != 'free':
+    if not tyndp_scenario.startswith('free'):
         if res_hp_pace == 'NT':
             adjust_heating_capacities(
                 n,
@@ -8597,7 +8616,7 @@ if __name__ == "__main__":
     # )
     print('tyndp_scenario:')
     print(tyndp_scenario)
-    if tyndp_scenario != 'free':
+    if not tyndp_scenario.startswith('free'):
 
         production_constraints = snakemake.wildcards.tyndp_scenario.split('+')[3:]
 

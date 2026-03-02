@@ -62,7 +62,7 @@ wildcard_constraints:
 
 include: "rules/common.smk"
 # include: "rules/collect.smk"
-include: "rules/retrieve.smk"
+# include: "rules/retrieve.smk"
 include: "rules/build_electricity.smk"
 include: "rules/build_sector.smk"
 include: "rules/solve_electricity.smk"
