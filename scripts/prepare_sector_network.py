@@ -8205,6 +8205,7 @@ if __name__ == "__main__":
         industry_hp_pace = tyndp_scenario.split('+')[1]
         if industry_hp_pace == 'freepumps':
             industry_hp_pace = np.inf
+        carbon_price = None
     else:
 
 
@@ -8215,9 +8216,6 @@ if __name__ == "__main__":
 
         industry_hp_pace = np.inf
     
-    print('received carbon price:')
-    print(carbon_price)
-
     if not tyndp_scenario.startswith('free'):
         res_hp_pace = tyndp_scenario.split('+')[2]
         assert res_hp_pace in ['freepumps', 'NT']
