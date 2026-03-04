@@ -4169,6 +4169,8 @@ def add_biomass(
             marginal_cost=costs.at["solid biomass", "fuel"]
             + bus_transport_costs * average_distance,
         )
+        
+        # this doesnt make any sense rn? The generator carriers are not "solid biomass" but "forest residues", "industry wood", "landscape care"
         n.add(
             "GlobalConstraint",
             "biomass limit",
