@@ -414,5 +414,4 @@ if __name__ == "__main__":
 
     df *= 1e6  # TWh/a to MWh/a
     df.index.name = "MWh/a"
-
     df.to_csv(snakemake.output.biomass_potentials)
