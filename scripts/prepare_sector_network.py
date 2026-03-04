@@ -3717,6 +3717,7 @@ def add_biomass(
     n,
     costs,
     options,
+    cf_biomass,
     spatial,
     cf_industry,
     pop_layout,
@@ -3781,22 +3782,22 @@ def add_biomass(
 
     # need to aggregate potentials if gas not nodally resolved
     if options["gas_network"]:
-        biogas_potentials_spatial = biomass_potentials["biogas"].rename(
-            index=lambda x: x + " biogas"
-        )
+        # biogas_potentials_spatial = biomass_potentials["biogas"].rename(
+        #     index=lambda x: x + " biogas"
+        # )
         unsustainable_biogas_potentials_spatial = biomass_potentials[
             "unsustainable biogas"
         ].rename(index=lambda x: x + " biogas")
     else:
-        biogas_potentials_spatial = biomass_potentials["biogas"].sum()
+        # biogas_potentials_spatial = biomass_potentials["biogas"].sum()
         unsustainable_biogas_potentials_spatial = biomass_potentials[
             "unsustainable biogas"
         ].sum()
 
     if options.get("biomass_spatial", options["biomass_transport"]):
-        solid_biomass_potentials_spatial = biomass_potentials["solid biomass"].rename(
-            index=lambda x: x + " solid biomass"
-        )
+        # solid_biomass_potentials_spatial = biomass_potentials["solid biomass"].rename(
+        #     index=lambda x: x + " solid biomass"
+        # )
         msw_biomass_potentials_spatial = biomass_potentials[
             "municipal solid waste"
         ].rename(index=lambda x: x + " municipal solid waste")
@@ -3808,7 +3809,7 @@ def add_biomass(
         ].rename(index=lambda x: x + " unsustainable bioliquids")
 
     else:
-        solid_biomass_potentials_spatial = biomass_potentials["solid biomass"].sum()
+        # solid_biomass_potentials_spatial = biomass_potentials["solid biomass"].sum()
         msw_biomass_potentials_spatial = biomass_potentials[
             "municipal solid waste"
         ].sum()
@@ -3871,6 +3872,56 @@ def add_biomass(
         unit="MWh_LHV",
     )
 
+    for solid_carrier in [
+        'forest residues',
+        'industry wood',
+        'landscape care',
+    ]:
+
+        logger.info(f"Adding {solid_carrier}")
+
+        if options["biomass_spatial"]:
+            potential = biomass_potentials[solid_carrier]
+            potential.index = spatial.biomass.nodes + f" {solid_carrier}"
+        else:
+            potential = biomass_potentials[solid_carrier].sum()
+
+        n.add(
+            "Generator",
+            spatial.biomass.nodes + f" {solid_carrier}",
+            bus=spatial.biomass.nodes,
+            carrier=solid_carrier,
+            p_nom=potential,
+            marginal_cost=cf_biomass['costs'][solid_carrier],
+            e_sum_min=0,
+            e_sum_max=potential,
+        )
+
+    for liquid_carrier in [
+        'sewage sludge',
+        'manure and slurry',
+        'straw',
+    ]:
+        logger.info(f"Adding {liquid_carrier}")
+
+        if options["gas_network"]:
+            potential = biomass_potentials[liquid_carrier]# .rename(index=spatial.gas.biogas + f" {liquid_carrier}")
+            potential.index = spatial.gas.biogas + f" {liquid_carrier}"
+        else:
+            potential = biomass_potentials[liquid_carrier].sum()
+
+        n.add(
+            "Generator",
+            spatial.gas.biogas + f" {liquid_carrier}",
+            bus=spatial.gas.biogas,
+            carrier=liquid_carrier,
+            p_nom=potential,
+            marginal_cost=cf_biomass['costs'][liquid_carrier],
+            e_sum_min=0,
+            e_sum_max=potential,
+        )
+
+    '''
     n.add(
         "Generator",
         spatial.gas.biogas,
@@ -3892,6 +3943,7 @@ def add_biomass(
         e_sum_min=0,
         e_sum_max=solid_biomass_potentials_spatial,
     )
+    '''
 
     if options["solid_biomass_import"].get("enable", False):
         biomass_import_price = options["solid_biomass_import"]["price"]
@@ -4122,7 +4174,7 @@ def add_biomass(
             "biomass limit",
             carrier_attribute="solid biomass",
             sense="<=",
-            constant=biomass_potentials["solid biomass"].sum(),
+            constant=biomass_potentials[["forest residues", "industry wood", "landscape care"]].sum().sum(),
             type="operational_limit",
         )
         if biomass_potentials["unsustainable solid biomass"].sum() > 0:
@@ -8192,6 +8244,7 @@ if __name__ == "__main__":
     update_config_from_wildcards(snakemake.config, snakemake.wildcards)
 
     options = snakemake.params.sector
+    cf_biomass = snakemake.params.biomass
     cf_industry = snakemake.params.industry
 
     investment_year = int(snakemake.wildcards.planning_horizons)
@@ -8378,6 +8431,7 @@ if __name__ == "__main__":
             n=n,
             costs=costs,
             options=options,
+            cf_biomass=cf_biomass,
             spatial=spatial,
             cf_industry=cf_industry,
             pop_layout=pop_layout,
