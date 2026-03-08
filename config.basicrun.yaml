@@ -49,6 +49,26 @@ scenario:
   - ''
   sector_opts:
   - '168H-T-H-B-I-A-dist1'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.2'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.4'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.6'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.8'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m2.0'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m2.2'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m2.4'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m2.6'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m2.8'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m3.0'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m3.2'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m3.4'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m3.6'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m3.8'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m4.0'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m4.2'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m4.4'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m4.6'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m4.8'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m5.0'
   planning_horizons:
   # - 2025
   - 2030
@@ -56,6 +76,26 @@ scenario:
   # - 2040
   tyndp_scenario:
   - 'free'
+  - 'free+carbonprice-50'
+  - 'free+carbonprice-55'
+  - 'free+carbonprice-60'
+  - 'free+carbonprice-65'
+  - 'free+carbonprice-70'
+  - 'free+carbonprice-75'
+  - 'free+carbonprice-80'
+  - 'free+carbonprice-85'
+  - 'free+carbonprice-90'
+  - 'free+carbonprice-95'
+  - 'free+carbonprice-100'
+  - 'free+carbonprice-105'
+  - 'free+carbonprice-110'
+  - 'free+carbonprice-115'
+  - 'free+carbonprice-120'
+  - 'free+carbonprice-125'
+  - 'free+carbonprice-130'
+  - 'free+carbonprice-135'
+  - 'free+carbonprice-140'
+  - 'free+carbonprice-145'
   # - 'NT+freepumps+freepumps'
   # - 'NT+freepumps+freepumps'
   # - 'NT+freepumps+freepumps+h2electrolysis-900'
@@ -73,7 +113,7 @@ scenario:
   # - 'DE'
   # - 'GA'
   wiggle:
-  # - endo
+  - endo
   # - 2900
   # - 3000
   # - 2000
@@ -84,51 +124,6 @@ scenario:
   # - 3080
   # - 3100
   # - 3200
-  - 0
-  # - 125
-  - 250
-  # - 375
-  - 500
-  # - 625
-  - 750
-  # - 875
-  - 1000
-  # - 1125
-  - 1250
-  # - 1375
-  - 1500
-  # - 1625
-  - 1750
-  # - 1875
-  - 2000
-  # - 2125
-  - 2250
-  # - 2375
-  - 2500
-  # - 2625
-  - 2750
-  # - 2875
-  - 3000
-  # - 3125
-  - 3250
-  # - 3375
-  - 3500
-  # - 3625
-  - 3750
-  # - 3875
-  - 4000
-  # - 4125
-  - 4250
-  # - 4375
-  - 4500
-  # - 4625
-  - 4750
-  # - 4875
-  - 5000
-  # - 5125
-  # - 5250
-  # - 5375
-  # - 5500
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
