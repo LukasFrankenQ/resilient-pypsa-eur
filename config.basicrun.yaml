@@ -50,15 +50,18 @@ scenario:
   sector_opts:
   - '168H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
-  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.1'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.15'
-  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.2'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.2'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.25'
-  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.3'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.3'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.35'
-  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.4'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.4'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.5'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.6'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.7'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.8'
+  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.9'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.0'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.2'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.4'
@@ -82,15 +85,15 @@ scenario:
   # - 2040
   tyndp_scenario:
   - 'free'
-  - 'free+carbonprice-50'
+  # - 'free+carbonprice-50'
   # - 'free+carbonprice-55'
   # - 'free+carbonprice-60'
   # - 'free+carbonprice-65'
   # - 'free+carbonprice-70'
-  # - 'free+carbonprice-75'
+  #  - 'free+carbonprice-75'
   # - 'free+carbonprice-80'
   # - 'free+carbonprice-85'
-  - 'free+carbonprice-90'
+  # - 'free+carbonprice-90'
   # - 'free+carbonprice-95'
   # - 'free+carbonprice-100'
   # - 'free+carbonprice-105'
@@ -98,7 +101,7 @@ scenario:
   # - 'free+carbonprice-115'
   # - 'free+carbonprice-120'
   # - 'free+carbonprice-125'
-  - 'free+carbonprice-130'
+  # - 'free+carbonprice-130'
   # - 'free+carbonprice-135'
   # - 'free+carbonprice-140'
   # - 'free+carbonprice-145'
@@ -119,7 +122,28 @@ scenario:
   # - 'DE'
   # - 'GA'
   wiggle:
-  - endo
+  # - endo
+  - 0
+  - 250
+  - 500
+  - 750
+  - 1000
+  - 1250
+  - 1500
+  - 1750
+  - 2000
+  - 2250
+  - 2500
+  - 2750
+  - 3000
+  - 3250
+  - 3500
+  - 3750
+  - 4000
+  - 4250
+  - 4500
+  - 4750
+  - 5000
   # - 2900
   # - 3000
   # - 2000
@@ -514,7 +538,7 @@ energy:
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#biomass
 biomass:
   year: 2030
-  scenario: ENS_High
+  scenario: ENS_Med
   classes:
     forest residues:
       - Fuelwood residues
@@ -770,7 +794,7 @@ sector:
     construction_index: true
   tes: false
   boilers: true
-  resistive_heaters: false
+  resistive_heaters: true
   oil_boilers: false
   biomass_boiler: true
   overdimension_heat_generators:
@@ -897,14 +921,14 @@ sector:
       methane: true
       methane_CC: false
       heat_pumps: true
-      electric_boiler: false
+      electric_boiler: true
     heat100-200:
       biomass: true
       biomass_CC: false
       methane: true
       methane_CC: false
       heat_pumps: true
-      electric_boiler: false
+      electric_boiler: true
     heat200-500:
       biomass: true
       biomass_CC: false
