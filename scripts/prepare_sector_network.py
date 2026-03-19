@@ -7493,7 +7493,6 @@ def to_ac_bus(x):
 def adjust_heating_capacities(
     n,
     installed_fn,
-    target_year
     ):
     '''
     This methods sets the total energy output of rural and urban decentral heat systems to the TYNDP targets.
@@ -7521,53 +7520,7 @@ def adjust_heating_capacities(
         axis=1,
         keys=['rural', 'urban decentral']
     )
-
-    tyndp_heating = pd.DataFrame(
-        {
-            ("Reference", "2019"): {
-                "Hybrid heat pump": 0.02, 
-                "Electric heat pump": 0.13,
-                "Methane boiler": 0.37,
-                "Hydrogen boiler": 0.00,
-                "Other technologies": 0.48,
-            },
-            ("Distributed Energy", "2040"): {
-                "Hybrid heat pump": 0.05,
-                "Electric heat pump": 0.50,
-                "Methane boiler": 0.12,
-                "Hydrogen boiler": 0.02,
-                "Other technologies": 0.31,
-            },
-            ("Distributed Energy", "2050"): {
-                "Hybrid heat pump": 0.07,
-                "Electric heat pump": 0.63,
-                "Methane boiler": 0.03,
-                "Hydrogen boiler": 0.03,
-                "Other technologies": 0.25,
-            },
-            ("Global Ambition", "2040"): {
-                "Hybrid heat pump": 0.11,
-                "Electric heat pump": 0.37,
-                "Methane boiler": 0.14,
-                "Hydrogen boiler": 0.05,
-                "Other technologies": 0.33,
-            },
-            ("Global Ambition", "2050"): {
-                "Hybrid heat pump": 0.13,
-                "Electric heat pump": 0.50,
-                "Methane boiler": 0.05,
-                "Hydrogen boiler": 0.05,
-                "Other technologies": 0.28,
-            },
-        }
-    ).mul(100.)
-
-    target_2040_gas = tyndp_heating.loc['Methane boiler', ('Distributed Energy', '2040')]
-    target_2040_heat_pump = tyndp_heating.loc[['Electric heat pump', 'Hybrid heat pump'], ('Distributed Energy', '2040')].sum()
-    target_2040_biomass = 100. - target_2040_gas - target_2040_heat_pump
-
-    def interpolate_to_target_year(percentage_2025, percentage_2040, year):
-        return (year - 2025) / (2040 - 2025) * percentage_2040 + (1 - (year - 2025) / (2040 - 2025)) * percentage_2025
+    print('installed: ', installed.head())
 
     def get_efficiency(n, link):
 
@@ -7582,7 +7535,7 @@ def adjust_heating_capacities(
             return 0.
     ######################################################################################################################
 
-    p_nom_rural = installed.loc[:, idx['rural']].drop(columns=['air heat pump'])
+    p_nom_rural = installed.loc[:, idx['rural']]# .drop(columns=['air heat pump'])
 
     etas = p_nom_rural.apply(
         lambda col: col.index.map(
@@ -7608,55 +7561,42 @@ def adjust_heating_capacities(
 
     for bus in installed.index:
 
-        targets_2040 = {
-            'gas boiler': target_2040_gas,
-            'heat pump': target_2040_heat_pump,
-            'biomass boiler': target_2040_biomass,
-        }
-        tyndp_carriers = {
-            'ground heat pump': 'heat pump',
-        }
-
         bus_served = False
         load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
         relative_load = load.div(load.max())
 
         for carrier in rural_carriers:
 
-            tyndp_carrier = tyndp_carriers.get(carrier, carrier)
-            target_2040 = targets_2040[tyndp_carrier]
-
             current_percentage = eff_current_percentage_rural.loc[bus, carrier]
             current_capacity = current_p_nom_rural.loc[bus, carrier]
 
             if np.isnan(current_percentage) or current_capacity == 0:
+                print('skipping rural carrier: ', bus + ' rural ' + carrier)
                 continue
 
-            target_percentage = interpolate_to_target_year(current_percentage, target_2040, target_year)
-
-            # if carrier == 'ground heat pump':
-            #     print(bus, carrier, round(current_percentage), round(target_percentage), round(target_2040))
-
-            factor = target_percentage / current_percentage
+            factor = 1.
 
             n.links.loc[bus + ' rural ' + carrier, 'p_nom'] = current_capacity * factor
+            n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = True
             
-            if not carrier == 'gas boiler':
-                n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = False
+            if carrier == 'gas boiler':
 
                 ###########   THIS IS WHERE MUST RUN GOES
 
-                n.links_t.p_min_pu.loc[:, bus + ' rural ' + carrier] = (relative_load - wiggle).clip(lower=0)
+                # n.links_t.p_min_pu.loc[:, bus + ' rural ' + carrier] = (relative_load - wiggle).clip(lower=0)
                 n.links_t.p_max_pu.loc[:, bus + ' rural ' + carrier] = (relative_load + wiggle).clip(lower=0)
+                n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = False
 
                 ########################################
 
             bus_served = True
 
+        print(n.links.loc[bus + ' rural ' + pd.Index(rural_carriers), ['p_nom_min', 'p_nom_max', 'p_nom', 'p_nom_extendable']])
+
         if not bus_served:
             continue
 
-        n.remove('Link', bus + ' rural air heat pump')
+        # n.remove('Link', bus + ' rural air heat pump')
         # n.remove('Link', bus + ' rural solar thermal')
         # n.generators_t.p_min_pu.loc[:, bus + ' rural solar thermal'] = (relative_load - wiggle).clip(lower=0).values
         # n.generators_t.p_max_pu.loc[:, bus + ' rural solar thermal'] = (relative_load + wiggle).clip(lower=0).values
@@ -7672,6 +7612,7 @@ def adjust_heating_capacities(
             marginal_cost=-0.,
             capital_cost=0.,
             )
+
 
         # the current scaling above correctly scales the relative capacities but under- or overshoots the total
 
@@ -7708,13 +7649,20 @@ def adjust_heating_capacities(
 
         dispatch = get_rural_dispatch(n, bus)
         load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
+        # print('load: ', load)
+        # print('dispatch: ', dispatch)
 
         supply_deviation = dispatch.sum(axis=1).div(load, axis=0).replace(np.inf, 0.)
 
         # Calculate weight-loaded average supply_deviation
         weighted_avg_supply_deviation = (supply_deviation * load).sum() / load.sum()
 
-        n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom'] /= weighted_avg_supply_deviation
+        # n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom'] /= weighted_avg_supply_deviation
+        # print(weighted_avg_supply_deviation)
+        # print('before: ', n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'])
+        n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'] = n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom']
+        n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'] /= weighted_avg_supply_deviation
+        # print('after: ', n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'])
 
         # the remaining deviation is solved by adjusting the load
         # n.loads_t.p_set.loc[:, f'{bus} rural heat'] = get_rural_dispatch(n, bus).sum(axis=1)
@@ -7755,24 +7703,11 @@ def adjust_heating_capacities(
 
     for bus in installed.index:
 
-        targets_2040 = {
-            'gas boiler': target_2040_gas,
-            'heat pump': target_2040_heat_pump,
-            'biomass boiler': target_2040_biomass,
-        }
-        tyndp_carriers = {
-            'air heat pump': 'heat pump',
-        }
-
         bus_served = False
-
         load = n.loads_t.p_set.loc[:, f'{bus} urban decentral heat']
         relative_load = load.div(load.max())
 
         for carrier in udh_carriers:
-
-            tyndp_carrier = tyndp_carriers.get(carrier, carrier)
-            target_2040 = targets_2040[tyndp_carrier]
 
             try:
                 current_percentage = eff_current_percentage_udh.loc[bus, carrier]
@@ -7784,20 +7719,18 @@ def adjust_heating_capacities(
             if np.isnan(current_percentage) or current_capacity == 0 or not bus + ' urban decentral heat' in n.loads_t.p_set.columns:
                 continue
 
-            target_percentage = interpolate_to_target_year(current_percentage, target_2040, target_year)
-            factor = target_percentage / current_percentage
+            factor = 1.
 
             n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom'] = current_capacity * factor
+            n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = True
 
-            if not carrier == 'gas boiler':
-                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
+            if carrier == 'gas boiler':
 
                 ###########   THIS IS WHERE MUST RUN GOES
 
-                n.links_t.p_min_pu.loc[:, bus + ' urban decentral ' + carrier] = (relative_load - wiggle).clip(lower=0)
+                # n.links_t.p_min_pu.loc[:, bus + ' urban decentral ' + carrier] = (relative_load - wiggle).clip(lower=0)
                 n.links_t.p_max_pu.loc[:, bus + ' urban decentral ' + carrier] = (relative_load + wiggle).clip(lower=0)
-
-
+                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
 
                 ########################################
 
@@ -7858,7 +7791,11 @@ def adjust_heating_capacities(
         # Calculate weight-loaded average supply_deviation
         weighted_avg_supply_deviation = (supply_deviation * load).sum() / load.sum()
 
-        n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom'] /= weighted_avg_supply_deviation
+        n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'] = n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom']
+        n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'] /= weighted_avg_supply_deviation
+
+        print('------------------------------')
+        print('p_nom_min: ', n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'])
 
         # n.loads_t.p_set.loc[:, f'{bus} urban decentral heat'] = get_urban_decentral_dispatch(n, bus).sum(axis=1)
 
@@ -8653,13 +8590,12 @@ if __name__ == "__main__":
             year=snakemake.wildcards.planning_horizons
            )
 
-    if not tyndp_scenario.startswith('free'):
-        if res_hp_pace == 'NT':
-            adjust_heating_capacities(
-                n,
-                snakemake.input.existing_heating_distribution,
-                int(snakemake.wildcards['planning_horizons'])
-                )
+    # if not tyndp_scenario.startswith('free'):
+        # if res_hp_pace == 'NT':
+    adjust_heating_capacities(
+        n,
+        snakemake.input.existing_heating_distribution,
+        )
 
     # add_accelerated_heat_pumps(
     #     n,
@@ -8668,6 +8604,7 @@ if __name__ == "__main__":
     #     cost_increase_factor=0.1,
     #     capacity_increase_factor=0.1,
     # )
+
     print('tyndp_scenario:')
     print(tyndp_scenario)
     if not tyndp_scenario.startswith('free'):
@@ -8707,9 +8644,11 @@ if __name__ == "__main__":
     for carrier, value in production_constraints.items():
         logger.info(f"Adding production constraint for {carrier}: {value} TWh")
         add_production_constraints(n, carrier, value)
-        
-    # import sys
-    # sys.exit()
+
+    default_heating_lifetime = snakemake.params.existing_capacities[
+        "default_heating_lifetime"
+    ],
+
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 

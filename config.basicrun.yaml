@@ -49,7 +49,7 @@ scenario:
   - ''
   sector_opts:
   # - '168H-T-H-B-I-A-dist1'
-  - '3H-T-H-B-I-A-dist1'
+  - '168H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.15'
@@ -124,27 +124,27 @@ scenario:
   # - 'GA'
   wiggle:
   # - endo
-  - 0
-  - 250
-  - 500
-  - 750
-  - 1000
-  - 1250
-  - 1500
-  - 1750
-  - 2000
-  - 2250
+  # - 0
+  # - 250
+  # - 500
+   #- 750
+  # - 1000
+  # - 1250
+  # - 1500
+  # - 1750
+  # - 2000
+  # - 2250
   - 2500
-  - 2750
+  # - 2750
   - 3000
-  - 3250
+  # - 3250
   - 3500
-  - 3750
+  # - 3750
   - 4000
-  - 4250
-  - 4500
-  - 4750
-  - 5000
+  # - 4250
+  # - 4500
+  # - 4750
+  # - 5000
   # - 2900
   # - 3000
   # - 2000
@@ -796,7 +796,7 @@ sector:
   tes: false
   boilers: true
   resistive_heaters: true
-  oil_boilers: false
+  oil_boilers: true
   biomass_boiler: true
   overdimension_heat_generators:
     decentral: 1.1  #to cover demand peaks bigger than data

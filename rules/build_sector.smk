@@ -1357,6 +1357,7 @@ rule prepare_sector_network:
             "sector", "district_heating", "temperature_limited_stores"
         ),
         carbon_prices=config_provider("carbon_prices"),
+        existing_capacities=config_provider("existing_capacities"),
     input:
         unpack(input_profile_offwind),
         unpack(input_heat_source_power),
