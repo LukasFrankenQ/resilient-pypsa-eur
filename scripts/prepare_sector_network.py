@@ -4578,7 +4578,7 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run, heat_pump_pr
             bus2="co2 atmosphere",
             carrier="heat<100 industry gas",
             p_nom_extendable=True,
-            p_min_pu=must_run,
+            p_nom_min=p_set.values,
             efficiency=costs.at["gas boiler steam", "efficiency"],
             capital_cost=costs.at["gas boiler steam", "capital_cost"]
             * costs.at["gas boiler steam", "efficiency"],
@@ -4603,7 +4603,6 @@ def add_t_industry100(n, nodes, industrial_demand, costs, must_run, heat_pump_pr
             bus3="co2 atmosphere",
             carrier="heat<100 industry gas CC",
             p_nom_extendable=True,
-            p_min_pu=must_run,
             efficiency=eta,
             capital_cost=costs.at["gas boiler steam", "capital_cost"]
             * costs.at["gas boiler steam", "efficiency"]
@@ -4745,7 +4744,7 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run, heat_pum
             bus2="co2 atmosphere",
             carrier="heat100-200 industry gas",
             p_nom_extendable=True,
-            p_min_pu=must_run,
+            p_nom_min=p_set.values,
             efficiency=costs.at["gas boiler steam", "efficiency"],
             capital_cost=costs.at["gas boiler steam", "capital_cost"]
             * costs.at["gas boiler steam", "efficiency"],
@@ -4770,7 +4769,6 @@ def add_t_industry100_200(n, nodes, industrial_demand, costs, must_run, heat_pum
             bus3="co2 atmosphere",
             carrier="heat100-200 industry gas CC",
             p_nom_extendable=True,
-            p_min_pu=must_run,
             efficiency=eta,
             capital_cost=costs.at["gas boiler steam", "capital_cost"]
             * costs.at["gas boiler steam", "efficiency"]
@@ -4894,6 +4892,8 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             lifetime=costs.at["direct firing solid fuels CC", "lifetime"],
         )
 
+    p_set_200_500 = industrial_demand.loc[nodes, "heat200-500"] / 8760.0
+
     if options["industry_t"]["heat200-500"]["methane"]:
         # TODO: add electricity input from DEA and adapt VOM to exclude electricity cost!
         n.add(
@@ -4905,7 +4905,7 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             bus2="co2 atmosphere",
             carrier="heat200-500 industry gas",
             p_nom_extendable=True,
-            p_min_pu=must_run,
+            p_nom_min=p_set_200_500.values,
             efficiency=costs.at["direct firing gas", "efficiency"],
             efficiency2=costs.at["gas", "CO2 intensity"],
             capital_cost=costs.at["direct firing gas", "capital_cost"]
@@ -4930,7 +4930,6 @@ def add_t_industry200_500(n, nodes, industrial_demand, costs, must_run):
             bus3="co2 atmosphere",
             carrier="heat200-500 industry gas CC",
             p_nom_extendable=True,
-            p_min_pu=must_run,
             efficiency=eta,
             efficiency2=costs.at["gas", "CO2 intensity"]
             * costs.at["biomass CHP capture", "capture_rate"],
