@@ -7273,21 +7273,14 @@ def insert_ets(
 
 def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, scenario: str, year):
     """
-    Insert TYNDP capacities into the network.
+    Inserts lower and upper bounds for renewable and battery potentials according to TYNDP 2024.
+    There closely align with national capacity projections
     """
 
     df = pd.read_csv(tyndp_capacities, index_col=0, header=[0,1])
 
     year = int(year)
 
-    # deviation_tolarances = {
-    #     2030: 0.01,
-    #     2035: 0.01,
-    # }
-
-    # nt_deviation_tolerance = deviation_tolarances[year]
-
-    print(snakemake.wildcards)
     assert scenario in ['NT'], f"Scenario must be 'NT' but is {scenario}"
 
     nt_deviation_tolerance = 0.01
@@ -7304,17 +7297,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
         unmatched_capacity = 0
         for country in df.index:
 
-            # p_nom = df.loc[country, (carrier, 'NT')]
             p_nom_max = df.loc[country, (carrier, 'HIGH')]
-            # if scenario != 'NT':
-            #     p_nom_max = df.loc[country, (carrier, 'HIGH')]
-            #     p_nom_min = df.loc[country, (carrier, 'LOW')]
-            # else: 
-            #     p_nom_max = p_nom * (1 + nt_deviation_tolerance)
-            #     p_nom_min = p_nom * (1 - nt_deviation_tolerance)
-        
-            # p_nom_max = p_nom * (1 + nt_deviation_tolerance)
-            # p_nom_min = p_nom * (1 - nt_deviation_tolerance)
 
             gens = n.generators.index[
                 (n.generators.carrier.isin(carriers)) &
@@ -7328,24 +7311,14 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
             existing = n.generators.loc[gens, 'p_nom'].sum()
 
             if existing == 0:
-                # n.generators.loc[gens, 'p_nom'] = p_nom / len(gens)
-                # p_nom_ = pd.Series(p_nom / len(gens), index=gens)
 
                 n.generators.loc[gens, 'p_nom_max'] = p_nom_max / len(gens)
             else:
-                # factor = p_nom_max / existing
-                # n.generators.loc[gens, 'p_nom'] *= factor
-                # p_nom = p_nom * factor
 
                 n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * p_nom_max / existing
 
-            # n.generators.loc[gens, 'p_nom_max'] = n.generators.loc[gens, 'p_nom'] * (1 + nt_deviation_tolerance)
-            # n.generators.loc[gens, 'p_nom_max'] = p_nom
-            # n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom'] * (1 - nt_deviation_tolerance)
             n.generators.loc[gens, 'p_nom_min'] = n.generators.loc[gens, 'p_nom_max'] * (1 - nt_deviation_tolerance)
             n.generators.loc[gens, 'p_nom_max'] *= 2
-
-            # logger.info(f'Setting {carrier} capacities for {country} to {p_nom/1e3:.1f} GW, {p_nom_max/1e3:.1f} GW, {p_nom_min/1e3:.1f} GW')
 
         all_gens = n.generators.index[n.generators.carrier.isin(carriers)]
 
@@ -7354,6 +7327,8 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
         n.generators.loc[all_gens, ['p_nom', 'p_nom_max', 'p_nom_min']] *= factor
 
+    logger.warning('TYNDP upper bounds are currently doubled!')
+
 
     # batteries
     for btype, max_hours in zip(['home battery', 'battery'], [2.5, 4]): # max hours from TYNDP 2024 Methodology Page 37, Section 4.7.4
@@ -7361,7 +7336,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
         unmatched_capacity = 0
         for country in df.index:
 
-            e_nom_max = df.loc[country, (btype, 'HIGH')] * max_hours # the TYNDP value is in GW
+            e_nom_max = df.loc[country, (btype, 'HIGH')] * max_hours # the TYNDP value is in GW, HIGH makes a huge difference here
 
             bats = n.stores.index[(n.stores.carrier == btype) & (n.stores.bus.str.startswith(country))]
             if len(bats) == 0:
@@ -7376,7 +7351,7 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
                 factor = e_nom_max / existing
                 n.stores.loc[bats, 'e_nom_max'] *= factor
-            
+
             n.stores.loc[bats, 'e_nom_min'] = n.stores.loc[bats, 'e_nom_max'] * (1 - nt_deviation_tolerance)
 
             charging_cap = n.stores.loc[bats, 'e_nom_max'] / max_hours
@@ -7385,9 +7360,6 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
 
             n.stores.loc[bats, 'e_nom_max'] *= 2
             n.links.loc[bats + ' charger', 'p_nom_max'] *= 2
-
-            # logger.info(f'Setting {btype} capacities for {country} to {e_nom/1e3:.1f} GWh, {charging_cap.sum()/1e3:.1f} GW')
-
 
         all_bats = n.stores.index[n.stores.carrier == btype]
 
@@ -7401,26 +7373,6 @@ def insert_tyndp_capacities(n: pypsa.Network, tyndp_capacities: pd.DataFrame, sc
         n.stores.loc[all_bats, 'e_nom_max'] *= factor
         n.links.loc[all_bats + ' charger', 'p_nom_max'] *= factor
 
-        # if scenario == 'NT':
-        # if 'NT' in scenario:
-            # n.links.loc[all_bats + ' charger', 'p_nom_max'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 + nt_deviation_tolerance)
-            # n.links.loc[all_bats + ' charger', 'p_nom_min'] = n.links.loc[all_bats + ' charger', 'p_nom'] * (1 - nt_deviation_tolerance)
-
-            # n.stores.loc[all_bats, 'e_nom_max'] = n.stores.loc[all_bats, 'e_nom'] * (1 + nt_deviation_tolerance)
-            # n.stores.loc[all_bats, 'e_nom_min'] = n.stores.loc[all_bats, 'e_nom'] * (1 - nt_deviation_tolerance)
-        # else:
-        #     raise ValueError(f'Scenario {scenario} not supported')
-
-        # print(n.stores.loc[all_bats, ['e_nom_max', 'e_nom_min', 'e_nom']].replace(np.inf, 0).mul(1e-3).astype(int).round())
-        # print('===============================')
-        # print(n.links.loc[all_bats + ' charger', ['p_nom_max', 'p_nom_min', 'p_nom']].replace(np.inf, 0).mul(1e-3).astype(int).round())
-        # print('===============================')
-        # print('===============================')
-        # print('===============================')
-        # print('===============================')
-
-    # import sys
-    # sys.exit()
 
 def final_electricity_transport(path):
     return _extract_scenario_values(path, sheet_name='6-', row_label='Transport')
@@ -7519,7 +7471,7 @@ def adjust_heating_capacities(
         axis=1,
         keys=['rural', 'urban decentral']
     )
-    print('installed: ', installed.head())
+    logger.info('Real heating capacities installed by network region:\n ', installed)
 
     def get_efficiency(n, link):
 
@@ -7532,15 +7484,18 @@ def adjust_heating_capacities(
                 return n.links.loc[link, 'efficiency']
         except KeyError:
             return 0.
-    ######################################################################################################################
 
-    p_nom_rural = installed.loc[:, idx['rural']]# .drop(columns=['air heat pump'])
+    p_nom_rural = installed.loc[:, idx['rural']]
 
     etas = p_nom_rural.apply(
         lambda col: col.index.map(
             lambda idx: get_efficiency(n, idx + ' rural ' + col.name)
             )
     )
+
+    # p_nom in the model is expressed in terms of the input carrier, i.e. gas or electricity
+    # but some datasets instead are formulated in terms of the output heat provided by different technologies
+    # that is what eff_... p_nom values represent using the tech's efficiency
     eff_p_nom_rural = p_nom_rural.mul(etas, axis=0)
 
     rural_loads_idx = n.loads.index[n.loads.carrier.isin(['rural heat'])]
@@ -7553,6 +7508,7 @@ def adjust_heating_capacities(
     eff_current_percentage_rural = eff_p_nom_rural.div(eff_p_nom_rural.sum(axis=1), axis=0) * 100
 
     rural_carriers = [
+        'air heat pump',
         'ground heat pump',
         'gas boiler',
         'biomass boiler',
@@ -7570,7 +7526,7 @@ def adjust_heating_capacities(
             current_capacity = current_p_nom_rural.loc[bus, carrier]
 
             if np.isnan(current_percentage) or current_capacity == 0:
-                print('skipping rural carrier: ', bus + ' rural ' + carrier)
+                logger.info('skipping rural carrier: ', bus + ' rural ' + carrier)
                 continue
 
             factor = 1.
@@ -7590,7 +7546,7 @@ def adjust_heating_capacities(
 
             bus_served = True
 
-        print(n.links.loc[bus + ' rural ' + pd.Index(rural_carriers), ['p_nom_min', 'p_nom_max', 'p_nom', 'p_nom_extendable']])
+        # print(n.links.loc[bus + ' rural ' + pd.Index(rural_carriers), ['p_nom_min', 'p_nom_max', 'p_nom', 'p_nom_extendable']])
 
         if not bus_served:
             continue
@@ -7648,29 +7604,24 @@ def adjust_heating_capacities(
 
         dispatch = get_rural_dispatch(n, bus)
         load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
-        # print('load: ', load)
-        # print('dispatch: ', dispatch)
 
         supply_deviation = dispatch.sum(axis=1).div(load, axis=0).replace(np.inf, 0.)
+        psd = supply_deviation - 1
 
         # Calculate weight-loaded average supply_deviation
         weighted_avg_supply_deviation = (supply_deviation * load).sum() / load.sum()
 
-        # n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom'] /= weighted_avg_supply_deviation
-        # print(weighted_avg_supply_deviation)
-        # print('before: ', n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'])
+        logger.info(f'{bus} rural heat deviation. Avg: {int(100 * (weighted_avg_supply_deviation - 1))}%')
+
         n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'] = n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom']
         n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'] /= weighted_avg_supply_deviation
-        # print('after: ', n.links.loc[f'{bus} rural ' + pd.Index(rural_carriers), 'p_nom_min'])
 
         # the remaining deviation is solved by adjusting the load
         # n.loads_t.p_set.loc[:, f'{bus} rural heat'] = get_rural_dispatch(n, bus).sum(axis=1)
 
-        # print('small error incurred here')
-
     ######################################################################################################################
 
-    p_nom_udh = installed.loc[:, idx['urban decentral']]# .drop(columns=['air heat pump'])
+    p_nom_udh = installed.loc[:, idx['urban decentral']]
 
     etas = p_nom_udh.apply(
         lambda col: col.index.map(
@@ -7678,7 +7629,6 @@ def adjust_heating_capacities(
             )
     )
     eff_p_nom_udh = p_nom_udh.mul(etas, axis=0)
-    # print(eff_p_nom_udh.index)
 
     udh_loads_idx = n.loads.index[n.loads.carrier.isin(['urban decentral heat'])]
     udh_loads_idx_exist = udh_loads_idx.intersection(n.loads_t.p_set.columns)
@@ -7686,7 +7636,6 @@ def adjust_heating_capacities(
     eff_p_nom_udh = eff_p_nom_udh.loc[to_ac_bus(udh_loads_idx_exist)]
 
     udh_peaks = n.loads_t.p_set.loc[:, udh_loads_idx_exist].max()
-
     udh_peaks.index = eff_p_nom_udh.index
 
     excess_capacity = udh_peaks.div(eff_p_nom_udh.sum(axis=1))
@@ -7715,7 +7664,12 @@ def adjust_heating_capacities(
 
             current_capacity = current_p_nom_udh.loc[bus, carrier]
 
-            if np.isnan(current_percentage) or current_capacity == 0 or not bus + ' urban decentral heat' in n.loads_t.p_set.columns:
+            if (
+                np.isnan(current_percentage) or
+                current_capacity == 0 or
+                not bus + ' urban decentral heat' in n.loads_t.p_set.columns
+            ):
+                logger.info('skipping urban decentral carrier: ', bus + ' rural ' + carrier)
                 continue
 
             factor = 1.
@@ -7790,11 +7744,13 @@ def adjust_heating_capacities(
         # Calculate weight-loaded average supply_deviation
         weighted_avg_supply_deviation = (supply_deviation * load).sum() / load.sum()
 
+        logger.info(f'{bus} urban decentral heat deviation. Avg: {int(100 * (weighted_avg_supply_deviation - 1))}%')
+
         n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'] = n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom']
         n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'] /= weighted_avg_supply_deviation
 
-        print('------------------------------')
-        print('p_nom_min: ', n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'])
+        # print('p_nom_min: ', n.links.loc[f'{bus} urban decentral ' + pd.Index(udh_carriers), 'p_nom_min'])
+        # print('------------------------------')
 
         # n.loads_t.p_set.loc[:, f'{bus} urban decentral heat'] = get_urban_decentral_dispatch(n, bus).sum(axis=1)
 
@@ -7824,11 +7780,13 @@ def insert_tyndp_electricity_transport(
         logger.warning('Year {} is not between 2030 and 2040, skipping exogenous TYNDP assumptions'.format(year))
         return
 
+    assert scenario == 'NT'
+
     scenario_mapper = {
         'NT': 'National Trends',
-        'DE': 'Distributed Energy',
-        'GA': 'Global Ambition',
-        'REF': 'Reference',
+        # 'DE': 'Distributed Energy',
+        # 'GA': 'Global Ambition',
+        # 'REF': 'Reference',
     }
 
     time_weight = (year - 2030) / (2040 - 2030)
@@ -7867,224 +7825,6 @@ def insert_tyndp_electricity_transport(
 
     diff.columns = diff.columns.map(to_ac_bus)
     n.loads_t.p_set[diff.columns] += diff
-
-    '''
-    # fix gas contribution to district heating
-    dh_gas_heat_supply = district_heating_methane(tyndp_fn)
-    dh_gas_heat_supply = (
-        dh_gas_heat_supply['National Trends'][2030] * (1 - time_weight) +
-        dh_gas_heat_supply[scenario_mapper[scenario]][2040] * time_weight
-    ) * 1e6 # convert to MWh
-
-    existing = pd.read_csv(existing_heating_distribution, header=[0, 1], index_col=0).loc[eu27_buses]
-    idx = pd.IndexSlice
-
-    res = existing.loc[:, idx['residential urban decentral', :]]
-    res.columns = res.columns.get_level_values(1)
-    ser = existing.loc[:, idx['services urban decentral', :]]
-    ser.columns = ser.columns.get_level_values(1)
-
-    existing = (res + ser)['gas boiler'] # using existing gas boiler distribution to approximate district heat gas boiler distribution
-    target_share = dh_gas_heat_supply * existing / existing.sum()
-
-    uc = pd.Index(n.loads.loc[n.loads.carrier == 'urban central heat', 'bus'])
-    lt = pd.Index(n.loads.loc[n.loads.carrier == 'low-temperature heat for industry', 'bus'])
-    inter = uc.intersection(lt)
-    inter = inter.map(to_ac_bus).intersection(eu27_buses)
-
-    # getting time series of demand
-    urban_central_load = (
-        n.loads_t
-        .p_set[inter + ' urban central heat']
-        .add(
-            n.loads.loc[
-                inter + ' low-temperature heat for industry',
-                'p_set'
-            ].to_list(), axis=1
-        )
-    )
-    p_max_pu = urban_central_load.div(urban_central_load.max(), axis=1)
-    eta = n.links.loc[inter + ' urban central gas boiler', 'efficiency'].mean()
-
-    w = n.snapshot_weightings['generators']
-
-    for bus in existing.index:
-
-        if existing.loc[bus] == 0:
-            continue
-
-        current_annual_generation = (existing.loc[bus] * p_max_pu[bus + ' urban central heat'].mul(w, axis=0) / eta).sum()
-
-        factor = target_share.loc[bus] / current_annual_generation
-
-        p_set = p_max_pu[bus + ' urban central heat'] * factor * existing.loc[bus]
-
-        p_set = p_set.clip(upper=urban_central_load[bus + ' urban central heat'] / eta * 0.99) # safety precaution that adds a small mistake
-
-        p_nom = p_set.max()
-
-        n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
-        # n.links.loc[bus + ' urban central gas boiler', 'p_nom_max'] = p_nom
-
-        # n.links_t.p_set.loc[:, bus + ' urban central gas boiler'] = p_set
-        n.links_t.p_max_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom
-        n.links_t.p_min_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom
-
-        n.links.loc[bus + ' urban central gas boiler', 'p_nom_extendable'] = False
-
-    # Handle buses without existing gas boilers
-    all_buses = inter.map(to_ac_bus).intersection(eu27_buses)
-    existing_buses = existing.index[existing > 0]
-    non_existing_buses = all_buses.difference(existing_buses)
-
-    logger.info('Filling gaps for urban central gas boilers')
-
-    if len(existing_buses) > 0 and len(non_existing_buses) > 0:
-        # Calculate average profile across existing buses
-        avg_profile = p_max_pu[[bus + ' urban central heat' for bus in existing_buses]].mean(axis=1)
-
-        # Apply to non-existing buses
-        for bus in non_existing_buses:
-            # Use target share to determine p_nom
-            current_annual_generation = (existing.loc[existing_buses].mean() * avg_profile.mul(w, axis=0) / eta).sum()
-            factor = target_share.loc[bus] / current_annual_generation if current_annual_generation > 0 else 0
-
-            p_set = avg_profile * factor * existing.loc[existing_buses].mean()
-            p_set = p_set.clip(upper=urban_central_load[bus + ' urban central heat'] / eta * 0.99)
-            p_nom = p_set.max()
-
-            n.links.loc[bus + ' urban central gas boiler', 'p_nom'] = p_nom
-            n.links_t.p_max_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom if p_nom > 0 else avg_profile
-            n.links_t.p_min_pu.loc[:, bus + ' urban central gas boiler'] = p_set / p_nom if p_nom > 0 else avg_profile
-
-    # fix gas contribution to residential and services heating
-
-    # TYNDP does not provide a share of gas boilers in households/services for National Trends, so we 
-    # are working with Reference 2019, and Global Ambition 2040 and Distributed Energy 2040.
-
-    # if the scenario arg in this function is National Trends, then we will interpolate for the year between
-    # Reference and the average of Global Ambition and Distributed Energy 2040.
-    # if the scenario arg in this function is Global Ambition or Distributed Energy, then we interpolate between
-    # Reference and only that scenario 2040.
-
-    methane_homes_heating_percentages = homes_heating_percentage_methane(tyndp_fn)
-
-    if scenario == 'NT':
-        value_2040 = (methane_homes_heating_percentages['Global Ambition'][2040] + methane_homes_heating_percentages['Distributed Energy'][2040]) / 2
-    else:
-        value_2040 = methane_homes_heating_percentages[scenario_mapper[scenario]][2040]
-
-    time_weight_2019 = (year - 2019) / (2040 - 2019)
-    target_share = methane_homes_heating_percentages['Reference'][2019] * (1 - time_weight_2019) + value_2040 * time_weight_2019
-
-    logger.info(f'Fixing methane residential and services heating percentage: {target_share:.2%}')
-
-    for context in ['rural', 'urban decentral']:
-    
-        demands = n.loads.index[
-            (n.loads.bus.str.contains(context + ' heat')) &
-            (n.loads.index.str.startswith(tuple(eu27_countries)))
-        ]
-
-        varying = demands.intersection(n.loads_t.p_set.columns)
-        static = demands.difference(varying)
-
-        p_set_static = pd.DataFrame({i: [n.loads.loc[i, 'p_set']] * len(n.snapshots) for i in static}, index=n.snapshots)
-        p_set_varying = n.loads_t.p_set.loc[:, varying]
-
-        total_tseries = p_set_varying.T.groupby(to_ac_bus).sum().add(p_set_static.T.groupby(to_ac_bus).sum(), fill_value=0).T
-        total = total_tseries.mul(w, axis=0).sum()
-
-        existing_relative = existing / existing.sum()
-        target_annual_generation = target_share * total.sum() * existing_relative
-
-        for bus in existing.index:
-
-            if existing.loc[bus] == 0:
-                continue
-
-            eta = n.links.loc[f'{bus} {context} gas boiler', 'efficiency']
-
-            profile = total_tseries[bus] / total_tseries[bus].max()
-
-            bustarget = target_annual_generation.loc[bus]
-            bustarget = min(bustarget, total.loc[bus]) # safety precaution that adds a small mistake
-
-            p_nom = bustarget / (eta * profile.mul(w, axis=0).sum())
-            p_set = profile * p_nom
-
-            n.links.loc[f'{bus} {context} gas boiler', 'p_nom'] = p_nom
-            # n.links.loc[f'{bus} {context} gas boiler', 'p_nom_max'] = p_nom
-
-            assert p_nom >= p_set.max(), f'{bus} {context} gas boiler: p_nom = {p_nom}, p_set.max() = {p_set.max()}'
-
-            # n.links_t.p_set.loc[:, f'{bus} {context} gas boiler'] = p_set.values
-            n.links_t.p_max_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
-            n.links_t.p_min_pu.loc[:, f'{bus} {context} gas boiler'] = p_set.values / p_nom
-
-            n.links.loc[f'{bus} {context} gas boiler', 'p_nom_extendable'] = False
-
-        # Handle buses without existing gas boilers for rural and urban decentral
-
-        covered = existing.loc[existing > 0].index
-        missing = n.buses.index[n.buses.carrier == 'AC'].difference(covered)
-        logger.info(f'Filling gaps for {context} gas boilers: {missing}')
-
-        if len(missing) > 0:
-            # Calculate average ratio of p_nom to heat load for existing buses
-            existing_heat_load_context = total_tseries[covered].max()
-            existing_p_nom_context = n.links.loc[covered + ' ' + context + ' gas boiler', 'p_nom']
-
-            avg_ratio_context = (existing_p_nom_context.values / existing_heat_load_context.values).mean()
-
-            # Calculate average p_max_pu and p_min_pu across existing buses
-            avg_p_max_pu_context = n.links_t.p_max_pu[covered + ' ' + context + ' gas boiler'].mean(axis=1)
-            avg_p_min_pu_context = n.links_t.p_min_pu[covered + ' ' + context + ' gas boiler'].mean(axis=1)
-
-            # Apply to non-existing buses
-            for bus in missing:
-                # heat_load_max_context = total_tseries[bus].max()
-                heat_load_max_context = n.loads_t.p_set.loc[:, bus + ' ' + context + ' heat'].max()
-
-                p_nom_context = avg_ratio_context * heat_load_max_context
-
-                n.links.loc[bus + ' ' + context + ' gas boiler', 'p_nom'] = p_nom_context
-                n.links_t.p_max_pu.loc[:, bus + ' ' + context + ' gas boiler'] = avg_p_max_pu_context
-                n.links_t.p_min_pu.loc[:, bus + ' ' + context + ' gas boiler'] = avg_p_min_pu_context
-
-        # print(n.links_t.p_max_pu.loc[:, missing + ' ' + context + ' gas boiler'].head())
-        # print(n.links_t.p_min_pu.loc[:, missing + ' ' + context + ' gas boiler'].head())
-        # print(n.links.loc[missing + ' ' + context + ' gas boiler', 'p_nom'].head())
-
-    # import sys
-    # sys.exit()
-
-    # fix gas demand in industry
-
-    demand_energetic = methane_industry_energetic(tyndp_fn)
-    demand_nonenergetic = methane_industry_nonenergetic(tyndp_fn)
-
-    energetic_target = (
-        demand_energetic['National Trends'][2030] * (1 - time_weight) +
-        demand_energetic[scenario_mapper[scenario]][2040] * time_weight
-    ) # convert to MWh
-    nonenergetic_target = (
-        demand_nonenergetic['National Trends'][2030] * (1 - time_weight) +
-        demand_nonenergetic[scenario_mapper[scenario]][2040] * time_weight
-    ) # convert to MWh
-
-    logger.info(f'Fixing methane industry energetic demand: {energetic_target:.1f} TWh')
-    logger.info(f'Fixing methane industry nonenergetic demand: {nonenergetic_target:.1f} TWh')
-
-    current_demand = (
-        n.loads.p_set.loc[n.loads.index[n.loads.carrier == 'gas for industry']].sum() * w * len(n.snapshots) * 1e-6 # TWh
-    )
-
-    adjustment_factor = (energetic_target + nonenergetic_target) / current_demand
-
-    n.loads.loc[n.loads.index[n.loads.carrier == 'gas for industry'], 'p_set'] *= adjustment_factor
-
-    '''
 
 
 def add_production_constraints(n, carrier, value):
@@ -8195,12 +7935,12 @@ if __name__ == "__main__":
         industry_hp_pace = tyndp_scenario.split('+')[1]
         if industry_hp_pace == 'freepumps':
             industry_hp_pace = np.inf
-        carbon_price = None
+        wildcard_carbon_price = None
     else:
         if 'carbonprice' in tyndp_scenario:
-            carbon_price = float(tyndp_scenario.split('+')[1].split('-')[1])
+            wildcard_carbon_price = float(tyndp_scenario.split('+')[1].split('-')[1])
         else:
-            carbon_price = None
+            wildcard_carbon_price = None
         industry_hp_pace = np.inf
     
     if not tyndp_scenario.startswith('free'):
@@ -8502,7 +8242,7 @@ if __name__ == "__main__":
             egs_potentials=snakemake.input["egs_potentials"],
             egs_overlap=snakemake.input["egs_overlap"],
             egs_config=snakemake.params["sector"]["enhanced_geothermal"],
-            egs_capacity_factors="path/to/capacity_factors.csv",
+            egs_capacity_factors=snakemake.input["egs_capacity_factors"],
         )
 
     if options["imports"]["enable"]:
@@ -8534,16 +8274,8 @@ if __name__ == "__main__":
     if options["cluster_heat_buses"] and not first_year_myopic:
         cluster_heat_buses(n)
 
-    print(
-        n.generators.loc[n.generators.index.str.contains('onwind'), ['p_nom_opt', 'p_nom_min', 'p_nom_max']].head()
-    )
-
     maybe_adjust_costs_and_potentials(
         n, snakemake.params["adjustments"], investment_year
-    )
-
-    print(
-        n.generators.loc[n.generators.index.str.contains('onwind'), ['p_nom_opt', 'p_nom_min', 'p_nom_max']].head()
     )
 
     if not tyndp_scenario.startswith('free'):
@@ -8557,16 +8289,15 @@ if __name__ == "__main__":
         )
 
     # if tyndp_scenario != 'free':
-    carbon_prices = snakemake.params.carbon_prices
+    params_carbon_prices = snakemake.params.carbon_prices
     
     if not tyndp_scenario.startswith('free'):
-        # eu_price, uk_price = carbon_prices['eu_ets'][2024], carbon_prices['uk_ets'][2024]
-        eu_price = carbon_prices['eu_ets'][int(investment_year)]
-        uk_price = carbon_prices['uk_ets'][int(investment_year)]
+        eu_price = params_carbon_prices['eu_ets'][int(investment_year)]
+        uk_price = params_carbon_prices['uk_ets'][int(investment_year)]
     else:
-        if carbon_price is not None:
-            eu_price = carbon_price
-            uk_price = carbon_price
+        if wildcard_carbon_price is not None:
+            eu_price = wildcard_carbon_price
+            uk_price = wildcard_carbon_price
         else:
             eu_price, uk_price = 50., 50.
 
@@ -8585,24 +8316,15 @@ if __name__ == "__main__":
         snakemake.input.existing_heating_distribution,
         )
 
-    print('tyndp_scenario:')
-    print(tyndp_scenario)
     if not tyndp_scenario.startswith('free'):
 
         production_constraints = snakemake.wildcards.tyndp_scenario.split('+')[3:]
-
-        print('\n[STATE] Production constraints:')
-        print(production_constraints)
 
         pypsa_carriers_matcher = pd.Series({
             ''.join(ch for ch in c.lower() if ch.isalnum()):
             c
             for c in n.links.carrier.unique()
         })
-        print('\n[STATE] First 30 pypsa_carriers_matcher:')
-        print(pypsa_carriers_matcher.head(30))
-        print('\n[STATE] Last 39 pypsa_carriers_matcher:')
-        print(pypsa_carriers_matcher.tail(39))
 
         cleaned_production_constraints = {}
 
@@ -8616,21 +8338,18 @@ if __name__ == "__main__":
             cleaned_production_constraints[pypsa_carriers_matcher[carrier]] = value
         
         production_constraints = cleaned_production_constraints
-        logger.info(f"Passing production constraints:\n{cleaned_production_constraints}")
     
     else:
         production_constraints = {}
-    
-    print('\n[STATE] Final production constraints dictionary:')
-    print(production_constraints)
 
     for carrier, value in production_constraints.items():
         logger.info(f"Adding production constraint for {carrier}: {value} TWh")
         add_production_constraints(n, carrier, value)
 
+    # might be useful later
     default_heating_lifetime = snakemake.params.existing_capacities[
         "default_heating_lifetime"
-    ],
+    ]
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
