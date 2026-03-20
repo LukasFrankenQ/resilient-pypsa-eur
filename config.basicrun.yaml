@@ -525,6 +525,10 @@ pypsa_eur:
   - solar
   - ror
   - nuclear
+  - CCGT
+  - OCGT
+  - lignite
+  # - coal
   StorageUnit:
   - PHS
   - hydro

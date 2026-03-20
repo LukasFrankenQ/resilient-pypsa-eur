@@ -7802,8 +7802,6 @@ def adjust_heating_capacities(
     # return n, eff_current_percentage_rural
 
 
-
-
 def insert_tyndp_electricity_transport(
     n,
     tyndp_fn,
@@ -8191,20 +8189,18 @@ if __name__ == "__main__":
 
     tyndp_scenario = snakemake.wildcards.tyndp_scenario
     
-    print(tyndp_scenario)
+    print('\n[STATE] After scenario parsing')
+    print('tyndp_scenario:', tyndp_scenario)
     if not tyndp_scenario.startswith('free'):
         industry_hp_pace = tyndp_scenario.split('+')[1]
         if industry_hp_pace == 'freepumps':
             industry_hp_pace = np.inf
         carbon_price = None
     else:
-
-
         if 'carbonprice' in tyndp_scenario:
             carbon_price = float(tyndp_scenario.split('+')[1].split('-')[1])
         else:
             carbon_price = None
-
         industry_hp_pace = np.inf
     
     if not tyndp_scenario.startswith('free'):
@@ -8572,12 +8568,7 @@ if __name__ == "__main__":
             eu_price = carbon_price
             uk_price = carbon_price
         else:
-            eu_price, uk_price = 0., 0.
-
-    # print('eu_price:')
-    # print(eu_price)
-    # print('uk_price:')
-    # print(uk_price)
+            eu_price, uk_price = 50., 50.
 
     insert_ets(n, eu_price, uk_price)
 
@@ -8589,20 +8580,10 @@ if __name__ == "__main__":
             year=snakemake.wildcards.planning_horizons
            )
 
-    # if not tyndp_scenario.startswith('free'):
-        # if res_hp_pace == 'NT':
     adjust_heating_capacities(
         n,
         snakemake.input.existing_heating_distribution,
         )
-
-    # add_accelerated_heat_pumps(
-    #     n,
-    #     carriers=['urban decentral air heat pump', 'rural ground heat pump'],
-    #     num=5,
-    #     cost_increase_factor=0.1,
-    #     capacity_increase_factor=0.1,
-    # )
 
     print('tyndp_scenario:')
     print(tyndp_scenario)
@@ -8610,6 +8591,7 @@ if __name__ == "__main__":
 
         production_constraints = snakemake.wildcards.tyndp_scenario.split('+')[3:]
 
+        print('\n[STATE] Production constraints:')
         print(production_constraints)
 
         pypsa_carriers_matcher = pd.Series({
@@ -8617,7 +8599,9 @@ if __name__ == "__main__":
             c
             for c in n.links.carrier.unique()
         })
+        print('\n[STATE] First 30 pypsa_carriers_matcher:')
         print(pypsa_carriers_matcher.head(30))
+        print('\n[STATE] Last 39 pypsa_carriers_matcher:')
         print(pypsa_carriers_matcher.tail(39))
 
         cleaned_production_constraints = {}
@@ -8637,7 +8621,7 @@ if __name__ == "__main__":
     else:
         production_constraints = {}
     
-    print('production constraints:')
+    print('\n[STATE] Final production constraints dictionary:')
     print(production_constraints)
 
     for carrier, value in production_constraints.items():
@@ -8647,7 +8631,6 @@ if __name__ == "__main__":
     default_heating_lifetime = snakemake.params.existing_capacities[
         "default_heating_lifetime"
     ],
-
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
 
