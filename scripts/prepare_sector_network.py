@@ -5725,7 +5725,6 @@ def add_industry(
                     ],
                     lifetime=costs.at["decentral oil boiler", "lifetime"],
                 )
-    '''
 
     n.add(
         "Link",
@@ -5745,6 +5744,7 @@ def add_industry(
         p_min_pu=options["min_part_load_fischer_tropsch"],
         lifetime=costs.at["Fischer-Tropsch", "lifetime"],
     )
+    '''
 
     # naphtha
     demand_factor = options["HVC_demand_factor"]
@@ -8363,3 +8363,4 @@ if __name__ == "__main__":
     n.generators.loc[nu, 'p_min_pu'] = 0.7
 
     n.export_to_netcdf(snakemake.output[0])
+    logger.warning('Fischer Tropsch switched off')
