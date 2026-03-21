@@ -5725,6 +5725,7 @@ def add_industry(
                     ],
                     lifetime=costs.at["decentral oil boiler", "lifetime"],
                 )
+    '''
 
     n.add(
         "Link",
@@ -5744,7 +5745,6 @@ def add_industry(
         p_min_pu=options["min_part_load_fischer_tropsch"],
         lifetime=costs.at["Fischer-Tropsch", "lifetime"],
     )
-    '''
 
     # naphtha
     demand_factor = options["HVC_demand_factor"]
@@ -8299,7 +8299,7 @@ if __name__ == "__main__":
             eu_price = wildcard_carbon_price
             uk_price = wildcard_carbon_price
         else:
-            eu_price, uk_price = 50., 50.
+            eu_price, uk_price = 0., 0.
 
     insert_ets(n, eu_price, uk_price)
 
@@ -8363,4 +8363,4 @@ if __name__ == "__main__":
     n.generators.loc[nu, 'p_min_pu'] = 0.7
 
     n.export_to_netcdf(snakemake.output[0])
-    logger.warning('Fischer Tropsch switched off')
+    # logger.warning('Fischer Tropsch switched off')
