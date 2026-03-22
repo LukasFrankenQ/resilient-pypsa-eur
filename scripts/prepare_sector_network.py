@@ -694,11 +694,11 @@ def remove_elec_base_techs(n: pypsa.Network, carriers_to_keep: dict) -> None:
     """
     for c in n.iterate_components(carriers_to_keep):
         to_keep = carriers_to_keep[c.name]
-        to_remove = pd.Index(c.df.carrier.unique()).symmetric_difference(to_keep)
+        to_remove = pd.Index(c.static.carrier.unique()).symmetric_difference(to_keep)
         if to_remove.empty:
             continue
         logger.info(f"Removing {c.list_name} with carrier {list(to_remove)}")
-        names = c.df.index[c.df.carrier.isin(to_remove)]
+        names = c.static.index[c.static.carrier.isin(to_remove)]
         n.remove(c.name, names)
         n.carriers.drop(to_remove, inplace=True, errors="ignore")
 
@@ -3408,6 +3408,30 @@ def add_heat(
                 lifetime=costs.at[key, "lifetime"],
             )
 
+        if options["oil_boilers"]:
+            if not heat_system == HeatSystem.URBAN_CENTRAL:
+                n.add(
+                    "Link",
+                    nodes + f" {heat_system} oil boiler",
+                    p_nom_extendable=True,
+                    bus0=spatial.oil.nodes,
+                    bus1=nodes + f" {heat_system} heat",
+                    bus2="co2 atmosphere",
+                    carrier=f"{heat_system} oil boiler",
+                    efficiency=costs.at["decentral oil boiler", "efficiency"],
+                    efficiency2=costs.at["oil", "CO2 intensity"],
+                    capital_cost=costs.at["decentral oil boiler", "efficiency"]
+                    * costs.at["decentral oil boiler", "capital_cost"]
+                    * options["overdimension_heat_generators"][
+                        heat_system.central_or_decentral
+                    ],
+                    lifetime=costs.at["decentral oil boiler", "lifetime"],
+                )
+                # print('===========================================================')
+                # print('adding carrier:')
+                # print(f"{heat_system} oil boiler")
+                # print('===========================================================')
+
         if options["solar_thermal"]:
             n.add("Carrier", f"{heat_system} solar thermal")
 
@@ -5702,30 +5726,6 @@ def add_industry(
         efficiency3=-options["MWh_MeOH_per_MWh_H2"] / options["MWh_MeOH_per_tCO2"],
     )
 
-    '''
-    if options["oil_boilers"]:
-        nodes = pop_layout.index
-
-        for heat_system in HeatSystem:
-            if not heat_system == HeatSystem.URBAN_CENTRAL:
-                n.add(
-                    "Link",
-                    nodes + f" {heat_system} oil boiler",
-                    p_nom_extendable=True,
-                    bus0=spatial.oil.nodes,
-                    bus1=nodes + f" {heat_system} heat",
-                    bus2="co2 atmosphere",
-                    carrier=f"{heat_system} oil boiler",
-                    efficiency=costs.at["decentral oil boiler", "efficiency"],
-                    efficiency2=costs.at["oil", "CO2 intensity"],
-                    capital_cost=costs.at["decentral oil boiler", "efficiency"]
-                    * costs.at["decentral oil boiler", "capital_cost"]
-                    * options["overdimension_heat_generators"][
-                        heat_system.central_or_decentral
-                    ],
-                    lifetime=costs.at["decentral oil boiler", "lifetime"],
-                )
-    '''
 
     n.add(
         "Link",
@@ -7512,6 +7512,7 @@ def adjust_heating_capacities(
         'ground heat pump',
         'gas boiler',
         'biomass boiler',
+        'oil boiler',
     ]
 
     for bus in installed.index:
@@ -7526,7 +7527,7 @@ def adjust_heating_capacities(
             current_capacity = current_p_nom_rural.loc[bus, carrier]
 
             if np.isnan(current_percentage) or current_capacity == 0:
-                logger.info('skipping rural carrier: ', bus + ' rural ' + carrier)
+                # logger.info('skipping rural carrier: ', bus + ' rural ' + carrier)
                 continue
 
             factor = 1.
@@ -7571,6 +7572,14 @@ def adjust_heating_capacities(
 
         # the current scaling above correctly scales the relative capacities but under- or overshoots the total
 
+        print('===========================================================')
+        print('rural oil boiler' in n.links.carrier.unique())
+        print('urban decentral oil boiler' in n.links.carrier.unique())
+
+        # import sys
+        # sys.exit()
+        
+
         def get_rural_dispatch(n, bus):
 
             load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
@@ -7592,11 +7601,18 @@ def adjust_heating_capacities(
                 index=n.snapshots
                 )
 
+            oil_dispatch = pd.Series(
+                n.links.loc[f'{bus} rural oil boiler', 'p_nom'] *
+                n.links.efficiency.loc[f'{bus} rural oil boiler'],
+                index=n.snapshots
+                )
+
             dispatch = pd.DataFrame(
                 {
                     'ground heat pump': ground_hp_dispatch,
                     'biomass boiler': biomass_dispatch,
                     'gas boiler': gas_dispatch,
+                    'oil boiler': oil_dispatch,
                 }
             )
             return dispatch.mul(relative_load, axis=0)
@@ -7647,6 +7663,7 @@ def adjust_heating_capacities(
         'air heat pump',
         'gas boiler',
         'biomass boiler',
+        'oil boiler',
     ]
 
     for bus in installed.index:
@@ -7726,11 +7743,18 @@ def adjust_heating_capacities(
                 index=n.snapshots
                 )
 
+            oil_dispatch = pd.Series(
+                n.links.loc[f'{bus} urban decentral oil boiler', 'p_nom'] *
+                n.links.efficiency.loc[f'{bus} urban decentral oil boiler'],
+                index=n.snapshots
+                )
+
             dispatch = pd.DataFrame(
                 {
                     'air heat pump': air_hp_dispatch,
                     'biomass boiler': biomass_dispatch,
                     'gas boiler': gas_dispatch,
+                    'oil boiler': oil_dispatch,
                 }
             )
             return dispatch.mul(relative_load, axis=0)
@@ -7992,7 +8016,24 @@ if __name__ == "__main__":
         if "landfall_length" in settings.keys()
     }
 
+    print('carriers to keep: ', carriers_to_keep)
+
+    keeper_carriers = ['OCGT', 'CCGT', 'nuclear', 'lignite', 'coal']
+    keeper_columns = ['p_nom', 'p_nom_min']
+
+    print(n.generators.loc[n.generators.carrier.isin(keeper_carriers)])
+    hold_existing_capacities = n.generators.loc[
+        n.generators.carrier.isin(keeper_carriers),
+        keeper_columns
+        ]
+    
+    print('hold_existing_capacities: ', hold_existing_capacities)
+
+
     patch_electricity_network(n, costs, carriers_to_keep, profiles, landfall_lengths)
+
+    print(n.links.loc[n.links.carrier.isin(['OCGT', 'CCGT'])])
+
 
     carriers_to_keep = snakemake.params.pypsa_eur
 
@@ -8034,6 +8075,12 @@ if __name__ == "__main__":
         options=options,
         cf_industry=cf_industry,
     )
+
+    logger.warning('Somewhat ad-hoc setting of conventional capacities')
+    n.links.loc[
+        hold_existing_capacities.index,
+        keeper_columns
+    ] = hold_existing_capacities
 
     add_storage_and_grids(
         n=n,
@@ -8361,6 +8408,15 @@ if __name__ == "__main__":
     nu = n.generators.index[n.generators.carrier == 'nuclear']
     n.generators.loc[nu, 'p_max_pu'] = 0.7
     n.generators.loc[nu, 'p_min_pu'] = 0.7
+
+    assert (
+        (not 'OCGT' in n.generators.carrier.unique()) |
+        (not 'OCGT' in n.generators.carrier.unique())
+    ), "OCGT and CCGT cannot be in generators"
+    assert n.links.loc[n.links.carrier.isin(['OCGT', 'CCGT'])]['p_nom'].sum() > 0, "OCGT and CCGT should have existing caps"
+
+    assert 'rural oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
+    assert 'urban decentral oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
 
     n.export_to_netcdf(snakemake.output[0])
     # logger.warning('Fischer Tropsch switched off')

@@ -253,6 +253,13 @@ def plot_balances():
     balances["energy"] = balances_df.groupby(["component", "carrier"]).sum()
 
     for bus_carrier, df in balances.items():
+        
+        if bus_carrier in ['rural heat', 'urban decentral heat']:
+            print('===========================================================')
+            print(bus_carrier)
+            print(df)
+            print(df.index.unique(1))
+
         df = df.groupby("carrier").sum()
 
         # convert MWh to TWh

@@ -49,6 +49,7 @@ scenario:
   - ''
   sector_opts:
   # - '168H-T-H-B-I-A-dist1'
+  # - '168H-T-H-B-I-A-dist1'
   - '168H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.1'
@@ -124,21 +125,21 @@ scenario:
   # - 'GA'
   wiggle:
   # - endo
-  # - 0
+  - 0
   # - 250
   # - 500
-   #- 750
+  # - 750
   - 1000
   # - 1250
-  - 1500
+  # - 1502
   # - 1750
   - 2000
   # - 2250
-  - 2500
+  # - 2500
   # - 2750
   - 3000
   # - 3250
-  - 3500
+  # - 3500
   # - 3750
   - 4000
   # - 4250
@@ -524,10 +525,10 @@ pypsa_eur:
   - solar-hsat
   - solar
   - ror
-  - nuclear
-  - CCGT
-  - OCGT
-  - lignite
+  # - nuclear
+  # - CCGT
+  # - OCGT
+  # - lignite
   # - coal
   StorageUnit:
   - PHS
@@ -915,6 +916,10 @@ sector:
   conventional_generation:
     OCGT: gas
     CCGT: gas
+    nuclear: uranium
+    lignite: lignite
+    coal: coal
+    oil: oil
   endogenous_steel: true
   industry_t:  # heat supply industry
     endogen: true  # if heat supply for industry should be enodgenously optimised (does not cover steel sector)
