@@ -8411,12 +8411,18 @@ if __name__ == "__main__":
 
     assert (
         (not 'OCGT' in n.generators.carrier.unique()) |
-        (not 'OCGT' in n.generators.carrier.unique())
+        (not 'CCGT' in n.generators.carrier.unique())
     ), "OCGT and CCGT cannot be in generators"
-    assert n.links.loc[n.links.carrier.isin(['OCGT', 'CCGT'])]['p_nom'].sum() > 0, "OCGT and CCGT should have existing caps"
+    assert n.links.loc[n.links.carrier.isin(['OCGT', 'CCGT'])]['p_nom'].sum() > 0, "OCGT and CCGT should have existing capacities"
 
     assert 'rural oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
     assert 'urban decentral oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
 
+    # logger.warning('Removing oil, lignite and coal stores')
+    # n.remove(
+    #     'Store',
+    #     ['EU oil Store', 'EU lignite Store', 'EU coal Store'],
+    # )
+
     n.export_to_netcdf(snakemake.output[0])
-    # logger.warning('Fischer Tropsch switched off')
+    # logger.warning('Fischer-Tropsch switched off')

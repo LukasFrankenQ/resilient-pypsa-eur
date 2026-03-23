@@ -52,33 +52,6 @@ scenario:
   # - '168H-T-H-B-I-A-dist1'
   - '168H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.1'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.15'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.2'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.25'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.3'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.35'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.4'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.5'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.6'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.7'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.8'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.9'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.0'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.2'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.4'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.6'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m2.8'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m3.0'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m3.2'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m3.4'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m3.6'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m3.8'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m4.0'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m4.2'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m4.4'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m4.6'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m4.8'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m5.0'
   planning_horizons:
   # - 2025
@@ -89,58 +62,30 @@ scenario:
   - 'free'
   # - 'free+carbonprice-50'
   # - 'free+carbonprice-55'
-  # - 'free+carbonprice-60'
-  # - 'free+carbonprice-65'
-  # - 'free+carbonprice-70'
-  #  - 'free+carbonprice-75'
-  # - 'free+carbonprice-80'
-  # - 'free+carbonprice-85'
-  # - 'free+carbonprice-90'
-  # - 'free+carbonprice-95'
-  # - 'free+carbonprice-100'
-  # - 'free+carbonprice-105'
-  # - 'free+carbonprice-110'
-  # - 'free+carbonprice-115'
-  # - 'free+carbonprice-120'
-  # - 'free+carbonprice-125'
-  # - 'free+carbonprice-130'
-  # - 'free+carbonprice-135'
-  # - 'free+carbonprice-140'
   # - 'free+carbonprice-145'
   # - 'NT+freepumps+freepumps'
   # - 'NT+freepumps+freepumps'
   # - 'NT+freepumps+freepumps+h2electrolysis-900'
-  # - 'NT+freepumps+freepumps+h2electrolysis-900+biogastogas-100'
   # - 'NT+freepumps+freepumps+biogastogas-100'
   # - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
-  # - 'NT+freepumps+freepumps+h2electrolysis-300+biogastogas-115'
-  # - 'NT+freepumps+freepumps+h2electrolysis-400+biogastogas-115'
-  # - 'NT+freepumps+freepumps+h2electrolysis-500+biogastogas-115'
-  # - 'NT+freepumps+freepumps+h2electrolysis-600+biogastogas-115'
-  # - 'NT+freepumps+freepumps+h2electrolysis-700+biogastogas-115'
-  # - 'NT+slow'
-  # - 'NT+medium'
-  # - 'NT+fast'
-  # - 'DE'
-  # - 'GA'
   wiggle:
   # - endo
   - 0
-  # - 250
-  # - 500
-  # - 750
+  - 250
+  - 500
+  - 750
   - 1000
-  # - 1250
-  # - 1500
-  # - 1750
+  - 1250
+  - 1500
+  - 1750
   - 2000
-  # - 2250
-  # - 2500
-  # - 2750
+  - 2250
+  - 2500
+  - 2750
   - 3000
-  # - 3250
-  # - 3500
-  # - 3750
+  - 3250
+  - 3500
+  - 3750
   - 4000
   # - 4250
   # - 4500
