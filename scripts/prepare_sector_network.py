@@ -8346,7 +8346,7 @@ if __name__ == "__main__":
             eu_price = wildcard_carbon_price
             uk_price = wildcard_carbon_price
         else:
-            eu_price, uk_price = 0., 0.
+            eu_price, uk_price = 40., 40.
 
     insert_ets(n, eu_price, uk_price)
 
