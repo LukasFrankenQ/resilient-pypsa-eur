@@ -8404,10 +8404,9 @@ if __name__ == "__main__":
 
     sanitize_locations(n)
 
-    logger.info('Adding must run for nuclear generators')
-    nu = n.links.index[n.links.carrier == 'nuclear']
-    n.links.loc[nu, 'p_max_pu'] = 0.7
-    n.links.loc[nu, 'p_min_pu'] = 0.7
+    # logger.info('Adding must run for nuclear generators')
+    # nu = n.links.index[n.links.carrier == 'nuclear']
+    # n.links.loc[nu, 'p_min_pu'] = 0.7
 
     assert (
         (not 'OCGT' in n.generators.carrier.unique()) |
