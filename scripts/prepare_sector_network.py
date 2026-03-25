@@ -8418,11 +8418,11 @@ if __name__ == "__main__":
     assert 'rural oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
     assert 'urban decentral oil boiler' in n.links.carrier.unique(), "Oil boilers should be in links"
 
-    # logger.warning('Removing oil, lignite and coal stores')
-    # n.remove(
-    #     'Store',
-    #     ['EU oil Store', 'EU lignite Store', 'EU coal Store'],
-    # )
+    logger.warning('Removing oil, lignite and coal stores')
+    n.remove(
+        'Store',
+        ['EU oil Store', 'EU lignite Store', 'EU coal Store'],
+    )
 
     n.export_to_netcdf(snakemake.output[0])
     # logger.warning('Fischer-Tropsch switched off')
