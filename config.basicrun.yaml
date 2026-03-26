@@ -49,8 +49,7 @@ scenario:
   - ''
   sector_opts:
   # - '168H-T-H-B-I-A-dist1'
-  # - '168H-T-H-B-I-A-dist1'
-  - '168H-T-H-B-I-A-dist1'
+  - '3H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m5.0'
   planning_horizons:
