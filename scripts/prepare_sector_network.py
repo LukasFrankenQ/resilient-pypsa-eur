@@ -5178,12 +5178,8 @@ def add_industry(
     industrial_demand = pd.read_csv(industrial_demand_file, index_col=0, header=[0, 1])
 
     heat_pump_adoption_pace = {
-        'very_slow': {
-            2030: 0.02,
-            2035: 0.1,
-        },
         'slow': {
-            2030: 0.125,
+            2030: 0.02,
             2035: 0.25,
         },
         'medium': {
@@ -7966,11 +7962,17 @@ if __name__ == "__main__":
         else:
             wildcard_carbon_price = None
         industry_hp_pace = np.inf
-    
+
+    if len(tyndp_scenario.split('+')) == 2:
+        industry_hp_pace = tyndp_scenario.split('+')[1]
+    else:
+        industry_hp_pace = np.inf
+    logger.info(f'industry heat pump rollout: {industry_hp_pace}')
+
     if not tyndp_scenario.startswith('free'):
         res_hp_pace = tyndp_scenario.split('+')[2]
         assert res_hp_pace in ['freepumps', 'NT']
-        
+
     tyndp_scenario = tyndp_scenario.split('+')[0]
 
     pop_layout = pd.read_csv(snakemake.input.clustered_pop_layout, index_col=0)
