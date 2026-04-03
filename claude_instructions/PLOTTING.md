@@ -40,7 +40,7 @@ def style_ax(ax):
 2. **Subtle y-grid** — use `alpha=0.3` and `set_axisbelow(True)` so grid lines sit behind data.
 3. **Legend frame on** — always `frameon=True`.
 4. **Carrier colors from config** — always use `tech_colors` for any carrier-based coloring (stacked areas, bar charts, pie charts, legends).
-5. **Saving** — always save a copy of the figure to (ROOT is the repo root) `ROOT.parent / 'gas_resilience' / 'imgs'`
+5. **Saving** — always save a copy of the figure as **PDF only** to (ROOT is the repo root) `ROOT.parent / 'gas_resilience' / 'imgs'`
 
 ## Anti-patterns
 
