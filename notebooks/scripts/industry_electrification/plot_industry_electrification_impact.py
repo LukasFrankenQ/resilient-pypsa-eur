@@ -174,14 +174,10 @@ def plot(baseline_s, scenario_df):
         ax.set_xticklabels(['50%', '25%', '2%'])
         ax.set_xlabel('Share of optimal industry electrification achieved')
 
-    fig.suptitle(
-        "Impact of slower industry electrification vs. cost-optimal (2000 TWh total gas consumption)",
-        fontsize=12, y=1.02,
-    )
     fig.tight_layout()
     fig.savefig(SAVE_DIR / "industry_electrification_impact.pdf", bbox_inches="tight")
     print(f"Saved to {SAVE_DIR / 'industry_electrification_impact.pdf'}")
-    plt.show()
+    plt.close()
 
 
 if __name__ == "__main__":
