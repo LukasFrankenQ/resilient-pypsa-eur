@@ -192,6 +192,51 @@ def fix_capacities(n_lt, no_flex=False):
     return n
 
 
+def pin_installed_heating_dispatch(
+    n,
+    n_lt,
+    carriers=("oil boiler", "biomass boiler"),
+    tolerance=1e-2,
+):
+    """Lock oil and biomass boiler dispatch to the main-solve time series.
+
+    Residential oil / biomass boilers are installed equipment — homeowners cannot
+    switch heating source in response to a gas-price shock. We therefore pin their
+    per-unit dispatch to the decision network's p0, within a small tolerance.
+
+    Gas boilers are intentionally left flex (they remain bottleneck-extendable
+    via `_unfix_bottlenecks`) so the hike solve has numerical headroom. Boilers
+    are set p_nom_extendable=True with p_nom_min=p_nom_max=p_nom_opt so they
+    bypass `force_boiler_profiles_existing_per_boiler` (which only targets
+    non-extendable boilers) while still being capacity-locked.
+    """
+    mask = (
+        n.links.carrier.str.contains("|".join(carriers))
+        & ~n.links.carrier.str.contains("urban central")
+    )
+    names = n.links.index[mask]
+    pinned = 0
+    for name in names:
+        if name not in n_lt.links_t.p0.columns:
+            continue
+        p_nom_opt = n_lt.links.at[name, "p_nom_opt"]
+        if p_nom_opt <= 1e-3:
+            continue
+        profile = (n_lt.links_t.p0[name] / p_nom_opt).clip(0, 1)
+        n.links.at[name, "p_nom"] = p_nom_opt
+        n.links.at[name, "p_nom_min"] = p_nom_opt
+        n.links.at[name, "p_nom_max"] = p_nom_opt
+        n.links.at[name, "p_nom_extendable"] = True
+        n.links_t.p_max_pu[name] = (profile + tolerance).clip(0, 1)
+        n.links.at[name, "p_min_pu"] = 0.0
+        n.links_t.p_min_pu[name] = (profile - tolerance).clip(lower=0.0)
+        pinned += 1
+    logger.info(
+        f"Pinned dispatch of {pinned} installed heating boilers "
+        f"(carriers={list(carriers)}) to main-solve time series."
+    )
+
+
 def add_load_shedding(
     n: pypsa.Network,
     marginal_cost: float=10000,
@@ -257,6 +302,8 @@ if __name__ == "__main__":
     n_lt = pypsa.Network(snakemake.input.network)
 
     n = fix_capacities(n_lt)
+
+    pin_installed_heating_dispatch(n, n_lt)
 
     carrier = 'heat200-500 industry solid biomass'
 

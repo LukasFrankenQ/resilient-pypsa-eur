@@ -7920,6 +7920,101 @@ def add_production_constraints(n, carrier, value):
     # an extra_functionality callback. Store it for later use.
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# BEGIN CHANGE: constant-share individual-heating dispatch enforcement
+# ──────────────────────────────────────────────────────────────────────────────
+# Individual-heating buses (`rural heat`, `urban decentral heat`) aggregate
+# millions of homes, each with exactly one heating tech. Without constraints,
+# the optimizer cherry-picks the cheapest source at every hour, which is
+# unrealistic. The helpers below set `p_max_pu` / `p_min_pu` so each tech's
+# heat output tracks demand, giving a (near-)constant share per tech over time.
+#
+# For a link with efficiency eff_i(t):
+#     p_pu_i(t) = demand(t) / (eff_i(t) · max_t[demand(t)/eff_i(t)])
+# ⇒ heat_i(t) = p_pu_i · p_nom_i · eff_i(t) = demand(t) · (p_nom_i / M_i),
+# i.e. constant share s_i = p_nom_i / M_i, preserved whatever p_nom_opt the
+# optimizer picks. Gas boilers are left unconstrained as balancing flex.
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+def get_total_demand(n, bus_name):
+    """Total heat demand time series at a bus."""
+    loads_on_bus = n.loads[n.loads.bus == bus_name]
+    total = pd.Series(0.0, index=n.snapshots)
+    for load_name in loads_on_bus.index:
+        if load_name in n.loads_t.p_set.columns:
+            total += n.loads_t.p_set[load_name]
+        else:
+            total += loads_on_bus.loc[load_name, "p_set"]
+    return total
+
+
+def get_link_efficiency(n, link_name):
+    """Efficiency time series for a link (handles time-varying COP)."""
+    if link_name in n.links_t.efficiency.columns:
+        return n.links_t.efficiency[link_name]
+    return pd.Series(
+        n.links.loc[link_name, "efficiency"],
+        index=n.snapshots,
+    )
+
+
+def enforce_individual_heating_dispatch(
+    n,
+    bus_name,
+    flex_carriers=("gas boiler",),
+    exclude_carriers=("heat vent", "boiler"),
+    tolerance=0.05,
+):
+    """
+    Constrain heating techs at `bus_name` so each tech's heat output is
+    proportional to total demand at every timestep (constant per-tech share).
+
+    Applies to every link on bus1=bus_name and every generator on bus=bus_name
+    whose carrier is not in `flex_carriers` or `exclude_carriers`. The profile
+    is independent of capacity, so it works pre-solve where `p_nom_opt` is
+    not yet known — the optimizer then chooses capacities consistent with
+    the constant-share invariant.
+    """
+    total_demand = get_total_demand(n, bus_name)
+    if total_demand.max() <= 0:
+        return
+
+    def _matches(carrier, patterns):
+        return any(p in carrier for p in patterns)
+
+    # links (bus1 = heat bus)
+    for name, link in n.links[n.links.bus1 == bus_name].iterrows():
+        if _matches(link.carrier, exclude_carriers) or _matches(link.carrier, flex_carriers):
+            continue
+        eff = get_link_efficiency(n, name)
+        base = total_demand / eff
+        if base.max() <= 0:
+            continue
+        normalised = base / base.max()
+        p_max_pu = (normalised * (1 + tolerance)).clip(0, 1)
+        p_min_pu = (normalised * (1 - tolerance)).clip(lower=0).clip(upper=p_max_pu)
+        n.links_t.p_max_pu[name] = p_max_pu
+        n.links_t.p_min_pu[name] = p_min_pu
+
+    # generators (bus = heat bus, e.g. solar thermal)
+    demand_peak = total_demand.max()
+    for name, gen in n.generators[n.generators.bus == bus_name].iterrows():
+        if _matches(gen.carrier, exclude_carriers) or _matches(gen.carrier, flex_carriers):
+            continue
+        normalised = total_demand / demand_peak
+        p_max_pu = (normalised * (1 + tolerance)).clip(0, 1)
+        p_min_pu = (normalised * (1 - tolerance)).clip(lower=0).clip(upper=p_max_pu)
+        if name in n.generators_t.p_max_pu.columns:
+            resource = n.generators_t.p_max_pu[name]
+            p_max_pu = p_max_pu.clip(upper=resource)
+            p_min_pu = p_min_pu.clip(upper=p_max_pu)
+        n.generators_t.p_max_pu[name] = p_max_pu
+        n.generators_t.p_min_pu[name] = p_min_pu
+
+# ──────────────────────────────────────────────────────────────────────────────
+# END CHANGE: constant-share individual-heating dispatch enforcement
+# ══════════════════════════════════════════════════════════════════════════════
 
 
 
@@ -8411,6 +8506,22 @@ if __name__ == "__main__":
     for carrier, value in production_constraints.items():
         logger.info(f"Adding production constraint for {carrier}: {value} TWh")
         add_production_constraints(n, carrier, value)
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # BEGIN CHANGE: enforce constant-share dispatch at individual-heating buses
+    # ──────────────────────────────────────────────────────────────────────────
+    individual_heat_buses = list(n.buses.index[n.buses.carrier.isin(
+        ["rural heat", "urban decentral heat"]
+    )])
+    logger.info(
+        f"Enforcing constant-share heating dispatch at "
+        f"{len(individual_heat_buses)} individual-heat buses."
+    )
+    for heat_bus in individual_heat_buses:
+        enforce_individual_heating_dispatch(n, heat_bus)
+    # ──────────────────────────────────────────────────────────────────────────
+    # END CHANGE: enforce constant-share dispatch at individual-heating buses
+    # ══════════════════════════════════════════════════════════════════════════
 
     # might be useful later
     default_heating_lifetime = snakemake.params.existing_capacities[
