@@ -49,9 +49,10 @@ scenario:
   - ''
   sector_opts:
   # - '168H-T-H-B-I-A-dist1'
-  - '3H-T-H-B-I-A-dist1'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.05'
-  # - '168H-T-H-B-I-A-dist1-gas+Generator+m5.0'
+  # - '3H-T-H-B-I-A-dist1'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.25'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.5'
+  - '168H-T-H-B-I-A-dist1-gas+Generator+m1.75'
   planning_horizons:
   # - 2025
   - 2030
@@ -69,27 +70,27 @@ scenario:
   # - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
   wiggle:
   # - endo
-  # - 0
+  - 0
   # - 250
   - 500
   # - 750
-  # - 1000
-  - 1250
-  # - 1500
+  - 1000
+  # - 1250
+  - 1500
   # - 1750
   - 2000
   # - 2250
-  # - 2500
-  - 2750
-  # - 3000
+  - 2500
+  # - 2750
+  - 3000
   # - 3250
   - 3500
   # - 3750
-  # - 4000
+  - 4000
   # - 4250
-  # - 4500
+  - 4500
   # - 4750
-  # - 5000
+  - 5000
   # - 2900
   # - 3000
   # - 2000

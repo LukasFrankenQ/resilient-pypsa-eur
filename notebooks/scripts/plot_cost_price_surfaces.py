@@ -172,7 +172,7 @@ for sw in SWEEPS:
 
     x_end = r["wiggles"].max()
     y_end = float(curve(x_end))
-    ax.text(x_end, y_end + 0.5, f"{r['gas_price']:.1f}\nEUR/MWh",
+    ax.text(x_end, y_end + 0.5, f"{r['gas_price']:.1f}\n€/MWh",
             color=r["color"], va="bottom", ha="right",
             fontsize=9, fontweight="bold",
             linespacing=0.95)
@@ -219,8 +219,18 @@ if len(np.unique(mx)) == len(mx):
             bbox=dict(boxstyle="round,pad=0.25", facecolor="white",
                       edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
+for xv, label, dx in [
+    (2000, "Autarky\n(2000 TWh)", -40),
+    (2750, "No-LNG\n(2750 TWh)",  40),
+]:
+    ax.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
+    ax.text(xv + dx, 962, label,
+            color="black", alpha=0.85, fontsize=9,
+            ha="center", va="bottom", linespacing=0.95,
+            zorder=10, clip_on=False)
+
 ax.set_xlabel("Gas Consumption [TWh/y]")
-ax.set_ylabel("Total system cost [B EUR]")
+ax.set_ylabel("Total system cost [B €]")
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 ax.yaxis.grid(True, alpha=0.3)

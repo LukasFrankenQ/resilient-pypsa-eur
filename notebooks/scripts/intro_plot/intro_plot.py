@@ -538,7 +538,7 @@ pts_sizes = np.array([60, 180, 120, 300, 90, 250, 150, 200, 100, 220])
 pts_cat = np.array([0, 1, 2, 0, 1, 2, 0, 1, 2, 0])
 
 # --- Bar chart data (dummy) ---
-bar_labels = ['Source', 'Consumption', 'Sectoral\nConsumption']
+bar_labels = ['Source', 'Country\nConsumption', 'Sectoral\nConsumption']
 total = 100
 
 bar1_vals = [35, 40, 25]
@@ -557,7 +557,7 @@ bar3_texts = ['Part 1', 'Part 2', 'Part 3', 'Part 4', 'Part 5']
 
 # --- Sea labels ---
 seas = {
-    'Atlantic\nOcean': (-12, 50),
+    'Atlantic\nOcean': (-13, 43),
     'North\nSea': (3, 56),
     'Mediterranean Sea': (3, 38.2),   # just south of Mallorca
     'Baltic\nSea': (20, 58),
@@ -584,7 +584,7 @@ gdf = gdf.to_crs(_MAP_CRS)
 # chart sits right next to the map.
 fig, (ax_map, ax_bar) = plt.subplots(
     1, 2, figsize=(16, 6.8),
-    gridspec_kw={'width_ratios': [2.2, 1], 'wspace': 0.03}
+    gridspec_kw={'width_ratios': [2.2, 1], 'wspace': 0.07}
 )
 
 # =============================================================================
@@ -720,6 +720,12 @@ for _, row in df_supply.iterrows():
         label=row["type"]  # legend deduplication will be handled next
     )
     dx, dy = _LABEL_OFFSETS.get(row["origin"], (300_000, 200_000))
+    # Origins whose points are large enough that the label can overlap the
+    # marker directly — no leader line needed.
+    _no_leader = {"LNG", "Norway", "Netherlands", "North Africa"}
+    _arrow = None if row["origin"] in _no_leader else dict(
+        arrowstyle="-", color="black", lw=1.2, shrinkA=0, shrinkB=3,
+    )
     ax_map.annotate(
         row["origin"],
         xy=(_px, _py),
@@ -727,8 +733,7 @@ for _, row in df_supply.iterrows():
         fontsize=7.5, color="#222222", weight="medium",
         ha="center", va="center",
         bbox=_callout_bbox,
-        arrowprops=dict(arrowstyle="-", color="black", lw=1.2,
-                        shrinkA=0, shrinkB=3),
+        arrowprops=_arrow,
         zorder=6,
     )
     # Optional: annotate with origin
@@ -756,7 +761,7 @@ infra_handles = [
 leg_infra = ax_map.legend(handles=infra_handles, loc='upper left', frameon=True,
                           framealpha=0.9, edgecolor='#cccccc', fontsize=8,
                           title='Infrastructure', title_fontsize=8.5,
-                          bbox_to_anchor=(0.01, 0.80))
+                          bbox_to_anchor=(0.01, 0.7925))
 ax_map.add_artist(leg_infra)
 
 # Legend — sizes (TWh order-of-magnitude)
@@ -821,8 +826,8 @@ for i, (name, value) in enumerate(_sector_series.items()):
         # segment above (Industry heating) and draw a leader to the feedstock.
         ax_bar.annotate(
             sector_nicenames[name],
-            xy=(2, bottom + value / 2),
-            xytext=(2, bottom + value + 180),
+            xy=(2 - width / 2, bottom + value / 2),
+            xytext=(2 - 0.35, bottom + value + 180),
             ha='center', va='center',
             fontsize=7.5, color='k', weight='medium',
             bbox=dict(boxstyle='round,pad=0.2', fc='white',
@@ -915,7 +920,7 @@ ax_bar.set_ylim(
     ) * 1.02,
 )
 # Tight x-limits so the first bar sits flush against the map on the left.
-ax_bar.set_xlim(-0.35, 2.35)
+ax_bar.set_xlim(-0.35, 2.55)
 ax_bar.spines['left'].set_visible(False)
 ax_bar.spines['top'].set_visible(False)
 
@@ -932,6 +937,11 @@ ax_bar.spines['right'].set_color('#aaaaaa')
 ## plt.tight_layout()
 # plt.savefig('/mnt/user-data/outputs/europe_figure.png', dpi=180, bbox_inches='tight')
 plt.savefig('intro_plot.pdf', dpi=150, bbox_inches='tight')
+# Also save a copy to the sibling gas_resilience repo directory
+import shutil
+_sibling_dir = Path(__file__).resolve().parents[3].parent / 'gas_resilience' / 'imgs'
+_sibling_dir.mkdir(parents=True, exist_ok=True)
+shutil.copy('intro_plot.pdf', _sibling_dir / 'intro_plot.pdf')
 plt.show()
 print("Done.")
 
