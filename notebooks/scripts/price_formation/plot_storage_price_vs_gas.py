@@ -50,7 +50,7 @@ CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v5"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────
-WIGGLES = [0, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000]
+WIGGLES = [0, 125, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000]
 
 # Four price-setter groups: StorageUnits (hydro / PHS) are split by whether
 # they are charging or discharging at each snapshot and folded into the
@@ -338,6 +338,55 @@ def classify_all_vectorised(n, bus):
     return pd.Series(cls, index=snaps), pd.Series(car, index=snaps), lam
 
 
+# ── Withdrawal-weighted AC electricity price ────────────────────────────────
+def weighted_elec_price(n):
+    """Withdrawal-weighted mean AC price. Withdrawals from each AC bus
+    include: direct Loads, p0 of any Link with bus0 = that AC bus (heat
+    pumps, electrolysers, battery chargers, DC links, distribution-grid
+    links — everything that pulls power out of AC) and StorageUnit
+    charging (p_store)."""
+    ac_buses = n.buses.index[n.buses.carrier == "AC"]
+    if not len(ac_buses):
+        return float("nan")
+    prices = n.buses_t.marginal_price[ac_buses].astype(float)
+    w = n.snapshot_weightings.generators
+
+    wd = pd.DataFrame(0.0, index=n.snapshots, columns=ac_buses)
+
+    # direct Loads
+    loads = n.loads[n.loads.bus.isin(ac_buses)]
+    for name, row in loads.iterrows():
+        bus = row.bus
+        if name in n.loads_t.p_set.columns:
+            wd[bus] += n.loads_t.p_set[name].reindex(n.snapshots).fillna(0.0)
+        else:
+            wd[bus] += float(row.p_set)
+
+    # Link withdrawals (p0 > 0 at AC-side bus0)
+    consumers = n.links[n.links.bus0.isin(ac_buses)]
+    if len(consumers):
+        p0 = n.links_t.p0.reindex(columns=consumers.index,
+                                  index=n.snapshots).fillna(0.0).clip(lower=0.0)
+        for lnk in consumers.index:
+            wd[n.links.at[lnk, "bus0"]] += p0[lnk]
+
+    # StorageUnit charging
+    sus = n.storage_units[n.storage_units.bus.isin(ac_buses)]
+    if len(sus):
+        p_stor = n.storage_units_t.p_store.reindex(
+            columns=sus.index, index=n.snapshots
+        ).fillna(0.0)
+        for su in sus.index:
+            wd[n.storage_units.at[su, "bus"]] += p_stor[su]
+
+    total_wd = wd.multiply(w, axis=0).sum().sum()
+    if total_wd <= 0:
+        return float(prices.multiply(w, axis=0).sum().sum()
+                     / (w.sum() * len(ac_buses)))
+    num = (prices * wd).multiply(w, axis=0).sum().sum()
+    return float(num / total_wd)
+
+
 # ── Load-weighted gas price ─────────────────────────────────────────────────
 def weighted_gas_price(n):
     gas_buses = n.buses.index[n.buses.carrier == "gas"]
@@ -403,25 +452,34 @@ def collect_for_wiggle(w):
         if {"classification", "carrier"}.issubset(df.columns):
             gas_price = (float(df["gas_price"].iloc[0])
                          if len(df) else float("nan"))
-            # break-even / CCGT / gas share — stored only in newer caches
-            needed = {"battery_breakeven", "ccgt_eff", "gas_share"}
+            # break-even / CCGT / gas share / withdrawal-weighted avg elec
+            # price — newer caches. "elec_price_wd_avg" supersedes the older
+            # load-weighted "elec_price_avg" column: its absence forces a
+            # recompute with the wider (all-withdrawals) weighting.
+            needed = {"battery_breakeven", "ccgt_eff", "gas_share",
+                      "elec_price_wd_avg"}
             if needed.issubset(df.columns) and len(df):
                 breakeven = float(df["battery_breakeven"].iloc[0])
                 ccgt_eff = float(df["ccgt_eff"].iloc[0])
                 gas_share = float(df["gas_share"].iloc[0])
+                elec_price_avg = float(df["elec_price_wd_avg"].iloc[0])
             else:
                 n = _load_network()
                 if n is None:
                     return None
                 breakeven, ccgt_eff = battery_breakeven_and_ccgt_eff(n)
                 gas_share = gas_share_in_power_mix(n)
+                elec_price_avg = weighted_elec_price(n)
                 df["battery_breakeven"] = breakeven
                 df["ccgt_eff"] = ccgt_eff
                 df["gas_share"] = gas_share
+                df["elec_price_wd_avg"] = elec_price_avg
                 df.to_parquet(cache, index=False)
                 print(f"  wiggle={w}: break-even={breakeven:.2f}, "
                       f"η_CCGT={ccgt_eff:.3f}, "
-                      f"gas_share={gas_share*100:.1f}% (cache updated)")
+                      f"gas_share={gas_share*100:.1f}%, "
+                      f"λ_AC_avg(withdrawal-weighted)="
+                      f"{elec_price_avg:.2f} (cache updated)")
             supply_buckets = _split_supply_by_bucket(df)
             other = {
                 c: df.loc[df["classification"] == c, "elec_price"].values
@@ -448,6 +506,7 @@ def collect_for_wiggle(w):
             return dict(wiggle=w, gas_price=gas_price,
                         battery_breakeven=breakeven, ccgt_eff=ccgt_eff,
                         gas_share=gas_share,
+                        elec_price_avg=elec_price_avg,
                         supply_buckets=supply_buckets,
                         biomass_chp=biomass_df, **other)
         print(f"  wiggle={w}: cache schema mismatch, recomputing")
@@ -473,12 +532,14 @@ def collect_for_wiggle(w):
     gas_price = weighted_gas_price(n)
     breakeven, ccgt_eff = battery_breakeven_and_ccgt_eff(n)
     gas_share = gas_share_in_power_mix(n)
+    elec_price_avg = weighted_elec_price(n)
 
     cache_df = df_all[["elec_price", "classification", "carrier"]].copy()
     cache_df["gas_price"] = gas_price
     cache_df["battery_breakeven"] = breakeven
     cache_df["ccgt_eff"] = ccgt_eff
     cache_df["gas_share"] = gas_share
+    cache_df["elec_price_wd_avg"] = elec_price_avg
     cache_df.to_parquet(cache, index=False)
 
     supply_buckets = _split_supply_by_bucket(df_all)
@@ -503,6 +564,7 @@ def collect_for_wiggle(w):
     return dict(wiggle=w, gas_price=gas_price,
                 battery_breakeven=breakeven, ccgt_eff=ccgt_eff,
                 gas_share=gas_share,
+                elec_price_avg=elec_price_avg,
                 supply_buckets=supply_buckets,
                 biomass_chp=biomass_df, **other)
 
@@ -763,11 +825,53 @@ def make_plot(results):
             ax_sup.plot([max(right_edges), SUP_XLIM[1]], [gp, gp],
                         clip_on=False, **CONNECTOR_KW)
 
+    # Weighted-average AC electricity price per wiggle: red dot on each panel
+    anchor_250 = None
+    for r in results:
+        ep = r.get("elec_price_avg", float("nan"))
+        gp = r["gas_price"]
+        if not (np.isfinite(ep) and np.isfinite(gp)):
+            continue
+        for ax in (ax_sup, ax_dis):
+            ax.scatter([ep], [gp], s=55, marker="o",
+                       facecolor="#c0001f", edgecolor="white",
+                       linewidth=0.8, zorder=8)
+        if r["wiggle"] == 250:
+            anchor_250 = (ep, gp)
+
+    # Highlight the min/max of the red dots across wiggles with subtle red
+    # dotted axvlines on both panels.
+    ep_values = [r.get("elec_price_avg", float("nan")) for r in results]
+    ep_values = [v for v in ep_values if np.isfinite(v)]
+    if len(ep_values) >= 2:
+        ep_min, ep_max = min(ep_values), max(ep_values)
+        for ax in (ax_sup, ax_dis):
+            for xv in (ep_min, ep_max):
+                ax.axvline(xv, color="#c0001f", linestyle=(0, (1.2, 2.5)),
+                           linewidth=0.6, alpha=0.55, zorder=0.7)
+
+    # Annotate the 250-wiggle dot on the left panel to explain what the dots
+    # represent.
+    if anchor_250 is not None:
+        ep, gp = anchor_250
+        ax_sup.annotate(
+            "withdrawal-weighted\nmean AC price",
+            xy=(ep, gp), xycoords="data",
+            xytext=(30, 30), textcoords="offset points",
+            fontsize=8, color="#c0001f", ha="left", va="bottom",
+            arrowprops=dict(arrowstyle="-", color="#c0001f",
+                            linewidth=0.7, shrinkA=2, shrinkB=3),
+            bbox=dict(boxstyle="round,pad=0.4",
+                      facecolor="white", edgecolor="#c0001f",
+                      linewidth=0.6, alpha=0.95),
+            zorder=10,
+        )
+
     ax_sup.set_xlim(*SUP_XLIM)
-    ax_sup.set_title("Generation Price Setting Events", fontsize=13,
+    ax_sup.set_title("…Generation Price Setting Events", fontsize=13,
                      fontweight="bold", color=CLASS_COLORS["supply"])
-    ax_sup.set_xlabel("Electricity Marginal Price [Euro/MWh]")
-    ax_sup.set_ylabel("Network-wide Load-Weighted Gas Price [EUR/MWh]")
+    ax_sup.set_xlabel("Electricity Marginal Price [€/MWh]")
+    ax_sup.set_ylabel("Network-wide Load-Weighted Gas Price [€/MWh]")
     style_ax(ax_sup)
 
     # ── Right: storage discharging, one aggregated violin per wiggle ──
@@ -792,9 +896,13 @@ def make_plot(results):
         violin_edges[r["wiggle"]] = shape
 
     ax_dis.set_xlim(*XLIM)
-    ax_dis.set_title("Storage Discharge Price Setting Events", fontsize=13,
+    # Consistent x-ticks across both panels.
+    shared_ticks = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225]
+    ax_sup.set_xticks(shared_ticks)
+    ax_dis.set_xticks(shared_ticks)
+    ax_dis.set_title("…Storage Discharge Price Setting Events", fontsize=13,
                      fontweight="bold", color=CLASS_COLORS["storage_discharger"])
-    ax_dis.set_xlabel("Electricity Marginal Price [Euro/MWh]")
+    ax_dis.set_xlabel("Electricity Marginal Price [€/MWh]")
     plt.setp(ax_dis.get_yticklabels(), visible=False)
     style_ax(ax_dis)
     # Remove left spine of the right plot per request
@@ -837,15 +945,18 @@ def make_plot(results):
                   edgecolor="#c0001f", linewidth=0.5, alpha=0.95),
         zorder=6,
     )
-    ax_ins.set_xlabel("Electricity Marginal Price [Euro/MWh]", fontsize=7)
-    ax_ins.set_ylabel("Urban Central Heat Marginal Price [Euro/MWh]",
+    ax_ins.set_xlabel("Electricity Marginal Price [€/MWh]", fontsize=7)
+    ax_ins.set_ylabel("Urban Central Heat Marginal Price [€/MWh]",
                       fontsize=7)
     ax_ins.yaxis.tick_right()
     ax_ins.yaxis.set_label_position("right")
     ax_ins.tick_params(labelsize=6, length=2, pad=1)
-    ax_ins.set_title(f"biomass CHP events — {INSET_WIGGLE} TWh/y gas",
-                     fontsize=8,
-                     color=SUPPLY_BUCKET_COLORS["biomass CHP"])
+    ax_ins.set_title(
+        "marginal prices at snapshot-bus pairs when\n"
+        f"Biomass CHPs are price setting\n(for {INSET_WIGGLE}TWh/y)",
+        fontsize=8,
+        color=SUPPLY_BUCKET_COLORS["biomass CHP"],
+    )
     for spine in ("top", "left"):
         ax_ins.spines[spine].set_visible(False)
     ax_ins.yaxis.grid(True, alpha=0.3)
@@ -892,7 +1003,7 @@ def make_plot(results):
         ax_dis.annotate(
             (f"battery arbitrage\nbreak-even spread\n"
              f"≈ {be_mean:.1f} EUR/MWh"),
-            xy=(be_mean, max(r["gas_price"] for r in results) - 10),
+            xy=(be_mean, max(r["gas_price"] for r in results) - 30),
             xytext=(6, -6), textcoords="offset points",
             fontsize=8, ha="left", va="top", color="#1a1a1a",
             bbox=dict(boxstyle="round,pad=0.55",
@@ -1063,6 +1174,9 @@ def make_plot(results):
                     fontsize=8, style="italic", color="0.45",
                     va="top", ha="left")
         y -= line_h * 0.85
+
+    fig.suptitle("Distribution of Electricity Marginal Prices During…",
+                 fontsize=15, fontweight="bold", y=0.985)
 
     # subplot labels
     ax_sup.text(0.01, 0.99, "a", transform=ax_sup.transAxes,
