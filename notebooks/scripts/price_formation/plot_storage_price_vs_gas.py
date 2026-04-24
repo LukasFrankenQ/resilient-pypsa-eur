@@ -946,7 +946,7 @@ def make_plot(results):
         zorder=6,
     )
     ax_ins.set_xlabel("Electricity Marginal Price [€/MWh]", fontsize=7)
-    ax_ins.set_ylabel("Urban Central Heat Marginal Price [€/MWh]",
+    ax_ins.set_ylabel("District Heat Marginal Price [€/MWh]",
                       fontsize=7)
     ax_ins.yaxis.tick_right()
     ax_ins.yaxis.set_label_position("right")
