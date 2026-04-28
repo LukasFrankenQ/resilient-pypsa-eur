@@ -751,14 +751,12 @@ def gas_share_in_power_mix(n):
 # ── Plot ─────────────────────────────────────────────────────────────────────
 def make_plot(results):
     from matplotlib import cm
-    fig = plt.figure(figsize=(17, 9))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 0.55],
+    fig = plt.figure(figsize=(14, 9))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.0, 1.0],
                           wspace=0.16,
-                          left=0.06, right=0.99, top=0.90, bottom=0.10)
+                          left=0.07, right=0.98, top=0.90, bottom=0.10)
     ax_sup = fig.add_subplot(gs[0, 0])
     ax_dis = fig.add_subplot(gs[0, 1], sharey=ax_sup)
-    ax_leg = fig.add_subplot(gs[0, 2])
-    ax_leg.axis("off")
     # Render ax_sup last so its clip_on=False header box overlays anything
     # drawn on ax_dis that happens to land in the gap between them.
     ax_sup.set_zorder(10)
@@ -794,12 +792,10 @@ def make_plot(results):
         gp = r["gas_price"]
         if not np.isfinite(gp):
             continue
-        ax_sup.hlines(gp, SUP_XLIM[0], SUP_XLIM[1], color="0.88",
-                      linewidth=0.4, zorder=1)
         buckets = r["supply_buckets"]
         order = sorted(SUPPLY_BUCKET_ORDER,
                        key=lambda b: -len(buckets[b]))
-        right_edges = []
+        left_edges, right_edges = [], []
         for b in order:
             data = buckets[b]
             if len(data) < 5:
@@ -819,10 +815,15 @@ def make_plot(results):
                 xlim=SUP_XLIM,
             )
             if shape is not None:
+                left_edges.append(shape[0])
                 right_edges.append(shape[1])
         # connector: dotted red from rightmost violin/pill edge to right spine
         if right_edges:
             ax_sup.plot([max(right_edges), SUP_XLIM[1]], [gp, gp],
+                        clip_on=False, **CONNECTOR_KW)
+        # extend dotted red leftward to the low x-limit of the left ax
+        if left_edges:
+            ax_sup.plot([SUP_XLIM[0], min(left_edges)], [gp, gp],
                         clip_on=False, **CONNECTOR_KW)
 
     # Weighted-average AC electricity price per wiggle: red dot on each panel
@@ -873,6 +874,7 @@ def make_plot(results):
     ax_sup.set_xlabel("Electricity Marginal Price [€/MWh]")
     ax_sup.set_ylabel("Network-wide Load-Weighted Gas Price [€/MWh]")
     style_ax(ax_sup)
+    ax_sup.yaxis.grid(False)
 
     # ── Right: storage discharging, one aggregated violin per wiggle ──
     n_w = len(results)
@@ -884,8 +886,6 @@ def make_plot(results):
         gp = r["gas_price"]
         if not np.isfinite(gp):
             continue
-        ax_dis.hlines(gp, XLIM[0], XLIM[1], color="0.88",
-                      linewidth=0.4, zorder=1)
         data = r["storage_discharger"]
         if len(data) < 5:
             continue
@@ -905,6 +905,7 @@ def make_plot(results):
     ax_dis.set_xlabel("Electricity Marginal Price [€/MWh]")
     plt.setp(ax_dis.get_yticklabels(), visible=False)
     style_ax(ax_dis)
+    ax_dis.yaxis.grid(False)
     # Remove left spine of the right plot per request
     ax_dis.spines["left"].set_visible(False)
     ax_dis.tick_params(axis="y", length=0)
@@ -1024,7 +1025,7 @@ def make_plot(results):
     # header box: 3 lines — first two describe the wiggle value,
     # third describes the gas-share value below it. High zorder so nothing
     # renders on top of it.
-    header_text = "Gas Consumption\n[TWh/y]\ngas share in power mix [%]"
+    header_text = "Gas Consumption\n[TWh/y]\nGas Share in Electricity Mix [%]"
     ax_sup.text(1.035, 0.965, header_text,
                 transform=ax_sup.transAxes,
                 fontsize=8, fontweight="bold", color="#333333",
@@ -1048,6 +1049,9 @@ def make_plot(results):
                         clip_on=False, **CONNECTOR_KW)
             ax_dis.plot([XLIM[0], edges[0]], [gp, gp],
                         **CONNECTOR_KW)
+            # extend rightward to the upper x-limit of the right ax
+            ax_dis.plot([edges[1], XLIM[1]], [gp, gp],
+                        **CONNECTOR_KW)
 
         gas_sh = r.get("gas_share", float("nan"))
         share_line = (f"{gas_sh*100:.1f}%" if np.isfinite(gas_sh) else "—")
@@ -1062,118 +1066,19 @@ def make_plot(results):
                               facecolor="white",
                               edgecolor=CONN_COLOR, linewidth=0.6))
 
-    # ── text legend on the right ──
-    y = 1.0
-    line_h = 0.030
-    ax_leg.text(0.0, y, "SUPPLY BUCKETS",
-                transform=ax_leg.transAxes,
-                fontsize=11, fontweight="bold", va="top", ha="left")
-    y -= line_h * 1.4
-    for b in SUPPLY_BUCKET_ORDER:
-        ax_leg.text(0.0, y, "■", transform=ax_leg.transAxes,
-                    fontsize=13, color=SUPPLY_BUCKET_COLORS[b],
-                    va="top", ha="left")
-        ax_leg.text(0.07, y, b,
-                    transform=ax_leg.transAxes,
-                    fontsize=10, fontweight="bold", va="top", ha="left")
-        y -= line_h
-        carriers_list = [c for name, cs in SUPPLY_BUCKETS
-                         if name == b for c in cs]
-        if carriers_list:
-            carriers_text = ", ".join(carriers_list)
-        else:
-            carriers_text = "(catch-all for unmapped carriers)"
-        # wrap long lines
-        import textwrap
-        for line in textwrap.wrap(carriers_text, width=38):
-            ax_leg.text(0.07, y, line,
-                        transform=ax_leg.transAxes,
-                        fontsize=8, va="top", ha="left", color="0.25")
-            y -= line_h * 0.85
-        y -= line_h * 0.3
-
-    y -= line_h * 0.5
-    ax_leg.text(0.0, y, "STORAGE DISCHARGING",
-                transform=ax_leg.transAxes,
-                fontsize=11, fontweight="bold", va="top", ha="left")
-    y -= line_h * 1.3
-    disch_note = (
-        "Aggregated — one violin per network.\n\n"
-        "Includes: battery discharger, home\n"
-        "battery discharger, V2G, pumped hydro\n"
-        "and reservoir hydro when generating."
-    )
-    for line in disch_note.split("\n"):
-        ax_leg.text(0.0, y, line,
-                    transform=ax_leg.transAxes,
-                    fontsize=9, va="top", ha="left", color="0.25",
-                    linespacing=1.25)
-        y -= line_h * 0.9
-
-    # ── totals per class across the whole sweep ──
-    total_supply = sum(
-        len(r["supply_buckets"].get(b, np.array([])))
-        for r in results for b in SUPPLY_BUCKET_ORDER
-    )
-    total_disch = sum(len(r["storage_discharger"]) for r in results)
-    total_chg = sum(len(r["storage_charger"]) for r in results)
-    total_flex = sum(len(r["demand_flex"]) for r in results)
-    total_all = total_supply + total_disch + total_chg + total_flex
-
-    y -= line_h * 0.5
-    ax_leg.text(0.0, y, "TOTAL EVENT COUNTS",
-                transform=ax_leg.transAxes,
-                fontsize=11, fontweight="bold", va="top", ha="left")
-    y -= line_h * 1.2
-    ax_leg.text(0.0, y,
-                f"across all {len(results)} networks in the sweep "
-                "price setters are…",
-                transform=ax_leg.transAxes,
-                fontsize=8, style="italic", color="0.35",
-                va="top", ha="left")
-    y -= line_h * 1.3
-
-    rows = [
-        ("Supply",               total_supply, CLASS_COLORS["supply"]),
-        ("Storage Discharging",  total_disch,  CLASS_COLORS["storage_discharger"]),
-        ("Storage Charging",     total_chg,    CLASS_COLORS["storage_charger"]),
-        ("Demand-side Flex",     total_flex,   CLASS_COLORS["demand_flex"]),
+    # ── In-axis legend for the supply buckets, bottom-right of ax_sup ──
+    bucket_handles = [
+        Patch(facecolor=SUPPLY_BUCKET_COLORS[b],
+              edgecolor="black", alpha=0.7, label=b)
+        for b in SUPPLY_BUCKET_ORDER
     ]
-    for label, n_ev, col in rows:
-        pct = 100 * n_ev / total_all if total_all else 0.0
-        ax_leg.text(0.0, y, "■", transform=ax_leg.transAxes,
-                    fontsize=11, color=col, va="top", ha="left")
-        ax_leg.text(0.05, y, f"{label}",
-                    transform=ax_leg.transAxes,
-                    fontsize=9, fontweight="bold", va="top", ha="left")
-        ax_leg.text(1.0, y, f"{n_ev:,}   ({pct:.1f}%)",
-                    transform=ax_leg.transAxes,
-                    fontsize=9, va="top", ha="right",
-                    family="DejaVu Sans Mono")
-        y -= line_h * 1.0
-    y -= line_h * 0.3
-    ax_leg.text(0.0, y, "Total",
-                transform=ax_leg.transAxes,
-                fontsize=9, fontweight="bold", va="top", ha="left",
-                color="0.25")
-    ax_leg.text(1.0, y, f"{total_all:,}",
-                transform=ax_leg.transAxes,
-                fontsize=9, va="top", ha="right",
-                family="DejaVu Sans Mono", color="0.25")
-    y -= line_h * 1.1
-
-    y -= line_h * 0.3
-    meta = (
-        f"Violin width ∝ sample count.\n"
-        f"N_max = {N_max:,} bus-snapshot pairs.\n"
-        "Transmission-set snapshots excluded."
-    )
-    for line in meta.split("\n"):
-        ax_leg.text(0.0, y, line,
-                    transform=ax_leg.transAxes,
-                    fontsize=8, style="italic", color="0.45",
-                    va="top", ha="left")
-        y -= line_h * 0.85
+    ax_sup.legend(
+        handles=bucket_handles, loc="lower right",
+        bbox_to_anchor=(0.99, 0.02),
+        frameon=True, fontsize=8, fancybox=True,
+        title="Supply Types", title_fontsize=9,
+        borderpad=0.6, handletextpad=0.5, labelspacing=0.5,
+    ).set_zorder(15)
 
     fig.suptitle("Distribution of Electricity Marginal Prices During…",
                  fontsize=15, fontweight="bold", y=0.985)
