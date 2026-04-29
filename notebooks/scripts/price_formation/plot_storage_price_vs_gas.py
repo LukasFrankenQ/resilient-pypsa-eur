@@ -46,7 +46,7 @@ from classify_price_setter import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
-CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v7"
+CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v5"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────
@@ -194,17 +194,6 @@ def classify_all_vectorised(n, bus):
     sup_nearest_val = pd.Series(np.inf, index=snaps)
     sup_nearest_cls_str = np.full(len(snaps), "", dtype=object)
     sup_nearest_car_str = np.full(len(snaps), "", dtype=object)
-
-    # Drop solid biomass CHPs from the AC-side supply candidate pool.
-    # Their LP-rearranged c_eff_AC = (c + λ_fuel − η₂λ_heat − η₃λ_co2)/η₁
-    # is the KKT stationarity identity rearranged for λ_AC: at any
-    # snapshot where the link's dispatch is interior, the residual
-    # collapses to machine-precision zero and biomass CHP wins the
-    # strict cascade by construction — even when it is really the
-    # heat-bus marginal and λ_AC is set by some other component. We
-    # therefore exclude biomass CHPs from the supply candidates here
-    # so the supply violin reflects only single-port AC marginals.
-    sup_links = sup_links[~sup_links.carrier.isin(BIOMASS_CHP_CARRIERS)]
 
     if not sup_links.empty or not gens.empty:
         c_s, p_s, pn_s, pmax_s, pmin_s, meta_s = supply_matrices(
@@ -780,11 +769,6 @@ def make_plot(results):
     # Left axis extends below zero so that VRE violins, jittered around 0,
     # can show both sides of the near-zero cluster.
     SUP_XLIM = (-5.0, XLIM[1])
-    # Vertical-extent multiplier applied only to the supply panel — its
-    # violins are smaller than the storage discharger ones because
-    # supply-bucket counts are split across 5 carriers, so we widen them
-    # so each bucket's distribution is legible.
-    SUP_HALF_MULT = 2.0
     for r in results:
         gp = r["gas_price"]
         if not np.isfinite(gp):
@@ -804,7 +788,7 @@ def make_plot(results):
             if b == "wind & solar":
                 data = data + rng.normal(0, VRE_DISPLAY_JITTER,
                                          size=data.shape)
-            half = SUP_HALF_MULT * base_half * (len(data) / N_max)
+            half = base_half * (len(data) / N_max)
             shape = _draw_shape(
                 ax_sup, data, gp, half,
                 face=SUPPLY_BUCKET_COLORS[b],
@@ -906,6 +890,70 @@ def make_plot(results):
     # Remove left spine of the right plot per request
     ax_dis.spines["left"].set_visible(False)
     ax_dis.tick_params(axis="y", length=0)
+
+    # ── Inset: per-wiggle class-share stacked bars ──
+    # Reuses the screen real estate of the (now-removed) biomass-CHP
+    # scatter inset. Each bar shows the share of the four price-setting
+    # event classes for that wiggle, normalised to 100%.
+    ax_share = ax_dis.inset_axes([125, 17, 100, 30],
+                                 transform=ax_dis.transData)
+
+    CLASS_ORDER_INSET = ["supply", "storage_charger",
+                         "storage_discharger", "demand_flex"]
+    CLASS_LABELS_INSET = {
+        "supply":             "Supply",
+        "storage_charger":    "Storage charging",
+        "storage_discharger": "Storage discharging",
+        "demand_flex":        "Demand-side flexibility",
+    }
+
+    ys = np.arange(len(results))
+    for i, r in enumerate(results):
+        counts = {
+            "supply":             sum(len(v) for v in r["supply_buckets"].values()),
+            "storage_charger":    len(r["storage_charger"]),
+            "storage_discharger": len(r["storage_discharger"]),
+            "demand_flex":        len(r["demand_flex"]),
+        }
+        total = sum(counts.values()) or 1
+        left = 0.0
+        for cls in CLASS_ORDER_INSET:
+            w = counts[cls] / total
+            ax_share.barh(i, w, left=left, height=0.85,
+                          color=CLASS_COLORS[cls],
+                          edgecolor="white", linewidth=0.4)
+            left += w
+
+    ax_share.invert_yaxis()  # wiggle=0 at top, matches violin row order
+    ax_share.set_yticks(ys)
+    ax_share.set_yticklabels([str(r["wiggle"]) for r in results], fontsize=6)
+    ax_share.set_ylabel("gas budget [TWh/y]", fontsize=7)
+
+    ax_share.set_xlim(0, 1)
+    ax_share.set_xticks([0, 0.25, 0.50, 0.75, 1.0])
+    ax_share.set_xticklabels(["0%", "25%", "50%", "75%", "100%"], fontsize=6)
+    ax_share.set_xlabel("share of price-setting events", fontsize=7)
+
+    ax_share.tick_params(labelsize=6, length=2, pad=1)
+    for spine in ("top", "right"):
+        ax_share.spines[spine].set_visible(False)
+    ax_share.xaxis.grid(False)
+    ax_share.yaxis.grid(False)
+    ax_share.set_axisbelow(True)
+    ax_share.patch.set_alpha(0.95)
+
+    legend_handles = [
+        Patch(facecolor=CLASS_COLORS[c], edgecolor="white",
+              label=CLASS_LABELS_INSET[c])
+        for c in CLASS_ORDER_INSET
+    ]
+    ax_share.legend(
+        handles=legend_handles,
+        loc="lower center", bbox_to_anchor=(0.5, 1.02),
+        ncol=2, frameon=True, fontsize=6,
+        handlelength=1.4, handletextpad=0.4,
+        columnspacing=0.8, borderpad=0.4,
+    ).set_zorder(20)
 
     # ── CCGT-equivalence line (shifted +25 EUR/MWh on the x-axis) ──
     # λ_AC = λ_gas / η_CCGT + 25 — a constant offset to separate it visually
