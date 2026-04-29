@@ -46,7 +46,7 @@ from classify_price_setter import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
-CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v6"
+CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v7"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────
@@ -67,14 +67,16 @@ BIOMASS_CHP_CARRIERS = {
     "urban central solid biomass CHP",
     "urban central solid biomass CHP CC",
 }
-_BIOMASS_CHP_CARRIERS_ARR = np.array(list(BIOMASS_CHP_CARRIERS), dtype=object)
 
 SUPPLY_BUCKETS = [
     ("wind & solar", [
         "onwind", "offwind-ac", "offwind-dc", "offwind-float",
         "solar", "solar-hsat",
     ]),
-    ("biomass CHP", list(BIOMASS_CHP_CARRIERS)),
+    ("biomass CHP", [
+        "urban central solid biomass CHP",
+        "urban central solid biomass CHP CC",
+    ]),
     ("gas / waste CHP", [
         "urban central gas CHP", "waste CHP",
     ]),
@@ -192,6 +194,17 @@ def classify_all_vectorised(n, bus):
     sup_nearest_val = pd.Series(np.inf, index=snaps)
     sup_nearest_cls_str = np.full(len(snaps), "", dtype=object)
     sup_nearest_car_str = np.full(len(snaps), "", dtype=object)
+
+    # Drop solid biomass CHPs from the AC-side supply candidate pool.
+    # Their LP-rearranged c_eff_AC = (c + λ_fuel − η₂λ_heat − η₃λ_co2)/η₁
+    # is the KKT stationarity identity rearranged for λ_AC: at any
+    # snapshot where the link's dispatch is interior, the residual
+    # collapses to machine-precision zero and biomass CHP wins the
+    # strict cascade by construction — even when it is really the
+    # heat-bus marginal and λ_AC is set by some other component. We
+    # therefore exclude biomass CHPs from the supply candidates here
+    # so the supply violin reflects only single-port AC marginals.
+    sup_links = sup_links[~sup_links.carrier.isin(BIOMASS_CHP_CARRIERS)]
 
     if not sup_links.empty or not gens.empty:
         c_s, p_s, pn_s, pmax_s, pmin_s, meta_s = supply_matrices(
@@ -437,7 +450,6 @@ def collect_for_wiggle(w):
     supply_buckets, demand_flex, storage_discharger, storage_charger).
     supply_buckets is dict bucket_name → array of elec_price."""
     cache = CACHE_DIR / f"ac_price_by_class_{SCENARIO}_{w}.parquet"
-    biomass_cache = CACHE_DIR / f"biomass_chp_events_v2_{SCENARIO}_{w}.parquet"
     n_loaded = None
 
     def _load_network():
@@ -495,23 +507,11 @@ def collect_for_wiggle(w):
                   f"chg={len(other['storage_charger'])}  "
                   f"flex={len(other['demand_flex'])}  gas={gas_price:.2f}  "
                   f"batt_be={breakeven:.2f}")
-            # biomass CHP scatter data (separate lightweight cache)
-            if biomass_cache.exists():
-                biomass_df = pd.read_parquet(biomass_cache)
-            else:
-                n = _load_network()
-                if n is None:
-                    return None
-                biomass_df = biomass_chp_events(n)
-                biomass_df.to_parquet(biomass_cache, index=False)
-                print(f"  wiggle={w}: {len(biomass_df)} biomass CHP events "
-                      f"(cached → {biomass_cache.name})")
             return dict(wiggle=w, gas_price=gas_price,
                         battery_breakeven=breakeven, ccgt_eff=ccgt_eff,
                         gas_share=gas_share,
                         elec_price_avg=elec_price_avg,
-                        supply_buckets=supply_buckets,
-                        biomass_chp=biomass_df, **other)
+                        supply_buckets=supply_buckets, **other)
         print(f"  wiggle={w}: cache schema mismatch, recomputing")
 
     n = _load_network()
@@ -551,9 +551,6 @@ def collect_for_wiggle(w):
         for c in ["demand_flex", "storage_discharger", "storage_charger"]
     }
     tot_sup = sum(len(v) for v in supply_buckets.values())
-    # biomass CHP events for the inset scatter
-    biomass_df = biomass_chp_events(n)
-    biomass_df.to_parquet(biomass_cache, index=False)
 
     print(f"  wiggle={w}: supply={tot_sup} "
           f"(in {sum(len(v)>0 for v in supply_buckets.values())} buckets)  "
@@ -562,14 +559,12 @@ def collect_for_wiggle(w):
           f"flex={len(other['demand_flex'])}  gas={gas_price:.2f}  "
           f"batt_be={breakeven:.2f}  η_CCGT={ccgt_eff:.3f}  "
           f"gas_share={gas_share*100:.1f}%  "
-          f"biomass_events={len(biomass_df)}   "
           f"(cached → {cache.name})")
     return dict(wiggle=w, gas_price=gas_price,
                 battery_breakeven=breakeven, ccgt_eff=ccgt_eff,
                 gas_share=gas_share,
                 elec_price_avg=elec_price_avg,
-                supply_buckets=supply_buckets,
-                biomass_chp=biomass_df, **other)
+                supply_buckets=supply_buckets, **other)
 
 
 # ── Violin helper ────────────────────────────────────────────────────────────
@@ -664,12 +659,6 @@ def battery_breakeven_and_ccgt_eff(n):
     ccgt = n.links[n.links.carrier == "CCGT"]
     ccgt_eff = float(ccgt["efficiency"].mean()) if len(ccgt) else float("nan")
     return breakeven, ccgt_eff
-
-
-BIOMASS_CHP_CARRIERS = {
-    "urban central solid biomass CHP",
-    "urban central solid biomass CHP CC",
-}
 
 
 def biomass_chp_events(n):
@@ -791,6 +780,11 @@ def make_plot(results):
     # Left axis extends below zero so that VRE violins, jittered around 0,
     # can show both sides of the near-zero cluster.
     SUP_XLIM = (-5.0, XLIM[1])
+    # Vertical-extent multiplier applied only to the supply panel — its
+    # violins are smaller than the storage discharger ones because
+    # supply-bucket counts are split across 5 carriers, so we widen them
+    # so each bucket's distribution is legible.
+    SUP_HALF_MULT = 2.0
     for r in results:
         gp = r["gas_price"]
         if not np.isfinite(gp):
@@ -810,7 +804,7 @@ def make_plot(results):
             if b == "wind & solar":
                 data = data + rng.normal(0, VRE_DISPLAY_JITTER,
                                          size=data.shape)
-            half = base_half * (len(data) / N_max)
+            half = SUP_HALF_MULT * base_half * (len(data) / N_max)
             shape = _draw_shape(
                 ax_sup, data, gp, half,
                 face=SUPPLY_BUCKET_COLORS[b],
@@ -912,60 +906,6 @@ def make_plot(results):
     # Remove left spine of the right plot per request
     ax_dis.spines["left"].set_visible(False)
     ax_dis.tick_params(axis="y", length=0)
-
-    # ── Inset: biomass CHP events — λ_AC vs λ_urban-central-heat ──
-    # Placed inside ax_dis at (x=125..225, y=17..47) in ax_dis data coords.
-    ax_ins = ax_dis.inset_axes([125, 17, 100, 30], transform=ax_dis.transData)
-    INSET_WIGGLE = 500
-    for r, w_col in zip(results, viridis_colors):
-        if r["wiggle"] != INSET_WIGGLE:
-            continue
-        bdf = r.get("biomass_chp")
-        if bdf is None or len(bdf) == 0:
-            continue
-        sub = bdf.dropna(subset=["elec_price", "heat_price"])
-        if sub.empty:
-            continue
-        ax_ins.scatter(
-            sub["elec_price"].values, sub["heat_price"].values,
-            s=2, alpha=0.35, color=w_col, edgecolor="none",
-            rasterized=True,
-        )
-    ax_ins.set_ylim(bottom=0)
-    ax_ins.set_xlim(left=0)
-    # Biomass CHP marginal-condition line through (125, 50).
-    # At LP optimum: η_elec · λ_AC + η_heat · λ_heat = const, so in this
-    # (elec, heat) plane the locus has slope -η_elec/η_heat.
-    chp_slope = -BIOMASS_CHP_ETA_ELEC / BIOMASS_CHP_ETA_HEAT
-    xlo, xhi = ax_ins.get_xlim()
-    xl = np.linspace(xlo, xhi, 60)
-    yl = 50 + chp_slope * (xl - 125)
-    ax_ins.plot(xl, yl, color="#c0001f", linewidth=1.3, alpha=0.9, zorder=5)
-    ax_ins.annotate(
-        f"biomass CHP\nslope = −η_elec/η_heat\n≈ {chp_slope:.2f}",
-        xy=(100, 55), xytext=(6, 6), textcoords="offset points",
-        fontsize=6, color="#c0001f", ha="left", va="bottom",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                  edgecolor="#c0001f", linewidth=0.5, alpha=0.95),
-        zorder=6,
-    )
-    ax_ins.set_xlabel("Electricity Marginal Price [€/MWh]", fontsize=7)
-    ax_ins.set_ylabel("District Heat Marginal Price [€/MWh]",
-                      fontsize=7)
-    ax_ins.yaxis.tick_right()
-    ax_ins.yaxis.set_label_position("right")
-    ax_ins.tick_params(labelsize=6, length=2, pad=1)
-    ax_ins.set_title(
-        "marginal prices at snapshot-bus pairs when\n"
-        f"Biomass CHPs are price setting\n(for {INSET_WIGGLE}TWh/y)",
-        fontsize=8,
-        color=SUPPLY_BUCKET_COLORS["biomass CHP"],
-    )
-    for spine in ("top", "left"):
-        ax_ins.spines[spine].set_visible(False)
-    ax_ins.yaxis.grid(True, alpha=0.3)
-    ax_ins.set_axisbelow(True)
-    ax_ins.patch.set_alpha(0.95)
 
     # ── CCGT-equivalence line (shifted +25 EUR/MWh on the x-axis) ──
     # λ_AC = λ_gas / η_CCGT + 25 — a constant offset to separate it visually
@@ -1092,9 +1032,6 @@ def make_plot(results):
                 zorder=50)
     ax_dis.text(0.99, 0.99, "b", transform=ax_dis.transAxes,
                 fontsize=16, fontweight="bold", va="top", ha="right",
-                zorder=50)
-    ax_ins.text(0.02, 0.02, "c", transform=ax_ins.transAxes,
-                fontsize=11, fontweight="bold", va="bottom", ha="left",
                 zorder=50)
 
     PAPER_DIR.mkdir(parents=True, exist_ok=True)
