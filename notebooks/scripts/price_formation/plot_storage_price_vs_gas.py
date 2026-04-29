@@ -46,7 +46,7 @@ from classify_price_setter import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
-CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v5"
+CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v6"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────
@@ -63,15 +63,18 @@ PLOT_CLASSES = [
 ]
 
 # Supply is further broken down into buckets by carrier.
+BIOMASS_CHP_CARRIERS = {
+    "urban central solid biomass CHP",
+    "urban central solid biomass CHP CC",
+}
+_BIOMASS_CHP_CARRIERS_ARR = np.array(list(BIOMASS_CHP_CARRIERS), dtype=object)
+
 SUPPLY_BUCKETS = [
     ("wind & solar", [
         "onwind", "offwind-ac", "offwind-dc", "offwind-float",
         "solar", "solar-hsat",
     ]),
-    ("biomass CHP", [
-        "urban central solid biomass CHP",
-        "urban central solid biomass CHP CC",
-    ]),
+    ("biomass CHP", list(BIOMASS_CHP_CARRIERS)),
     ("gas / waste CHP", [
         "urban central gas CHP", "waste CHP",
     ]),
@@ -162,7 +165,7 @@ CLASS_DESCRIPTIONS = {
     ),
 }
 
-OUT_PLOT = f"ac_price_vs_gas_by_class_{SCENARIO}.pdf"
+OUT_PLOT = "price_setting_marginal_price_distribution.pdf"
 XLIM = (0.0, 225.0)
 DENSITY_CUTOFF_FRAC = 0.10
 MIN_SPREAD_PILL = 1.5            # EUR/MWh — below this width, use a pill
