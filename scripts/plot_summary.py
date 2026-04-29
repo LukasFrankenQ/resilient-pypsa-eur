@@ -18,6 +18,15 @@ logger = logging.getLogger(__name__)
 plt.style.use("bmh")
 
 
+def rename_techs_balances(label: str) -> str:
+    """Like rename_techs but keeps gas CHP and solid biomass CHP separate."""
+    if "solid biomass CHP" in label:
+        return "biomass CHP"
+    if "gas CHP" in label:
+        return "gas CHP"
+    return rename_techs(label)
+
+
 # consolidate and rename
 
 preferred_order = pd.Index(
@@ -265,7 +274,7 @@ def plot_balances():
         # convert MWh to TWh
         df = df / 1e6
 
-        df = df.groupby(df.index.map(rename_techs)).sum()
+        df = df.groupby(df.index.map(rename_techs_balances)).sum()
 
         to_drop = df.index[
             df.abs().max(axis=1) < snakemake.params.plotting["energy_threshold"] / 10

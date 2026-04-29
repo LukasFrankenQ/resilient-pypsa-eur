@@ -7700,6 +7700,9 @@ def adjust_heating_capacities(
 
                 ########################################
 
+            if carrier == 'oil boiler':
+                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
+
             bus_served = True
 
         if not bus_served:
@@ -8460,7 +8463,7 @@ if __name__ == "__main__":
             eu_price = wildcard_carbon_price
             uk_price = wildcard_carbon_price
         else:
-            eu_price, uk_price = 40., 40.
+            eu_price, uk_price = 100., 100.
 
     insert_ets(n, eu_price, uk_price)
 
