@@ -7705,15 +7705,20 @@ def adjust_heating_capacities(
         if not bus_served:
             continue
 
+        # Vent UD heat as a Generator (Store didn't take p_nom_extendable, so the
+        # previous version was a silent no-op with e_nom=0). Generator with
+        # p_max_pu=0, p_min_pu=-1 is an unbounded sink: positive dispatch is
+        # forbidden, negative dispatch (absorbing heat from the bus) is free up
+        # to p_nom. Same pattern as the urban-central vent at line ~2945.
         n.add(
-            'Store',
+            'Generator',
             bus + ' urban decentral heat vent',
             bus=bus + ' urban decentral heat',
             carrier='urban decentral heat vent',
-            p_max_pu=0.,
             p_nom_extendable=True,
-            marginal_cost=-0.,
-            capital_cost=0.,
+            p_max_pu=0,
+            p_min_pu=-1,
+            marginal_cost=-0.02,
             )
 
         # the current scaling above correctly scales the relative capacities but under- or overshoots the total
