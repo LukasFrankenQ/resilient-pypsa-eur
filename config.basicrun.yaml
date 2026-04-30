@@ -46,7 +46,7 @@ scenario:
   clusters:
   - 50
   opts:
-  - ''
+  - 'lv1.25'
   sector_opts:
   - '168H-T-H-B-I-A-dist1'
   # - '3H-T-H-B-I-A-dist1'

@@ -7700,9 +7700,6 @@ def adjust_heating_capacities(
 
                 ########################################
 
-            if carrier == 'oil boiler':
-                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
-
             bus_served = True
 
         if not bus_served:
@@ -7776,11 +7773,6 @@ def adjust_heating_capacities(
         # print('------------------------------')
 
         # n.loads_t.p_set.loc[:, f'{bus} urban decentral heat'] = get_urban_decentral_dispatch(n, bus).sum(axis=1)
-
-    # Pin every UDH oil boiler as non-extendable, including those whose TYNDP
-    # existing capacity is zero (which the per-bus loop above skips).
-    udh_oil_mask = n.links.carrier == 'urban decentral oil boiler'
-    n.links.loc[udh_oil_mask, 'p_nom_extendable'] = False
 
     # return eff_p_nom_rural.head()
     # return n, eff_current_percentage_rural
