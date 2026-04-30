@@ -1081,6 +1081,9 @@ def make_plot(results):
     ax_dis.text(0.99, 0.99, "b", transform=ax_dis.transAxes,
                 fontsize=16, fontweight="bold", va="top", ha="right",
                 zorder=50)
+    ax_share.text(-0.1, -0.05, "c", transform=ax_share.transAxes,
+                  fontsize=16, fontweight="bold", va="top", ha="left",
+                  clip_on=False, zorder=50)
 
     PAPER_DIR.mkdir(parents=True, exist_ok=True)
     for out in (SCRIPT_DIR / OUT_PLOT, PAPER_DIR / OUT_PLOT):
