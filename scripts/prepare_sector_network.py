@@ -7968,7 +7968,7 @@ def enforce_individual_heating_dispatch(
     n,
     bus_name,
     flex_carriers=("gas boiler",),
-    exclude_carriers=("heat vent", "boiler"),
+    exclude_carriers=("heat vent",),
     tolerance=0.05,
 ):
     """
