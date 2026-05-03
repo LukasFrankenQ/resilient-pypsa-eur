@@ -3413,7 +3413,7 @@ def add_heat(
                 n.add(
                     "Link",
                     nodes + f" {heat_system} oil boiler",
-                    p_nom_extendable=True,
+                    p_nom_extendable=False,
                     bus0=spatial.oil.nodes,
                     bus1=nodes + f" {heat_system} heat",
                     bus2="co2 atmosphere",
@@ -7541,6 +7541,9 @@ def adjust_heating_capacities(
 
                 ########################################
 
+            elif carrier == 'oil boiler':
+                n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = False
+
             bus_served = True
 
         # print(n.links.loc[bus + ' rural ' + pd.Index(rural_carriers), ['p_nom_min', 'p_nom_max', 'p_nom', 'p_nom_extendable']])
@@ -7699,6 +7702,9 @@ def adjust_heating_capacities(
                 n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
 
                 ########################################
+
+            elif carrier == 'oil boiler':
+                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
 
             bus_served = True
 
@@ -8523,7 +8529,8 @@ if __name__ == "__main__":
         f"{len(individual_heat_buses)} individual-heat buses."
     )
     for heat_bus in individual_heat_buses:
-        enforce_individual_heating_dispatch(n, heat_bus)
+        # enforce_individual_heating_dispatch(n, heat_bus)
+        pass
     # ──────────────────────────────────────────────────────────────────────────
     # END CHANGE: enforce constant-share dispatch at individual-heating buses
     # ══════════════════════════════════════════════════════════════════════════
