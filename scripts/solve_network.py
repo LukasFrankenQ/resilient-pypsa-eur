@@ -1458,7 +1458,7 @@ def extra_functionality(
             add_TES_energy_to_power_ratio_constraints(n)
             add_TES_charger_ratio_constraints(n)
 
-    force_boiler_profiles_existing_per_boiler(n)
+    # force_boiler_profiles_existing_per_boiler(n)
 
     add_battery_constraints(n)
     # add_lossy_bidirectional_link_constraints(n)
