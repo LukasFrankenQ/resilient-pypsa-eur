@@ -8529,8 +8529,8 @@ if __name__ == "__main__":
         f"{len(individual_heat_buses)} individual-heat buses."
     )
     for heat_bus in individual_heat_buses:
-        # enforce_individual_heating_dispatch(n, heat_bus)
-        pass
+        enforce_individual_heating_dispatch(n, heat_bus)
+        # pass
     # ──────────────────────────────────────────────────────────────────────────
     # END CHANGE: enforce constant-share dispatch at individual-heating buses
     # ══════════════════════════════════════════════════════════════════════════
