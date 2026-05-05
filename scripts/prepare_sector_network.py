@@ -1499,12 +1499,18 @@ def add_ammonia(
     )
 
     # Ammonia Storage
+    # e_nom_max caps each NH3 store at 1 TWh (1e6 MWh) per location.
+    # Why: barrier-without-crossover leaves degenerate slack in the unconstrained
+    # e_nom variable, producing phantom buildouts of 100s of GWh to multiple PWh
+    # that sit permanently full. 1 TWh/location is generous vs. observed swings
+    # (~100 GWh EU-wide) and vs. real-world NH3 tank inventory.
     n.add(
         "Store",
         spatial.ammonia.nodes,
         suffix=" ammonia store",
         bus=spatial.ammonia.nodes,
         e_nom_extendable=True,
+        e_nom_max=1e6,
         e_cyclic=True,
         carrier="ammonia store",
         capital_cost=costs.at[
@@ -7543,6 +7549,8 @@ def adjust_heating_capacities(
 
             elif carrier == 'oil boiler':
                 n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = False
+            elif carrier == 'biomass boiler':
+                n.links.loc[bus + ' rural ' + carrier, 'p_nom_extendable'] = False
 
             bus_served = True
 
@@ -7704,6 +7712,8 @@ def adjust_heating_capacities(
                 ########################################
 
             elif carrier == 'oil boiler':
+                n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
+            elif carrier == 'biomass boiler':
                 n.links.loc[bus + ' urban decentral ' + carrier, 'p_nom_extendable'] = False
 
             bus_served = True
