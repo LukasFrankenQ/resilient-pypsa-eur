@@ -84,6 +84,7 @@ def plot_costs():
         )
 
     df = cost_df.groupby("carrier").sum()
+    df.drop('co2-ets', inplace=True)
 
     # convert to billions
     df = df / 1e9
