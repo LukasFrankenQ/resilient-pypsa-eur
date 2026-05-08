@@ -10,6 +10,7 @@ fitted minimum is marked; the four minima are connected with a
 dashed black cubic spline labelled `cost-optimal gas use`.
 """
 import re
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -20,6 +21,8 @@ from scipy.interpolate import CubicSpline
 from scipy.optimize import minimize, minimize_scalar
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from frontend_export import export_frontend_data  # noqa: E402
 NET_DIR = ROOT / "results" / "networks"
 IMG_DIR = Path.cwd().parent / "gas_resilience" / "imgs"
 IMG_DIR.mkdir(parents=True, exist_ok=True)
@@ -30,19 +33,19 @@ FIT_DEGREE = 6  # 7 coeffs vs ~9 data points => near-interpolation
 SWEEPS = [
     {"key": "base",
      "pattern": re.compile(
-         r"^base_s_50__168H-T-H-B-I-A-dist1_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1_2030_free_(\d+)\.nc$"),
      "color": "#3a6ea5"},
     {"key": "m1.25",
      "pattern": re.compile(
-         r"^base_s_50__168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.25_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.25_2030_free_(\d+)\.nc$"),
      "color": "#e8b13d"},
     {"key": "m1.5",
      "pattern": re.compile(
-         r"^base_s_50__168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.5_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.5_2030_free_(\d+)\.nc$"),
      "color": "#dd6a2b"},
     {"key": "m1.75",
      "pattern": re.compile(
-         r"^base_s_50__168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.75_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.75_2030_free_(\d+)\.nc$"),
      "color": "#b62020"},
 ]
 
@@ -117,6 +120,14 @@ available = {sw["key"]: discover_wiggles(sw["pattern"]) for sw in SWEEPS}
 common = sorted(set.intersection(*available.values()))
 print(f"common wiggles (<= {WIGGLE_MAX}): {common}")
 
+if not common:
+    missing = [k for k, ws in available.items() if not ws]
+    raise SystemExit(
+        f"No wiggles common to all sweeps — sweeps with no matching networks: "
+        f"{missing}. Need lv1.25 networks for each gas+Generator+m{{1.25,1.5,1.75}} "
+        f"variant before this figure can be built."
+    )
+
 # --- load networks ---
 results = {}
 for sw in SWEEPS:
@@ -145,6 +156,7 @@ for sw in SWEEPS:
 # --- plot ---
 fig, ax = plt.subplots(figsize=(7.6, 4.6))
 minima_x, minima_y = [], []
+fits = {}
 
 for sw in SWEEPS:
     r = results[sw["key"]]
@@ -165,6 +177,11 @@ for sw in SWEEPS:
     mx, my = float(res.x), float(res.fun)
     minima_x.append(mx)
     minima_y.append(my)
+    fits[sw["key"]] = {
+        "x_TWh_dense": x_dense.tolist(),
+        "y_BEUR_dense": y_dense.tolist(),
+        "minimum": {"x_TWh": mx, "y_BEUR": my},
+    }
     ax.scatter([mx], [my], color=r["color"], s=85, zorder=6,
                edgecolor="black", linewidth=1.1)
     ax.plot([mx, mx], [830, my], color="red",
@@ -245,3 +262,35 @@ fig.tight_layout()
 out = IMG_DIR / "cost_vs_gas_consumption.pdf"
 fig.savefig(out, bbox_inches="tight")
 print(f"\nwrote {out}")
+
+_sweeps_payload = {}
+for sw in SWEEPS:
+    r = results[sw["key"]]
+    _entry = {
+        "color": r["color"],
+        "gas_marginal_cost_EUR_per_MWh": (
+            float(r["gas_price"]) if r["gas_price"] is not None else None
+        ),
+        "data_points": {
+            "x_TWh": r["wiggles"].tolist(),
+            "y_BEUR": r["costs"].tolist(),
+        },
+    }
+    if sw["key"] in fits:
+        _entry.update(fits[sw["key"]])
+    _sweeps_payload[sw["key"]] = _entry
+
+export_frontend_data("cost_vs_gas_consumption", {
+    "x_label": "Gas Consumption [TWh/y]",
+    "y_label": "Total system cost [B €]",
+    "common_wiggles_TWh": list(common),
+    "sweeps": _sweeps_payload,
+    "cost_optimal_minima": [
+        {"x_TWh": float(_x), "y_BEUR": float(_y)}
+        for _x, _y in zip(minima_x, minima_y)
+    ],
+    "thresholds": {
+        "autarky_TWh": 2000,
+        "no_lng_TWh": 2750,
+    },
+})

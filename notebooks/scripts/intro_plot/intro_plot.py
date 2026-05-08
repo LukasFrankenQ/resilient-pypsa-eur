@@ -1,4 +1,5 @@
 # %%
+import sys
 import requests
 import numpy as np
 import pandas as pd
@@ -6,7 +7,10 @@ import geopandas as gpd
 from pathlib import Path
 import matplotlib.pyplot as plt
 
-world = gpd.read_file("countries.json").set_index('sovereignt')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from frontend_export import export_frontend_data  # noqa: E402
+
+world = gpd.read_file(Path(__file__).resolve().parent / "countries.json").set_index('sovereignt')
 
 european_gas_consumption_2024_twh = {
     # --- EU27 countries (source: Eurostat nrg_cb_gasm, 2024) ---
@@ -256,7 +260,8 @@ if __name__ == "__main__":
 
 # %%
 df_countries = pd.Series(data)
-df_countries.loc['United Kingdom'] = 206 + 345 + 85
+# UK total = Power 206 + Heat 345 + Industry 85 + Other 54 = 690 TWh (DESNZ, GCV)
+df_countries.loc['United Kingdom'] = 206 + 345 + 85 + 54
 df_countries.loc['Switzerland'] = 26.5
 df_countries
 
@@ -281,6 +286,9 @@ df_supply = pd.DataFrame([
     {"type": "Pipeline import",    "origin": "Azerbaijan",    "bcm_2024": 12.3, "twh_2024": 129.8, "lat": 41.08, "lon": 26.36, "coord_note": "Kipoi, GR (TAP/TANAP border crossing)"},
     {"type": "Pipeline import",    "origin": "Other",         "bcm_2024":  0.4, "twh_2024":   4.2, "lat": 48.00, "lon": 10.00, "coord_note": "Generic EU location"},
     {"type": "LNG",                "origin": "LNG",           "bcm_2024": 116.3,"twh_2024": 1227.0,"lat": 45.50, "lon": -8.00, "coord_note": "Atlantic, W of France / NW of Spain"},
+    # 2024 EU27 underground storage net drawdown: +152 TWh NCV (Eurostat nrg_bal_c, STK_CHG)
+    # Converted to GCV: 152 × 1.108 ≈ 168 TWh. Not a geographic point — excluded from map.
+    {"type": "Storage drawdown",   "origin": "Storage drawdown","bcm_2024": 16.0, "twh_2024": 168.0, "lat": 0.0,   "lon": 0.0,   "coord_note": "Aggregate EU27 storage; not mapped"},
 ])
 # =============================================================================
 # DF2: EU-27 + UK gas demand by sector, 2024 annual totals
@@ -308,13 +316,27 @@ UNIT = "TJ"         # Terajoule (energy content basis as provided by the balance
 
 BCM_TO_TWH = 10.5
 
-# Eurostat balance items (nrg_bal) for your sectoral split :contentReference[oaicite:4]{index=4}
+# nrg_bal_c reports natural-gas energy on NCV basis ('TJ' unit). The country
+# bar (df_countries) uses nrg_cb_gasm with TJ_GCV. Multiply the sectoral split
+# by this factor to put both bars on the same calorific basis.
+GCV_NCV_RATIO = 1.108
+
+# Eurostat balance items (nrg_bal) for the sectoral split. The first 5 codes
+# are the headline gas-demand sectors; the remaining codes capture the
+# residual (energy sector own use, transport, agriculture, distribution
+# losses, statistical differences) that previously fell outside the chart.
 SECTORS = [
-    ("Power sector (input to electricity & heat generation)", "TI_EHG_E"),
-    ("Residential heating (households)", "FC_OTH_HH_E"),
-    ("Services heating (commercial & public services)", "FC_OTH_CP_E"),
-    ("Industry heating (energy use)", "FC_IND_E"),
-    ("Industry feedstock (non-energy use)", "FC_IND_NE"),
+    ("Power sector", "TI_EHG_E"),
+    ("Residential + Services heating", "FC_OTH_HH_E"),
+    ("Residential + Services heating", "FC_OTH_CP_E"),
+    ("Industry heating", "FC_IND_E"),
+    ("Industry feedstock", "FC_IND_NE"),
+    ("Other", "FC_TRA_E"),
+    ("Other", "FC_OTH_AF_E"),
+    ("Other", "FC_OTH_FISH_E"),
+    ("Other", "FC_OTH_NSP_E"),
+    ("Other", "NRG_E"),
+    ("Other", "DL"),
 ]
 
 BASE_URL = f"https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{DATASET}"
@@ -376,8 +398,14 @@ df_agg_eu = pd.DataFrame([
         "sector": "Industry feedstock",
         "value_TJ": df.loc[df["nrg_bal"].eq("FC_IND_NE"), "value_TJ"].sum(),
     },
+    {
+        "sector": "Other",
+        "value_TJ": df.loc[df["nrg_bal"].isin(
+            ["FC_TRA_E", "FC_OTH_AF_E", "FC_OTH_FISH_E", "FC_OTH_NSP_E", "NRG_E", "DL"]
+        ), "value_TJ"].sum(),
+    },
 ])
-df_agg_eu["value_TWh"] = df_agg_eu["value_TJ"] / 3600.0
+df_agg_eu["value_TWh"] = df_agg_eu["value_TJ"] / 3600.0 * GCV_NCV_RATIO
 df_agg_eu["geo"] = GEO
 df_agg_eu["time"] = int(TIME)
 df_agg_eu["unit"] = "TJ/TWh"
@@ -418,6 +446,16 @@ df_agg_uk = pd.DataFrame([
         "sector": "Industry feedstock",
         "value_TJ": np.nan,
         "value_TWh": 0.,
+        "geo": "UK",
+        "time": 2024,
+        "unit": "TJ/TWh"
+    },
+    {
+        # Residual to reconcile with DESNZ UK total of ~690 TWh
+        # (transport, energy own use, agriculture, distribution losses).
+        "sector": "Other",
+        "value_TJ": np.nan,
+        "value_TWh": 54.,
         "geo": "UK",
         "time": 2024,
         "unit": "TJ/TWh"
@@ -507,6 +545,7 @@ sector_nicenames = {
     "Residential + Services heating": "Building\nheating",
     "Industry heating": "Industry\nheating",
     "Industry feedstock": "Industry\nfeedstock",
+    "Other": "Other",
     "Total": "Total"
 }
 
@@ -597,7 +636,7 @@ gdf.plot(ax=ax_map, color='white', edgecolor='#cccccc', linewidth=0.6)
 # Norway, and to roughly match the map axis aspect (keeps set_aspect('equal')
 # without big blank margins).
 ax_map.set_xlim(1800000, 6750000)
-ax_map.set_ylim(1500000, 4500000)
+ax_map.set_ylim(1250000, 4500000)
 ax_map.set_facecolor('#e8e8e8')
 ax_map.set_aspect('equal')
 ax_map.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
@@ -645,18 +684,172 @@ def _load_scigrid_pipelines(fn):
     df.drop(to_drop, axis=1, inplace=True)
     return df
 
-_pipelines_fn = Path("../../../data/gas_network/scigrid-gas/data/IGGIELGN_PipeSegments.geojson")
+# Resolve infrastructure paths relative to this script so the layer renders
+# regardless of the user's CWD. Plot at low alpha so it sits in the background.
+_repo_root = Path(__file__).resolve().parents[3]
+_pipelines_fn = _repo_root / "data/gas_network/scigrid-gas/data/IGGIELGN_PipeSegments.geojson"
+_pipeline_centroids = {}
 if _pipelines_fn.exists():
     gas_pipes = _load_scigrid_pipelines(_pipelines_fn)
     gas_pipes = gas_pipes.query("length_km < 1000").to_crs(_MAP_CRS)
+
+    # Clip the SciGrid network to European countries so non-EU portions
+    # (Russia, Turkey, North Africa) don't show under the orange import-route
+    # overlay we draw next.
+    _EU_LIKE = {
+        'Austria','Belgium','Bulgaria','Croatia','Cyprus','Czechia','Denmark',
+        'Estonia','Finland','France','Germany','Greece','Hungary','Ireland',
+        'Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Poland',
+        'Portugal','Romania','Slovakia','Slovenia','Spain','Sweden',
+        'United Kingdom','Norway','Switzerland','Iceland',
+        'Albania','Bosnia and Herz.','Kosovo','Montenegro','North Macedonia','Serbia',
+        'Belarus','Moldova','Ukraine',
+        'Liechtenstein','San Marino','Monaco','Andorra','Faroe Is.','Isle of Man',
+    }
+    _europe_polygon = gdf[gdf['name'].isin(_EU_LIKE)].geometry.union_all()
+    gas_pipes = gpd.clip(gas_pipes, _europe_polygon)
+
     _pipe_lw = (gas_pipes["max_cap_M_m3_per_d"].fillna(0) / 60).clip(0.2, 2.0)
     gas_pipes.plot(ax=ax_map, color='#8B5A2B', linestyle='-',
-                   linewidth=_pipe_lw, alpha=0.55, zorder=2)
+                   linewidth=_pipe_lw, alpha=0.25, zorder=2)
+
+    # -------------------------------------------------------------------------
+    # Custom geometries for the OUTSIDE-Europe portions of the actual 2024
+    # EU+UK import pipelines, drawn from the source country up to the European
+    # border. Inside Europe, the (gray) SciGrid network already shows the route.
+    # Routes from Bruegel European Gas Tracker, OIES Q29, ENTSOG flow maps.
+    # -------------------------------------------------------------------------
+    from shapely.geometry import LineString as _LS
+    _corridors = {
+        "TurkStream": _LS([
+            (41.00, 45.30),    # deeper into RU (Krasnodar Krai)
+            (39.50, 45.10),
+            (37.50, 44.70),    # Russkaya (RU export, Anapa)
+            (33.00, 43.50),    # mid Black Sea
+            (28.50, 41.70),    # Kıyıköy (TR Black Sea coast)
+            (27.83, 42.05),    # Strandzha (TR-BG entry)
+        ]),
+        "Brotherhood (UA transit)": _LS([
+            (44.00, 52.50),    # deeper into RU (Volga region)
+            (41.00, 51.80),
+            (38.00, 51.00),    # RU-UA border (near Sudzha)
+            (35.00, 50.40),
+            (30.50, 50.40),    # Kyiv
+            (26.50, 49.50),
+            (24.00, 48.90),
+            (22.10, 48.62),    # Velke Kapusany (UA-SK entry)
+        ]),
+        "TransMed": _LS([
+            (3.30, 32.90),     # Hassi R'Mel gas field, DZ (interior)
+            (5.50, 34.50),
+            (7.00, 36.00),
+            (8.30, 36.85),     # El Haouaria, TN coast
+            (10.20, 36.80),    # Cap Bon, TN
+            (11.20, 37.20),    # mid Sicilian channel
+            (12.59, 37.65),    # Mazara del Vallo (TN-IT landfall, EU border)
+        ]),
+        "Medgaz": _LS([
+            (3.30, 32.90),     # Hassi R'Mel gas field, DZ (interior)
+            (1.50, 34.20),
+            (-0.30, 35.70),    # Beni Saf, DZ (export point)
+            (-1.20, 36.00),    # offshore Mediterranean
+            (-2.27, 36.78),    # Almería (DZ-ES landfall, EU border)
+        ]),
+        "TAP / TANAP": _LS([
+            (41.50, 40.40),    # NE Turkey, near GE border (TANAP entry)
+            (39.50, 39.90),
+            (37.00, 39.50),    # eastern TR (TANAP route)
+            (34.50, 39.80),
+            (32.00, 40.50),    # central TR
+            (29.50, 40.80),
+            (28.00, 41.10),    # Edirne TR
+            (26.80, 41.05),
+            (26.31, 41.00),    # Kipoi (TR-GR entry)
+        ]),
+    }
+    # Frozen scatter-dot positions (lon, lat) for each origin — kept constant
+    # so the labels don't move when the pipelines are extended deeper into
+    # the source regions. These are the OLD avg-of-starts positions.
+    _FIXED_DOT_LONLAT = {
+        "Russia":       (37.75, 47.85),
+        "North Africa": (4.00, 36.275),
+        "Azerbaijan":   (32.00, 40.50),
+    }
+    _origin_to_corridors = {
+        "Russia":       ["TurkStream", "Brotherhood (UA transit)"],
+        "North Africa": ["TransMed", "Medgaz"],
+        "Azerbaijan":   ["TAP / TANAP"],
+    }
+
+    _orange = "#d97a1a"
+    _corridor_starts_3035 = {}  # origin (lon, lat) of each pipeline in EPSG:3035
+    for _cname, _line in _corridors.items():
+        _line_3035 = gpd.GeoSeries([_line], crs="EPSG:4326").to_crs(_MAP_CRS)
+        _line_3035.plot(ax=ax_map, color=_orange, linewidth=2.0,
+                        alpha=0.85, zorder=4)
+        # First vertex of the LineString = source-side starting point.
+        _start = _line_3035.iloc[0].coords[0]
+        _corridor_starts_3035[_cname] = _start
+
+    # Pipelines that physically connect to Europe but delivered no gas in 2024
+    # (Nord Stream 1+2 sabotaged 2022, Yamal-Europe halted by RU 2022,
+    # Maghreb-Europe closed by DZ Nov 2021). Same outside-Europe → border
+    # treatment as the active corridors, but dashed and dark grey.
+    _inactive_corridors = {
+        "Nord Stream": _LS([
+            (33.00, 60.80),    # deeper into RU (Karelia / Lake Ladoga area)
+            (30.50, 60.50),
+            (28.40, 60.30),    # Vyborg, RU (NS1 onshore start)
+            (24.00, 59.50),
+            (20.00, 58.00),
+            (16.00, 55.80),
+            (13.60, 54.14),    # Greifswald-Lubmin, DE landfall
+        ]),
+        "Yamal-Europe": _LS([
+            (42.00, 56.50),    # deeper into RU (Nizhny Novgorod region)
+            (38.00, 55.50),
+            (35.00, 54.50),    # Torzhok area RU
+            (30.00, 53.50),    # Belarus
+            (24.00, 52.80),    # eastern Poland
+            (18.00, 52.50),    # central Poland
+            (14.45, 52.34),    # Mallnow (PL-DE crossing)
+        ]),
+        "Maghreb-Europe": _LS([
+            (3.30, 32.90),     # Hassi R'Mel gas field, DZ (interior)
+            (1.00, 33.50),
+            (-1.50, 35.00),    # west feeder
+            (-3.50, 35.50),    # Algeria-Morocco border
+            (-5.50, 35.60),    # Tangier MA
+            (-5.60, 36.00),    # Tarifa ES landfall
+        ]),
+    }
+    for _cname, _line in _inactive_corridors.items():
+        _line_3035 = gpd.GeoSeries([_line], crs="EPSG:4326").to_crs(_MAP_CRS)
+        _line_3035.plot(ax=ax_map, color='#444444', linewidth=2.0,
+                        linestyle='--', alpha=0.7, zorder=3.5)
+
+    # Place each origin's scatter dot at the FROZEN position (independent of
+    # the corridor extension) and dot-leader from the dot to each individual
+    # pipeline start (the new, deeper-into-source first vertex).
+    for _origin, _cnames in _origin_to_corridors.items():
+        if _origin not in _FIXED_DOT_LONLAT:
+            continue
+        _lon_c, _lat_c = _FIXED_DOT_LONLAT[_origin]
+        _ax, _ay = _proj_xy(_lon_c, _lat_c)
+        _mask = df_supply["origin"] == _origin
+        df_supply.loc[_mask, "lon"] = _lon_c
+        df_supply.loc[_mask, "lat"] = _lat_c
+        _starts = [_corridor_starts_3035[c] for c in _cnames if c in _corridor_starts_3035]
+        if len(_starts) > 1:
+            for _sx, _sy in _starts:
+                ax_map.plot([_ax, _sx], [_ay, _sy],
+                            color='black', lw=0.9, alpha=0.7,
+                            linestyle=':', zorder=4.5)
 
 # -----------------------------------------------------------------------------
 # Industrial sites (gas-consuming subsectors), from Industrial_Database.csv
 # -----------------------------------------------------------------------------
-_industry_fn = Path("../../../data/Industrial_Database.csv")
+_industry_fn = _repo_root / "data/Industrial_Database.csv"
 if _industry_fn.exists():
     _ind = pd.read_csv(_industry_fn, sep=";", index_col=0)
     _ind[["srid", "coordinates"]] = _ind["geom"].str.split(";", expand=True)
@@ -668,7 +861,7 @@ if _industry_fn.exists():
     _ind_size = (industry_gdf["Emissions_ETS_2014"].fillna(0) / 50_000).clip(4, 40)
     ax_map.scatter(
         industry_gdf.geometry.x, industry_gdf.geometry.y,
-        s=_ind_size, marker='s', c='#555555', alpha=0.5,
+        s=_ind_size, marker='s', c='#555555', alpha=0.25,
         edgecolors='none', zorder=3,
     )
 
@@ -676,7 +869,8 @@ if _industry_fn.exists():
 source_palette = {
     "Domestic production": "#4287f5",
     "Pipeline import": "#f59b42",
-    "LNG": "#22a060"
+    "LNG": "#22a060",
+    "Storage drawdown": "#888888",
 }
 df_supply["color"] = df_supply["type"].map(source_palette)
 
@@ -709,6 +903,8 @@ _callout_bbox = dict(boxstyle="round,pad=0.25", fc="white", ec="#555555", lw=0.6
 for _, row in df_supply.iterrows():
     if row["twh_2024"] < 5:
         continue  # skip tiny 'Other' category — its (48°N, 10°E) overlaps Rest of EU
+    if row["type"] == "Storage drawdown":
+        continue  # aggregate quantity, not a geographic source
     _px, _py = _proj_xy(row["lon"], row["lat"])
     ax_map.scatter(
         _px, _py,
@@ -721,8 +917,11 @@ for _, row in df_supply.iterrows():
     )
     dx, dy = _LABEL_OFFSETS.get(row["origin"], (300_000, 200_000))
     # Origins whose points are large enough that the label can overlap the
-    # marker directly — no leader line needed.
-    _no_leader = {"LNG", "Norway", "Netherlands", "North Africa"}
+    # marker directly — no leader line needed. Russia / North Africa /
+    # Azerbaijan also drop the leader-to-text since their dot is already
+    # connected to the pipeline by its own black line.
+    _no_leader = {"LNG", "Norway", "Netherlands", "North Africa",
+                  "Russia", "Azerbaijan"}
     _arrow = None if row["origin"] in _no_leader else dict(
         arrowstyle="-", color="black", lw=1.2, shrinkA=0, shrinkB=3,
     )
@@ -757,6 +956,10 @@ infra_handles = [
     Line2D([0], [0], color='#8B5A2B', lw=1.8, alpha=0.7, label='Gas pipeline'),
     Line2D([0], [0], marker='s', color='w', markerfacecolor='#555555',
            markersize=7, alpha=0.7, label='Industrial site', lw=0),
+    Line2D([0], [0], color="#d97a1a", lw=2.0, alpha=0.85,
+           label='Importing pipeline (2024)'),
+    Line2D([0], [0], color='#444444', lw=2.0, linestyle='--', alpha=0.7,
+           label='Inactive pipeline'),
 ]
 leg_infra = ax_map.legend(handles=infra_handles, loc='upper left', frameon=True,
                           framealpha=0.9, edgecolor='#cccccc', fontsize=8,
@@ -777,7 +980,7 @@ size_handles = [
 ]
 ax_map.legend(handles=size_handles, loc='upper left', frameon=True,
               framealpha=0.9, edgecolor='#cccccc', fontsize=8,
-              bbox_to_anchor=(0.01, 0.60), handletextpad=1.3, scatterpoints=1,
+              bbox_to_anchor=(0.01, 0.585), handletextpad=1.3, scatterpoints=1,
               title='2024 gas supply (TWh)', title_fontsize=8.5)
 
 # =============================================================================
@@ -822,12 +1025,12 @@ for i, (name, value) in enumerate(_sector_series.items()):
     color = _shade(_cmap_sector, i, len(_sector_series))
     ax_bar.bar(2, value, bottom=bottom, color=color, width=width, edgecolor='k')
     if name == 'Industry feedstock':
-        # Segment is too thin for an in-place label — float it into the
-        # segment above (Industry heating) and draw a leader to the feedstock.
+        # Segment is too thin for an in-place label — float it to the left
+        # with a longer leader line so the callout is clearly readable.
         ax_bar.annotate(
             sector_nicenames[name],
             xy=(2 - width / 2, bottom + value / 2),
-            xytext=(2 - 0.35, bottom + value + 180),
+            xytext=(2 - 0.75, bottom + value + 280),
             ha='center', va='center',
             fontsize=7.5, color='k', weight='medium',
             bbox=dict(boxstyle='round,pad=0.2', fc='white',
@@ -879,13 +1082,33 @@ _pipeline = _supply_pool[_supply_pool['type'] == 'Pipeline import'] \
               .set_index('origin').reindex(['Azerbaijan', 'North Africa', 'Russia']).dropna() \
               .reset_index()
 _lng = _supply_pool[_supply_pool['type'] == 'LNG']
-_supply_sorted = pd.concat([_domestic, _pipeline, _lng], ignore_index=True)
+_storage = _supply_pool[_supply_pool['type'] == 'Storage drawdown']
+_supply_sorted = pd.concat([_domestic, _pipeline, _lng, _storage], ignore_index=True)
 bottom = 0
+_n_blue = len(_supply_sorted) - len(_storage)  # storage gets its own grey
 for i, row in _supply_sorted.iterrows():
     value = row['twh_2024']
-    color = _shade(_cmap_supply, i, len(_supply_sorted))
+    is_storage = row['type'] == 'Storage drawdown'
+    if is_storage:
+        color = source_palette['Storage drawdown']
+    else:
+        color = _shade(_cmap_supply, i, _n_blue)
     ax_bar.bar(0, value, bottom=bottom, color=color, width=width, edgecolor='k')
-    if value > 50:
+    if is_storage:
+        # Storage segment is too thin and sits at the top of the bar — float
+        # the label to the right with a leader line, like Industry feedstock.
+        ax_bar.annotate(
+            'Storage\ndrawdown',
+            xy=(0 + width / 2, bottom + value / 2),
+            xytext=(0 + 0.55, bottom + value / 2),
+            ha='center', va='center',
+            fontsize=7.5, color='k', weight='medium',
+            bbox=dict(boxstyle='round,pad=0.2', fc='white',
+                      ec='#555555', lw=0.6, alpha=0.9),
+            arrowprops=dict(arrowstyle='-', color='k', lw=0.9),
+            zorder=5,
+        )
+    elif value > 50:
         ax_bar.text(0, bottom + value / 2, row['origin'],
                     ha='center', va='center',
                     fontsize=7.5, color=_text_color_for(to_rgba(color)),
@@ -909,16 +1132,14 @@ for xi, (vals, colors, texts) in zip(x_positions, all_bars):
         bottom += v
 '''
 
+# Place title inside the bar axes, just below the top spine of the map.
+ax_bar.text(0.5, 0.97, "2024 European Gas Economy",
+            transform=ax_bar.transAxes,
+            ha='center', va='top',
+            fontsize=12, weight='bold')
 ax_bar.set_xticks(list(range(3)))
 ax_bar.set_xticklabels(bar_labels, fontsize=10)
-ax_bar.set_ylim(
-    0,
-    max(
-        df['value_TWh'].sum(),
-        df_countries.sum(),
-        _supply_sorted['twh_2024'].sum(),
-    ) * 1.02,
-)
+ax_bar.set_ylim(0, 4800)
 # Tight x-limits so the first bar sits flush against the map on the left.
 ax_bar.set_xlim(-0.35, 2.55)
 ax_bar.spines['left'].set_visible(False)
@@ -942,6 +1163,64 @@ import shutil
 _sibling_dir = Path(__file__).resolve().parents[3].parent / 'gas_resilience' / 'imgs'
 _sibling_dir.mkdir(parents=True, exist_ok=True)
 shutil.copy('intro_plot.pdf', _sibling_dir / 'intro_plot.pdf')
+
+# --- Frontend export ---
+_country_consumption_TWh = {
+    str(_k): float(_v) for _k, _v in df_countries.sort_values(ascending=False).items()
+}
+
+_supply_records = (
+    _supply_sorted[["type", "origin", "bcm_2024", "twh_2024", "lat", "lon"]]
+    .assign(stack_order=lambda d: range(len(d)))
+    .to_dict(orient="records")
+)
+
+_sector_records = [
+    {"sector": str(_s), "value_TWh": float(_v)}
+    for _s, _v in _sector_series.items()
+]
+
+_palette = {
+    "supply_type_colors": source_palette,
+    "sector_colors": sector_colors,
+}
+
+# Country geometries: emit minimal GeoJSON-style centroid + bounds so a
+# frontend can render a basic choropleth without re-deriving them.
+_geo = []
+for _idx, _row in gdf.iterrows():
+    try:
+        _pt = _row.geometry.representative_point()
+    except Exception:
+        continue
+    _bounds = _row.geometry.bounds  # in EPSG:3035 metres
+    _geo.append({
+        "name": _row.get("name", _idx),
+        "rep_point_3035": [float(_pt.x), float(_pt.y)],
+        "bounds_3035": [float(b) for b in _bounds],
+    })
+
+export_frontend_data("intro_plot", {
+    "title": "European gas supply, country consumption and sectoral demand (2024)",
+    "map": {
+        "crs": "EPSG:3035",
+        "extent_3035": {
+            "xlim": list(ax_map.get_xlim()),
+            "ylim": list(ax_map.get_ylim()),
+        },
+        "country_geometry": _geo,
+        "supply_points": _supply_records,
+        "sea_labels_lonlat": {k: list(v) for k, v in seas.items()},
+    },
+    "bars": {
+        "labels": bar_labels,
+        "supply_TWh": _supply_records,
+        "country_consumption_TWh": _country_consumption_TWh,
+        "sectoral_demand_TWh": _sector_records,
+    },
+    "colors": _palette,
+})
+
 plt.show()
 print("Done.")
 

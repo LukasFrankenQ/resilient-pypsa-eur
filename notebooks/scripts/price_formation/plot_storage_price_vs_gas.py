@@ -23,6 +23,8 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from frontend_export import export_frontend_data  # noqa: E402
 from classify_price_setter import (  # noqa: E402
     network_path,
     build_candidates,
@@ -46,11 +48,11 @@ from classify_price_setter import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
-CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v5"
+CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v8"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────
-WIGGLES = [0, 125, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000]
+WIGGLES = [0, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000]
 
 # Four price-setter groups: StorageUnits (hydro / PHS) are split by whether
 # they are charging or discharging at each snapshot and folded into the
@@ -105,7 +107,7 @@ SUPPLY_BUCKET_ALPHA = {
 DEFAULT_SUPPLY_ALPHA = 0.55
 
 # Biomass CHP link efficiencies (static PyPSA-Eur inputs, verified in
-# base_s_50__3H-T-H-B-I-A-dist1_2030_free_1000.nc at DE0 0).
+# base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030_free_1000.nc at DE0 0).
 BIOMASS_CHP_ETA_ELEC = 0.2699    # bus1 (AC) efficiency
 BIOMASS_CHP_ETA_HEAT = 0.8245    # bus2 (urban central heat) efficiency2
 
@@ -895,7 +897,7 @@ def make_plot(results):
     # Reuses the screen real estate of the (now-removed) biomass-CHP
     # scatter inset. Each bar shows the share of the four price-setting
     # event classes for that wiggle, normalised to 100%.
-    ax_share = ax_dis.inset_axes([125, 17, 100, 30],
+    ax_share = ax_dis.inset_axes([125, 2, 100, 30],
                                  transform=ax_dis.transData)
 
     CLASS_ORDER_INSET = ["supply", "storage_charger",
@@ -955,12 +957,11 @@ def make_plot(results):
         columnspacing=0.8, borderpad=0.4,
     ).set_zorder(20)
 
-    # ── CCGT-equivalence line (shifted +25 EUR/MWh on the x-axis) ──
-    # λ_AC = λ_gas / η_CCGT + 25 — a constant offset to separate it visually
-    # from other vertical markers on the plot. The slope 1/η_CCGT is the
-    # quantity of interest: a 1 EUR/MWh gas price change translates into
-    # 1/η_CCGT EUR/MWh of AC electricity price if a gas CCGT is at the margin.
-    CCGT_X_OFFSET = 20.0
+    # ── CCGT-equivalence line (shifted on the x-axis to separate it visually
+    # from other vertical markers). The slope 1/η_CCGT is the quantity of
+    # interest: a 1 EUR/MWh gas price change translates into 1/η_CCGT EUR/MWh
+    # of AC electricity price if a gas CCGT is at the margin.
+    CCGT_X_OFFSET = 40.0
     valid_ccgt = [r["ccgt_eff"] for r in results
                   if np.isfinite(r.get("ccgt_eff", np.nan))]
     eta_ccgt = float(np.mean(valid_ccgt)) if valid_ccgt else float("nan")
@@ -977,9 +978,10 @@ def make_plot(results):
             ax_dis.annotate(
                 (f"if a gas CCGT\nset the price\n"
                  f"slope = η_CCGT ≈ {eta_ccgt:.2f}"),
-                xy=(x_line[mask][-1], y_line[mask][-1]),
-                xytext=(-6, 6), textcoords="offset points",
-                fontsize=8, color="#c0001f", ha="right", va="bottom",
+                xy=(75 / eta_ccgt + CCGT_X_OFFSET + 40, 75),
+                xycoords="data",
+                fontsize=8, color="#c0001f",
+                ha="center", va="center", multialignment="center",
                 bbox=dict(boxstyle="round,pad=0.55",
                           facecolor="white", edgecolor="#c0001f",
                           linewidth=0.6, alpha=0.95),
@@ -996,7 +998,7 @@ def make_plot(results):
             (f"battery arbitrage\nbreak-even spread\n"
              f"≈ {be_mean:.1f} EUR/MWh"),
             xy=(be_mean, max(r["gas_price"] for r in results) - 30),
-            xytext=(6, -6), textcoords="offset points",
+            xytext=(6, -10), textcoords="offset points",
             fontsize=8, ha="left", va="top", color="#1a1a1a",
             bbox=dict(boxstyle="round,pad=0.55",
                       facecolor="white", edgecolor="#1a1a1a",
@@ -1063,9 +1065,13 @@ def make_plot(results):
               edgecolor="black", alpha=0.7, label=b)
         for b in SUPPLY_BUCKET_ORDER
     ]
+    from matplotlib.transforms import offset_copy
+    legend_trans = offset_copy(ax_sup.transAxes, fig=fig,
+                               x=-15, y=0, units="points")
     ax_sup.legend(
         handles=bucket_handles, loc="lower right",
         bbox_to_anchor=(0.99, 0.02),
+        bbox_transform=legend_trans,
         frameon=True, fontsize=8, fancybox=True,
         title="Supply Types", title_fontsize=9,
         borderpad=0.6, handletextpad=0.5, labelspacing=0.5,
@@ -1110,4 +1116,46 @@ if __name__ == "__main__":
         raise SystemExit("No wiggles yielded data.")
 
     print(f"\nCollected {len(results)} wiggles. Plotting…")
+
+    def _summarise(arr):
+        a = np.asarray(arr, float)
+        a = a[np.isfinite(a)]
+        if len(a) == 0:
+            return {"n": 0}
+        return {
+            "n": int(len(a)),
+            "min": float(a.min()),
+            "max": float(a.max()),
+            "mean": float(a.mean()),
+            "median": float(np.median(a)),
+            "p05": float(np.percentile(a, 5)),
+            "p25": float(np.percentile(a, 25)),
+            "p75": float(np.percentile(a, 75)),
+            "p95": float(np.percentile(a, 95)),
+        }
+
+    _wiggles_payload = []
+    for r in results:
+        _wiggles_payload.append({
+            "wiggle_TWh": int(r["wiggle"]),
+            "gas_price_EUR_per_MWh": float(r["gas_price"]),
+            "battery_breakeven_EUR_per_MWh": float(r["battery_breakeven"]),
+            "ccgt_efficiency": float(r["ccgt_eff"]),
+            "gas_share_in_power_mix": float(r["gas_share"]),
+            "elec_price_avg_EUR_per_MWh": float(r["elec_price_avg"]),
+            "supply_buckets_summary": {
+                k: _summarise(v) for k, v in r["supply_buckets"].items()
+            },
+            "demand_flex_summary": _summarise(r["demand_flex"]),
+            "storage_discharger_summary": _summarise(r["storage_discharger"]),
+            "storage_charger_summary": _summarise(r["storage_charger"]),
+        })
+
+    export_frontend_data("price_setting_marginal_price_distribution", {
+        "x_label": "AC marginal price [EUR/MWh]",
+        "y_label": "Network-wide load-weighted gas price [EUR/MWh]",
+        "scenario": SCENARIO,
+        "x_range_EUR_per_MWh": list(XLIM),
+        "wiggles": _wiggles_payload,
+    })
     make_plot(results)

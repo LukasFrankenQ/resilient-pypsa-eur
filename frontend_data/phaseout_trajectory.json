@@ -1,0 +1,232 @@
+{
+  "panels": {
+    "solar_pv": {
+      "label": "Solar PV",
+      "y_label": "installed capacity [GW]",
+      "deployment_unit": "GW/yr",
+      "color": "#f9d71c",
+      "history": {
+        "year": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "value": [
+          110.2412,
+          123.81084999999999,
+          138.43834,
+          160.83396,
+          194.00626000000003,
+          246.62341,
+          305.18235
+        ]
+      },
+      "target_no_lng_2030": 827.7746900739353,
+      "target_autarky_2035": 922.3977159686968
+    },
+    "wind": {
+      "label": "Wind",
+      "y_label": "installed capacity [GW]",
+      "deployment_unit": "GW/yr",
+      "color": "#235ebc",
+      "history": {
+        "year": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "value": [
+          176.519,
+          190.09504,
+          199.56197,
+          211.78594,
+          229.47609,
+          244.30127000000005,
+          258.05214
+        ]
+      },
+      "target_no_lng_2030": 490.37993343707467,
+      "target_autarky_2035": 520.8310944731621
+    },
+    "batteries": {
+      "label": "Batteries",
+      "y_label": "power capacity [GW]",
+      "deployment_unit": "GW/yr",
+      "color": "#ace37f",
+      "history": {
+        "year": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "value": [
+          0.5444,
+          0.7036,
+          1.367022,
+          2.936378,
+          11.575122,
+          16.328411,
+          29.072855
+        ]
+      },
+      "target_no_lng_2030": 61.51013103524444,
+      "target_autarky_2035": 99.93309709520304
+    },
+    "building_heat": {
+      "label": "Building Electric Heating",
+      "y_label": "number installed [million]",
+      "deployment_unit": "M/yr",
+      "color": "#d35050",
+      "history": {
+        "year": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "value": [
+          12.3,
+          13.8,
+          15.5,
+          17.6,
+          20.5,
+          23.4,
+          25.5
+        ]
+      },
+      "target_no_lng_2030": 63.910777463963214,
+      "target_autarky_2035": 67.05037540119818
+    },
+    "industry_heat": {
+      "label": "Industry Electric Heating",
+      "y_label": "supply volume [TWh/yr]",
+      "deployment_unit": "TWh/yr",
+      "color": "#b8544f",
+      "history": {
+        "year": [
+          2024
+        ],
+        "value": [
+          22.0
+        ]
+      },
+      "target_no_lng_2030": 598.0191172614799,
+      "target_autarky_2035": 624.32758458038
+    },
+    "industry_biomass": {
+      "label": "Additional industry solid biomass",
+      "y_label": "supply volume [TWh/yr]",
+      "deployment_unit": "TWh/yr",
+      "color": "k",
+      "history": {
+        "year": [
+          2024
+        ],
+        "value": [
+          0.0
+        ]
+      },
+      "target_no_lng_2030": 172.70160595919998,
+      "target_autarky_2035": 149.51763489948
+    }
+  },
+  "scenario_targets": {
+    "no_lng": {
+      "year": 2030,
+      "gas_TWh": 2750
+    },
+    "autarky": {
+      "year": 2035,
+      "gas_TWh": 2000
+    }
+  },
+  "model_projection": [
+    {
+      "level_0": "carrier",
+      "level_1": "solar",
+      "level_2": 2030,
+      "value": 827.7746900739353
+    },
+    {
+      "level_0": "carrier",
+      "level_1": "solar",
+      "level_2": 2035,
+      "value": 922.3977159686968
+    },
+    {
+      "level_0": "carrier",
+      "level_1": "wind",
+      "level_2": 2030,
+      "value": 490.37993343707467
+    },
+    {
+      "level_0": "carrier",
+      "level_1": "wind",
+      "level_2": 2035,
+      "value": 520.8310944731621
+    },
+    {
+      "level_0": "battery",
+      "level_1": "battery",
+      "level_2": 2030,
+      "value": 61.51013103524444
+    },
+    {
+      "level_0": "battery",
+      "level_1": "battery",
+      "level_2": 2035,
+      "value": 99.93309709520304
+    },
+    {
+      "level_0": "heat_pumps",
+      "level_1": "heat_pump_buildings",
+      "level_2": 2030,
+      "value": 63.910777463963214
+    },
+    {
+      "level_0": "heat_pumps",
+      "level_1": "heat_pump_buildings",
+      "level_2": 2035,
+      "value": 67.05037540119818
+    },
+    {
+      "level_0": "industry_hp",
+      "level_1": "heat_pump_industry",
+      "level_2": 2030,
+      "value": 598.0191172614799
+    },
+    {
+      "level_0": "industry_hp",
+      "level_1": "heat_pump_industry",
+      "level_2": 2035,
+      "value": 624.32758458038
+    },
+    {
+      "level_0": "industry_solid_biomass",
+      "level_1": "solid_biomass_industry",
+      "level_2": 2030,
+      "value": 172.70160595919998
+    },
+    {
+      "level_0": "industry_solid_biomass",
+      "level_1": "solid_biomass_industry",
+      "level_2": 2035,
+      "value": 149.51763489948
+    }
+  ]
+}

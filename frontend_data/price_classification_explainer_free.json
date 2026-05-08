@@ -1,0 +1,333 @@
+{
+  "scenario": "free",
+  "wiggle_TWh": 3500,
+  "hike": null,
+  "price_filter_EUR_per_MWh": [
+    0.0,
+    300.0
+  ],
+  "panels": {
+    "supply_renewable": {
+      "title": "SUPPLY (Generator)",
+      "bus": "XK0 0",
+      "snapshot": "2024-03-30T06:00:00",
+      "observed_price_EUR_per_MWh": 0.5217344006114587,
+      "winning_carrier": "onwind",
+      "winning_kind": "supply",
+      "candidate_bands": [
+        {
+          "kind": "supply",
+          "role_key": "supply",
+          "label": "onwind",
+          "carrier": "onwind",
+          "c_eff": 0.025225789051525935,
+          "component": "XK0 0 0 onwind",
+          "lines": [
+            "$c_{eff}$ = marginal cost = 0.03 EUR/MWh"
+          ]
+        },
+        {
+          "kind": "supply",
+          "role_key": "supply",
+          "label": "solar",
+          "carrier": "solar",
+          "c_eff": 0.01968691202809665,
+          "component": "XK0 0 0 solar",
+          "lines": [
+            "$c_{eff}$ = marginal cost = 0.02 EUR/MWh"
+          ]
+        },
+        {
+          "kind": "supply",
+          "role_key": "supply",
+          "label": "solar-hsat",
+          "carrier": "solar-hsat",
+          "c_eff": 0.02083366466587766,
+          "component": "XK0 0 0 solar-hsat",
+          "lines": [
+            "$c_{eff}$ = marginal cost = 0.02 EUR/MWh"
+          ]
+        },
+        {
+          "kind": "supply",
+          "role_key": "supply",
+          "label": "ror",
+          "carrier": "ror",
+          "c_eff": 0.009859626675773165,
+          "component": "XK0 0 ror",
+          "lines": [
+            "$c_{eff}$ = marginal cost = 0.01 EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_discharger",
+          "role_key": "storage_discharger",
+          "label": "battery discharger",
+          "carrier": "battery discharger",
+          "c_eff": 1.4717319504112878,
+          "component": "XK0 0 battery discharger",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{battery})/\\eta$",
+            "$\\;\\;\\;\\; = (0.01 + 1.43)/0.980 = 1.47$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "H2 Electrolysis",
+          "carrier": "H2 Electrolysis",
+          "c_eff": 32.676617481658646,
+          "component": "XK0 0 H2 Electrolysis",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{H2} +\\eta_2\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 0.622\\cdot51.64 +0.05\\cdot10.71 - 0.01 = 32.68$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_charger",
+          "role_key": "storage_charger",
+          "label": "battery charger",
+          "carrier": "battery charger",
+          "c_eff": 1.3938653109064758,
+          "component": "XK0 0 battery charger",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{battery} - c$",
+            "$\\;\\;\\;\\; = 0.980\\cdot1.43 - 0.01 = 1.39$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "urban central air heat pump",
+          "carrier": "urban central air heat pump",
+          "c_eff": 34.575220374968424,
+          "component": "XK0 0 urban central air heat pump",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 3.228\\cdot10.71 - 0.01 = 34.58$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "urban central resistive heater",
+          "carrier": "urban central resistive heater",
+          "c_eff": 10.59499744367709,
+          "component": "XK0 0 urban central resistive heater",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 0.990\\cdot10.71 - 0.01 = 10.59$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_charger",
+          "role_key": "storage_charger",
+          "label": "home battery charger",
+          "carrier": "home battery charger",
+          "c_eff": 0.6350928153389452,
+          "component": "XK0 0 home battery charger",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{battery} - c$",
+            "$\\;\\;\\;\\; = 0.980\\cdot0.66 - 0.01 = 0.64$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_unit",
+          "role_key": "storage_unit",
+          "label": "hydro",
+          "carrier": "hydro",
+          "c_eff": 0.40068269981867016,
+          "component": "XK0 0 hydro",
+          "lines": [
+            "$c_{eff} \\approx \\lambda_{AC}$  (water value of stored energy)"
+          ]
+        }
+      ]
+    },
+    "supply_chp": {
+      "title": "SUPPLY (CHP, with bus2/bus3 correction)",
+      "bus": "FR0 1",
+      "snapshot": "2024-11-05T03:00:00",
+      "observed_price_EUR_per_MWh": 91.46368955086115,
+      "winning_carrier": "urban central solid biomass CHP",
+      "winning_kind": "supply",
+      "candidate_bands": [
+        {
+          "kind": "supply",
+          "role_key": "supply_cogen",
+          "label": "OCGT",
+          "carrier": "OCGT",
+          "c_eff": 79.60310305495479,
+          "component": "FR0 1 OCGT",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{gas} - \\eta_2\\cdot\\lambda_{atmosphere})/\\eta$",
+            "$\\;\\;\\;\\; = (1.96 + 10.88 - 0.20\\cdot-99.99)/0.410 = 79.60$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "supply",
+          "role_key": "supply_cogen",
+          "label": "urban central gas CHP",
+          "carrier": "urban central gas CHP",
+          "c_eff": 84.08873408205989,
+          "component": "FR0 1 urban central gas CHP",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{gas} - \\eta_2\\cdot\\lambda_{heat} - \\eta_3\\cdot\\lambda_{atmosphere})/\\eta$",
+            "$\\;\\;\\;\\; = (4.45 + 10.88 - 0.41\\cdot1.59 - 0.20\\cdot-99.99)/0.410 = 84.09$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "supply",
+          "role_key": "supply_cogen",
+          "label": "urban central solid biomass CHP",
+          "carrier": "urban central solid biomass CHP",
+          "c_eff": 85.30191036337789,
+          "component": "FR0 1 urban central solid biomass CHP",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{biomass} - \\eta_2\\cdot\\lambda_{heat})/\\eta$",
+            "$\\;\\;\\;\\; = (4.86 + 19.47 - 0.82\\cdot1.59)/0.270 = 85.30$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "Haber-Bosch",
+          "carrier": "Haber-Bosch",
+          "c_eff": 95.60934597773347,
+          "component": "FR0 1 Haber-Bosch",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{NH3} +\\eta_2\\cdot\\lambda_{H2} +\\eta_3\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 4.044\\cdot78.76 +-4.64\\cdot48.29 +0.94\\cdot1.59 - 0.10 = 95.61$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "heat<100 industry industrial heat pump medium temperature",
+          "carrier": "heat<100 industry industrial heat pump medium temperature",
+          "c_eff": 89.22398122795639,
+          "component": "FR0 1 heat<100 industry industrial heat pump medium temperature",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{industry} - c$",
+            "$\\;\\;\\;\\; = 2.700\\cdot34.24 - 3.23 = 89.22$ EUR/MWh"
+          ]
+        }
+      ]
+    },
+    "storage_discharger": {
+      "title": "STORAGE DISCHARGER",
+      "bus": "BE0 0",
+      "snapshot": "2024-11-06T18:00:00",
+      "observed_price_EUR_per_MWh": 294.05354277125474,
+      "winning_carrier": "battery discharger",
+      "winning_kind": "storage_discharger",
+      "candidate_bands": [
+        {
+          "kind": "storage_discharger",
+          "role_key": "storage_discharger",
+          "label": "battery discharger",
+          "carrier": "battery discharger",
+          "c_eff": 133.93794821812747,
+          "component": "BE0 0 battery discharger",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{battery})/\\eta$",
+            "$\\;\\;\\;\\; = (0.01 + 131.22)/0.980 = 133.94$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_charger",
+          "role_key": "storage_charger",
+          "label": "battery charger",
+          "carrier": "battery charger",
+          "c_eff": 128.56138160136558,
+          "component": "BE0 0 battery charger",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{battery} - c$",
+            "$\\;\\;\\;\\; = 0.980\\cdot131.22 - 0.01 = 128.56$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "Haber-Bosch",
+          "carrier": "Haber-Bosch",
+          "c_eff": 131.24034056133294,
+          "component": "BE0 0 Haber-Bosch",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{NH3} +\\eta_2\\cdot\\lambda_{H2} +\\eta_3\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 4.044\\cdot78.76 +-4.64\\cdot40.30 +0.94\\cdot-0.01 - 0.10 = 131.24$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_charger",
+          "role_key": "storage_charger",
+          "label": "home battery charger",
+          "carrier": "home battery charger",
+          "c_eff": 133.2070033001367,
+          "component": "BE0 0 home battery charger",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{battery} - c$",
+            "$\\;\\;\\;\\; = 0.980\\cdot135.96 - 0.01 = 133.21$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_unit",
+          "role_key": "storage_unit",
+          "label": "PHS",
+          "carrier": "PHS",
+          "c_eff": 133.26051455675443,
+          "component": "BE0 0 PHS",
+          "lines": [
+            "$c_{eff} \\approx \\lambda_{AC}$  (water value of stored energy)"
+          ]
+        }
+      ]
+    },
+    "storage_charger": {
+      "title": "STORAGE CHARGER",
+      "bus": "GB2 0",
+      "snapshot": "2024-12-27T15:00:00",
+      "observed_price_EUR_per_MWh": 270.29105607338823,
+      "winning_carrier": "battery charger",
+      "winning_kind": "storage_charger",
+      "candidate_bands": [
+        {
+          "kind": "storage_discharger",
+          "role_key": "storage_discharger",
+          "label": "battery discharger",
+          "carrier": "battery discharger",
+          "c_eff": 1522.9304257402184,
+          "component": "GB2 0 battery discharger",
+          "lines": [
+            "$c_{eff} = (c + \\lambda_{battery})/\\eta$",
+            "$\\;\\;\\;\\; = (0.01 + 1492.15)/0.980 = 1522.93$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "storage_charger",
+          "role_key": "storage_charger",
+          "label": "battery charger",
+          "carrier": "battery charger",
+          "c_eff": 1461.995127483324,
+          "component": "GB2 0 battery charger",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{battery} - c$",
+            "$\\;\\;\\;\\; = 0.980\\cdot1492.15 - 0.01 = 1462.00$ EUR/MWh"
+          ]
+        },
+        {
+          "kind": "demand_flex",
+          "role_key": "demand_flex",
+          "label": "urban decentral air heat pump",
+          "carrier": "urban decentral air heat pump",
+          "c_eff": 1533.4209937554276,
+          "component": "GB2 0 urban decentral air heat pump",
+          "lines": [
+            "$c_{eff} = \\eta\\cdot\\lambda_{heat} - c$",
+            "$\\;\\;\\;\\; = 2.427\\cdot631.78 - 0.01 = 1533.42$ EUR/MWh"
+          ]
+        }
+      ]
+    }
+  }
+}

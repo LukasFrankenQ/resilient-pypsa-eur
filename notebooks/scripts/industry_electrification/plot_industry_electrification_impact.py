@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import sys
 import numpy as np
 import pypsa
 import pandas as pd
@@ -20,8 +21,10 @@ import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "notebooks" / "scripts"))
+from frontend_export import export_frontend_data  # noqa: E402
 NETWORK_DIR = ROOT / "results" / "networks"
-PREFIX = "base_s_50__3H-T-H-B-I-A-dist1_2030"
+PREFIX = "base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030"
 SAVE_DIR = ROOT.parent / "gas_resilience" / "imgs"
 SAVE_DIR.mkdir(parents=True, exist_ok=True)
 DATA_DIR = Path(__file__).resolve().parent / "data"
@@ -178,6 +181,27 @@ def plot(baseline_s, scenario_df):
     fig.savefig(SAVE_DIR / "industry_electrification_impact.pdf", bbox_inches="tight")
     print(f"Saved to {SAVE_DIR / 'industry_electrification_impact.pdf'}")
     plt.close()
+
+    panels = {}
+    for key, (title, unit, _) in QUANTITIES.items():
+        panels[key] = {
+            "title": title,
+            "unit": unit,
+            "baseline": float(baseline_s.loc[key]),
+            "scenarios": {
+                lbl: float(scenario_df.loc[key, lbl]) for lbl in SCENARIO_LABELS
+            },
+            "delta": {
+                lbl: float(delta_df.loc[key, lbl]) for lbl in SCENARIO_LABELS
+            },
+        }
+    export_frontend_data("industry_electrification_impact", {
+        "scenario_labels": SCENARIO_LABELS,
+        "scenario_xtick_labels": ["50%", "25%", "2%"],
+        "x_label": "Share of optimal industry electrification achieved",
+        "panels": panels,
+        "colors": ["#4c72b0", "#dd8452", "#c44e52"],
+    })
 
 
 if __name__ == "__main__":

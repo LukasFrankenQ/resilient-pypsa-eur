@@ -1,0 +1,39 @@
+{
+  "x_label": "Biomass potential [TWh]",
+  "y_label": "Marginal cost [EUR/MWh]",
+  "title": "European solid biomass supply curve",
+  "steps": [
+    {
+      "carrier": "industry wood",
+      "x_start_TWh": 0.0,
+      "x_end_TWh": 221.62265128254512,
+      "width_TWh": 221.62265128254512,
+      "marginal_cost_EUR_per_MWh": 7.909867595153028,
+      "color": "#A0522D"
+    },
+    {
+      "carrier": "landscape care",
+      "x_start_TWh": 221.62265128254512,
+      "x_end_TWh": 246.29085803937082,
+      "width_TWh": 24.668206756825686,
+      "marginal_cost_EUR_per_MWh": 9.609982201870723,
+      "color": "#6B8E23"
+    },
+    {
+      "carrier": "unsustainable solid biomass",
+      "x_start_TWh": 246.29085803937082,
+      "x_end_TWh": 1042.6221097751709,
+      "width_TWh": 796.3312517358002,
+      "marginal_cost_EUR_per_MWh": 14.532487909685337,
+      "color": "#998622"
+    },
+    {
+      "carrier": "forest residues",
+      "x_start_TWh": 1042.6221097751709,
+      "x_end_TWh": 1271.0100786463931,
+      "width_TWh": 228.3879688712223,
+      "marginal_cost_EUR_per_MWh": 14.809852863509155,
+      "color": "#8B4513"
+    }
+  ]
+}

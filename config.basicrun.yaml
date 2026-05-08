@@ -48,8 +48,8 @@ scenario:
   opts:
   - 'lv1.25'
   sector_opts:
-  - '168H-T-H-B-I-A-dist1'
-  # - '3H-T-H-B-I-A-dist1'
+  # - '168H-T-H-B-I-A-dist1'
+  - '3H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.25'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.5'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.75'
@@ -71,36 +71,22 @@ scenario:
   wiggle:
   # - endo
   - 0
-  # - 250
-  # - 500
-  # - 750
-  # - 1000
-  # - 1250
-  # - 1500
-  # - 1750
-  # - 2000
-  # - 2250
-  # - 2500
-  # - 2750
-  # - 3000
-  # - 3250
-  # - 3500
-  # - 3750
+  - 250
+  - 500
+  - 750
+  - 1000
+  - 1250
+  - 1500
+  - 1750
+  - 2000
+  - 2250
+  - 2500
+  - 2750
+  - 3000
+  - 3250
+  - 3500
+  - 3750
   - 4000
-  # - 4250
-  # - 4500
-  # - 4750
-  # - 5000
-  # - 2900
-  # - 3000
-  # - 2000
-  # - 3020
-  # - 3040
-  # - 3050
-  # - 3060
-  # - 3080
-  # - 3100
-  # - 3200
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries

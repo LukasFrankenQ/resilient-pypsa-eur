@@ -7,6 +7,7 @@ them, as a function of the gas-budget wiggle, for 3H 2030 `free` networks.
   (n.statistics.{capex,opex}(bus_carrier="AC")).
 - Infra-marginal rent = consumer - production.
 """
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -17,12 +18,14 @@ from matplotlib.colors import Normalize
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "notebooks" / "scripts"))
+from frontend_export import export_frontend_data  # noqa: E402
 NET_DIR = ROOT / "results" / "networks"
 SCRIPT_DIR = Path(__file__).resolve().parent
 IMG_DIR = ROOT.parent / "gas_resilience" / "imgs"
 IMG_DIR.mkdir(parents=True, exist_ok=True)
 
-PREFIX = "base_s_50__3H-T-H-B-I-A-dist1_2030"
+PREFIX = "base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030"
 SCENARIO = "free"
 WIGGLES = list(range(0, 4001, 250))
 
@@ -194,3 +197,26 @@ fig.savefig(out_paper, bbox_inches="tight")
 fig.savefig(out_script, bbox_inches="tight")
 print(f"wrote {out_paper}")
 print(f"wrote {out_script}")
+
+export_frontend_data("infra_marginal_rent", {
+    "x_label": "Total Gas Consumption [TWh]",
+    "wiggles_TWh": df["wiggle"].tolist(),
+    "panels": {
+        "absolute": {
+            "y_label": "Electricity Generation Cost [B€/a]",
+            "cb_label": "Infra-marginal rent [B€/a]",
+            "consumer_BEUR_per_a": df["consumer"].tolist(),
+            "production_BEUR_per_a": df["production"].tolist(),
+            "rent_BEUR_per_a": df["rent"].tolist(),
+        },
+        "per_mwh": {
+            "y_label": "Electricity cost [€/MWh]",
+            "cb_label": "Infra-marginal rent [€/MWh]",
+            "consumer_EUR_per_MWh": df["consumer_per_mwh"].tolist(),
+            "production_EUR_per_MWh": df["production_per_mwh"].tolist(),
+            "rent_EUR_per_MWh": df["rent_per_mwh"].tolist(),
+        },
+    },
+    "energy_TWh": df["energy_twh"].tolist(),
+    "colors": {"consumer": COLOR_CONSUMER, "production": COLOR_PRODUCTION},
+})

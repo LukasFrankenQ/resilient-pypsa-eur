@@ -1,0 +1,65 @@
+{
+  "scenario_labels": [
+    "fast",
+    "medium",
+    "slow"
+  ],
+  "scenario_xtick_labels": [
+    "50%",
+    "25%",
+    "2%"
+  ],
+  "x_label": "Share of optimal industry electrification achieved",
+  "panels": {
+    "total_system_cost": {
+      "title": "Total system cost",
+      "unit": "bn EUR/a",
+      "baseline": 897.3175457520723,
+      "scenarios": {
+        "fast": 901.4570154154408,
+        "medium": 904.1635448939032,
+        "slow": 906.9042250793342
+      },
+      "delta": {
+        "fast": 4.139469663368459,
+        "medium": 6.84599914183093,
+        "slow": 9.58667932726189
+      }
+    },
+    "hp_buildings": {
+      "title": "Heat pumps in buildings",
+      "unit": "million households",
+      "baseline": 75.99267442334008,
+      "scenarios": {
+        "fast": 82.7387043127457,
+        "medium": 85.91208366820686,
+        "slow": 87.6962823000749
+      },
+      "delta": {
+        "fast": 6.746029889405619,
+        "medium": 9.919409244866785,
+        "slow": 11.703607876734822
+      }
+    },
+    "biomass_industry": {
+      "title": "Biomass heat in industry",
+      "unit": "TWh",
+      "baseline": 126.87103723329,
+      "scenarios": {
+        "fast": 251.50042279554,
+        "medium": 331.75383161664,
+        "slow": 440.10550580556
+      },
+      "delta": {
+        "fast": 124.62938556225001,
+        "medium": 204.88279438335002,
+        "slow": 313.23446857227003
+      }
+    }
+  },
+  "colors": [
+    "#4c72b0",
+    "#dd8452",
+    "#c44e52"
+  ]
+}

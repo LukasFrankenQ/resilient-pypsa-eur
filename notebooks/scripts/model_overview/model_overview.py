@@ -34,6 +34,9 @@ import pypsa
 import yaml
 from matplotlib.patches import Patch
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from frontend_export import export_frontend_data  # noqa: E402
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 logger = logging.getLogger("model_overview")
 
@@ -43,8 +46,8 @@ CONFIG_PATH = REPO_ROOT / "config.basicrun.yaml"
 IMGS_ROOT = REPO_ROOT.parent / "gas_resilience" / "imgs" / "model_overview"
 
 DEFAULT_NETWORK = (
-    # "base_s_50__3H-T-H-B-I-A-dist1-gas+Generator+m1.5_2030_free_3000.nc"
-    "base_s_50__3H-T-H-B-I-A-dist1_2030_free_2000.nc"
+    # "base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas+Generator+m1.5_2030_free_3000.nc"
+    "base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030_free_2000.nc"
 )
 
 BALANCE_BUS_CARRIERS_SINGLE = [
@@ -634,6 +637,17 @@ def plot_balance_timeseries_group(
     safe = group_name.replace(" ", "_").replace("/", "_")
     fig.savefig(out_dir / f"03_balance_timeseries_{safe}.pdf")
     plt.close(fig)
+
+    if group_name == "heat":
+        export_frontend_data("03_balance_timeseries_heat", {
+            "y_label": f"{group_name} balance [{unit}]",
+            "unit": unit,
+            "wiggle_TWh": wiggle_twh,
+            "time_index_iso": [t.isoformat() for t in df.index],
+            "carriers": list(df.columns),
+            "values_GW": {c: df[c].astype(float).tolist() for c in df.columns},
+            "colors": {c: color_map.get(c) for c in df.columns},
+        })
 
 
 def main(argv: list[str]) -> None:

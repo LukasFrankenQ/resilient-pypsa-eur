@@ -1,18 +1,23 @@
 import os
+import sys
 import yaml
 import numpy as np
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from frontend_export import export_frontend_data  # noqa: E402
+
 idx = pd.IndexSlice
 
-TARGET_PATH = Path('/home/lukas/Desktop/res/v1/gas_resilience/imgs/')
+REPO_ROOT = Path(__file__).resolve().parents[3]
+TARGET_PATH = REPO_ROOT.parent / 'gas_resilience' / 'imgs'
 
-path = Path.cwd().parent.parent.parent / 'resources' / 'existing_heating_distribution_base_s_50_2030.csv'
+path = REPO_ROOT / 'resources' / 'existing_heating_distribution_base_s_50_2030.csv'
 
 with open(
-    Path.cwd().parent.parent.parent / 'config' / 'plotting.default.yaml'
+    REPO_ROOT / 'config' / 'plotting.default.yaml'
 ) as f:
     color_dict = yaml.safe_load(f)['plotting']['tech_colors']
 
@@ -44,5 +49,22 @@ axs[0].legend(title='Technology', bbox_to_anchor=(0.5, 1.2), loc='upper center',
 axs[-1].set_xlabel('country')
 
 plt.savefig(TARGET_PATH / 'existing_heating_capacities.pdf', bbox_inches='tight')
+
+_panels = {}
+for _sector in ['rural', 'urban decentral']:
+    _sub = df[_sector]
+    _panels[_sector] = {
+        "countries": _sub.index.tolist(),
+        "technologies": _sub.columns.tolist(),
+        "installed_GW": {c: _sub[c].tolist() for c in _sub.columns},
+        "colors": {c: color_dict.get(c) for c in _sub.columns},
+    }
+
+export_frontend_data("existing_heating_capacities", {
+    "y_label": "Installed Capacity [GW]",
+    "x_label": "country",
+    "panels": _panels,
+})
+
 plt.show()
 

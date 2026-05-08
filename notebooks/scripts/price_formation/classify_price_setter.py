@@ -32,7 +32,7 @@ from matplotlib.patches import Patch
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parents[3]
 NETWORK_DIR = ROOT / "results" / "networks"
-PREFIX = "base_s_50__3H-T-H-B-I-A-dist1_2030"
+PREFIX = "base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030"
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
 CONFIG_YAML = ROOT / "config.basicrun.yaml"
