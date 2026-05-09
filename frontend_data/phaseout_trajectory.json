@@ -113,8 +113,8 @@
       "target_autarky_2035": 67.05037540119818
     },
     "industry_heat": {
-      "label": "Industry Electric Heating",
-      "y_label": "supply volume [TWh/yr]",
+      "label": "Gas-Displacing\nIndustry Electric Heat",
+      "y_label": "supply volume [TWh/a]",
       "deployment_unit": "TWh/yr",
       "color": "#b8544f",
       "history": {
@@ -129,8 +129,8 @@
       "target_autarky_2035": 624.32758458038
     },
     "industry_biomass": {
-      "label": "Additional industry solid biomass",
-      "y_label": "supply volume [TWh/yr]",
+      "label": "Gas-Displacing\nIndustry Solid Biomass",
+      "y_label": "supply volume [TWh/a]",
       "deployment_unit": "TWh/yr",
       "color": "k",
       "history": {

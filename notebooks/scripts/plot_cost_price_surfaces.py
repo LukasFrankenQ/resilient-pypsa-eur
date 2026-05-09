@@ -33,25 +33,36 @@ FIT_DEGREE = 6  # 7 coeffs vs ~9 data points => near-interpolation
 SWEEPS = [
     {"key": "base",
      "pattern": re.compile(
-         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030_free_(\d+)\.nc$"),
      "color": "#3a6ea5"},
     {"key": "m1.25",
      "pattern": re.compile(
-         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.25_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.25_2030_free_(\d+)\.nc$"),
      "color": "#e8b13d"},
     {"key": "m1.5",
      "pattern": re.compile(
-         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.5_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.5_2030_free_(\d+)\.nc$"),
      "color": "#dd6a2b"},
     {"key": "m1.75",
      "pattern": re.compile(
-         r"^base_s_50_lv1.25_168H-T-H-B-I-A-dist1-gas\+Generator\+m1\.75_2030_free_(\d+)\.nc$"),
+         r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.75_2030_free_(\d+)\.nc$"),
      "color": "#b62020"},
 ]
 
 
 def total_cost_be(n):
-    return (n.statistics.capex().sum() + n.statistics.opex().sum()) / 1e9
+    capex = n.statistics.capex()
+    opex = n.statistics.opex()
+    capex = capex[capex.index.get_level_values("carrier") != "co2-ets"]
+    opex = opex[opex.index.get_level_values("carrier") != "co2-ets"]
+    # methanol Stores hit degenerate LP optima with huge unused e_nom_opt
+    def drop_meoh_store(s):
+        comp = s.index.get_level_values("component")
+        carr = s.index.get_level_values("carrier")
+        return s[~((comp == "Store") & carr.str.contains("methanol", case=False, na=False))]
+    capex = drop_meoh_store(capex)
+    opex = drop_meoh_store(opex)
+    return (capex.sum() + opex.sum()) / 1e9
 
 
 def gas_marginal_cost(n):
@@ -153,6 +164,12 @@ for sw in SWEEPS:
     print(f"  {sw['key']}: gas price = {gas_price:.1f} EUR/MWh, "
           f"n = {len(wiggles)}")
 
+# --- data-driven y bounds ---
+all_costs = np.concatenate([results[sw["key"]]["costs"] for sw in SWEEPS])
+y_lo = float(all_costs.min()) - 5.0
+y_hi = float(all_costs.max()) + 12.0  # headroom for autarky / no-LNG labels
+y_range = y_hi - y_lo
+
 # --- plot ---
 fig, ax = plt.subplots(figsize=(7.6, 4.6))
 minima_x, minima_y = [], []
@@ -184,7 +201,7 @@ for sw in SWEEPS:
     }
     ax.scatter([mx], [my], color=r["color"], s=85, zorder=6,
                edgecolor="black", linewidth=1.1)
-    ax.plot([mx, mx], [830, my], color="red",
+    ax.plot([mx, mx], [y_lo, my], color="red",
             alpha=0.25, lw=0.8, zorder=2)
 
     x_end = r["wiggles"].max()
@@ -229,7 +246,7 @@ if len(np.unique(mx)) == len(mx):
                         linestyles="--", zorder=5)
     ax.add_collection(lc)
 
-    ax.text(1100, 910,
+    ax.text(1100, line(1100) + 0.04 * y_range,
             "cost-optimal gas use",
             color="black", fontsize=9, fontweight="bold",
             ha="left", va="center", alpha=1.0, zorder=10,
@@ -241,12 +258,12 @@ for xv, label, dx in [
     (2750, "No-LNG\n(2750 TWh)",  40),
 ]:
     ax.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
-    ax.text(xv + dx, 962, label,
+    ax.text(xv + dx, y_hi + 0.015 * y_range, label,
             color="black", alpha=0.85, fontsize=9,
             ha="center", va="bottom", linespacing=0.95,
             zorder=10, clip_on=False)
 
-ax.set_xlabel("Gas Consumption [TWh/y]")
+ax.set_xlabel("Gas Consumption [TWh/a]")
 ax.set_ylabel("Total system cost [B €]")
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
@@ -256,7 +273,7 @@ ax.set_axisbelow(True)
 ax.set_xticks(common)
 ax.set_xticklabels([str(w) for w in common])
 ax.set_xlim(0, 4050)
-ax.set_ylim(830, 960)
+ax.set_ylim(y_lo, y_hi)
 
 fig.tight_layout()
 out = IMG_DIR / "cost_vs_gas_consumption.pdf"
@@ -281,7 +298,7 @@ for sw in SWEEPS:
     _sweeps_payload[sw["key"]] = _entry
 
 export_frontend_data("cost_vs_gas_consumption", {
-    "x_label": "Gas Consumption [TWh/y]",
+    "x_label": "Gas Consumption [TWh/a]",
     "y_label": "Total system cost [B €]",
     "common_wiggles_TWh": list(common),
     "sweeps": _sweeps_payload,

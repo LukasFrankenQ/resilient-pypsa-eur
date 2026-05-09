@@ -1018,7 +1018,7 @@ def make_plot(results):
     # header box: 3 lines — first two describe the wiggle value,
     # third describes the gas-share value below it. High zorder so nothing
     # renders on top of it.
-    header_text = "Gas Consumption\n[TWh/y]\nGas Share in Electricity Mix [%]"
+    header_text = "Gas Consumption\n[TWh/a]\nGas Share in Electricity Mix [%]"
     ax_sup.text(1.035, 0.965, header_text,
                 transform=ax_sup.transAxes,
                 fontsize=8, fontweight="bold", color="#333333",

@@ -782,7 +782,8 @@ if _pipelines_fn.exists():
     }
 
     _orange = "#d97a1a"
-    _corridor_starts_3035 = {}  # origin (lon, lat) of each pipeline in EPSG:3035
+    _corridor_starts_3035 = {}  # origin (lon, lat) of each pipeline start
+    _corridor_lines_3035 = {}   # full LineString (EPSG:3035) for nearest-point
     for _cname, _line in _corridors.items():
         _line_3035 = gpd.GeoSeries([_line], crs="EPSG:4326").to_crs(_MAP_CRS)
         _line_3035.plot(ax=ax_map, color=_orange, linewidth=2.0,
@@ -790,6 +791,7 @@ if _pipelines_fn.exists():
         # First vertex of the LineString = source-side starting point.
         _start = _line_3035.iloc[0].coords[0]
         _corridor_starts_3035[_cname] = _start
+        _corridor_lines_3035[_cname] = _line_3035.iloc[0]
 
     # Pipelines that physically connect to Europe but delivered no gas in 2024
     # (Nord Stream 1+2 sabotaged 2022, Yamal-Europe halted by RU 2022,
@@ -829,8 +831,12 @@ if _pipelines_fn.exists():
                         linestyle='--', alpha=0.7, zorder=3.5)
 
     # Place each origin's scatter dot at the FROZEN position (independent of
-    # the corridor extension) and dot-leader from the dot to each individual
-    # pipeline start (the new, deeper-into-source first vertex).
+    # the corridor extension). For multi-pipeline origins draw a dotted leader
+    # from the dot to the nearest point on each pipeline. Per request, North
+    # Africa uses a single horizontal leader going right until it intersects
+    # the corridor (instead of two slanted leaders to each pipeline).
+    from shapely.geometry import Point as _Pt, LineString as _LSeg
+    from shapely.ops import nearest_points as _nearest
     for _origin, _cnames in _origin_to_corridors.items():
         if _origin not in _FIXED_DOT_LONLAT:
             continue
@@ -839,10 +845,30 @@ if _pipelines_fn.exists():
         _mask = df_supply["origin"] == _origin
         df_supply.loc[_mask, "lon"] = _lon_c
         df_supply.loc[_mask, "lat"] = _lat_c
-        _starts = [_corridor_starts_3035[c] for c in _cnames if c in _corridor_starts_3035]
-        if len(_starts) > 1:
-            for _sx, _sy in _starts:
-                ax_map.plot([_ax, _sx], [_ay, _sy],
+        _lines = [_corridor_lines_3035[c] for c in _cnames if c in _corridor_lines_3035]
+        if len(_lines) <= 1:
+            continue
+        if _origin == "North Africa":
+            _ray = _LSeg([(_ax, _ay), (_ax + 5_000_000, _ay)])
+            _hits = []
+            for _ln in _lines:
+                _it = _ray.intersection(_ln)
+                if _it.is_empty:
+                    continue
+                if hasattr(_it, "geoms"):
+                    _hits.extend(list(_it.geoms))
+                else:
+                    _hits.append(_it)
+            if _hits:
+                _closest = min(_hits, key=lambda p: p.x - _ax)
+                ax_map.plot([_ax, _closest.x], [_ay, _ay],
+                            color='black', lw=0.9, alpha=0.7,
+                            linestyle=':', zorder=4.5)
+        else:
+            _dot = _Pt(_ax, _ay)
+            for _ln in _lines:
+                _, _np = _nearest(_dot, _ln)
+                ax_map.plot([_ax, _np.x], [_ay, _np.y],
                             color='black', lw=0.9, alpha=0.7,
                             linestyle=':', zorder=4.5)
 
@@ -980,7 +1006,7 @@ size_handles = [
 ]
 ax_map.legend(handles=size_handles, loc='upper left', frameon=True,
               framealpha=0.9, edgecolor='#cccccc', fontsize=8,
-              bbox_to_anchor=(0.01, 0.585), handletextpad=1.3, scatterpoints=1,
+              bbox_to_anchor=(0.01, 0.62), handletextpad=1.3, scatterpoints=1,
               title='2024 gas supply (TWh)', title_fontsize=8.5)
 
 # =============================================================================
