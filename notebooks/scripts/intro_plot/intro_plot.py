@@ -1159,7 +1159,7 @@ for xi, (vals, colors, texts) in zip(x_positions, all_bars):
 '''
 
 # Place title inside the bar axes, just below the top spine of the map.
-ax_bar.text(0.5, 0.97, "2024 European Gas Economy",
+ax_bar.text(0.5, 0.97, "2024 European Gas Balance",
             transform=ax_bar.transAxes,
             ha='center', va='top',
             fontsize=12, weight='bold')

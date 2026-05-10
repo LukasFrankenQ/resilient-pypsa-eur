@@ -9,6 +9,7 @@ enough to essentially interpolate all data points. Each curve's
 fitted minimum is marked; the four minima are connected with a
 dashed black cubic spline labelled `cost-optimal gas use`.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -26,6 +27,7 @@ from frontend_export import export_frontend_data  # noqa: E402
 NET_DIR = ROOT / "results" / "networks"
 IMG_DIR = Path.cwd().parent / "gas_resilience" / "imgs"
 IMG_DIR.mkdir(parents=True, exist_ok=True)
+CACHE_PATH = Path(__file__).resolve().parent / ".cache" / "cost_vs_gas_consumption.json"
 
 WIGGLE_MAX = 4000
 FIT_DEGREE = 6  # 7 coeffs vs ~9 data points => near-interpolation
@@ -38,15 +40,19 @@ SWEEPS = [
     {"key": "m1.25",
      "pattern": re.compile(
          r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.25_2030_free_(\d+)\.nc$"),
-     "color": "#e8b13d"},
+     "color": "#f1c542"},
     {"key": "m1.5",
      "pattern": re.compile(
          r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.5_2030_free_(\d+)\.nc$"),
-     "color": "#dd6a2b"},
+     "color": "#e08537"},
     {"key": "m1.75",
      "pattern": re.compile(
          r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m1\.75_2030_free_(\d+)\.nc$"),
-     "color": "#b62020"},
+     "color": "#c42c2c"},
+    {"key": "m2.0",
+     "pattern": re.compile(
+         r"^base_s_50_lv1.25_3H-T-H-B-I-A-dist1-gas\+Generator\+m2\.0_2030_free_(\d+)\.nc$"),
+     "color": "#7a0f1a"},
 ]
 
 
@@ -68,6 +74,39 @@ def total_cost_be(n):
 def gas_marginal_cost(n):
     g = n.generators[n.generators.carrier == "gas"]
     return float(g.marginal_cost.mean()) if not g.empty else np.nan
+
+
+def load_cache():
+    if CACHE_PATH.exists():
+        return json.loads(CACHE_PATH.read_text())
+    return {}
+
+
+def save_cache(cache):
+    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CACHE_PATH.write_text(json.dumps(cache, indent=2, sort_keys=True))
+
+
+def get_metrics(p, cache):
+    """Return (cost_BEUR, gas_price) for network at path `p`, using cache.
+    Cache key is the filename; invalidates on (mtime, size) change.
+    """
+    st = p.stat()
+    entry = cache.get(p.name)
+    if entry and entry["mtime"] == st.st_mtime and entry["size"] == st.st_size:
+        return entry["cost_BEUR"], entry["gas_price"]
+    print(f"  loading {p.name}")
+    n = pypsa.Network(p)
+    cost = float(total_cost_be(n))
+    gp_raw = gas_marginal_cost(n)
+    gp = None if np.isnan(gp_raw) else float(gp_raw)
+    cache[p.name] = {
+        "mtime": st.st_mtime,
+        "size": st.st_size,
+        "cost_BEUR": cost,
+        "gas_price": gp,
+    }
+    return cost, gp
 
 
 def discover_wiggles(pattern):
@@ -139,7 +178,9 @@ if not common:
         f"variant before this figure can be built."
     )
 
-# --- load networks ---
+# --- load networks (cached on (mtime, size)) ---
+cache = load_cache()
+n_before = len(cache)
 results = {}
 for sw in SWEEPS:
     wiggles, costs = [], []
@@ -148,12 +189,11 @@ for sw in SWEEPS:
         for p in NET_DIR.iterdir():
             m = sw["pattern"].match(p.name)
             if m and int(m.group(1)) == w:
-                print(f"Loading {sw['key']:6s} wiggle={w}")
-                n = pypsa.Network(p)
+                cost, gp = get_metrics(p, cache)
                 wiggles.append(w)
-                costs.append(total_cost_be(n))
-                if gas_price is None:
-                    gas_price = gas_marginal_cost(n)
+                costs.append(cost)
+                if gas_price is None and gp is not None:
+                    gas_price = gp
                 break
     results[sw["key"]] = dict(
         wiggles=np.asarray(wiggles, float),
@@ -163,6 +203,10 @@ for sw in SWEEPS:
     )
     print(f"  {sw['key']}: gas price = {gas_price:.1f} EUR/MWh, "
           f"n = {len(wiggles)}")
+
+save_cache(cache)
+print(f"cache: {len(cache) - n_before} new, {n_before} reused "
+      f"(at {CACHE_PATH.relative_to(ROOT)})")
 
 # --- data-driven y bounds ---
 all_costs = np.concatenate([results[sw["key"]]["costs"] for sw in SWEEPS])
@@ -246,22 +290,24 @@ if len(np.unique(mx)) == len(mx):
                         linestyles="--", zorder=5)
     ax.add_collection(lc)
 
-    ax.text(1100, line(1100) + 0.04 * y_range,
+    ax.text(1100, line(1100) - 0.02 * y_range,
             "cost-optimal gas use",
             color="black", fontsize=9, fontweight="bold",
             ha="left", va="center", alpha=1.0, zorder=10,
             bbox=dict(boxstyle="round,pad=0.25", facecolor="white",
                       edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
-for xv, label, dx in [
-    (2000, "Autarky\n(2000 TWh)", -40),
-    (2750, "No-LNG\n(2750 TWh)",  40),
+for xv, label, ha, side in [
+    (2000, "Autarky\n(2000 TWh)", "right", -1),
+    (2750, "No-LNG\n(2750 TWh)",  "left",   1),
 ]:
     ax.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
-    ax.text(xv + dx, y_hi + 0.015 * y_range, label,
-            color="black", alpha=0.85, fontsize=9,
-            ha="center", va="bottom", linespacing=0.95,
-            zorder=10, clip_on=False)
+    ax.text(xv + side * 70, y_hi - 0.03 * y_range - 10, label,
+            color="black", alpha=0.95, fontsize=9,
+            ha=ha, va="top", linespacing=0.95,
+            zorder=10,
+            bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                      edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
 ax.set_xlabel("Gas Consumption [TWh/a]")
 ax.set_ylabel("Total system cost [B €]")
