@@ -16,6 +16,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import pypsa
 from matplotlib.collections import LineCollection
 from scipy.interpolate import CubicSpline
@@ -28,6 +29,7 @@ NET_DIR = ROOT / "results" / "networks"
 IMG_DIR = Path.cwd().parent / "gas_resilience" / "imgs"
 IMG_DIR.mkdir(parents=True, exist_ok=True)
 CACHE_PATH = Path(__file__).resolve().parent / ".cache" / "cost_vs_gas_consumption.json"
+CACHE_VERSION = 6  # bump to invalidate cache on schema changes
 
 WIGGLE_MAX = 4000
 FIT_DEGREE = 6  # 7 coeffs vs ~9 data points => near-interpolation
@@ -71,15 +73,66 @@ def total_cost_be(n):
     return (capex.sum() + opex.sum()) / 1e9
 
 
+def co2_ets_cost_be(n):
+    """Total capex + opex of components with carrier 'co2-ets' (excluded
+    from total_cost_be) in B EUR."""
+    capex = n.statistics.capex()
+    opex = n.statistics.opex()
+    capex = capex[capex.index.get_level_values("carrier") == "co2-ets"]
+    opex = opex[opex.index.get_level_values("carrier") == "co2-ets"]
+    return (capex.sum() + opex.sum()) / 1e9
+
+
 def gas_marginal_cost(n):
     g = n.generators[n.generators.carrier == "gas"]
     return float(g.marginal_cost.mean()) if not g.empty else np.nan
 
 
+def co2_price_eur_per_t(n):
+    """Carbon price (~100 €/t). co2-ets generators store this as marginal_cost with
+    negative sign by PyPSA-Eur convention, so take the absolute value."""
+    g = n.generators[n.generators.carrier == "co2-ets"]
+    return abs(float(g.marginal_cost.mean())) if not g.empty else np.nan
+
+
+def gas_co2_intensity_t_per_MWh(n):
+    """t CO2 / MWh_th of pure gas combustion (~0.198). Read from OCGT.efficiency2
+    (bus2 = 'co2 atmosphere') — canonical reference, no carbon capture.
+    """
+    ocgt = n.links[n.links.carrier == "OCGT"]
+    return float(ocgt.efficiency2.iloc[0]) if not ocgt.empty else np.nan
+
+
+def gas_avg_marginal_price(n):
+    """Withdrawal-weighted average marginal_price at carrier='gas' buses.
+    Gas buses are consumed by Links (bus0=gas bus), so weight by Link p0.
+    """
+    gas_buses = n.buses.index[n.buses.carrier == "gas"]
+    gas_buses = gas_buses.intersection(n.buses_t.marginal_price.columns)
+    if gas_buses.empty:
+        return np.nan
+    prices = n.buses_t.marginal_price[gas_buses]
+    weights_t = n.snapshot_weightings.generators
+    consuming = n.links[n.links.bus0.isin(gas_buses)]
+    load_ts = pd.DataFrame(0.0, index=n.snapshots, columns=gas_buses)
+    for ln, row in consuming.iterrows():
+        if ln in n.links_t.p0.columns:
+            load_ts[row.bus0] += n.links_t.p0[ln]
+    num = (prices * load_ts).multiply(weights_t, axis=0).sum().sum()
+    den = load_ts.multiply(weights_t, axis=0).sum().sum()
+    return float(num / den) if den > 0 else np.nan
+
+
+def _none_if_nan(x):
+    return None if (x is None or np.isnan(x)) else float(x)
+
+
 def load_cache():
     if CACHE_PATH.exists():
-        return json.loads(CACHE_PATH.read_text())
-    return {}
+        data = json.loads(CACHE_PATH.read_text())
+        if data.get("version") == CACHE_VERSION:
+            return data
+    return {"version": CACHE_VERSION, "entries": {}}
 
 
 def save_cache(cache):
@@ -88,25 +141,28 @@ def save_cache(cache):
 
 
 def get_metrics(p, cache):
-    """Return (cost_BEUR, gas_price) for network at path `p`, using cache.
-    Cache key is the filename; invalidates on (mtime, size) change.
+    """Return cached record for network at `p`, recomputing on (mtime, size) change.
+    Record contains: cost_BEUR, gas_marginal_cost, gas_marginal_price.
     """
+    entries = cache["entries"]
     st = p.stat()
-    entry = cache.get(p.name)
+    entry = entries.get(p.name)
     if entry and entry["mtime"] == st.st_mtime and entry["size"] == st.st_size:
-        return entry["cost_BEUR"], entry["gas_price"]
+        return entry
     print(f"  loading {p.name}")
     n = pypsa.Network(p)
-    cost = float(total_cost_be(n))
-    gp_raw = gas_marginal_cost(n)
-    gp = None if np.isnan(gp_raw) else float(gp_raw)
-    cache[p.name] = {
+    rec = {
         "mtime": st.st_mtime,
         "size": st.st_size,
-        "cost_BEUR": cost,
-        "gas_price": gp,
+        "cost_BEUR": float(total_cost_be(n)),
+        "co2_ets_cost_BEUR": float(co2_ets_cost_be(n)),
+        "gas_marginal_cost": _none_if_nan(gas_marginal_cost(n)),
+        "gas_marginal_price": _none_if_nan(gas_avg_marginal_price(n)),
+        "co2_price_EUR_per_t": _none_if_nan(co2_price_eur_per_t(n)),
+        "gas_co2_intensity_t_per_MWh": _none_if_nan(gas_co2_intensity_t_per_MWh(n)),
     }
-    return cost, gp
+    entries[p.name] = rec
+    return rec
 
 
 def discover_wiggles(pattern):
@@ -180,7 +236,7 @@ if not common:
 
 # --- load networks (cached on (mtime, size)) ---
 cache = load_cache()
-n_before = len(cache)
+n_before = len(cache["entries"])
 results = {}
 for sw in SWEEPS:
     wiggles, costs = [], []
@@ -189,11 +245,11 @@ for sw in SWEEPS:
         for p in NET_DIR.iterdir():
             m = sw["pattern"].match(p.name)
             if m and int(m.group(1)) == w:
-                cost, gp = get_metrics(p, cache)
+                rec = get_metrics(p, cache)
                 wiggles.append(w)
-                costs.append(cost)
-                if gas_price is None and gp is not None:
-                    gas_price = gp
+                costs.append(rec["cost_BEUR"])
+                if gas_price is None and rec["gas_marginal_cost"] is not None:
+                    gas_price = rec["gas_marginal_cost"]
                 break
     results[sw["key"]] = dict(
         wiggles=np.asarray(wiggles, float),
@@ -205,121 +261,166 @@ for sw in SWEEPS:
           f"n = {len(wiggles)}")
 
 save_cache(cache)
-print(f"cache: {len(cache) - n_before} new, {n_before} reused "
+n_after = len(cache["entries"])
+print(f"cache v{CACHE_VERSION}: {n_after - n_before} new, {n_before} reused "
       f"(at {CACHE_PATH.relative_to(ROOT)})")
 
-# --- data-driven y bounds ---
-all_costs = np.concatenate([results[sw["key"]]["costs"] for sw in SWEEPS])
-y_lo = float(all_costs.min()) - 5.0
-y_hi = float(all_costs.max()) + 12.0  # headroom for autarky / no-LNG labels
-y_range = y_hi - y_lo
+# --- carbon adder for the upper panel: wiggle * carbon_price * gas_intensity ---
+co2_prices = [e["co2_price_EUR_per_t"] for e in cache["entries"].values()
+              if e.get("co2_price_EUR_per_t") is not None]
+gas_intens = [e["gas_co2_intensity_t_per_MWh"] for e in cache["entries"].values()
+              if e.get("gas_co2_intensity_t_per_MWh") is not None]
+co2_price = float(np.mean(co2_prices))
+gas_intensity = float(np.mean(gas_intens))
+print(f"carbon price: {co2_price:.2f} €/t  |  gas intensity: {gas_intensity:.4f} t/MWh"
+      f"  =>  adder slope: {co2_price * gas_intensity / 1000:.4f} B€ per TWh")
 
-# --- plot ---
-fig, ax = plt.subplots(figsize=(7.6, 4.6))
-minima_x, minima_y = [], []
-fits = {}
+results_upper = {}
+for k, r in results.items():
+    adder = r["wiggles"] * co2_price * gas_intensity / 1000.0  # B €/a
+    results_upper[k] = {**r, "costs": r["costs"] + adder}
 
-for sw in SWEEPS:
-    r = results[sw["key"]]
-    if len(r["wiggles"]) < 3:
-        continue
-    print(f"Fitting {sw['key']} ...")
-    curve = make_curve(r["wiggles"], r["costs"])
-    x_dense = np.linspace(r["wiggles"].min(), r["wiggles"].max(), 600)
-    y_dense = curve(x_dense)
-    ax.plot(x_dense, y_dense, color=r["color"], lw=2.4, zorder=3)
-    ax.scatter(r["wiggles"], r["costs"], color=r["color"],
-               s=22, zorder=4, edgecolor="white", linewidth=0.7)
 
-    res = minimize_scalar(
-        curve, bounds=(r["wiggles"].min(), r["wiggles"].max()),
-        method="bounded",
-    )
-    mx, my = float(res.x), float(res.fun)
-    minima_x.append(mx)
-    minima_y.append(my)
-    fits[sw["key"]] = {
-        "x_TWh_dense": x_dense.tolist(),
-        "y_BEUR_dense": y_dense.tolist(),
-        "minimum": {"x_TWh": mx, "y_BEUR": my},
-    }
-    ax.scatter([mx], [my], color=r["color"], s=85, zorder=6,
-               edgecolor="black", linewidth=1.1)
-    ax.plot([mx, mx], [y_lo, my], color="red",
-            alpha=0.25, lw=0.8, zorder=2)
+def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0)):
+    """Plot one panel; returns (minima_x, minima_y, fits).
+    label_offset shifts the minima-line label by (dx_TWh, dy_BEUR)."""
+    y_range = y_hi - y_lo
+    minima_x, minima_y = [], []
+    fits_local = {}
+    for sw in SWEEPS:
+        r = results_dict[sw["key"]]
+        if len(r["wiggles"]) < 3:
+            continue
+        print(f"Fitting {sw['key']:6s} ({minima_label}) ...")
+        curve = make_curve(r["wiggles"], r["costs"])
+        x_dense = np.linspace(r["wiggles"].min(), r["wiggles"].max(), 600)
+        y_dense = curve(x_dense)
+        ax.plot(x_dense, y_dense, color=r["color"], lw=2.4, zorder=3)
+        ax.scatter(r["wiggles"], r["costs"], color=r["color"],
+                   s=22, zorder=4, edgecolor="white", linewidth=0.7)
 
-    x_end = r["wiggles"].max()
-    y_end = float(curve(x_end))
-    ax.text(x_end, y_end + 0.5, f"{r['gas_price']:.1f}\n€/MWh",
-            color=r["color"], va="bottom", ha="right",
-            fontsize=9, fontweight="bold",
-            linespacing=0.95)
+        opt = minimize_scalar(
+            curve, bounds=(r["wiggles"].min(), r["wiggles"].max()),
+            method="bounded",
+        )
+        mx_, my_ = float(opt.x), float(opt.fun)
+        minima_x.append(mx_)
+        minima_y.append(my_)
+        fits_local[sw["key"]] = {
+            "x_TWh_dense": x_dense.tolist(),
+            "y_BEUR_dense": y_dense.tolist(),
+            "minimum": {"x_TWh": mx_, "y_BEUR": my_},
+        }
+        ax.scatter([mx_], [my_], color=r["color"], s=85, zorder=6,
+                   edgecolor="black", linewidth=1.1)
+        ax.plot([mx_, mx_], [y_lo, my_], color="red",
+                alpha=0.25, lw=0.8, zorder=2)
 
-# --- dashed connector through minima ---
-mx = np.array(minima_x)
-my = np.array(minima_y)
-ord_ = np.argsort(mx)
-mx, my = mx[ord_], my[ord_]
-if len(np.unique(mx)) == len(mx):
-    slope, intercept = np.polyfit(mx, my, 1)
-    line = lambda xv: slope * xv + intercept
-    fade_len = 700.0
-    x_start = max(0.0, mx.min() - fade_len)
-    x_end = min(WIGGLE_MAX, mx.max() + fade_len)
-    x_line = np.linspace(x_start, x_end, 400)
-    y_line = line(x_line)
+        x_end = r["wiggles"].max()
+        y_end = float(curve(x_end))
+        ax.text(x_end, y_end + 0.5, f"{r['gas_price']:.1f}\n€/MWh",
+                color=r["color"], va="bottom", ha="right",
+                fontsize=9, fontweight="bold",
+                linespacing=0.95)
 
-    alpha = np.ones_like(x_line)
-    left_mask = x_line < mx.min()
-    right_mask = x_line > mx.max()
-    alpha[left_mask] = np.clip(
-        (x_line[left_mask] - (mx.min() - fade_len)) / fade_len, 0.05, 1.0
-    )
-    alpha[right_mask] = np.clip(
-        ((mx.max() + fade_len) - x_line[right_mask]) / fade_len, 0.05, 1.0
-    )
+    # dashed connector through minima
+    mxa = np.array(minima_x)
+    mya = np.array(minima_y)
+    ord_ = np.argsort(mxa)
+    mxa, mya = mxa[ord_], mya[ord_]
+    if len(np.unique(mxa)) == len(mxa):
+        slope, intercept = np.polyfit(mxa, mya, 1)
+        line_fn = lambda xv: slope * xv + intercept
+        fade_len = 700.0
+        x_start = max(0.0, mxa.min() - fade_len)
+        x_end_ = min(WIGGLE_MAX, mxa.max() + fade_len)
+        x_line = np.linspace(x_start, x_end_, 400)
+        y_line = line_fn(x_line)
 
-    segs = np.stack([np.column_stack([x_line[:-1], y_line[:-1]]),
-                     np.column_stack([x_line[1:], y_line[1:]])], axis=1)
-    seg_alpha = (alpha[:-1] + alpha[1:]) / 2
-    seg_colors = np.column_stack([
-        np.zeros(len(seg_alpha)), np.zeros(len(seg_alpha)),
-        np.zeros(len(seg_alpha)), seg_alpha,
-    ])
-    lc = LineCollection(segs, colors=seg_colors, linewidths=1.5,
-                        linestyles="--", zorder=5)
-    ax.add_collection(lc)
+        alpha = np.ones_like(x_line)
+        left_mask = x_line < mxa.min()
+        right_mask = x_line > mxa.max()
+        alpha[left_mask] = np.clip(
+            (x_line[left_mask] - (mxa.min() - fade_len)) / fade_len, 0.05, 1.0
+        )
+        alpha[right_mask] = np.clip(
+            ((mxa.max() + fade_len) - x_line[right_mask]) / fade_len, 0.05, 1.0
+        )
 
-    ax.text(1100, line(1100) - 0.02 * y_range,
-            "cost-optimal gas use",
-            color="black", fontsize=9, fontweight="bold",
-            ha="left", va="center", alpha=1.0, zorder=10,
-            bbox=dict(boxstyle="round,pad=0.25", facecolor="white",
-                      edgecolor="0.4", linewidth=0.8, alpha=1.0))
+        segs = np.stack([np.column_stack([x_line[:-1], y_line[:-1]]),
+                         np.column_stack([x_line[1:], y_line[1:]])], axis=1)
+        seg_alpha = (alpha[:-1] + alpha[1:]) / 2
+        seg_colors = np.column_stack([
+            np.zeros(len(seg_alpha)), np.zeros(len(seg_alpha)),
+            np.zeros(len(seg_alpha)), seg_alpha,
+        ])
+        lc = LineCollection(segs, colors=seg_colors, linewidths=1.5,
+                            linestyles="--", zorder=5)
+        ax.add_collection(lc)
 
+        label_x = 1100 + label_offset[0]
+        label_y = line_fn(label_x) - 0.02 * y_range + label_offset[1]
+        ax.text(label_x, label_y,
+                minima_label,
+                color="black", fontsize=9, fontweight="bold",
+                ha="left", va="center", alpha=1.0, zorder=10,
+                bbox=dict(boxstyle="round,pad=0.25", facecolor="white",
+                          edgecolor="0.4", linewidth=0.8, alpha=1.0))
+
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.yaxis.grid(True, alpha=0.3)
+    ax.set_axisbelow(True)
+    ax.set_xlim(0, 4050)
+    ax.set_ylim(y_lo, y_hi)
+    ax.set_xticks(common)
+    ax.set_xticklabels([str(w) for w in common])
+    return minima_x, minima_y, fits_local
+
+
+# --- data-driven y bounds per panel ---
+all_lower = np.concatenate([results[sw["key"]]["costs"] for sw in SWEEPS])
+all_upper = np.concatenate([results_upper[sw["key"]]["costs"] for sw in SWEEPS])
+y_lo_b = float(all_lower.min()) - 5.0
+y_hi_b = float(all_lower.max()) + 12.0
+y_lo_t = float(all_upper.min()) - 5.0
+y_hi_t = float(all_upper.max()) + 12.0
+
+fig, (ax_top, ax_bot) = plt.subplots(2, 1, sharex=True, figsize=(7.6, 9.0))
+top_mx, top_my, top_fits = plot_panel(
+    ax_top, results_upper, "market equilibrium", y_lo_t, y_hi_t,
+    label_offset=(-500, 0),
+)
+bot_mx, bot_my, bot_fits = plot_panel(
+    ax_bot, results, "welfare optimum", y_lo_b, y_hi_b,
+)
+fits = bot_fits
+minima_x, minima_y = bot_mx, bot_my
+
+# Autarky / No-LNG vlines on both panels; framed labels only at top of upper
+for ax_ in (ax_top, ax_bot):
+    for xv in (2000, 2750):
+        ax_.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
+
+y_range_t = y_hi_t - y_lo_t
 for xv, label, ha, side in [
     (2000, "Autarky\n(2000 TWh)", "right", -1),
     (2750, "No-LNG\n(2750 TWh)",  "left",   1),
 ]:
-    ax.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
-    ax.text(xv + side * 70, y_hi - 0.03 * y_range - 10, label,
-            color="black", alpha=0.95, fontsize=9,
-            ha=ha, va="top", linespacing=0.95,
-            zorder=10,
-            bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                      edgecolor="0.4", linewidth=0.8, alpha=1.0))
+    ax_top.text(xv + side * 70, y_hi_t - 0.03 * y_range_t - 10, label,
+                color="black", alpha=0.95, fontsize=9,
+                ha=ha, va="top", linespacing=0.95,
+                zorder=10,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                          edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
-ax.set_xlabel("Gas Consumption [TWh/a]")
-ax.set_ylabel("Total system cost [B €]")
-ax.spines["top"].set_visible(False)
-ax.spines["right"].set_visible(False)
-ax.yaxis.grid(True, alpha=0.3)
-ax.set_axisbelow(True)
+ax_bot.set_xlabel("Gas Consumption [TWh/a]")
+ax_top.set_ylabel("System cost + gas CO₂ ETS payments [B €/a]")
+ax_bot.set_ylabel("System cost [B €/a]")
 
-ax.set_xticks(common)
-ax.set_xticklabels([str(w) for w in common])
-ax.set_xlim(0, 4050)
-ax.set_ylim(y_lo, y_hi)
+for ax_, tag, y in [(ax_top, "a", 0.99), (ax_bot, "b", 1.02)]:
+    ax_.text(-0.08, y, tag, transform=ax_.transAxes,
+             fontsize=20, fontweight="bold", ha="left", va="bottom")
 
 fig.tight_layout()
 out = IMG_DIR / "cost_vs_gas_consumption.pdf"

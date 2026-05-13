@@ -13,7 +13,7 @@
       "battery_breakeven_EUR_per_MWh": 51.322776610740156,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.002859413824252723,
-      "elec_price_avg_EUR_per_MWh": 68.79037081044537,
+      "elec_price_avg_EUR_per_MWh": 77.9836942858394,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 25792,
@@ -122,7 +122,7 @@
       "battery_breakeven_EUR_per_MWh": 51.597970744636655,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.003573593467867554,
-      "elec_price_avg_EUR_per_MWh": 69.08807547504617,
+      "elec_price_avg_EUR_per_MWh": 77.39327994345166,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 25123,
@@ -231,7 +231,7 @@
       "battery_breakeven_EUR_per_MWh": 51.47523975668422,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.007467321933118858,
-      "elec_price_avg_EUR_per_MWh": 68.68128360052881,
+      "elec_price_avg_EUR_per_MWh": 77.0630188884795,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 24665,
@@ -340,7 +340,7 @@
       "battery_breakeven_EUR_per_MWh": 51.2672690047398,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.009806001430752885,
-      "elec_price_avg_EUR_per_MWh": 67.9490274455599,
+      "elec_price_avg_EUR_per_MWh": 76.08944282049663,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 24090,
@@ -449,7 +449,7 @@
       "battery_breakeven_EUR_per_MWh": 51.136026217560634,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.01629094274523258,
-      "elec_price_avg_EUR_per_MWh": 66.59202096800207,
+      "elec_price_avg_EUR_per_MWh": 74.26505970976008,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 23889,
@@ -558,7 +558,7 @@
       "battery_breakeven_EUR_per_MWh": 51.806005480248814,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.04532192246520122,
-      "elec_price_avg_EUR_per_MWh": 66.30141560133582,
+      "elec_price_avg_EUR_per_MWh": 72.26045602822579,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 23969,
@@ -667,7 +667,7 @@
       "battery_breakeven_EUR_per_MWh": 52.02297241641996,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.08682141311305525,
-      "elec_price_avg_EUR_per_MWh": 63.34046929799964,
+      "elec_price_avg_EUR_per_MWh": 68.01409391920716,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 19181,
@@ -776,7 +776,7 @@
       "battery_breakeven_EUR_per_MWh": 50.54320890941377,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.13239834332180403,
-      "elec_price_avg_EUR_per_MWh": 61.464340039013365,
+      "elec_price_avg_EUR_per_MWh": 64.99154600827302,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 16166,
@@ -885,7 +885,7 @@
       "battery_breakeven_EUR_per_MWh": 48.64246671558478,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.1826899496494589,
-      "elec_price_avg_EUR_per_MWh": 58.85462705122156,
+      "elec_price_avg_EUR_per_MWh": 60.872716716450334,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 13008,
@@ -994,7 +994,7 @@
       "battery_breakeven_EUR_per_MWh": 50.49877455254617,
       "ccgt_efficiency": 0.58,
       "gas_share_in_power_mix": 0.23818789501652088,
-      "elec_price_avg_EUR_per_MWh": 55.03163749212903,
+      "elec_price_avg_EUR_per_MWh": 55.61700744251116,
       "supply_buckets_summary": {
         "wind & solar": {
           "n": 7774,

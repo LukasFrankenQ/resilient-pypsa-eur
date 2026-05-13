@@ -347,11 +347,10 @@ def classify_all_vectorised(n, bus):
 
 # ── Withdrawal-weighted AC electricity price ────────────────────────────────
 def weighted_elec_price(n):
-    """Withdrawal-weighted mean AC price. Withdrawals from each AC bus
-    include: direct Loads, p0 of any Link with bus0 = that AC bus (heat
-    pumps, electrolysers, battery chargers, DC links, distribution-grid
-    links — everything that pulls power out of AC) and StorageUnit
-    charging (p_store)."""
+    """Load-weighted mean AC price. Weights are the direct electric Loads
+    on each AC bus (p_set); Link withdrawals (heat pumps, electrolysers,
+    battery chargers, distribution-grid links, etc.) and StorageUnit
+    charging are NOT included."""
     ac_buses = n.buses.index[n.buses.carrier == "AC"]
     if not len(ac_buses):
         return float("nan")
@@ -360,7 +359,6 @@ def weighted_elec_price(n):
 
     wd = pd.DataFrame(0.0, index=n.snapshots, columns=ac_buses)
 
-    # direct Loads
     loads = n.loads[n.loads.bus.isin(ac_buses)]
     for name, row in loads.iterrows():
         bus = row.bus
@@ -368,23 +366,6 @@ def weighted_elec_price(n):
             wd[bus] += n.loads_t.p_set[name].reindex(n.snapshots).fillna(0.0)
         else:
             wd[bus] += float(row.p_set)
-
-    # Link withdrawals (p0 > 0 at AC-side bus0)
-    consumers = n.links[n.links.bus0.isin(ac_buses)]
-    if len(consumers):
-        p0 = n.links_t.p0.reindex(columns=consumers.index,
-                                  index=n.snapshots).fillna(0.0).clip(lower=0.0)
-        for lnk in consumers.index:
-            wd[n.links.at[lnk, "bus0"]] += p0[lnk]
-
-    # StorageUnit charging
-    sus = n.storage_units[n.storage_units.bus.isin(ac_buses)]
-    if len(sus):
-        p_stor = n.storage_units_t.p_store.reindex(
-            columns=sus.index, index=n.snapshots
-        ).fillna(0.0)
-        for su in sus.index:
-            wd[n.storage_units.at[su, "bus"]] += p_stor[su]
 
     total_wd = wd.multiply(w, axis=0).sum().sum()
     if total_wd <= 0:
@@ -458,17 +439,17 @@ def collect_for_wiggle(w):
         if {"classification", "carrier"}.issubset(df.columns):
             gas_price = (float(df["gas_price"].iloc[0])
                          if len(df) else float("nan"))
-            # break-even / CCGT / gas share / withdrawal-weighted avg elec
-            # price — newer caches. "elec_price_wd_avg" supersedes the older
-            # load-weighted "elec_price_avg" column: its absence forces a
-            # recompute with the wider (all-withdrawals) weighting.
+            # break-even / CCGT / gas share / load-weighted avg elec price.
+            # The "elec_price_load_avg" column name supersedes earlier
+            # "elec_price_wd_avg" (withdrawal-weighted) caches: its absence
+            # forces a recompute with the narrower load-only weighting.
             needed = {"battery_breakeven", "ccgt_eff", "gas_share",
-                      "elec_price_wd_avg"}
+                      "elec_price_load_avg"}
             if needed.issubset(df.columns) and len(df):
                 breakeven = float(df["battery_breakeven"].iloc[0])
                 ccgt_eff = float(df["ccgt_eff"].iloc[0])
                 gas_share = float(df["gas_share"].iloc[0])
-                elec_price_avg = float(df["elec_price_wd_avg"].iloc[0])
+                elec_price_avg = float(df["elec_price_load_avg"].iloc[0])
             else:
                 n = _load_network()
                 if n is None:
@@ -479,12 +460,12 @@ def collect_for_wiggle(w):
                 df["battery_breakeven"] = breakeven
                 df["ccgt_eff"] = ccgt_eff
                 df["gas_share"] = gas_share
-                df["elec_price_wd_avg"] = elec_price_avg
+                df["elec_price_load_avg"] = elec_price_avg
                 df.to_parquet(cache, index=False)
                 print(f"  wiggle={w}: break-even={breakeven:.2f}, "
                       f"η_CCGT={ccgt_eff:.3f}, "
                       f"gas_share={gas_share*100:.1f}%, "
-                      f"λ_AC_avg(withdrawal-weighted)="
+                      f"λ_AC_avg(load-weighted)="
                       f"{elec_price_avg:.2f} (cache updated)")
             supply_buckets = _split_supply_by_bucket(df)
             other = {
@@ -533,7 +514,7 @@ def collect_for_wiggle(w):
     cache_df["battery_breakeven"] = breakeven
     cache_df["ccgt_eff"] = ccgt_eff
     cache_df["gas_share"] = gas_share
-    cache_df["elec_price_wd_avg"] = elec_price_avg
+    cache_df["elec_price_load_avg"] = elec_price_avg
     cache_df.to_parquet(cache, index=False)
 
     supply_buckets = _split_supply_by_bucket(df_all)
@@ -839,7 +820,7 @@ def make_plot(results):
     if anchor_250 is not None:
         ep, gp = anchor_250
         ax_sup.annotate(
-            "withdrawal-weighted\nmean AC price",
+            "load-weighted\nmean AC price",
             xy=(ep, gp), xycoords="data",
             xytext=(30, 30), textcoords="offset points",
             fontsize=8, color="#c0001f", ha="left", va="bottom",
@@ -1081,9 +1062,11 @@ def make_plot(results):
                  fontsize=15, fontweight="bold", y=0.985)
 
     # subplot labels
-    ax_sup.text(0.01, 0.99, "a", transform=ax_sup.transAxes,
-                fontsize=16, fontweight="bold", va="top", ha="left",
-                zorder=50)
+    a_trans = offset_copy(ax_sup.transAxes, fig=fig,
+                          x=-10, y=0, units="points")
+    ax_sup.text(0.0, 0.99, "a", transform=a_trans,
+                fontsize=16, fontweight="bold", va="top", ha="right",
+                clip_on=False, zorder=50)
     ax_dis.text(0.99, 0.99, "b", transform=ax_dis.transAxes,
                 fontsize=16, fontweight="bold", va="top", ha="right",
                 zorder=50)
