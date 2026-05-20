@@ -171,6 +171,11 @@ CLASS_DESCRIPTIONS = {
 
 OUT_PLOT = "price_setting_marginal_price_distribution.pdf"
 XLIM = (0.0, 225.0)
+# Supply panel extends below 0 so that near-zero VRE violins are fully visible.
+SUP_XLIM = (-5.0, XLIM[1])
+# Gaussian jitter added to wind & solar samples for display only (otherwise
+# their λ ≈ 0 cluster collapses to an invisible spike).
+VRE_DISPLAY_JITTER = 2.5
 DENSITY_CUTOFF_FRAC = 0.10
 MIN_SPREAD_PILL = 1.5            # EUR/MWh — below this width, use a pill
 PILL_HALF_WIDTH = 1.2            # half-width of pill in EUR/MWh
@@ -748,10 +753,6 @@ def make_plot(results):
     # Within a wiggle's row, draw each bucket's violin on top of the same y,
     # largest-count bucket in the back so smaller ones stay visible.
     rng = np.random.default_rng(42)
-    VRE_DISPLAY_JITTER = 2.5      # EUR/MWh Gaussian jitter, visual only
-    # Left axis extends below zero so that VRE violins, jittered around 0,
-    # can show both sides of the near-zero cluster.
-    SUP_XLIM = (-5.0, XLIM[1])
     for r in results:
         gp = r["gas_price"]
         if not np.isfinite(gp):
@@ -1100,21 +1101,83 @@ if __name__ == "__main__":
 
     print(f"\nCollected {len(results)} wiggles. Plotting…")
 
-    def _summarise(arr):
+    def _violin_shape(arr, xlim=XLIM, jitter_std=None, grid=200):
+        """Return the geometry the plot's _draw_shape would render for `arr`.
+
+        Mirrors _kde_violin_poly / _draw_shape: clip to xlim, take the
+        0.5–99.5 percentile band, fall back to a 'pill' when narrower than
+        MIN_SPREAD_PILL, otherwise evaluate a Gaussian KDE on a fine grid,
+        normalise so peak density = 1, and apply the same low-density
+        cutoff. Optional `jitter_std` reproduces the visual-only jitter the
+        plot adds to the wind & solar bucket (fixed RNG seed for stability).
+        Returns None if the distribution is too sparse to draw.
+        """
         a = np.asarray(arr, float)
         a = a[np.isfinite(a)]
         if len(a) == 0:
-            return {"n": 0}
+            return None
+        if jitter_std is not None and jitter_std > 0:
+            a = a + np.random.default_rng(42).normal(
+                0, jitter_std, size=a.shape
+            )
+        a = a[(a >= xlim[0]) & (a <= xlim[1])]
+        if len(a) < 5:
+            return None
+        lo = max(xlim[0], float(np.percentile(a, 0.5)))
+        hi = min(xlim[1], float(np.percentile(a, 99.5)))
+        if hi <= lo or hi - lo < MIN_SPREAD_PILL:
+            med = float(np.median(a))
+            return {
+                "kind": "pill",
+                "center": med,
+                "x0": max(xlim[0], med - PILL_HALF_WIDTH),
+                "x1": min(xlim[1], med + PILL_HALF_WIDTH),
+                "half_width": PILL_HALF_WIDTH,
+            }
+        try:
+            kde = gaussian_kde(a)
+        except (np.linalg.LinAlgError, ValueError):
+            return None
+        xs = np.linspace(lo, hi, grid)
+        dens = kde(xs)
+        peak = float(dens.max())
+        if peak <= 0:
+            return None
+        keep = dens >= DENSITY_CUTOFF_FRAC * peak
+        if int(keep.sum()) < 3:
+            return None
+        xs_k = xs[keep]
+        d_k = dens[keep] / peak
+        return {
+            "kind": "kde",
+            "support": [float(lo), float(hi)],
+            "bandwidth": float(kde.factor * float(np.std(a, ddof=1))),
+            "cutoff_frac": DENSITY_CUTOFF_FRAC,
+            "x": [round(float(v), 4) for v in xs_k],
+            "density": [round(float(v), 5) for v in d_k],
+        }
+
+    def _summarise(arr, xlim=XLIM, jitter_std=None):
+        a = np.asarray(arr, float)
+        a = a[np.isfinite(a)]
+        if len(a) == 0:
+            return {"n": 0, "violin": None}
         return {
             "n": int(len(a)),
             "min": float(a.min()),
             "max": float(a.max()),
             "mean": float(a.mean()),
+            "std": float(a.std(ddof=1)) if len(a) > 1 else 0.0,
             "median": float(np.median(a)),
+            "p01": float(np.percentile(a, 1)),
             "p05": float(np.percentile(a, 5)),
+            "p10": float(np.percentile(a, 10)),
             "p25": float(np.percentile(a, 25)),
             "p75": float(np.percentile(a, 75)),
+            "p90": float(np.percentile(a, 90)),
             "p95": float(np.percentile(a, 95)),
+            "p99": float(np.percentile(a, 99)),
+            "violin": _violin_shape(arr, xlim=xlim, jitter_std=jitter_std),
         }
 
     _wiggles_payload = []
@@ -1127,7 +1190,13 @@ if __name__ == "__main__":
             "gas_share_in_power_mix": float(r["gas_share"]),
             "elec_price_avg_EUR_per_MWh": float(r["elec_price_avg"]),
             "supply_buckets_summary": {
-                k: _summarise(v) for k, v in r["supply_buckets"].items()
+                k: _summarise(
+                    v,
+                    xlim=SUP_XLIM,
+                    jitter_std=(VRE_DISPLAY_JITTER if k == "wind & solar"
+                                else None),
+                )
+                for k, v in r["supply_buckets"].items()
             },
             "demand_flex_summary": _summarise(r["demand_flex"]),
             "storage_discharger_summary": _summarise(r["storage_discharger"]),
@@ -1139,6 +1208,17 @@ if __name__ == "__main__":
         "y_label": "Network-wide load-weighted gas price [EUR/MWh]",
         "scenario": SCENARIO,
         "x_range_EUR_per_MWh": list(XLIM),
+        "x_range_supply_EUR_per_MWh": list(SUP_XLIM),
+        "violin_shape_doc": (
+            "Each *_summary entry includes a 'violin' field describing the "
+            "shape drawn in the figure. kind='kde' carries a (x, density) "
+            "curve with peak-normalised density (max=1) over 'support'; the "
+            "frontend scales density to its own half-width (the plot uses "
+            "half = base_half * n / N_max, with N_max the largest n across "
+            "all violins in the figure). kind='pill' is a flat rectangle of "
+            "fixed half-width centred on 'center', used for distributions "
+            "narrower than MIN_SPREAD_PILL EUR/MWh."
+        ),
         "wiggles": _wiggles_payload,
     })
     make_plot(results)
