@@ -7,7 +7,9 @@ monotonically increasing (p'' >= 0) and whose curvature decreases
 (p''' <= 0), i.e. |p''| larger on the left. The curve is flexible
 enough to essentially interpolate all data points. Each curve's
 fitted minimum is marked; the four minima are connected with a
-dashed black cubic spline labelled `cost-optimal gas use`.
+dashed black line. The upper panel shows full system cost incl.
+actual ETS payments (`system cost`); the lower panel shows the
+resource cost with ETS payments excluded (`resource cost`).
 """
 import json
 import re
@@ -239,7 +241,7 @@ cache = load_cache()
 n_before = len(cache["entries"])
 results = {}
 for sw in SWEEPS:
-    wiggles, costs = [], []
+    wiggles, costs, ets_costs = [], [], []
     gas_price = None
     for w in common:
         for p in NET_DIR.iterdir():
@@ -248,12 +250,14 @@ for sw in SWEEPS:
                 rec = get_metrics(p, cache)
                 wiggles.append(w)
                 costs.append(rec["cost_BEUR"])
+                ets_costs.append(rec["co2_ets_cost_BEUR"])
                 if gas_price is None and rec["gas_marginal_cost"] is not None:
                     gas_price = rec["gas_marginal_cost"]
                 break
     results[sw["key"]] = dict(
         wiggles=np.asarray(wiggles, float),
         costs=np.asarray(costs, float),
+        ets_costs=np.asarray(ets_costs, float),
         gas_price=gas_price,
         color=sw["color"],
     )
@@ -265,20 +269,10 @@ n_after = len(cache["entries"])
 print(f"cache v{CACHE_VERSION}: {n_after - n_before} new, {n_before} reused "
       f"(at {CACHE_PATH.relative_to(ROOT)})")
 
-# --- carbon adder for the upper panel: wiggle * carbon_price * gas_intensity ---
-co2_prices = [e["co2_price_EUR_per_t"] for e in cache["entries"].values()
-              if e.get("co2_price_EUR_per_t") is not None]
-gas_intens = [e["gas_co2_intensity_t_per_MWh"] for e in cache["entries"].values()
-              if e.get("gas_co2_intensity_t_per_MWh") is not None]
-co2_price = float(np.mean(co2_prices))
-gas_intensity = float(np.mean(gas_intens))
-print(f"carbon price: {co2_price:.2f} €/t  |  gas intensity: {gas_intensity:.4f} t/MWh"
-      f"  =>  adder slope: {co2_price * gas_intensity / 1000:.4f} B€ per TWh")
-
+# --- upper panel: full system cost incl. actual ETS payments (nothing excluded) ---
 results_upper = {}
 for k, r in results.items():
-    adder = r["wiggles"] * co2_price * gas_intensity / 1000.0  # B €/a
-    results_upper[k] = {**r, "costs": r["costs"] + adder}
+    results_upper[k] = {**r, "costs": r["costs"] + r["ets_costs"]}
 
 
 def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0)):
@@ -388,11 +382,11 @@ y_hi_t = float(all_upper.max()) + 12.0
 
 fig, (ax_top, ax_bot) = plt.subplots(2, 1, sharex=True, figsize=(7.6, 9.0))
 top_mx, top_my, top_fits = plot_panel(
-    ax_top, results_upper, "market equilibrium", y_lo_t, y_hi_t,
+    ax_top, results_upper, "system cost", y_lo_t, y_hi_t,
     label_offset=(-500, 0),
 )
 bot_mx, bot_my, bot_fits = plot_panel(
-    ax_bot, results, "welfare optimum", y_lo_b, y_hi_b,
+    ax_bot, results, "resource cost", y_lo_b, y_hi_b,
 )
 fits = bot_fits
 minima_x, minima_y = bot_mx, bot_my
@@ -415,8 +409,8 @@ for xv, label, ha, side in [
                           edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
 ax_bot.set_xlabel("Gas Consumption [TWh/a]")
-ax_top.set_ylabel("System cost + gas CO₂ ETS payments [B €/a]")
-ax_bot.set_ylabel("System cost [B €/a]")
+ax_top.set_ylabel("System cost [B €/a]")
+ax_bot.set_ylabel("System cost without ETS payments [B €/a]")
 
 for ax_, tag, y in [(ax_top, "a", 0.99), (ax_bot, "b", 1.02)]:
     ax_.text(-0.08, y, tag, transform=ax_.transAxes,
