@@ -275,9 +275,15 @@ for k, r in results.items():
     results_upper[k] = {**r, "costs": r["costs"] + r["ets_costs"]}
 
 
-def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0)):
+def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0),
+               display_minima_x=None, draw_connector=True):
     """Plot one panel; returns (minima_x, minima_y, fits).
-    label_offset shifts the minima-line label by (dx_TWh, dy_BEUR)."""
+    label_offset shifts the minima-line label by (dx_TWh, dy_BEUR).
+    display_minima_x: optional {sweep_key: x_TWh} to place the minimum markers
+    at a fixed x (evaluated on this panel's own curve) instead of the true
+    optimum — used to align the lower panel's markers with the upper panel.
+    draw_connector: when False, omit the dashed line through the minima and its
+    label."""
     y_range = y_hi - y_lo
     minima_x, minima_y = [], []
     fits_local = {}
@@ -305,9 +311,16 @@ def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0)):
             "y_BEUR_dense": y_dense.tolist(),
             "minimum": {"x_TWh": mx_, "y_BEUR": my_},
         }
-        ax.scatter([mx_], [my_], color=r["color"], s=85, zorder=6,
+        # marker position; optionally aligned to another panel's minima x
+        if display_minima_x is not None and sw["key"] in display_minima_x:
+            dx_ = float(np.clip(display_minima_x[sw["key"]],
+                                r["wiggles"].min(), r["wiggles"].max()))
+            dy_ = float(curve(dx_))
+        else:
+            dx_, dy_ = mx_, my_
+        ax.scatter([dx_], [dy_], color=r["color"], s=85, zorder=6,
                    edgecolor="black", linewidth=1.1)
-        ax.plot([mx_, mx_], [y_lo, my_], color="red",
+        ax.plot([dx_, dx_], [y_lo, dy_], color="red",
                 alpha=0.25, lw=0.8, zorder=2)
 
         x_end = r["wiggles"].max()
@@ -322,7 +335,7 @@ def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0)):
     mya = np.array(minima_y)
     ord_ = np.argsort(mxa)
     mxa, mya = mxa[ord_], mya[ord_]
-    if len(np.unique(mxa)) == len(mxa):
+    if draw_connector and len(np.unique(mxa)) == len(mxa):
         slope, intercept = np.polyfit(mxa, mya, 1)
         line_fn = lambda xv: slope * xv + intercept
         fade_len = 700.0
@@ -380,21 +393,16 @@ y_hi_b = float(all_lower.max()) + 12.0
 y_lo_t = float(all_upper.min()) - 5.0
 y_hi_t = float(all_upper.max()) + 12.0
 
-fig, (ax_top, ax_bot) = plt.subplots(2, 1, sharex=True, figsize=(7.6, 9.0))
+fig, ax_top = plt.subplots(figsize=(7.6, 5.2))
 top_mx, top_my, top_fits = plot_panel(
-    ax_top, results_upper, "system cost", y_lo_t, y_hi_t,
-    label_offset=(-500, 0),
+    ax_top, results_upper, "long-term market\nequilibrium", y_lo_t, y_hi_t,
+    label_offset=(-400, -10),
 )
-bot_mx, bot_my, bot_fits = plot_panel(
-    ax_bot, results, "resource cost", y_lo_b, y_hi_b,
-)
-fits = bot_fits
-minima_x, minima_y = bot_mx, bot_my
+fits = top_fits
+minima_x, minima_y = top_mx, top_my
 
-# Autarky / No-LNG vlines on both panels; framed labels only at top of upper
-for ax_ in (ax_top, ax_bot):
-    for xv in (2000, 2750):
-        ax_.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
+for xv in (2000, 2750):
+    ax_top.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
 
 y_range_t = y_hi_t - y_lo_t
 for xv, label, ha, side in [
@@ -408,18 +416,81 @@ for xv, label, ha, side in [
                 bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                           edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
-ax_bot.set_xlabel("Gas Consumption [TWh/a]")
+ax_top.set_xlabel("Total Net Gas Consumption [TWh/a]")
 ax_top.set_ylabel("System cost [B €/a]")
-ax_bot.set_ylabel("System cost without ETS payments [B €/a]")
-
-for ax_, tag, y in [(ax_top, "a", 0.99), (ax_bot, "b", 1.02)]:
-    ax_.text(-0.08, y, tag, transform=ax_.transAxes,
-             fontsize=20, fontweight="bold", ha="left", va="bottom")
 
 fig.tight_layout()
 out = IMG_DIR / "cost_vs_gas_consumption.pdf"
 fig.savefig(out, bbox_inches="tight")
 print(f"\nwrote {out}")
+
+# --- annotated single-panel version (upper panel only) ---
+fig2, ax2 = plt.subplots(figsize=(8.6, 5.2))
+_, _, top_fits2 = plot_panel(
+    ax2, results_upper, "long-term market\nequilibrium", y_lo_t, y_hi_t,
+    label_offset=(-400, -10),
+)
+
+for xv in (2000, 2750):
+    ax2.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
+for xv, label, ha, side in [
+    (2000, "Autarky\n(2000 TWh)", "right", -1),
+    (2750, "No-LNG\n(2750 TWh)",  "left",   1),
+]:
+    ax2.text(xv + side * 70, y_hi_t - 0.03 * y_range_t - 10, label,
+             color="black", alpha=0.95, fontsize=9,
+             ha=ha, va="top", linespacing=0.95,
+             zorder=10,
+             bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                       edgecolor="0.4", linewidth=0.8, alpha=1.0))
+
+# rightmost curve endpoints for the highest (m2.0, ~49.1 €/MWh) and
+# lowest (base, ~24.6 €/MWh) gas-price sweeps
+_r_high = results_upper["m2.0"]
+_r_low = results_upper["base"]
+_curve_high = make_curve(_r_high["wiggles"], _r_high["costs"])
+_curve_low = make_curve(_r_low["wiggles"], _r_low["costs"])
+_x_right_high = float(_r_high["wiggles"].max())
+_y_right_high = float(_curve_high(_x_right_high))
+_x_right_low = float(_r_low["wiggles"].max())
+_y_right_low = float(_curve_low(_x_right_low))
+
+x_arrow = max(_x_right_high, _x_right_low) + 80.0
+ax2.set_xlim(0, 4150)
+
+# arrow 1: rightmost of 49.1 line down to rightmost of 24.6 line
+ax2.annotate("", xy=(x_arrow, _y_right_low), xytext=(x_arrow, _y_right_high),
+             arrowprops=dict(arrowstyle="->", color="black", lw=1.6,
+                             shrinkA=4, shrinkB=4),
+             zorder=8)
+_arrow1_len = _y_right_high - _y_right_low
+ax2.text(x_arrow + 60, (_y_right_high + _y_right_low) / 2,
+         f"welfare loss due to\noligolopolistic\nrent payments\n(here {_arrow1_len:.0f} bn€/a)",
+         ha="left", va="center", fontsize=9, linespacing=1.1, zorder=8)
+
+# arrow 2: rightmost of 24.6 line down to long-term market equilibrium of base
+_y_min_low = top_fits2["base"]["minimum"]["y_BEUR"]
+_x_min_low = top_fits2["base"]["minimum"]["x_TWh"]
+ax2.annotate("", xy=(x_arrow, _y_min_low), xytext=(x_arrow, _y_right_low),
+             arrowprops=dict(arrowstyle="->", color="black", lw=1.6,
+                             shrinkA=4, shrinkB=4),
+             zorder=8)
+_arrow2_len = _y_right_low - _y_min_low
+ax2.text(x_arrow + 60, (_y_right_low + _y_min_low) / 2,
+         f"system inefficiency\nwelfare loss\n(here {_arrow2_len:.0f} bn€/a)",
+         ha="left", va="center", fontsize=9, linespacing=1.1, zorder=8)
+
+# thin dashed line from the tip of arrow 2 leftward to the base minimum
+ax2.plot([_x_min_low, x_arrow], [_y_min_low, _y_min_low],
+         color="black", linestyle="--", lw=0.8, alpha=0.6, zorder=2)
+
+ax2.set_xlabel("Total Net Gas Consumption [TWh/a]")
+ax2.set_ylabel("System cost [B €/a]")
+
+fig2.tight_layout()
+out2 = IMG_DIR / "cost_vs_gas_consumption_annotated.pdf"
+fig2.savefig(out2, bbox_inches="tight")
+print(f"wrote {out2}")
 
 _sweeps_payload = {}
 for sw in SWEEPS:
@@ -439,7 +510,7 @@ for sw in SWEEPS:
     _sweeps_payload[sw["key"]] = _entry
 
 export_frontend_data("cost_vs_gas_consumption", {
-    "x_label": "Gas Consumption [TWh/a]",
+    "x_label": "Total Net Gas Consumption [TWh/a]",
     "y_label": "Total system cost [B €]",
     "common_wiggles_TWh": list(common),
     "sweeps": _sweeps_payload,

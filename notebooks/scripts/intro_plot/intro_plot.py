@@ -1141,6 +1141,22 @@ for i, row in _supply_sorted.iterrows():
                     weight='medium')
     bottom += value
 
+# -----------------------------------------------------------------------------
+# Threshold lines on top of the bars: No-LNG (2750 TWh) and Autarky (2000 TWh).
+# Framed labels float to the left and may overlap the map (clip_on=False).
+# -----------------------------------------------------------------------------
+# Left end pulled past the axis spine so labels + lines shift ~half a label
+# width to the left (over the map); clip_on=False lets them render off-axis.
+_line_x_left = -0.55
+for _y, _lbl in [(2750, "No-LNG"), (2000, "Autarky")]:
+    ax_bar.plot([_line_x_left, 2.55], [_y, _y], color='red', linestyle='--',
+                linewidth=1.3, zorder=6, clip_on=False)
+    ax_bar.text(_line_x_left, _y, _lbl, ha='right', va='center',
+                fontsize=9, color='red', weight='medium',
+                bbox=dict(boxstyle='round,pad=0.3', fc='white',
+                          ec='red', lw=0.8, alpha=0.95),
+                zorder=7, clip_on=False)
+
 '''
 for xi, (vals, colors, texts) in zip(x_positions, all_bars):
     bottom = 0
