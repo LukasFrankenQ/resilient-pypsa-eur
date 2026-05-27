@@ -7504,6 +7504,22 @@ def adjust_heating_capacities(
     rural_peaks = n.loads_t.p_set.loc[:, rural_loads_idx].max()
     rural_peaks.index = eff_p_nom_rural.index
 
+    # Include constant (static p_set) loads sitting on the rural heat bus, e.g.
+    # agriculture heat. Without this, the rescaling under-sizes the existing
+    # fleet by the constant baseload, forcing capacity expansion to cover what
+    # is in fact existing demand.
+    rural_heat_buses = n.buses.index[n.buses.carrier == 'rural heat']
+    static_on_rural = n.loads[
+        n.loads.bus.isin(rural_heat_buses)
+        & ~n.loads.index.isin(n.loads_t.p_set.columns)
+    ].copy()
+    static_on_rural['location'] = static_on_rural.bus.map(n.buses.location)
+    static_baseload = static_on_rural.groupby('location').p_set.sum()
+    rural_peaks = rural_peaks.add(
+        static_baseload.reindex(rural_peaks.index, fill_value=0.0),
+        fill_value=0.0,
+    )
+
     excess_capacity = rural_peaks.div(eff_p_nom_rural.sum(axis=1))
 
     current_p_nom_rural = p_nom_rural.mul(excess_capacity, axis=0)
@@ -7515,12 +7531,16 @@ def adjust_heating_capacities(
         'gas boiler',
         'biomass boiler',
         'oil boiler',
+        'resistive heater',
     ]
 
     for bus in installed.index:
 
         bus_served = False
-        load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
+        load = (
+            n.loads_t.p_set.loc[:, f'{bus} rural heat']
+            + static_baseload.get(bus, 0.0)
+        )
         relative_load = load.div(load.max())
 
         for carrier in rural_carriers:
@@ -7589,7 +7609,10 @@ def adjust_heating_capacities(
 
         def get_rural_dispatch(n, bus):
 
-            load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
+            load = (
+                n.loads_t.p_set.loc[:, f'{bus} rural heat']
+                + static_baseload.get(bus, 0.0)
+            )
             relative_load = load.div(load.max())
 
             ground_hp_dispatch = n.links_t.efficiency.loc[
@@ -7626,7 +7649,10 @@ def adjust_heating_capacities(
 
 
         dispatch = get_rural_dispatch(n, bus)
-        load = n.loads_t.p_set.loc[:, f'{bus} rural heat']
+        load = (
+            n.loads_t.p_set.loc[:, f'{bus} rural heat']
+            + static_baseload.get(bus, 0.0)
+        )
 
         supply_deviation = dispatch.sum(axis=1).div(load, axis=0).replace(np.inf, 0.)
         psd = supply_deviation - 1
@@ -7671,6 +7697,7 @@ def adjust_heating_capacities(
         'gas boiler',
         'biomass boiler',
         'oil boiler',
+        'resistive heater',
     ]
 
     for bus in installed.index:
