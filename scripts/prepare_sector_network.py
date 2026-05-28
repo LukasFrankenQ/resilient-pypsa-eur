@@ -635,7 +635,7 @@ def add_carrier_buses(
         capital_cost=capital_cost,
     )
 
-    fossils = ["coal", "gas", "oil", "lignite"]
+    fossils = ["coal", "gas", "oil", "lignite", "uranium"]
     if options["fossil_fuels"] and carrier in fossils:
         suffix = ""
 
@@ -8239,10 +8239,13 @@ if __name__ == "__main__":
     )
 
     logger.warning('Somewhat ad-hoc setting of conventional capacities')
+    # hold_existing_capacities holds MW_el (from the electricity-only Generators);
+    # the new Links treat p_nom as thermal input, so divide by efficiency.
+    eff_per_link = n.links.loc[hold_existing_capacities.index, "efficiency"]
     n.links.loc[
         hold_existing_capacities.index,
         keeper_columns
-    ] = hold_existing_capacities
+    ] = hold_existing_capacities.div(eff_per_link, axis=0)
 
     add_storage_and_grids(
         n=n,

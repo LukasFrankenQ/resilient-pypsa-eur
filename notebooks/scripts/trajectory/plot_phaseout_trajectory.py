@@ -773,14 +773,6 @@ for (i, ax), vals in zip(
             x_extra = np.array([2024, x_right])
             y_extra = y_2024 + slope_trend * (x_extra - 2024)
             ax.plot(x_extra, y_extra, color='dodgerblue', ls='--', lw=2.2, zorder=3)
-            if i == 0:
-                ax.text(
-                    2027.8, y_2024 + slope_trend * (2027.8 - 2024) + 0.03 * y_max,
-                    'current trend',
-                    fontsize=9, fontweight='bold', color='dodgerblue',
-                    ha='left', va='bottom', rotation=6, zorder=4,
-                    bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='dodgerblue', lw=1, alpha=0.75)
-                )
 
     unit = units[i]
 
@@ -857,8 +849,11 @@ for ax in axs2.flatten():
 
 plt.tight_layout(h_pad=1.8)
 
-fig2.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.5, 1.08),
-            ncol=2, frameon=False, title='Cost Optimal Build-Out for...')
+_leg_build = fig2.legend(
+    handles=handles, loc='lower center', bbox_to_anchor=(0.35, 1.0),
+    ncol=1, frameon=False, title='Cost Optimal Build-Out for...',
+    fontsize=8, title_fontsize=9,
+)
 
 cross_handles2 = [
     plt.Line2D([0], [0], marker='H',
@@ -868,24 +863,40 @@ cross_handles2 = [
                linestyle='None', label=str(fy))
     for fy in [2030, 2035]
 ]
-_autarky_legend = axs2[0, 1].legend(
-    handles=cross_handles2, loc='lower right',
-    ncol=2, fontsize=8, frameon=True, framealpha=0.9,
+_leg_autarky = fig2.legend(
+    handles=cross_handles2, loc='lower center', bbox_to_anchor=(0.50, 1.0),
+    ncol=2, frameon=False, title='Autarky by...',
+    fontsize=8, title_fontsize=9,
     handletextpad=0.4, columnspacing=0.8,
-    title='Autarky by...', title_fontsize=8,
 )
-_autarky_legend._legend_box.align = 'center'
-for _t in _autarky_legend.get_texts():
-    _t.set_ha('center')
 
-axs2[0, 0].text(
-    0.98, 0.02,
-    'Needed rate of deployment\nRelative to current trend',
-    transform=axs2[0, 0].transAxes,
+_solar_upper = max(target_nolng[0], target_autarky[0])
+_ax_a = axs2[0, 0]
+_trans_rate_anchor = mpl.transforms.offset_copy(
+    _ax_a.transData, fig=fig2, x=0, y=32, units='points'
+)
+_trans_pct_anchor = mpl.transforms.offset_copy(
+    _ax_a.transData, fig=fig2, x=0, y=15, units='points'
+)
+_ax_a.annotate(
+    'Needed rate of\ndeployment',
+    xy=(2028, _solar_upper), xycoords=_trans_rate_anchor,
+    xytext=(0.19, 0.62), textcoords=_ax_a.transAxes,
     fontsize=8, fontweight='bold',
-    ha='right', va='bottom', multialignment='center',
-    bbox=dict(boxstyle='round,pad=0.22', fc='white', ec='gray', lw=0.9, alpha=0.95),
-    zorder=12,
+    ha='center', va='center',
+    arrowprops=dict(arrowstyle='->', color='gray', lw=1,
+                    connectionstyle='arc3,rad=-0.18'),
+    zorder=13, annotation_clip=False,
+)
+_ax_a.annotate(
+    'Percentage\nchange',
+    xy=(2029, _solar_upper), xycoords=_trans_pct_anchor,
+    xytext=(0.19, 0.32), textcoords=_ax_a.transAxes,
+    fontsize=8, fontweight='bold',
+    ha='center', va='center',
+    arrowprops=dict(arrowstyle='->', color='gray', lw=1,
+                    connectionstyle='arc3,rad=-0.18'),
+    zorder=13, annotation_clip=False,
 )
 
 for (_r, _c), _y in necp_points.items():
@@ -896,18 +907,39 @@ for (_r, _c), _y in necp_points.items():
         linestyle='None', zorder=11, clip_on=False,
     )
 
-extrap_handle2 = axs2[0, 2].scatter(
+extrap_handle2 = axs2[0, 0].scatter(
     [], [], s=8**2, facecolor='lightgrey', edgecolor='black', linewidth=1.2,
 )
 extrap_handle2.set_linestyle('--')
-_necp_legend = axs2[0, 2].legend(
-    [extrap_handle2, necp_handle], ['extrapolation', 'Aggregate 2030 NECPs'],
-    loc='lower right',
-    fontsize=8, frameon=True, framealpha=0.9,
+current_trend_handle = plt.Line2D(
+    [0], [0], color='dodgerblue', ls='--', lw=2.2, label='current trend',
 )
-_necp_legend._legend_box.align = 'center'
-for _t in _necp_legend.get_texts():
-    _t.set_ha('center')
+_leg_trend = fig2.legend(
+    [current_trend_handle, extrap_handle2, necp_handle],
+    ['current trend', 'extrapolation', 'Aggregate 2030 NECPs'],
+    loc='lower center', bbox_to_anchor=(0.66, 1.0),
+    ncol=1, frameon=False, fontsize=8,
+)
+
+import matplotlib.transforms as _mtransforms
+from matplotlib.patches import FancyBboxPatch as _FancyBboxPatch
+
+fig2.canvas.draw()
+_renderer = fig2.canvas.get_renderer()
+_inv = fig2.transFigure.inverted()
+_union = _mtransforms.Bbox.union([
+    leg.get_window_extent(_renderer).transformed(_inv)
+    for leg in (_leg_build, _leg_autarky, _leg_trend)
+])
+_pad_x, _pad_y = 0.012, 0.008
+_frame = _FancyBboxPatch(
+    (_union.x0 - _pad_x, _union.y0 - _pad_y),
+    _union.width + 2 * _pad_x, _union.height + 2 * _pad_y,
+    boxstyle='round,pad=0.002',
+    transform=fig2.transFigure,
+    fc='white', ec='0.7', lw=0.8, zorder=1,
+)
+fig2.add_artist(_frame)
 
 for (_r, _c), _y in fr_points.items():
     axs2[_r, _c].plot(
@@ -927,10 +959,10 @@ for _ax in (axs2[1, 1], axs2[1, 2]):
 for _i, (_ax, _lbl) in enumerate(zip(axs2.flatten(), ['a', 'b', 'c', 'd', 'e', 'f'])):
     if _i < 3:
         _ax.text(
-            -0.05, 1.05, _lbl,
+            -0.05, -0.05, _lbl,
             transform=_ax.transAxes,
             fontsize=16, fontweight='bold',
-            va='bottom', ha='right', zorder=15,
+            va='top', ha='right', zorder=15,
         )
     else:
         _ax.text(
