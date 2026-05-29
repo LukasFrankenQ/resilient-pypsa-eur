@@ -1625,6 +1625,15 @@ def insert_electricity_distribution_grid(
     rh = n.links.index[n.links.carrier.str.contains("resistive heater")]
     n.links.loc[rh, "bus0"] += " low voltage"
 
+    # industrial heat pumps are already moved via the "heat pump" match above;
+    # put the remaining industry electric heating (electric boilers) on low
+    # voltage too, so all industry electric heating sits on the distribution grid
+    ind_eb = n.links.index[
+        n.links.carrier.str.contains("industry")
+        & n.links.carrier.str.contains("electric boiler")
+    ]
+    n.links.loc[ind_eb, "bus0"] += " low voltage"
+
     mchp = n.links.index[n.links.carrier.str.contains("micro gas")]
     n.links.loc[mchp, "bus1"] += " low voltage"
 
