@@ -880,6 +880,16 @@ sector:
       hydrogen: true
       methane: true
       methane_CC: false
+  # industry electric heating (heat pumps + electric boilers) is kept on the AC/HV
+  # bus rather than the low-voltage distribution bus; this adds a one-off grid
+  # connection capex (per MW_el) directly to that technology's capital cost.
+  industry_electric_grid_connection:
+    enable: true
+    cost: electricity distribution grid  # costs.csv row used for the connection capex
+  # carbon-capture / synthetic-fuel technologies (default off)
+  solid_biomass_for_industry_cc: false  # BECCS on industrial solid-biomass use
+  gas_for_industry_cc: false            # CCS on industrial gas use
+  fischer_tropsch: false                # H2 + CO2 -> synthetic oil
   biomass_to_liquid: true
   biomass_to_liquid_cc: false
   # electrobiofuels: true
