@@ -1501,6 +1501,7 @@ rule prepare_sector_network:
         # ),
         tyndp_capacities=resources('tyndp_capacities_{planning_horizons}.csv'),
         tyndp_figures_data='data/TYNDP_2024-Scenario-Report-Data-Figures_240522.xlsx',
+        nuclear_capacity="data/nuclear_capacity_2030.csv",
         # carrier_mapping="data/tyndp_technology_map.csv",
         existing_heating_distribution=resources(
             "existing_heating_distribution_base_s_{clusters}_{planning_horizons}.csv"

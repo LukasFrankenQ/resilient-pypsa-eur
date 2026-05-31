@@ -1407,6 +1407,75 @@ def add_generation(
         )
 
 
+# Tight band that pins the nuclear fleet to a near-constant ~70% baseload.
+# A narrow window (rather than a single fixed value) is kept for numerical
+# stability of the solver. ~0.70 matches the observed European annual load
+# factor, so enforced nameplate * 0.70 ~= expected annual generation.
+NUCLEAR_P_MIN_PU = 0.695
+NUCLEAR_P_MAX_PU = 0.705
+
+
+def enforce_nuclear_capacity(n, nuclear_capacity_file):
+    """
+    Override nuclear link capacities with externally specified per-country
+    nameplate values and pin their dispatch to a near-constant baseload band.
+
+    The nuclear fleet is represented as uranium->AC links whose ``p_nom`` is a
+    *thermal* input capacity (MW_th = MW_el / efficiency). This function
+
+    1. reads expected 2030/35 nameplate (electrical) capacity per country,
+    2. scales each country's nuclear links so the country electrical total
+       matches the CSV (preserving the existing intra-country distribution),
+    3. fixes ``p_min_pu``/``p_max_pu`` to a tight ~0.70 band so the fleet runs
+       as inflexible baseload (no battery-displacing load-following) and the
+       annual energy total equals ~0.70 * nameplate, in line with the observed
+       European nuclear load factor.
+    """
+    nuc = n.links.index[n.links.carrier == "nuclear"]
+    if not len(nuc):
+        logger.warning("No nuclear links found; skipping capacity enforcement.")
+        return
+
+    target = (
+        pd.read_csv(nuclear_capacity_file, comment="#")
+        .set_index("country")["nameplate_gw"]
+        * 1e3
+    )  # GW_el -> MW_el
+
+    eff = n.links.loc[nuc, "efficiency"]
+    country = n.links.loc[nuc, "bus1"].str[:2]
+    p_nom_el = n.links.loc[nuc, "p_nom"] * eff  # existing electrical capacity
+
+    for c, links in country.groupby(country).groups.items():
+        if c not in target.index:
+            logger.warning(
+                f"Nuclear country {c} not in {nuclear_capacity_file}; left unchanged."
+            )
+            continue
+        existing = p_nom_el.loc[links].sum()
+        if existing <= 0:
+            logger.warning(
+                f"Nuclear country {c} has no existing capacity to scale; skipped."
+            )
+            continue
+        factor = target[c] / existing
+        n.links.loc[links, ["p_nom", "p_nom_min"]] *= factor
+
+    # capacity is now an exogenous (existing-fleet) assumption: fix it and pin
+    # dispatch to the baseload band.
+    n.links.loc[nuc, "p_nom_extendable"] = False
+    n.links.loc[nuc, "p_nom_max"] = n.links.loc[nuc, "p_nom"]
+    n.links.loc[nuc, "p_min_pu"] = NUCLEAR_P_MIN_PU
+    n.links.loc[nuc, "p_max_pu"] = NUCLEAR_P_MAX_PU
+
+    enforced = (n.links.loc[nuc, "p_nom"] * n.links.loc[nuc, "efficiency"]).sum() / 1e3
+    logger.info(
+        f"Enforced nuclear nameplate {enforced:.1f} GW_el at p_min/max_pu "
+        f"[{NUCLEAR_P_MIN_PU},{NUCLEAR_P_MAX_PU}] -> "
+        f"~{enforced * 0.70 * 8760 / 1e3:.0f} TWh/yr expected generation."
+    )
+
+
 def add_ammonia(
     n: pypsa.Network,
     costs: pd.DataFrame,
@@ -8271,6 +8340,10 @@ if __name__ == "__main__":
         hold_existing_capacities.index,
         keeper_columns
     ] = hold_existing_capacities.div(eff_per_link, axis=0)
+
+    # override nuclear with expected 2030/35 per-country nameplate capacity and
+    # pin its dispatch to a ~70% baseload band (see enforce_nuclear_capacity).
+    enforce_nuclear_capacity(n, snakemake.input.nuclear_capacity)
 
     add_storage_and_grids(
         n=n,
