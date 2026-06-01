@@ -48,7 +48,7 @@ from classify_price_setter import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 PAPER_DIR = ROOT.parent / "gas_resilience" / "imgs" / "price_formation"
 SCRIPT_DIR = Path(__file__).resolve().parent
-CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v8"
+CACHE_DIR = SCRIPT_DIR / "cache_storage_vs_gas_v9"
 CACHE_DIR.mkdir(exist_ok=True)
 
 # ── Sweep ────────────────────────────────────────────────────────────────────

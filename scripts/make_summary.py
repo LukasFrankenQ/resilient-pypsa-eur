@@ -78,6 +78,26 @@ def calculate_capacity_factors(n: pypsa.Network) -> pd.Series:
     return n.statistics.capacity_factor(comps=comps).sort_index()
 
 
+def _drop_methanol_store_costs(costs: pd.Series) -> pd.Series:
+    """
+    Zero out the cost of methanol ``Store`` components.
+
+    The methanol store has a near-trivial capital cost (~5.6 EUR/MWh/a), so the
+    LP is effectively flat in the methanol-store dimension. The solver lands on
+    cost-equivalent but physically meaningless store sizes (thousands of TWh)
+    that vary run-to-run with solver tolerances and the wiggle constraint. This
+    degenerate capex dominates and randomly fluctuates the reported total
+    system cost, so we exclude it from the cost summaries.
+    """
+    comp = costs.index.get_level_values("component")
+    carrier = costs.index.get_level_values("carrier")
+    mask = (comp == "Store") & (carrier == "methanol")
+    if mask.any():
+        costs = costs.copy()
+        costs[mask] = 0.0
+    return costs
+
+
 def calculate_nodal_costs(n: pypsa.Network) -> pd.Series:
     """
     Calculate optimized regional costs for each technology split by marginal and capital costs and based on location bus attribute.
@@ -96,7 +116,7 @@ def calculate_nodal_costs(n: pypsa.Network) -> pd.Series:
     )
     costs.index.names = ["cost", "component", "location", "carrier"]
 
-    return costs
+    return _drop_methanol_store_costs(costs)
 
 
 def calculate_costs(n: pypsa.Network) -> pd.Series:
@@ -116,7 +136,7 @@ def calculate_costs(n: pypsa.Network) -> pd.Series:
     )
     costs.index.names = ["cost", "component", "carrier"]
 
-    return costs
+    return _drop_methanol_store_costs(costs)
 
 
 def calculate_nodal_capacities(n: pypsa.Network) -> pd.Series:

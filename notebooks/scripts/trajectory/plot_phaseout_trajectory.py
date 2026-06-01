@@ -699,37 +699,83 @@ for _ax, _lbl in zip(axs.flatten(), ['a', 'b', 'c', 'd', 'e', 'f']):
 plt.savefig(REPO_ROOT / 'phaseout_trajectory_script.pdf', bbox_inches='tight')
 plt.savefig(REPO_ROOT.parent / 'gas_resilience' / 'imgs' / 'phaseout_trajectory_script.pdf', bbox_inches='tight')
 
-# === Second version: no colormap, with rate labels on the 2030/2035 markers ===
+# === Second version: 2x2, no batteries, industry electrification + biomass merged ===
 
-fig2, axs2 = plt.subplots(2, 3, figsize=(14, 6.5))
+# Panel order for v2: solar, wind, building heat, merged industry (electric + biomass).
+# Batteries (old panel c) are dropped; old panels e (industry electric heat) and f
+# (industry solid biomass) are merged into a single bottom-right panel by summing
+# their targets, NECP increments and 2025 values.
+# v2-only marker colours: widen the 2030-vs-2035 contrast (v1 is already saved above)
+year_marker_colors = dict(year_marker_colors)
+year_marker_colors[2035] = '#54278f'
+year_marker_facecolors = {
+    fy: mcolors.to_rgba(c, alpha=0.6) for fy, c in year_marker_colors.items()
+}
 
-for (i, ax), vals in zip(
-    enumerate(axs2.flatten()),
-    [
-        renewables['solar'],
-        renewables['wind'],
-        bat.loc[2018:],
-        heat_pumps_europe.loc[2018:],
-        pd.Series(22, index=[2024]),
-        pd.Series(0, index=[2024]),
-    ]
-):
+v2_techs = [
+    'Solar PV',
+    'Wind',
+    'Building Electric Heating',
+    'Gas-Displacing\nIndustry Electrification\nand Solid Biomass',
+]
+v2_units = ['GW/yr', 'GW/yr', 'M/yr', 'TWh/yr']
+v2_colors = ['#f9d71c', '#235ebc', '#d35050', '#b8544f']
+v2_ylabels = [
+    'installed capacity [GW]',
+    'installed capacity [GW]',
+    'households [million]',
+    'supply volume [TWh/a]',
+]
+v2_vals = [
+    renewables['solar'],
+    renewables['wind'],
+    heat_pumps_europe.loc[2018:],
+    pd.Series(22, index=[2024]),  # industry electric heat (22) + solid biomass (0)
+]
+v2_target_nolng = [
+    target_nolng[0], target_nolng[1], target_nolng[3],
+    target_nolng[4] + target_nolng[5],
+]
+v2_target_autarky = [
+    target_autarky[0], target_autarky[1], target_autarky[3],
+    target_autarky[4] + target_autarky[5],
+]
+v2_has_history = [True, True, True, False]
+v2_labels = ['a', 'b', 'c', 'd']
+# place the 2030 rate label below its hexagon (default above); wind needs it below
+# so it does not sit on top of the NECP marker at 514.
+v2_label_2030_below = [False, True, False, False]
+
+
+def _format_rate_label(rate, slope_trend, unit):
+    if slope_trend is not None and slope_trend > 0:
+        pct = (rate - slope_trend) / slope_trend * 100
+        sign = '+' if pct >= 0 else ''
+        return f'{rate:.1f} {unit}\n{sign}{pct:.0f}%'
+    return f'{rate:.1f} {unit}'
+
+
+fig2, axs2 = plt.subplots(2, 2, figsize=(10, 6.5))
+
+for (i, ax), vals in zip(enumerate(axs2.flatten()), v2_vals):
+    vals = vals.copy()
     vals.index = vals.index.astype(int)
+    has_history = v2_has_history[i]
 
-    if i < 4:
+    if has_history:
         vals = vals.iloc[1:]
-
-    if i < 4:
         y_2025 = vals.loc[2024] + (vals.loc[2024] - vals.loc[2023])
     else:
         y_2025 = vals.loc[2024]
         vals = vals.drop(2024)
 
-    y_max = max(target_nolng[i], target_autarky[i]) * 1.3
+    tn = v2_target_nolng[i]
+    ta = v2_target_autarky[i]
+    y_max = max(tn, ta) * 1.3
     ax.set_ylim(0, y_max)
     ax.set_xlim(2018.5, 2036.5)
 
-    upper_target = max(target_nolng[i], target_autarky[i])
+    upper_target = max(tn, ta)
     slope_max = (upper_target - y_2025) / (2030 - 2025)
 
     x_left, x_right = ax.get_xlim()
@@ -739,8 +785,8 @@ for (i, ax), vals in zip(
         ax.plot([2025, x_diag_end], [y_2025, y_diag_end],
                 color='black', lw=1.2, ls='-', alpha=0.6, zorder=1)
 
-    ax.axhline(target_nolng[i], color='magenta', lw=1.5, ls='--', alpha=0.85, zorder=1)
-    ax.axhline(target_autarky[i], color='firebrick', lw=1.5, ls='--', alpha=0.85, zorder=1)
+    ax.axhline(tn, color='magenta', lw=1.5, ls='--', alpha=0.85, zorder=1)
+    ax.axhline(ta, color='firebrick', lw=1.5, ls='--', alpha=0.85, zorder=1)
 
     x_intersect_2030 = None
     if slope_max > 0:
@@ -765,32 +811,25 @@ for (i, ax), vals in zip(
     )
 
     slope_trend = None
-    if i < 5:
-        if 2023 in vals.index and 2024 in vals.index:
-            y_2023 = vals.loc[2023]
-            y_2024 = vals.loc[2024]
-            slope_trend = y_2024 - y_2023
-            x_extra = np.array([2024, x_right])
-            y_extra = y_2024 + slope_trend * (x_extra - 2024)
-            ax.plot(x_extra, y_extra, color='dodgerblue', ls='--', lw=2.2, zorder=3)
+    if has_history and 2023 in vals.index and 2024 in vals.index:
+        y_2023 = vals.loc[2023]
+        y_2024 = vals.loc[2024]
+        slope_trend = y_2024 - y_2023
+        x_extra = np.array([2024, x_right])
+        y_extra = y_2024 + slope_trend * (x_extra - 2024)
+        ax.plot(x_extra, y_extra, color='dodgerblue', ls='--', lw=2.2, zorder=3)
 
-    unit = units[i]
-
-    def _format_rate_label(rate, slope_trend, unit):
-        if slope_trend is not None and slope_trend > 0:
-            pct = (rate - slope_trend) / slope_trend * 100
-            sign = '+' if pct >= 0 else ''
-            return f'{rate:.1f} {unit}\n{sign}{pct:.0f}%'
-        return f'{rate:.1f} {unit}'
+    unit = v2_units[i]
 
     if x_intersect_2030 is not None:
         label_2030 = _format_rate_label(slope_max, slope_trend, unit)
+        _off_2030, _va_2030 = ((0, -11), 'top') if v2_label_2030_below[i] else ((0, 11), 'bottom')
         ax.annotate(
             label_2030,
             xy=(x_intersect_2030, upper_target),
-            xytext=(0, 11), textcoords='offset points',
+            xytext=_off_2030, textcoords='offset points',
             fontsize=8, fontweight='bold',
-            ha='center', va='bottom', multialignment='center',
+            ha='center', va=_va_2030, multialignment='center',
             bbox=dict(boxstyle='round,pad=0.22', fc='white', ec=year_marker_colors[2030], lw=0.9, alpha=0.95),
             zorder=12,
         )
@@ -807,28 +846,27 @@ for (i, ax), vals in zip(
         zorder=12,
     )
 
-    if i < 4:
+    if has_history:
         ax.plot(
             vals.index, vals,
-            color=colors_tech[i], lw=3, marker='o',
-            markeredgecolor='black', markerfacecolor=colors_tech[i],
+            color=v2_colors[i], lw=3, marker='o',
+            markeredgecolor='black', markerfacecolor=v2_colors[i],
             markersize=8, markeredgewidth=1, zorder=5, clip_on=False
         )
         ax.plot(
             [2024, 2025], [vals.loc[2024], y_2025],
-            color=colors_tech[i], lw=3, zorder=5, clip_on=False,
+            color=v2_colors[i], lw=3, zorder=5, clip_on=False,
         )
 
-    fc_2025 = biomass_color if i == 5 else colors_tech[i]
     sc_2025 = ax.scatter(
         [2025], [y_2025],
-        s=8**2, facecolor=fc_2025, edgecolor='black',
+        s=8**2, facecolor=v2_colors[i], edgecolor='black',
         linewidth=1.2, zorder=6, clip_on=False,
     )
     sc_2025.set_linestyle('--')
 
     ax.text(
-        0.01, 0.98, techs[i],
+        0.01, 0.98, v2_techs[i],
         transform=ax.transAxes,
         fontsize=10,
         fontweight='bold',
@@ -836,7 +874,7 @@ for (i, ax), vals in zip(
         ha='left',
         bbox=dict(facecolor='white', edgecolor='gray', alpha=0.87)
     )
-    ax.set_ylabel(ylabel_themes[i], fontsize=9)
+    ax.set_ylabel(v2_ylabels[i], fontsize=9)
 
 for ax in axs2.flatten():
     ax.spines['top'].set_visible(False)
@@ -873,7 +911,7 @@ _leg_autarky = fig2.legend(
 _solar_upper = max(target_nolng[0], target_autarky[0])
 _ax_a = axs2[0, 0]
 _trans_rate_anchor = mpl.transforms.offset_copy(
-    _ax_a.transData, fig=fig2, x=0, y=32, units='points'
+    _ax_a.transData, fig=fig2, x=0, y=18, units='points'
 )
 _trans_pct_anchor = mpl.transforms.offset_copy(
     _ax_a.transData, fig=fig2, x=0, y=15, units='points'
@@ -941,7 +979,9 @@ _frame = _FancyBboxPatch(
 )
 fig2.add_artist(_frame)
 
-for (_r, _c), _y in fr_points.items():
+# merged industry panel: NECP increment = electric heat (80) + solid biomass (40.5)
+fr_points_v2 = {(1, 1): 80 + 40.5}
+for (_r, _c), _y in fr_points_v2.items():
     axs2[_r, _c].plot(
         2030, _y,
         marker='D', color='#2a9d8f', alpha=0.8,
@@ -949,28 +989,19 @@ for (_r, _c), _y in fr_points.items():
         linestyle='None', zorder=11, clip_on=False,
     )
 
-for _ax in (axs2[1, 1], axs2[1, 2]):
-    _ax.legend(
-        [fr_handle], [_fr_label],
-        loc='center left',
-        fontsize=8, frameon=True, framealpha=0.9,
-    )
+axs2[1, 1].legend(
+    [fr_handle], [_fr_label],
+    loc='center left',
+    fontsize=8, frameon=True, framealpha=0.9,
+)
 
-for _i, (_ax, _lbl) in enumerate(zip(axs2.flatten(), ['a', 'b', 'c', 'd', 'e', 'f'])):
-    if _i < 3:
-        _ax.text(
-            -0.05, -0.05, _lbl,
-            transform=_ax.transAxes,
-            fontsize=16, fontweight='bold',
-            va='top', ha='right', zorder=15,
-        )
-    else:
-        _ax.text(
-            -0.05, -0.05, _lbl,
-            transform=_ax.transAxes,
-            fontsize=16, fontweight='bold',
-            va='top', ha='right', zorder=15,
-        )
+for _ax, _lbl in zip(axs2.flatten(), v2_labels):
+    _ax.text(
+        -0.05, -0.05, _lbl,
+        transform=_ax.transAxes,
+        fontsize=16, fontweight='bold',
+        va='top', ha='right', zorder=15,
+    )
 
 plt.savefig(REPO_ROOT / 'phaseout_trajectory_script_v2.pdf', bbox_inches='tight')
 plt.savefig(REPO_ROOT.parent / 'gas_resilience' / 'imgs' / 'phaseout_trajectory_script_v2.pdf', bbox_inches='tight')

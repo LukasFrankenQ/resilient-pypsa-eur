@@ -87,6 +87,8 @@ scenario:
   - 3500
   - 3750
   - 4000
+  - 4250
+  - 4500
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
