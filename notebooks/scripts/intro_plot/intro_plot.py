@@ -891,6 +891,21 @@ if _industry_fn.exists():
         edgecolors='none', zorder=3,
     )
 
+# -----------------------------------------------------------------------------
+# LNG import terminals (major European landing ports), from SciGrid-gas
+# IGGIELGN_LNGs.geojson. Drawn as green crosses in the same green as the LNG
+# supply circle / bar segment so the map and the supply story stay tied together.
+# -----------------------------------------------------------------------------
+_lng_green = "#22a060"
+_lng_terminals_fn = _repo_root / "data/gas_network/scigrid-gas/data/IGGIELGN_LNGs.geojson"
+if _lng_terminals_fn.exists():
+    lng_terminals = gpd.read_file(_lng_terminals_fn).to_crs(_MAP_CRS)
+    ax_map.scatter(
+        lng_terminals.geometry.x, lng_terminals.geometry.y,
+        marker='+', c=_lng_green, s=70, linewidths=1.6,
+        alpha=0.95, zorder=5.5,
+    )
+
 # Color mapping for source types
 source_palette = {
     "Domestic production": "#4287f5",
@@ -922,7 +937,7 @@ _LABEL_OFFSETS = {
     "Russia":       ( 150_000,  110_000),
     "Azerbaijan":   ( 150_000, -110_000),
     "North Africa": (-150_000,   80_000),
-    "LNG":          (-150_000,   80_000),
+    "LNG":          ( 150_000,  -80_000),
 }
 _callout_bbox = dict(boxstyle="round,pad=0.25", fc="white", ec="#555555", lw=0.6, alpha=0.95)
 
@@ -969,7 +984,7 @@ from matplotlib.lines import Line2D
 source_handles = [
     Line2D([0], [0], marker='o', color='w', markerfacecolor=source_palette[t],
            markersize=9, label=t, markeredgecolor='white', lw=0.5)
-    for t in df_supply["type"].unique()
+    for t in df_supply["type"].unique() if t != "Storage drawdown"
 ]
 leg_source = ax_map.legend(handles=source_handles, loc='upper left', frameon=True,
                            framealpha=0.9, edgecolor='#cccccc', fontsize=8,
@@ -986,6 +1001,8 @@ infra_handles = [
            label='Importing pipeline (2024)'),
     Line2D([0], [0], color='#444444', lw=2.0, linestyle='--', alpha=0.7,
            label='Inactive pipeline'),
+    Line2D([0], [0], marker='+', color=_lng_green, markersize=9,
+           markeredgewidth=1.6, label='LNG terminal', lw=0),
 ]
 leg_infra = ax_map.legend(handles=infra_handles, loc='upper left', frameon=True,
                           framealpha=0.9, edgecolor='#cccccc', fontsize=8,
@@ -1006,7 +1023,7 @@ size_handles = [
 ]
 ax_map.legend(handles=size_handles, loc='upper left', frameon=True,
               framealpha=0.9, edgecolor='#cccccc', fontsize=8,
-              bbox_to_anchor=(0.01, 0.62), handletextpad=1.3, scatterpoints=1,
+              bbox_to_anchor=(0.01, 0.575), handletextpad=1.3, scatterpoints=1,
               title='2024 gas supply (TWh)', title_fontsize=8.5)
 
 # =============================================================================
