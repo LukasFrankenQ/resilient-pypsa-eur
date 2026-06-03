@@ -8106,7 +8106,7 @@ def enforce_individual_heating_dispatch(
     bus_name,
     flex_carriers=("gas boiler",),
     exclude_carriers=("heat vent",),
-    tolerance=0.05,
+    tolerance=0.01,
 ):
     """
     Constrain heating techs at `bus_name` so each tech's heat output is

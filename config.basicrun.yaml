@@ -48,8 +48,8 @@ scenario:
   opts:
   - 'lv1.25'
   sector_opts:
-  # - '168H-T-H-B-I-A-dist1'
-  - '3H-T-H-B-I-A-dist1'
+  - '168H-T-H-B-I-A-dist1'
+  # - '3H-T-H-B-I-A-dist1'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.25'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.5'
   # - '168H-T-H-B-I-A-dist1-gas+Generator+m1.75'
@@ -60,6 +60,7 @@ scenario:
   # - 2040
   tyndp_scenario:
   - 'free'
+  - 'free+medium'
   # - 'free+carbonprice-50'
   # - 'free+carbonprice-55'
   # - 'free+carbonprice-145'
@@ -70,25 +71,25 @@ scenario:
   # - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
   wiggle:
   # - endo
-  - 0
-  - 250
-  - 500
-  - 750
-  - 1000
-  - 1250
-  - 1500
-  - 1750
+  # - 0
+  # - 250
+  # - 500
+  # - 750
+  # - 1000
+  # - 1250
+  # - 1500
+  # - 1750
   - 2000
-  - 2250
-  - 2500
-  - 2750
-  - 3000
-  - 3250
-  - 3500
-  - 3750
-  - 4000
-  - 4250
-  - 4500
+  # - 2250
+  # - 2500
+  # - 2750
+  # - 3000
+  # - 3250
+  # - 3500
+  # - 3750
+  # - 4000
+  # - 4250
+  # - 4500
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
