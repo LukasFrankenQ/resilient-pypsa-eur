@@ -8104,7 +8104,7 @@ def get_link_efficiency(n, link_name):
 def enforce_individual_heating_dispatch(
     n,
     bus_name,
-    flex_carriers=("gas boiler",),
+    flex_carriers=("gas boiler", "resistive heater"),
     exclude_carriers=("heat vent",),
     tolerance=0.01,
 ):
