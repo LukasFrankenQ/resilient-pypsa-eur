@@ -313,6 +313,19 @@ electrolytic_h2_price = h2_price_by_location(
 CO2_PRICE = 100.0  # EUR/tCO2
 
 
+def rated_heat_efficiency(net, carrier_n):
+    """Static (rated) output/input efficiency to the heat bus of a link carrier."""
+    links = net.links[net.links.carrier == carrier_n]
+    if not len(links):
+        return 1.0
+    row = links.iloc[0]
+    for i, ecol in [(1, "efficiency"), (2, "efficiency2"), (3, "efficiency3")]:
+        b = row.get(f"bus{i}", "")
+        if isinstance(b, str) and b in net.buses.index and "heat" in str(net.buses.carrier[b]):
+            return links[ecol].mean()
+    return links.efficiency.mean()
+
+
 def gas_co2_per_input(net, carrier_n):
     """tCO2 emitted to the atmosphere per MWh of gas input, for a link carrier."""
     links = net.links[net.links.carrier == carrier_n]
@@ -334,7 +347,7 @@ scatter_kwargs = {"s": 30, "edgecolor": "black", "linewidth": 0.5, "alpha": 0.7}
 fig, axs = plt.subplots(
     4, 1, figsize=(12, 14), gridspec_kw={"height_ratios": [2, 1, 0.7, 1]}
 )
-axs[0].set_ylabel("Overnight Investment Cost\n[EUR/kW input capacity]")
+axs[0].set_ylabel("Overnight Investment Cost\n[EUR/kW$_{th}$ output]")
 axs[1].set_ylabel("VOM + fuel cost\n[EUR/MWh$_{th}$]")
 axs[2].set_ylabel("Weighted-avg\nefficiency / COP [-]")
 axs[3].set_ylabel("Levelised Cost of Heat (LCOH)\n[EUR/MWh$_{th}$]")
@@ -409,9 +422,17 @@ for load, carriers in shown_techs.items():
             else 0.07
         )
         annuity_factor = get_annuity_factor(lt, dr)
-        overnight = capital_cost / annuity_factor  # un-annuitise
+        overnight = capital_cost / annuity_factor / 1e3  # un-annuitise, EUR/kW input
 
-        cost_value = overnight / 1e3
+        # Express per kW of *heat output*. For heat pumps the rated per-kW_th cost
+        # is the techno-economic investment itself (capital_cost embeds the rated
+        # COP); for everything else divide the per-input cost by the rated heat
+        # efficiency (~1 for boilers, 0.82 for the CHP heat side).
+        if "heat pump" in carrier and (costs_carrier_name, "investment") in costs.index:
+            cost_value = costs.loc[(costs_carrier_name, "investment"), "value"]
+        else:
+            cost_value = overnight / rated_heat_efficiency(n, carrier_n)
+        rated_cop = overnight / cost_value  # input->output capacity ratio
         cap_kwargs = {"s": 45, "linewidth": 0.5, "alpha": 1.0}
 
         axs[0].scatter(
@@ -420,9 +441,10 @@ for load, carriers in shown_techs.items():
         )
 
         if "industrial heat pump" in carrier:
-            # Industry heat pumps carry a 500 EUR/kW_el grid-connection cost on
-            # top of the link capex; show it as a red lift to a red-edged point.
-            grid_add = 500
+            # Industry heat pumps carry a 500 EUR/kW_el grid-connection cost on top
+            # of the link capex; per kW_th it is 500 / rated COP. Show it as a red
+            # lift to a red-edged point.
+            grid_add = 500.0 / rated_cop
             axs[0].plot(
                 [xloc_tracker, xloc_tracker], [cost_value, cost_value + grid_add],
                 color="red", linestyle="--", linewidth=1.2, zorder=1,
@@ -432,13 +454,11 @@ for load, carriers in shown_techs.items():
                 color=tech_colors[carrier], edgecolor="red", linewidth=1.2,
                 s=cap_kwargs["s"], alpha=1.0, zorder=3,
             )
-            va, y_offset = "top", cost_value - 200  # label below the base point
+            va, y_offset = "top", cost_value - 55  # label below the base point
         elif "electric boiler steam" in carrier:
-            va, y_offset = "top", cost_value - 300  # below the point
-        elif cost_value < 6000:
-            va, y_offset = "bottom", cost_value + 300
+            va, y_offset = "top", cost_value - 55  # below the point
         else:
-            va, y_offset = "top", cost_value - 300
+            va, y_offset = "bottom", cost_value + 55
 
         axs[0].text(
             xloc_tracker, y_offset, f"{cost_value:.0f}",
@@ -577,13 +597,13 @@ cap_cmap = plt.cm.viridis
 for df, x in lit_data:
     lit_x = x + 0.30  # just right of the model's heat-pump point
     axs[0].scatter(
-        np.full(len(df), lit_x), df["eur_per_kw_electric"],
+        np.full(len(df), lit_x), df["eur_per_kw_thermal"],
         c=df["thermal_capacity_kw"], norm=cap_norm, cmap=cap_cmap,
         marker="D", s=45, edgecolor="black", linewidth=0.8, zorder=4,
     )
     for _, row in df.iterrows():
         axs[0].text(
-            lit_x + 0.24, row["eur_per_kw_electric"], row["country_code"],
+            lit_x + 0.24, row["eur_per_kw_thermal"], row["country_code"],
             fontsize=6, va="center", ha="left",
         )
 

@@ -599,48 +599,81 @@ def main() -> None:
     print(f"\nwrote {out_csv}")
 
     # ── Figure ────────────────────────────────────────────────────────────────
-    # Drop the two left-column panels (existing capacity + EU district heating);
-    # keep the four individual-heating fuel-mix comparisons in a 1x4 row.
-    panels = [p for i, p in enumerate(panels) if i not in (0, 3)]
-    ncols = 4
-    nrows = int(np.ceil(len(panels) / ncols))
-    fig, axes = plt.subplots(nrows, ncols, figsize=(5 * ncols, 4 * nrows))
-    axes = np.atleast_1d(axes).ravel()
-    w = 0.38
-    for ax, p in zip(axes, panels):
+    # Each rendered panel is a list of bar "groups" (model + one or more sources),
+    # drawn as a grouping per carrier. The two EU-27 individual-heating sources
+    # (Eurostat + ODYSSEE) share the same model side, so they collapse into one
+    # three-way panel: model, Eurostat, ODYSSEE. UK Census and Norway follow as
+    # ordinary two-way panels. (Existing-capacity and EU district heating dropped.)
+    by_key = {p["src"]["key"]: p for p in panels}
+    euro, odys = by_key["eurostat_2023_individual"], by_key["odyssee_2023_individual"]
+
+    def group(p, source=False, hatch=None, label=None):
+        return {
+            "pct": p["source_pct"] if source else p["model_pct"],
+            "hp": p["src_hp"] if source else p["model_hp"],
+            "res": p["src_res"] if source else p["model_res"],
+            "hatch": hatch, "label": label,
+        }
+
+    def two_way(p):
         src = p["src"]
+        return {
+            "title": f"{src['source_label']}\n({p['scope']}, HP {src['hp_basis']})",
+            "categories": p["categories"], "split_electric": src["split_electric"],
+            "groups": [group(p, label="model"),
+                       group(p, source=True, hatch="///", label=src["source_label"])],
+        }
+
+    fig_panels = [
+        {
+            "title": "EU-27 individual heating\n(model vs Eurostat & ODYSSEE, final energy)",
+            "categories": euro["categories"], "split_electric": euro["src"]["split_electric"],
+            "groups": [
+                group(euro, label="model"),
+                group(euro, source=True, hatch="///", label="Eurostat 2023"),
+                group(odys, source=True, hatch="xxx", label="ODYSSEE 2023"),
+            ],
+        },
+        two_way(by_key["uk_census_2021"]),
+        two_way(by_key["norway_energifakta"]),
+    ]
+
+    ncols = len(fig_panels)
+    fig, axes = plt.subplots(1, ncols, figsize=(5 * ncols, 4))
+    axes = np.atleast_1d(axes).ravel()
+    for panel_idx, (ax, p) in enumerate(zip(axes, fig_panels)):
+        ax.text(0.02, 0.98, chr(ord("a") + panel_idx), transform=ax.transAxes,
+                fontsize=12, fontweight="bold", va="top", ha="left")
         categories = p["categories"]
         x = np.arange(len(categories))
-        colors = [fuel_colors[f] for f in categories]
-
-        def draw(offset, pct_series, hp_val, res_val, hatch):
+        groups = p["groups"]
+        n = len(groups)
+        gw = 0.8 / n            # per-group slot width within the carrier cluster
+        bw = gw * 0.9
+        for gi, g in enumerate(groups):
+            offset = (gi - (n - 1) / 2) * gw
+            hatch = g["hatch"]
             for j, f in enumerate(categories):
-                if src["split_electric"] and f == "electric" and (hp_val + res_val) > 0:
+                if p["split_electric"] and f == "electric" and (g["hp"] + g["res"]) > 0:
                     # Split the electric bar into heat pump (bottom) + resistive (top).
-                    elec = pct_series[f]
-                    hp_pct = elec * hp_val / (hp_val + res_val)
+                    elec = g["pct"][f]
+                    hp_pct = elec * g["hp"] / (g["hp"] + g["res"])
                     res_pct = elec - hp_pct
-                    ax.bar(x[j] + offset, hp_pct, w, color=fuel_colors["hp"],
+                    ax.bar(x[j] + offset, hp_pct, bw, color=fuel_colors["hp"],
                            edgecolor="k", linewidth=0.5, hatch=hatch)
-                    ax.bar(x[j] + offset, res_pct, w, bottom=hp_pct, color=fuel_colors["resistive"],
+                    ax.bar(x[j] + offset, res_pct, bw, bottom=hp_pct, color=fuel_colors["resistive"],
                            edgecolor="k", linewidth=0.5, hatch=hatch)
                 else:
-                    ax.bar(x[j] + offset, pct_series[f], w, color=colors[j],
+                    ax.bar(x[j] + offset, g["pct"][f], bw, color=fuel_colors[f],
                            edgecolor="k", linewidth=0.5, hatch=hatch)
-
-        draw(-w / 2, p["model_pct"], p["model_hp"], p["model_res"], None)
-        draw(+w / 2, p["source_pct"], p["src_hp"], p["src_res"], "///")
         ax.set_xticks(x)
         ax.set_xticklabels(categories, fontsize=8, rotation=30, ha="right")
         ax.set_ylabel("share of heat [%]")
-        ax.set_title(f"{src['source_label']}\n({p['scope']}, HP {src['hp_basis']})", fontsize=9)
-        # Legend: model/source, plus HP/resistive only where the bar is split.
-        handles = [
-            plt.Rectangle((0, 0), 1, 1, fc="0.6", ec="k"),
-            plt.Rectangle((0, 0), 1, 1, fc="0.6", ec="k", hatch="///"),
-        ]
-        labels = ["model", src["source_label"]]
-        if src["split_electric"]:
+        ax.set_title(p["title"], fontsize=9)
+        # Legend: one entry per group (model/source), plus HP/resistive where split.
+        handles = [plt.Rectangle((0, 0), 1, 1, fc="0.6", ec="k", hatch=g["hatch"]) for g in groups]
+        labels = [g["label"] for g in groups]
+        if p["split_electric"]:
             handles += [
                 plt.Rectangle((0, 0), 1, 1, fc=fuel_colors["hp"], ec="k"),
                 plt.Rectangle((0, 0), 1, 1, fc=fuel_colors["resistive"], ec="k"),
@@ -648,8 +681,6 @@ def main() -> None:
             labels += ["• heat pump", "• resistive"]
         ax.legend(handles, labels, frameon=True, fontsize=7)
         style_ax(ax)
-    for ax in axes[len(panels):]:
-        ax.set_visible(False)
     fig.suptitle("Heating fuel-mix validation  —  solid = model, hatched = source",
                  fontsize=12, y=1.0)
     fig.tight_layout()
