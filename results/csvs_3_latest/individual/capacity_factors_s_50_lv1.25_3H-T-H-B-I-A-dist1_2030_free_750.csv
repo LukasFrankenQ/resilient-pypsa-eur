@@ -1,0 +1,60 @@
+component,carrier,0
+Generator,Offshore Wind (AC),0.4616625577827847
+Generator,Offshore Wind (DC),0.5452869506414227
+Generator,Offshore Wind (Floating),0.27526577178530826
+Generator,Onshore Wind,0.2517227826905176
+Generator,Run of River,0.38569077775960803
+Generator,Solar,0.1430056128591485
+Generator,co2-ets,9.607440259e-05
+Generator,coal,0.2747260719513317
+Generator,forest residues,0.00011415525173614077
+Generator,gas,0.05768765091440016
+Generator,industry wood,0.00011415525210798708
+Generator,landscape care,0.00011415526015973251
+Generator,lignite,0.04060197632051971
+Generator,manure and slurry,0.00011415525336758435
+Generator,municipal solid waste,0.00011311494407247044
+Generator,oil primary,0.6101246740589964
+Generator,rural heat vent,0.05606705615851653
+Generator,rural solar thermal,0.03761509239585346
+Generator,sewage sludge,0.00011415533454968927
+Generator,solar-hsat,0.17252896750161456
+Generator,solid biomass,0.04946293234
+Generator,straw,0.00011415525368431403
+Generator,unsustainable biogas,0.00011415525331271368
+Generator,unsustainable bioliquids,0.00011415525215090318
+Generator,unsustainable solid biomass,0.00011408362112049904
+Generator,uranium,0.969133949090852
+Generator,urban central heat vent,0.0870925304790245
+Generator,urban central solar thermal,0.0391473500876219
+Generator,urban decentral heat vent,0.016122522911923943
+Generator,urban decentral solar thermal,0.04940526185121085
+Line,AC,0.25105133727716356
+Load,H2 for industry,
+Load,NH3,
+Load,agriculture electricity,
+Load,agriculture heat,
+Load,agriculture machinery electric,
+Load,agriculture machinery oil,
+Load,coal for industry,
+Load,electricity,
+Load,gas for industry,
+Load,heat100-200 industry,
+Load,heat200-500 industry,
+Load,heat<100 industry,
+Load,heat>500 industry,
+Load,industry electricity,
+Load,kerosene for aviation,
+Load,land transport EV,
+Load,land transport oil,
+Load,naphtha for industry,
+Load,rural heat,
+Load,shipping methanol,
+Load,shipping oil,
+Load,solid biomass for industry,
+Load,steel,
+Load,urban central heat,
+Load,urban decentral heat,
+StorageUnit,Pumped Hydro Storage,0.4505538996133114
+StorageUnit,Reservoir & Dam,0.3661975927911243
+StorageUnit,rural heat vent,0.016770128569264395

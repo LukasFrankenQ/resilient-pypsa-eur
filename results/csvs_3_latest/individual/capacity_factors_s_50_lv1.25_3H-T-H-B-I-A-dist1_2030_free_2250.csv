@@ -1,0 +1,60 @@
+component,carrier,0
+Generator,Offshore Wind (AC),0.4927792254230806
+Generator,Offshore Wind (DC),0.5580140083031785
+Generator,Offshore Wind (Floating),0.27988897413909825
+Generator,Onshore Wind,0.24653718658487403
+Generator,Run of River,0.38708669025054754
+Generator,Solar,0.14427886034910722
+Generator,co2-ets,0.00010830006521499999
+Generator,coal,0.2446293652852317
+Generator,forest residues,0.00011415525042258646
+Generator,gas,0.17306295253432505
+Generator,industry wood,0.0001141552519275001
+Generator,landscape care,0.00011415525934897233
+Generator,lignite,0.0008345397567440702
+Generator,manure and slurry,1.4383238212321881e-08
+Generator,municipal solid waste,0.00011311494461925885
+Generator,oil primary,0.6106509321178473
+Generator,rural heat vent,0.027957951610666
+Generator,rural solar thermal,0.03820413141245521
+Generator,sewage sludge,2.2433940208082694e-07
+Generator,solar-hsat,0.17844920090590838
+Generator,solid biomass,0.00691304696
+Generator,straw,0.00011415525041674955
+Generator,unsustainable biogas,0.00011415525346588571
+Generator,unsustainable bioliquids,0.00011415525222975028
+Generator,unsustainable solid biomass,0.00011408362123344641
+Generator,uranium,0.9804294732204368
+Generator,urban central heat vent,0.14586823344550034
+Generator,urban central solar thermal,0.044320680101509684
+Generator,urban decentral heat vent,0.007647671423470978
+Generator,urban decentral solar thermal,0.02954791412113807
+Line,AC,0.21807347106686717
+Load,H2 for industry,
+Load,NH3,
+Load,agriculture electricity,
+Load,agriculture heat,
+Load,agriculture machinery electric,
+Load,agriculture machinery oil,
+Load,coal for industry,
+Load,electricity,
+Load,gas for industry,
+Load,heat100-200 industry,
+Load,heat200-500 industry,
+Load,heat<100 industry,
+Load,heat>500 industry,
+Load,industry electricity,
+Load,kerosene for aviation,
+Load,land transport EV,
+Load,land transport oil,
+Load,naphtha for industry,
+Load,rural heat,
+Load,shipping methanol,
+Load,shipping oil,
+Load,solid biomass for industry,
+Load,steel,
+Load,urban central heat,
+Load,urban decentral heat,
+StorageUnit,Pumped Hydro Storage,0.4054027856594231
+StorageUnit,Reservoir & Dam,0.36621662585088427
+StorageUnit,rural heat vent,0.018911115118917597

@@ -1,0 +1,264 @@
+component,carrier,bus_carrier,0
+Generator,oil primary,oil primary,5286060778.42765
+Link,oil refining,oil,5018776491.69269
+Link,electricity distribution grid,low voltage,3717518039.19635
+Link,land transport oil,land transport oil,2526143791.43905
+Generator,uranium,uranium,1917475615.97388
+Generator,gas,gas,1250000001.2887
+Generator,solar-hsat,AC,1098043739.80225
+Store,non-sequestered HVC,non-sequestered HVC,853719686.91572
+Link,naphtha for industry,naphtha for industry,853719686.91556
+Generator,unsustainable solid biomass,solid biomass,796331256.46089
+Link,kerosene for aviation,kerosene for aviation,743906976.62339
+Generator,Onshore Wind,AC,684940506.41568
+Link,land transport oil,co2,649471568.77898
+Link,nuclear,AC,625097050.95657
+Generator,Offshore Wind (DC),AC,561185132.27624
+Link,urban decentral gas boiler,urban decentral heat,493578290.92932
+Link,shipping oil,shipping oil,491652886.23285
+Generator,coal,coal,438263400.04973
+Link,heat100-200 industry industrial heat pump high temperature,heat100-200 industry,369069874.86673
+Link,solid biomass for industry,solid biomass for industry,346680000.00003
+Generator,Offshore Wind (AC),AC,346466897.95911
+Link,biogas to gas,gas,346188877.58816
+Link,urban decentral resistive heater,urban decentral heat,333313026.63307
+StorageUnit,Reservoir & Dam,AC,331391091.36854
+Link,heat>500 industry gas,heat>500 industry,310537226.6564
+Link,BEV charger,EV battery,301350739.23979
+Link,urban decentral oil boiler,urban decentral heat,283086458.78677
+Link,urban central solid biomass CHP,urban central heat,278430907.81694
+Link,heat<100 industry industrial heat pump medium temperature,heat<100 industry,276439099.02421
+Link,urban decentral biomass boiler,urban decentral heat,250782074.70014
+Link,HVC to air,co2,233467433.80684
+Generator,forest residues,solid biomass,228387968.48187
+Generator,industry wood,solid biomass,221622652.58148
+Link,rural gas boiler,rural heat,217449983.64049
+Link,urban decentral air heat pump,urban decentral heat,216178789.70672
+Link,rural ground heat pump,rural heat,205422942.98049
+Link,kerosene for aviation,co2,191258483.68987
+Link,rural biomass boiler,rural heat,178588097.51024
+Link,SMR,Hydrogen Storage,178507954.78137
+Link,coal for industry,coal for industry,167203859.22266
+Generator,Run of River,AC,161720101.62796
+Generator,solid biomass,solid biomass,160902017.16577
+Link,rural oil boiler,rural heat,157321223.53666
+Link,urban central air heat pump,urban central heat,156730089.75739
+Link,battery charger,Battery Storage,154045208.12288
+Generator,Solar,AC,152672646.84814
+Link,battery discharger,AC,150932862.91505
+Generator,unsustainable biogas,biogas,130572137.92657
+Link,unsustainable bioliquids,oil,126827774.0118
+Generator,unsustainable bioliquids,unsustainable bioliquids,126827774.0118
+Link,shipping oil,co2,126403957.05047
+Link,heat200-500 industry solid biomass,heat200-500 industry,115697312.20661
+Generator,manure and slurry,biogas,111573624.63348
+Link,gas for industry,gas for industry,111420561.2169
+Generator,straw,biogas,100992653.01071
+Link,urban decentral gas boiler,co2,99722960.82041
+Link,urban central solid biomass CHP,AC,91144332.34662
+Link,Haber-Bosch,NH3,87300752.90986
+Link,BOF,steel,83506295.43425
+Link,urban decentral oil boiler,co2,80868365.06009
+Link,urban central gas boiler,urban central heat,80485638.34977
+Link,Combined-Cycle Gas,AC,78696796.88762
+Link,shipping methanol,shipping methanol,75445455.68789
+Link,methanolisation,methanol,75443297.93428
+Link,oil refining,co2,68718790.11956
+Link,rural resistive heater,rural heat,68469307.08834
+Link,heat>500 industry gas,co2,61486370.87797
+Link,coal for industry,co2,56197217.08474
+Link,municipal solid waste,non-sequestered HVC,54365833.48515
+Generator,municipal solid waste,municipal solid waste,54365833.48515
+Link,coal,AC,53985811.65477
+Link,agriculture machinery oil,agriculture machinery oil,51423819.35443
+Link,coal,co2,50968065.44148
+Link,urban central solid biomass CHP CC,urban central heat,47606449.65229
+Link,SMR,co2,46506019.7983
+Link,rural oil boiler,co2,44941429.52364
+Link,rural gas boiler,co2,43933772.20492
+Link,steel emission,co2,40135148.24432
+Link,BOF,steel emission,40135046.23049
+Link,heat<100 industry solid biomass,heat<100 industry,29363955.52602
+Link,Combined-Cycle Gas,co2,26865458.24784
+Generator,landscape care,solid biomass,24668208.29594
+Link,urban central resistive heater,urban central heat,24416138.29049
+Link,gas for industry,co2,22061271.12095
+Link,Haber-Bosch,urban central heat,20223078.54669
+Link,urban central solid biomass CHP CC,co2 stored,19055860.01061
+Link,shipping methanol,co2,18711206.48989
+Link,urban central gas boiler,co2,15323227.30121
+Link,urban central solid biomass CHP CC,AC,13254917.40634
+Link,agriculture machinery oil,co2,13221063.95602
+Link,heat100-200 industry solid biomass,heat100-200 industry,12654156.24415
+Link,biomass to liquid,oil,10585863.85747
+Link,H2 Electrolysis,Hydrogen Storage,7616475.00514
+Generator,sewage sludge,biogas,3050468.98523
+Generator,urban decentral solar thermal,urban decentral heat,2301737.53832
+Link,methanolisation,urban central heat,1886146.0187
+Link,H2 Electrolysis,urban central heat,668591.8307
+Link,co2 sequestered,co2 sequestered,344801.70713
+Link,Open-Cycle Gas,AC,298081.71067
+Link,home battery charger,home battery,211394.85771
+Link,home battery discharger,low voltage,207123.84916
+Link,Open-Cycle Gas,co2,143951.6554
+Generator,lignite,lignite,60359.6433
+Link,lignite,co2,24560.33886
+Link,lignite,AC,19918.68229
+Link,rural air heat pump,rural heat,4920.72237
+Link,heat<100 industry gas,heat<100 industry,4443.05213
+Link,waste CHP,urban central heat,3990.2332
+Link,heat100-200 industry gas,heat100-200 industry,3467.14129
+Link,heat>500 industry hydrogen,heat>500 industry,2773.34367
+Link,solid biomass import,solid biomass,2699.8909
+Store,solid biomass import,solid biomass import,2697.00544
+Link,biomass-to-methanol,methanol,2637.05209
+Link,heat<100 industry electric boiler steam,heat<100 industry,2499.62558
+Link,heat100-200 industry electric boiler steam,heat100-200 industry,2498.77788
+Generator,urban central solar thermal,urban central heat,2106.80841
+Link,Sabatier,gas,1971.30253
+Link,heat200-500 industry hydrogen,heat200-500 industry,1578.59656
+Link,urban central gas CHP,AC,1556.61872
+Link,urban central gas CHP,urban central heat,1556.61872
+Link,waste CHP,co2,1353.36459
+Generator,Offshore Wind (Floating),AC,1202.89191
+Link,heat200-500 industry gas,heat200-500 industry,1109.19684
+Link,waste CHP,AC,1095.43046
+Link,heat<100 industry gas,co2,945.94013
+Link,urban central gas CHP,co2,751.73294
+Link,heat100-200 industry gas,co2,738.16556
+Link,ammonia cracker,Hydrogen Storage,517.50796
+Generator,rural solar thermal,rural heat,494.63996
+Link,oil,AC,385.22083
+Link,EAF,steel,304.56571
+Link,oil,co2,282.97222
+Link,heat200-500 industry gas,co2,219.62097
+Link,OCGT methanol,AC,195.23037
+Link,gas DRI,hbi,185.33141
+Link,H2 DRI,hbi,120.34604
+Link,OCGT methanol,co2,118.09057
+Link,gas DRI,steel emission,102.01382
+Link,solid biomass import,co2,99.005
+Link,Sabatier,urban central heat,90.59467
+Store,home battery,home battery,0.03563
+Store,Battery Storage,Battery Storage,0.02688
+Store,EV battery,EV battery,-1.09465
+Link,H2 DRI,AC,-123.95642
+Link,EAF,AC,-194.76977
+Link,H2 DRI,Hydrogen Storage,-252.72668
+Link,EAF,hbi,-304.56571
+Link,Sabatier,co2 stored,-390.3179
+Link,OCGT methanol,methanol,-476.17164
+Link,gas DRI,gas,-515.22132
+Link,biomass-to-methanol,co2,-654.50768
+Link,ammonia cracker,NH3,-755.56162
+Link,oil,oil,-1100.63094
+Link,heat200-500 industry gas,gas,-1109.19684
+Link,heat200-500 industry hydrogen,Hydrogen Storage,-1578.59656
+Link,rural air heat pump,low voltage,-1938.49208
+Link,Sabatier,Hydrogen Storage,-2464.12816
+Link,heat100-200 industry electric boiler steam,AC,-2524.01806
+Link,heat<100 industry electric boiler steam,AC,-2524.87433
+Link,solid biomass import,solid biomass import,-2699.8909
+Link,heat>500 industry hydrogen,Hydrogen Storage,-2773.34367
+Link,heat100-200 industry gas,gas,-3728.10891
+Link,urban central gas CHP,gas,-3796.63102
+Generator,rural heat vent,rural heat,-3812.57701
+Load,H2 for industry,Hydrogen Storage,-3840.0
+Link,biomass-to-methanol,solid biomass,-4323.03621
+Link,heat<100 industry gas,gas,-4777.47541
+Link,waste CHP,non-sequestered HVC,-5263.96184
+Link,lignite,lignite,-60359.6433
+Generator,urban decentral heat vent,urban decentral heat,-108960.03217
+Link,home battery discharger,home battery,-211394.89333
+Link,home battery charger,low voltage,-215753.97318
+Store,co2 sequestered,co2 sequestered,-344801.70713
+Link,co2 sequestered,co2 stored,-344801.70713
+Link,Open-Cycle Gas,gas,-727028.56262
+Link,gas pipeline,AC,-909274.62805
+StorageUnit,rural heat vent,rural heat,-1543334.23677
+Link,biomass to liquid,co2,-2723105.07787
+Link,DC,AC,-5992186.16196
+Link,H2 Electrolysis,AC,-12251045.52861
+Link,municipal solid waste,co2,-13977455.78903
+Link,heat100-200 industry solid biomass,solid biomass,-14218153.08331
+Link,methanolisation,co2 stored,-18710671.34602
+Link,urban central solid biomass CHP CC,co2,-19055860.01061
+Link,methanolisation,AC,-20441460.40975
+Link,Haber-Bosch,AC,-21589476.19461
+Load,agriculture machinery electric,low voltage,-22038779.72332
+Link,urban central resistive heater,low voltage,-24662765.94999
+Link,biomass to liquid,solid biomass,-27617698.55849
+Generator,urban central heat vent,urban central heat,-29096197.75589
+StorageUnit,Pumped Hydro Storage,AC,-31650027.0139
+Link,unsustainable bioliquids,co2,-32607420.69843
+Link,heat<100 industry solid biomass,solid biomass,-32993208.45621
+Load,agriculture electricity,low voltage,-37525883.79874
+Link,steel emission,steel emission,-40135148.24432
+Line,AC,AC,-43899899.2466
+Link,urban central air heat pump,low voltage,-51340431.73052
+Load,agriculture machinery oil,agriculture machinery oil,-51423819.35442
+Link,agriculture machinery oil,oil,-51423819.35443
+Link,municipal solid waste,municipal solid waste,-54365833.48515
+Link,urban central solid biomass CHP CC,solid biomass,-57739781.26415
+Link,rural ground heat pump,low voltage,-58572742.22265
+Link,biogas to gas,co2,-68545397.76246
+Load,shipping methanol,shipping methanol,-75445455.68786
+Link,shipping methanol,methanol,-75445455.68789
+Link,rural resistive heater,low voltage,-76077007.87593
+Link,urban central gas boiler,gas,-77390036.87477
+Load,steel,steel,-83506600.0
+Link,methanolisation,Hydrogen Storage,-85857855.84873
+Load,NH3,NH3,-87300000.0
+Link,urban decentral air heat pump,low voltage,-91905836.51752
+Link,Haber-Bosch,Hydrogen Storage,-100256184.64169
+Link,heat<100 industry industrial heat pump medium temperature,AC,-102384851.49045
+Load,gas for industry,gas for industry,-111420561.21687
+Link,gas for industry,gas,-111420561.2169
+Link,heat200-500 industry solid biomass,solid biomass,-115697312.20661
+Load,heat200-500 industry,heat200-500 industry,-115700000.0
+Link,BOF,coal,-119414002.47097
+Link,heat100-200 industry industrial heat pump high temperature,AC,-121006516.34975
+Link,unsustainable bioliquids,unsustainable bioliquids,-126827774.0118
+Link,Combined-Cycle Gas,gas,-135684132.56487
+Link,coal,coal,-151645538.35609
+Link,battery discharger,Battery Storage,-154045208.14972
+Link,battery charger,AC,-157221732.17579
+Load,coal for industry,coal for industry,-167203859.22261
+Link,coal for industry,coal,-167203859.22266
+Link,rural oil boiler,oil,-174801359.48518
+Link,rural biomass boiler,solid biomass,-207660578.50028
+Load,agriculture heat,rural heat,-214811742.63032
+Link,rural gas boiler,gas,-221887738.40867
+Link,SMR,gas,-234878887.87022
+Link,urban decentral biomass boiler,solid biomass,-291607063.60481
+Load,land transport EV,EV battery,-301350738.14514
+Load,heat<100 industry,heat<100 industry,-305810000.0
+Link,heat>500 industry gas,gas,-310537226.6564
+Load,heat>500 industry,heat>500 industry,-310540000.0
+Link,urban decentral oil boiler,oil,-314540509.76308
+Link,BEV charger,low voltage,-334834154.71088
+Link,urban central solid biomass CHP,solid biomass,-337696674.12606
+Link,biogas to gas,biogas,-346188877.58816
+Load,solid biomass for industry,solid biomass for industry,-346680000.0
+Link,solid biomass for industry,solid biomass,-346680000.00003
+Link,urban decentral resistive heater,low voltage,-370347807.37008
+Load,heat100-200 industry,heat100-200 industry,-381730000.0
+Load,shipping oil,shipping oil,-491652886.23258
+Link,shipping oil,oil,-491652886.23285
+Link,urban decentral gas boiler,gas,-503651317.27482
+Load,urban central heat,urban central heat,-581358582.78462
+Load,rural heat,rural heat,-610898079.70233
+Link,kerosene for aviation,oil,-743906976.62339
+Load,kerosene for aviation,kerosene for aviation,-743906976.62384
+Link,naphtha for industry,oil,-853719686.91556
+Load,naphtha for industry,naphtha for industry,-853719686.91558
+Link,HVC to air,non-sequestered HVC,-908080255.95814
+Load,industry electricity,low voltage,-1048810000.0
+Load,urban decentral heat,urban decentral heat,-1579131412.24264
+Load,electricity,low voltage,-1601392067.89318
+Generator,co2-ets,co2,-1753524933.14403
+Link,nuclear,uranium,-1917475616.4312
+Link,land transport oil,oil,-2526143791.43905
+Load,land transport oil,land transport oil,-2526143791.43906
+Link,electricity distribution grid,AC,-3832502479.61296
+Link,oil refining,oil primary,-5286060778.42765

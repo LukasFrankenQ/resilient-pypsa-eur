@@ -25,8 +25,8 @@
           305.18235
         ]
       },
-      "target_no_lng_2030": 693.6241931460357,
-      "target_autarky_2035": 769.964563187509
+      "target_no_lng_2030": 659.1069873081278,
+      "target_autarky_2035": 731.7560744744035
     },
     "wind": {
       "label": "Wind",
@@ -53,8 +53,8 @@
           258.05214
         ]
       },
-      "target_no_lng_2030": 426.87390882709565,
-      "target_autarky_2035": 458.70641793084735
+      "target_no_lng_2030": 418.70974882251465,
+      "target_autarky_2035": 447.8011233818348
     },
     "batteries": {
       "label": "Batteries",
@@ -81,8 +81,8 @@
           29.072855
         ]
       },
-      "target_no_lng_2030": 25.2479259966051,
-      "target_autarky_2035": 51.16027730955324
+      "target_no_lng_2030": 3.1942210126097685,
+      "target_autarky_2035": 32.77139166017258
     },
     "building_heat": {
       "label": "Building Electric Heating",
@@ -109,8 +109,8 @@
           25.5
         ]
       },
-      "target_no_lng_2030": 59.08442832460532,
-      "target_autarky_2035": 64.67107862074606
+      "target_no_lng_2030": 54.44661279317377,
+      "target_autarky_2035": 60.663669908579756
     },
     "industry_heat": {
       "label": "Gas-Displacing\nIndustry Electric Heat",
@@ -125,8 +125,8 @@
           22.0
         ]
       },
-      "target_no_lng_2030": 617.64902033287,
-      "target_autarky_2035": 633.6002268534501
+      "target_no_lng_2030": 609.84098452903,
+      "target_autarky_2035": 620.97739784219
     },
     "industry_biomass": {
       "label": "Gas-Displacing\nIndustry Solid Biomass",
@@ -141,8 +141,8 @@
           0.0
         ]
       },
-      "target_no_lng_2030": 154.11894802420997,
-      "target_autarky_2035": 143.44395085581
+      "target_no_lng_2030": 165.04502221311998,
+      "target_autarky_2035": 154.63997057876998
     }
   },
   "scenario_targets": {
@@ -160,73 +160,73 @@
       "level_0": "carrier",
       "level_1": "solar",
       "level_2": 2030,
-      "value": 693.6241931460357
+      "value": 659.1069873081278
     },
     {
       "level_0": "carrier",
       "level_1": "solar",
       "level_2": 2035,
-      "value": 769.964563187509
+      "value": 731.7560744744035
     },
     {
       "level_0": "carrier",
       "level_1": "wind",
       "level_2": 2030,
-      "value": 426.87390882709565
+      "value": 418.70974882251465
     },
     {
       "level_0": "carrier",
       "level_1": "wind",
       "level_2": 2035,
-      "value": 458.70641793084735
+      "value": 447.8011233818348
     },
     {
       "level_0": "battery",
       "level_1": "battery",
       "level_2": 2030,
-      "value": 25.2479259966051
+      "value": 3.1942210126097685
     },
     {
       "level_0": "battery",
       "level_1": "battery",
       "level_2": 2035,
-      "value": 51.16027730955324
+      "value": 32.77139166017258
     },
     {
       "level_0": "heat_pumps",
       "level_1": "heat_pump_buildings",
       "level_2": 2030,
-      "value": 59.08442832460532
+      "value": 54.44661279317377
     },
     {
       "level_0": "heat_pumps",
       "level_1": "heat_pump_buildings",
       "level_2": 2035,
-      "value": 64.67107862074606
+      "value": 60.663669908579756
     },
     {
       "level_0": "industry_hp",
       "level_1": "heat_pump_industry",
       "level_2": 2030,
-      "value": 617.64902033287
+      "value": 609.84098452903
     },
     {
       "level_0": "industry_hp",
       "level_1": "heat_pump_industry",
       "level_2": 2035,
-      "value": 633.6002268534501
+      "value": 620.97739784219
     },
     {
       "level_0": "industry_solid_biomass",
       "level_1": "solid_biomass_industry",
       "level_2": 2030,
-      "value": 154.11894802420997
+      "value": 165.04502221311998
     },
     {
       "level_0": "industry_solid_biomass",
       "level_1": "solid_biomass_industry",
       "level_2": 2035,
-      "value": 143.44395085581
+      "value": 154.63997057876998
     }
   ]
 }

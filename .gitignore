@@ -20,7 +20,7 @@ gurobi.log
 /networks
 /benchmarks
 /logs
-/notebooks
+/notebooks/scripts/price_formation/
 /data
 /cutouts
 /tmp

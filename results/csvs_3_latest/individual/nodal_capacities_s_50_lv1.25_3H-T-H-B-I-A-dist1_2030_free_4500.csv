@@ -1,0 +1,4391 @@
+component,location,carrier,0
+Generator,,co2-ets,1000000000.0
+Generator,AL0 0,Offshore Wind (AC),0.01174
+Generator,AL0 0,Offshore Wind (Floating),0.00832
+Generator,AL0 0,Onshore Wind,234.00035
+Generator,AL0 0,Run of River,48.2
+Generator,AL0 0,Solar,294.50301
+Generator,AL0 0,forest residues,435064.11971
+Generator,AL0 0,industry wood,495433.59074
+Generator,AL0 0,landscape care,73.99645
+Generator,AL0 0,manure and slurry,165088.30118
+Generator,AL0 0,municipal solid waste,135739.47211
+Generator,AL0 0,rural heat vent,0.00687
+Generator,AL0 0,rural solar thermal,0.02578
+Generator,AL0 0,sewage sludge,2751.78087
+Generator,AL0 0,solar-hsat,4482.02378
+Generator,AL0 0,solid biomass,10000.0
+Generator,AL0 0,straw,137150.35218
+Generator,AL0 0,unsustainable solid biomass,1238151.0274
+Generator,AL0 0,urban central heat vent,0.01308
+Generator,AL0 0,urban central solar thermal,0.15741
+Generator,AL0 0,urban decentral heat vent,0.00685
+Generator,AL0 0,urban decentral solar thermal,0.02711
+Generator,AT0 0,Onshore Wind,3235.00472
+Generator,AT0 0,Run of River,4466.08037
+Generator,AT0 0,Solar,385.50473
+Generator,AT0 0,forest residues,9373456.5105
+Generator,AT0 0,gas,1785.95671
+Generator,AT0 0,industry wood,9944957.28282
+Generator,AT0 0,landscape care,424784.44666
+Generator,AT0 0,manure and slurry,451713.81205
+Generator,AT0 0,municipal solid waste,718618.41571
+Generator,AT0 0,rural solar thermal,0.02113
+Generator,AT0 0,sewage sludge,293922.44542
+Generator,AT0 0,solar-hsat,23923.43198
+Generator,AT0 0,solid biomass,10000.0
+Generator,AT0 0,straw,2029614.73277
+Generator,AT0 0,unsustainable biogas,1646958.027
+Generator,AT0 0,unsustainable bioliquids,3052205.112
+Generator,AT0 0,unsustainable solid biomass,35833933.4266
+Generator,AT0 0,urban central heat vent,0.00766
+Generator,AT0 0,urban central solar thermal,0.09302
+Generator,AT0 0,urban decentral heat vent,0.01201
+Generator,AT0 0,urban decentral solar thermal,0.02361
+Generator,BA0 0,Offshore Wind (AC),0.0049
+Generator,BA0 0,Offshore Wind (Floating),0.00334
+Generator,BA0 0,Onshore Wind,435.00038
+Generator,BA0 0,Solar,267.10344
+Generator,BA0 0,forest residues,545313.02661
+Generator,BA0 0,industry wood,1680033.06111
+Generator,BA0 0,landscape care,161.28698
+Generator,BA0 0,manure and slurry,147008.89194
+Generator,BA0 0,municipal solid waste,10006.85621
+Generator,BA0 0,rural heat vent,0.30616
+Generator,BA0 0,rural solar thermal,0.02411
+Generator,BA0 0,sewage sludge,6969.53812
+Generator,BA0 0,solar-hsat,3422.12414
+Generator,BA0 0,solid biomass,10000.0
+Generator,BA0 0,straw,255052.24393
+Generator,BA0 0,unsustainable biogas,12281.28
+Generator,BA0 0,unsustainable solid biomass,11152636.4764
+Generator,BA0 0,urban central heat vent,0.01148
+Generator,BA0 0,urban central solar thermal,0.13726
+Generator,BA0 0,urban decentral heat vent,0.30157
+Generator,BA0 0,urban decentral solar thermal,0.02427
+Generator,BE0 0,Offshore Wind (AC),2256.0
+Generator,BE0 0,Offshore Wind (DC),0.06811
+Generator,BE0 0,Offshore Wind (Floating),0.00557
+Generator,BE0 0,Onshore Wind,1583.00298
+Generator,BE0 0,Run of River,59.01534
+Generator,BE0 0,Solar,484.10291
+Generator,BE0 0,forest residues,2817482.2224
+Generator,BE0 0,gas,39563.05095
+Generator,BE0 0,industry wood,1493662.70842
+Generator,BE0 0,landscape care,525076.98187
+Generator,BE0 0,manure and slurry,3519005.63714
+Generator,BE0 0,municipal solid waste,3185976.41612
+Generator,BE0 0,rural solar thermal,0.00248
+Generator,BE0 0,sewage sludge,1076284.90867
+Generator,BE0 0,solar-hsat,0.1249
+Generator,BE0 0,solid biomass,10000.0
+Generator,BE0 0,straw,691059.65944
+Generator,BE0 0,unsustainable biogas,1777968.5814
+Generator,BE0 0,unsustainable bioliquids,3496518.795
+Generator,BE0 0,unsustainable solid biomass,9181122.598
+Generator,BE0 0,urban central heat vent,0.00788
+Generator,BE0 0,urban central solar thermal,0.0621
+Generator,BE0 0,urban decentral heat vent,0.00673
+Generator,BE0 0,urban decentral solar thermal,0.01679
+Generator,BG0 0,Offshore Wind (AC),0.01688
+Generator,BG0 0,Offshore Wind (DC),0.00975
+Generator,BG0 0,Offshore Wind (Floating),0.01059
+Generator,BG0 0,Onshore Wind,608.00011
+Generator,BG0 0,Run of River,110.4
+Generator,BG0 0,Solar,2405.102
+Generator,BG0 0,forest residues,4447961.97184
+Generator,BG0 0,gas,17204.76303
+Generator,BG0 0,industry wood,2519864.13001
+Generator,BG0 0,landscape care,463921.59216
+Generator,BG0 0,manure and slurry,559089.45559
+Generator,BG0 0,municipal solid waste,276777.09945
+Generator,BG0 0,rural solar thermal,0.03002
+Generator,BG0 0,sewage sludge,6.5378
+Generator,BG0 0,solar-hsat,8359.69956
+Generator,BG0 0,solid biomass,10000.0
+Generator,BG0 0,straw,2742382.4795
+Generator,BG0 0,unsustainable biogas,391105.0374
+Generator,BG0 0,unsustainable bioliquids,1265631.9588
+Generator,BG0 0,unsustainable solid biomass,12448219.4068
+Generator,BG0 0,urban central heat vent,0.41953
+Generator,BG0 0,urban central solar thermal,0.1113
+Generator,BG0 0,urban decentral heat vent,0.3612
+Generator,BG0 0,urban decentral solar thermal,0.03131
+Generator,CH0 0,Onshore Wind,55.00047
+Generator,CH0 0,Run of River,4202.6208
+Generator,CH0 0,Solar,96.80541
+Generator,CH0 0,forest residues,11707439.90967
+Generator,CH0 0,industry wood,9691541.87874
+Generator,CH0 0,landscape care,1683.36325
+Generator,CH0 0,manure and slurry,10651.58548
+Generator,CH0 0,municipal solid waste,6674856.43688
+Generator,CH0 0,rural solar thermal,0.01107
+Generator,CH0 0,sewage sludge,207.44496
+Generator,CH0 0,solar-hsat,29810.70493
+Generator,CH0 0,solid biomass,10000.0
+Generator,CH0 0,straw,4509.40046
+Generator,CH0 0,unsustainable solid biomass,10000.0
+Generator,CH0 0,urban central heat vent,9.04195
+Generator,CH0 0,urban central solar thermal,0.09424
+Generator,CH0 0,urban decentral heat vent,1.96326
+Generator,CH0 0,urban decentral solar thermal,0.01119
+Generator,CZ0 0,Onshore Wind,140.0025
+Generator,CZ0 0,Run of River,40.22638
+Generator,CZ0 0,Solar,1301.60019
+Generator,CZ0 0,forest residues,7109407.03972
+Generator,CZ0 0,industry wood,6562103.61984
+Generator,CZ0 0,landscape care,964214.56685
+Generator,CZ0 0,manure and slurry,4122348.15137
+Generator,CZ0 0,municipal solid waste,292113.49795
+Generator,CZ0 0,rural solar thermal,0.0164
+Generator,CZ0 0,sewage sludge,40325.76599
+Generator,CZ0 0,solar-hsat,0.80714
+Generator,CZ0 0,solid biomass,10000.0
+Generator,CZ0 0,straw,3437220.56642
+Generator,CZ0 0,unsustainable biogas,4460844.9006
+Generator,CZ0 0,unsustainable bioliquids,2145647.0772
+Generator,CZ0 0,unsustainable solid biomass,25876939.3972
+Generator,CZ0 0,urban central heat vent,0.00715
+Generator,CZ0 0,urban central solar thermal,0.07977
+Generator,CZ0 0,urban decentral heat vent,0.00935
+Generator,CZ0 0,urban decentral solar thermal,0.02151
+Generator,DE0 0,Offshore Wind (AC),2283.0
+Generator,DE0 0,Offshore Wind (DC),0.47369
+Generator,DE0 0,Offshore Wind (Floating),0.00574
+Generator,DE0 0,Onshore Wind,12809.00563
+Generator,DE0 0,Run of River,74.537
+Generator,DE0 0,Solar,2615.0037
+Generator,DE0 0,forest residues,5809098.27773
+Generator,DE0 0,gas,51474.12757
+Generator,DE0 0,industry wood,4730402.69247
+Generator,DE0 0,landscape care,312739.63782
+Generator,DE0 0,manure and slurry,3073228.01663
+Generator,DE0 0,municipal solid waste,1750256.50518
+Generator,DE0 0,rural solar thermal,0.01537
+Generator,DE0 0,sewage sludge,125488.73844
+Generator,DE0 0,solar-hsat,0.16148
+Generator,DE0 0,solid biomass,10000.0
+Generator,DE0 0,straw,5300559.49615
+Generator,DE0 0,unsustainable biogas,12420107.7833
+Generator,DE0 0,unsustainable bioliquids,5854314.8773
+Generator,DE0 0,unsustainable solid biomass,20886297.85901
+Generator,DE0 0,urban central heat vent,0.0117
+Generator,DE0 0,urban central solar thermal,0.06506
+Generator,DE0 0,urban decentral heat vent,0.00643
+Generator,DE0 0,urban decentral solar thermal,0.01751
+Generator,DE0 1,Onshore Wind,3376.0044
+Generator,DE0 1,Run of River,234.21477
+Generator,DE0 1,Solar,3804.81239
+Generator,DE0 1,forest residues,4696774.06384
+Generator,DE0 1,industry wood,3698856.64394
+Generator,DE0 1,landscape care,244469.05519
+Generator,DE0 1,manure and slurry,805739.45647
+Generator,DE0 1,municipal solid waste,972168.11705
+Generator,DE0 1,rural solar thermal,0.01661
+Generator,DE0 1,sewage sludge,69387.68923
+Generator,DE0 1,solar-hsat,0.48878
+Generator,DE0 1,solid biomass,10000.0
+Generator,DE0 1,straw,2613906.89604
+Generator,DE0 1,unsustainable biogas,7513976.39979
+Generator,DE0 1,unsustainable bioliquids,3541771.50411
+Generator,DE0 1,unsustainable solid biomass,12639842.84552
+Generator,DE0 1,urban central heat vent,0.01163
+Generator,DE0 1,urban central solar thermal,0.06756
+Generator,DE0 1,urban decentral heat vent,0.00598
+Generator,DE0 1,urban decentral solar thermal,0.02014
+Generator,DE0 2,Offshore Wind (AC),5575.0
+Generator,DE0 2,Offshore Wind (DC),0.31122
+Generator,DE0 2,Offshore Wind (Floating),0.00651
+Generator,DE0 2,Onshore Wind,7074.00655
+Generator,DE0 2,Run of River,428.368
+Generator,DE0 2,Solar,1618.30059
+Generator,DE0 2,forest residues,4107215.11211
+Generator,DE0 2,gas,85558.05889
+Generator,DE0 2,industry wood,3694916.18201
+Generator,DE0 2,landscape care,244462.22479
+Generator,DE0 2,manure and slurry,2137976.82833
+Generator,DE0 2,municipal solid waste,2620711.20115
+Generator,DE0 2,rural solar thermal,0.01136
+Generator,DE0 2,sewage sludge,188362.20872
+Generator,DE0 2,solar-hsat,0.1644
+Generator,DE0 2,solid biomass,10000.0
+Generator,DE0 2,straw,2572840.47729
+Generator,DE0 2,unsustainable biogas,8752286.10177
+Generator,DE0 2,unsustainable bioliquids,4125458.46058
+Generator,DE0 2,unsustainable solid biomass,14721251.68925
+Generator,DE0 2,urban central heat vent,0.00735
+Generator,DE0 2,urban central solar thermal,0.06527
+Generator,DE0 2,urban decentral heat vent,0.00362
+Generator,DE0 2,urban decentral solar thermal,0.01694
+Generator,DE0 3,Onshore Wind,456.00036
+Generator,DE0 3,Run of River,3052.49394
+Generator,DE0 3,Solar,4437.30413
+Generator,DE0 3,forest residues,6914530.93859
+Generator,DE0 3,industry wood,5189369.22183
+Generator,DE0 3,landscape care,342542.82553
+Generator,DE0 3,manure and slurry,804164.67382
+Generator,DE0 3,municipal solid waste,1232980.50298
+Generator,DE0 3,rural solar thermal,0.02013
+Generator,DE0 3,sewage sludge,88266.90681
+Generator,DE0 3,solar-hsat,12790.13992
+Generator,DE0 3,solid biomass,10000.0
+Generator,DE0 3,straw,2929475.44648
+Generator,DE0 3,unsustainable biogas,9445333.01316
+Generator,DE0 3,unsustainable bioliquids,4452131.53901
+Generator,DE0 3,unsustainable solid biomass,15886157.34103
+Generator,DE0 3,urban central heat vent,0.00963
+Generator,DE0 3,urban central solar thermal,0.08486
+Generator,DE0 3,urban decentral heat vent,0.00597
+Generator,DE0 3,urban decentral solar thermal,0.02245
+Generator,DE0 4,Onshore Wind,2869.00422
+Generator,DE0 4,Run of River,875.13283
+Generator,DE0 4,Solar,2214.90107
+Generator,DE0 4,forest residues,5868832.66467
+Generator,DE0 4,industry wood,5112009.91375
+Generator,DE0 4,landscape care,337609.25515
+Generator,DE0 4,manure and slurry,623966.32728
+Generator,DE0 4,municipal solid waste,2308458.3473
+Generator,DE0 4,rural solar thermal,0.01538
+Generator,DE0 4,sewage sludge,165649.17131
+Generator,DE0 4,solar-hsat,0.86197
+Generator,DE0 4,solid biomass,10000.0
+Generator,DE0 4,straw,2421025.09673
+Generator,DE0 4,unsustainable biogas,9243486.04078
+Generator,DE0 4,unsustainable bioliquids,4356989.39097
+Generator,DE0 4,unsustainable solid biomass,15546883.51258
+Generator,DE0 4,urban central heat vent,0.00657
+Generator,DE0 4,urban central solar thermal,0.08331
+Generator,DE0 4,urban decentral heat vent,0.006
+Generator,DE0 4,urban decentral solar thermal,0.02031
+Generator,DE0 5,Offshore Wind (AC),1803.0065
+Generator,DE0 5,Offshore Wind (DC),18.57005
+Generator,DE0 5,Offshore Wind (Floating),0.00598
+Generator,DE0 5,Onshore Wind,12688.00106
+Generator,DE0 5,Run of River,94.4841
+Generator,DE0 5,Solar,10827.91543
+Generator,DE0 5,forest residues,6553249.25667
+Generator,DE0 5,gas,9400.5768
+Generator,DE0 5,industry wood,5078629.71383
+Generator,DE0 5,landscape care,336036.12333
+Generator,DE0 5,manure and slurry,1943294.29011
+Generator,DE0 5,municipal solid waste,1640296.01239
+Generator,DE0 5,rural solar thermal,0.01924
+Generator,DE0 5,sewage sludge,117568.21773
+Generator,DE0 5,solar-hsat,0.38876
+Generator,DE0 5,solid biomass,10000.0
+Generator,DE0 5,straw,2978187.09881
+Generator,DE0 5,unsustainable biogas,10912893.88381
+Generator,DE0 5,unsustainable bioliquids,5143877.82562
+Generator,DE0 5,unsustainable solid biomass,18352902.2676
+Generator,DE0 5,urban central heat vent,0.01773
+Generator,DE0 5,urban central solar thermal,0.06769
+Generator,DE0 5,urban decentral heat vent,0.00389
+Generator,DE0 5,urban decentral solar thermal,0.02256
+Generator,DK0 0,Offshore Wind (AC),1602.60104
+Generator,DK0 0,Offshore Wind (DC),0.03609
+Generator,DK0 0,Offshore Wind (Floating),0.0118
+Generator,DK0 0,Onshore Wind,16484.42578
+Generator,DK0 0,Solar,1637.70224
+Generator,DK0 0,forest residues,1151203.73801
+Generator,DK0 0,gas,7803.4457
+Generator,DK0 0,industry wood,776717.86357
+Generator,DK0 0,landscape care,201104.03181
+Generator,DK0 0,manure and slurry,3079178.88423
+Generator,DK0 0,municipal solid waste,1108593.62566
+Generator,DK0 0,rural solar thermal,0.00457
+Generator,DK0 0,sewage sludge,11217.06484
+Generator,DK0 0,solar-hsat,0.07947
+Generator,DK0 0,solid biomass,10000.0
+Generator,DK0 0,straw,1838330.87776
+Generator,DK0 0,unsustainable biogas,2213520.30208
+Generator,DK0 0,unsustainable bioliquids,19191.33247
+Generator,DK0 0,unsustainable solid biomass,8402207.18288
+Generator,DK0 0,urban central heat vent,3.4909
+Generator,DK0 0,urban central solar thermal,0.05354
+Generator,DK0 0,urban decentral heat vent,1.53318
+Generator,DK0 0,urban decentral solar thermal,0.01376
+Generator,DK1 0,Offshore Wind (AC),1050.00137
+Generator,DK1 0,Offshore Wind (DC),0.01431
+Generator,DK1 0,Offshore Wind (Floating),0.00997
+Generator,DK1 0,Onshore Wind,5523.86647
+Generator,DK1 0,Solar,539.0003
+Generator,DK1 0,forest residues,300709.38522
+Generator,DK1 0,industry wood,250337.69175
+Generator,DK1 0,landscape care,66023.14194
+Generator,DK1 0,manure and slurry,856484.28394
+Generator,DK1 0,municipal solid waste,923908.57
+Generator,DK1 0,rural solar thermal,0.00371
+Generator,DK1 0,sewage sludge,9327.38014
+Generator,DK1 0,solar-hsat,0.08248
+Generator,DK1 0,solid biomass,10000.0
+Generator,DK1 0,straw,467832.00808
+Generator,DK1 0,unsustainable biogas,808089.07112
+Generator,DK1 0,unsustainable bioliquids,7006.17293
+Generator,DK1 0,unsustainable solid biomass,3073740.09792
+Generator,DK1 0,urban central heat vent,3.57466
+Generator,DK1 0,urban central solar thermal,0.05722
+Generator,DK1 0,urban decentral heat vent,1.44181
+Generator,DK1 0,urban decentral solar thermal,0.0155
+Generator,EE0 0,Offshore Wind (AC),0.05512
+Generator,EE0 0,Offshore Wind (DC),0.03613
+Generator,EE0 0,Offshore Wind (Floating),0.01294
+Generator,EE0 0,Onshore Wind,2771.51696
+Generator,EE0 0,Solar,439.50086
+Generator,EE0 0,forest residues,3128550.36379
+Generator,EE0 0,industry wood,3604064.69039
+Generator,EE0 0,landscape care,198736.31758
+Generator,EE0 0,manure and slurry,742465.33626
+Generator,EE0 0,municipal solid waste,251250.33091
+Generator,EE0 0,rural solar thermal,0.01608
+Generator,EE0 0,sewage sludge,0.01816
+Generator,EE0 0,solar-hsat,0.116
+Generator,EE0 0,solid biomass,10000.0
+Generator,EE0 0,straw,405107.45137
+Generator,EE0 0,unsustainable biogas,106517.0766
+Generator,EE0 0,unsustainable solid biomass,13543302.7654
+Generator,EE0 0,urban central heat vent,0.00807
+Generator,EE0 0,urban central solar thermal,0.05743
+Generator,EE0 0,urban decentral heat vent,0.00618
+Generator,EE0 0,urban decentral solar thermal,0.01813
+Generator,ES0 0,Offshore Wind (AC),20.00141
+Generator,ES0 0,Offshore Wind (Floating),0.01084
+Generator,ES0 0,Onshore Wind,30927.90595
+Generator,ES0 0,Run of River,130.0
+Generator,ES0 0,Solar,36676.84193
+Generator,ES0 0,forest residues,10526025.67186
+Generator,ES0 0,gas,89810.68912
+Generator,ES0 0,industry wood,7089845.54312
+Generator,ES0 0,landscape care,2307129.39665
+Generator,ES0 0,manure and slurry,9351159.43645
+Generator,ES0 0,municipal solid waste,2518753.72505
+Generator,ES0 0,rural solar thermal,0.02102
+Generator,ES0 0,sewage sludge,115866.50809
+Generator,ES0 0,solar-hsat,48754.12821
+Generator,ES0 0,solid biomass,10000.0
+Generator,ES0 0,straw,8436075.57385
+Generator,ES0 0,unsustainable biogas,2216386.51702
+Generator,ES0 0,unsustainable bioliquids,15844516.9718
+Generator,ES0 0,unsustainable solid biomass,38342153.85853
+Generator,ES0 0,urban central heat vent,14.14279
+Generator,ES0 0,urban central solar thermal,0.10464
+Generator,ES0 0,urban decentral heat vent,1.59299
+Generator,ES0 0,urban decentral solar thermal,0.03977
+Generator,ES6 0,Offshore Wind (AC),0.01122
+Generator,ES6 0,Offshore Wind (Floating),0.00901
+Generator,ES6 0,Onshore Wind,0.03072
+Generator,ES6 0,Run of River,147.00825
+Generator,ES6 0,Solar,270.7013
+Generator,ES6 0,forest residues,79392.90962
+Generator,ES6 0,industry wood,62172.12043
+Generator,ES6 0,landscape care,18133.83118
+Generator,ES6 0,manure and slurry,17763.46298
+Generator,ES6 0,municipal solid waste,72693.8827
+Generator,ES6 0,rural solar thermal,0.04807
+Generator,ES6 0,sewage sludge,2895.85504
+Generator,ES6 0,solar-hsat,1203.12298
+Generator,ES6 0,solid biomass,10000.0
+Generator,ES6 0,straw,78436.34714
+Generator,ES6 0,unsustainable biogas,17348.04098
+Generator,ES6 0,unsustainable bioliquids,124017.7774
+Generator,ES6 0,unsustainable solid biomass,310032.40447
+Generator,ES6 0,urban central heat vent,0.02365
+Generator,ES6 0,urban central solar thermal,0.143
+Generator,ES6 0,urban decentral heat vent,0.0066
+Generator,ES6 0,urban decentral solar thermal,0.03808
+Generator,EU,co2-ets,1000000000.0
+Generator,EU,coal,137173.08707
+Generator,EU,lignite,6249.6348
+Generator,EU,oil primary,976773.22546
+Generator,EU,uranium,226083.39577
+Generator,FI1 0,Offshore Wind (AC),0.04436
+Generator,FI1 0,Offshore Wind (DC),0.04557
+Generator,FI1 0,Offshore Wind (Floating),0.01342
+Generator,FI1 0,Onshore Wind,9468.40001
+Generator,FI1 0,Run of River,1470.6
+Generator,FI1 0,Solar,157.30275
+Generator,FI1 0,forest residues,15774307.15861
+Generator,FI1 0,gas,7058.67872
+Generator,FI1 0,industry wood,15953439.87854
+Generator,FI1 0,landscape care,780631.76259
+Generator,FI1 0,manure and slurry,343682.31403
+Generator,FI1 0,municipal solid waste,1067048.87883
+Generator,FI1 0,rural solar thermal,0.00527
+Generator,FI1 0,sewage sludge,271998.55527
+Generator,FI1 0,solar-hsat,0.08428
+Generator,FI1 0,solid biomass,10000.0
+Generator,FI1 0,straw,1274279.52431
+Generator,FI1 0,unsustainable biogas,1439350.6644
+Generator,FI1 0,unsustainable bioliquids,3128356.7238
+Generator,FI1 0,unsustainable solid biomass,66258049.0144
+Generator,FI1 0,urban central heat vent,0.00724
+Generator,FI1 0,urban central solar thermal,0.05199
+Generator,FI1 0,urban decentral heat vent,0.00748
+Generator,FI1 0,urban decentral solar thermal,0.01147
+Generator,FR0 0,Offshore Wind (AC),994.00318
+Generator,FR0 0,Offshore Wind (DC),0.03685
+Generator,FR0 0,Offshore Wind (Floating),0.00575
+Generator,FR0 0,Onshore Wind,12556.60758
+Generator,FR0 0,Solar,1542.40106
+Generator,FR0 0,forest residues,2583136.10877
+Generator,FR0 0,gas,21938.95957
+Generator,FR0 0,industry wood,5037257.79218
+Generator,FR0 0,landscape care,794689.77677
+Generator,FR0 0,manure and slurry,3792092.69841
+Generator,FR0 0,municipal solid waste,2684052.04147
+Generator,FR0 0,rural solar thermal,0.00835
+Generator,FR0 0,sewage sludge,695.77954
+Generator,FR0 0,solar-hsat,0.08827
+Generator,FR0 0,solid biomass,10000.0
+Generator,FR0 0,straw,9056436.09088
+Generator,FR0 0,unsustainable biogas,2529626.60206
+Generator,FR0 0,unsustainable bioliquids,6493389.26331
+Generator,FR0 0,unsustainable solid biomass,26957646.07881
+Generator,FR0 0,urban central heat vent,0.03559
+Generator,FR0 0,urban central solar thermal,0.06772
+Generator,FR0 0,urban decentral heat vent,1.18585
+Generator,FR0 0,urban decentral solar thermal,0.01769
+Generator,FR0 1,Offshore Wind (AC),110.20028
+Generator,FR0 1,Offshore Wind (Floating),0.01243
+Generator,FR0 1,Onshore Wind,1170.80001
+Generator,FR0 1,Run of River,4138.37915
+Generator,FR0 1,Solar,3086.50137
+Generator,FR0 1,forest residues,3305202.97113
+Generator,FR0 1,gas,14100.8652
+Generator,FR0 1,industry wood,6071765.28109
+Generator,FR0 1,landscape care,957878.43071
+Generator,FR0 1,manure and slurry,1989566.88156
+Generator,FR0 1,municipal solid waste,1617800.48016
+Generator,FR0 1,rural solar thermal,0.0209
+Generator,FR0 1,sewage sludge,137.94616
+Generator,FR0 1,solar-hsat,29267.45235
+Generator,FR0 1,solid biomass,10000.0
+Generator,FR0 1,straw,1310150.38319
+Generator,FR0 1,unsustainable biogas,864574.59226
+Generator,FR0 1,unsustainable bioliquids,2219307.53343
+Generator,FR0 1,unsustainable solid biomass,9220153.8235
+Generator,FR0 1,urban central heat vent,0.38016
+Generator,FR0 1,urban central solar thermal,0.13211
+Generator,FR0 1,urban decentral heat vent,1.17257
+Generator,FR0 1,urban decentral solar thermal,0.02759
+Generator,FR0 2,Offshore Wind (AC),0.02233
+Generator,FR0 2,Offshore Wind (DC),0.01385
+Generator,FR0 2,Offshore Wind (Floating),0.01106
+Generator,FR0 2,Onshore Wind,2782.70366
+Generator,FR0 2,Run of River,1256.17
+Generator,FR0 2,Solar,4611.11134
+Generator,FR0 2,forest residues,6396212.63171
+Generator,FR0 2,industry wood,9800428.23487
+Generator,FR0 2,landscape care,1550036.24291
+Generator,FR0 2,manure and slurry,3142335.8765
+Generator,FR0 2,municipal solid waste,1109642.70336
+Generator,FR0 2,rural solar thermal,0.02573
+Generator,FR0 2,sewage sludge,103.4855
+Generator,FR0 2,solar-hsat,1.10079
+Generator,FR0 2,solid biomass,10000.0
+Generator,FR0 2,straw,2911362.75672
+Generator,FR0 2,unsustainable biogas,1496475.69086
+Generator,FR0 2,unsustainable bioliquids,3841357.1299
+Generator,FR0 2,unsustainable solid biomass,15951679.79175
+Generator,FR0 2,urban central heat vent,0.01785
+Generator,FR0 2,urban central solar thermal,0.09526
+Generator,FR0 2,urban decentral heat vent,1.32929
+Generator,FR0 2,urban decentral solar thermal,0.02682
+Generator,FR0 3,Offshore Wind (AC),1424.0041
+Generator,FR0 3,Offshore Wind (DC),0.03562
+Generator,FR0 3,Offshore Wind (Floating),0.01317
+Generator,FR0 3,Onshore Wind,3495.70353
+Generator,FR0 3,Solar,868.20041
+Generator,FR0 3,forest residues,1395188.04124
+Generator,FR0 3,gas,19262.93632
+Generator,FR0 3,industry wood,2525698.398
+Generator,FR0 3,landscape care,398877.10471
+Generator,FR0 3,manure and slurry,12207758.00126
+Generator,FR0 3,municipal solid waste,1132048.17943
+Generator,FR0 3,rural solar thermal,0.01473
+Generator,FR0 3,sewage sludge,95.13144
+Generator,FR0 3,solar-hsat,0.12637
+Generator,FR0 3,solid biomass,10000.0
+Generator,FR0 3,straw,3464701.3135
+Generator,FR0 3,unsustainable biogas,1432244.86254
+Generator,FR0 3,unsustainable bioliquids,3676480.71271
+Generator,FR0 3,unsustainable solid biomass,15267440.61293
+Generator,FR0 3,urban central heat vent,0.01628
+Generator,FR0 3,urban central solar thermal,0.07067
+Generator,FR0 3,urban decentral heat vent,1.21752
+Generator,FR0 3,urban decentral solar thermal,0.02047
+Generator,FR0 4,Onshore Wind,3546.90457
+Generator,FR0 4,Run of River,1476.1
+Generator,FR0 4,Solar,1079.2006
+Generator,FR0 4,forest residues,3371675.48164
+Generator,FR0 4,industry wood,5957131.76762
+Generator,FR0 4,landscape care,941869.19965
+Generator,FR0 4,manure and slurry,2407011.15558
+Generator,FR0 4,municipal solid waste,780680.32392
+Generator,FR0 4,rural solar thermal,0.01597
+Generator,FR0 4,sewage sludge,187.2718
+Generator,FR0 4,solar-hsat,0.10629
+Generator,FR0 4,solid biomass,10000.0
+Generator,FR0 4,straw,2949000.55551
+Generator,FR0 4,unsustainable biogas,1124237.29898
+Generator,FR0 4,unsustainable bioliquids,2885845.04949
+Generator,FR0 4,unsustainable solid biomass,11986292.79233
+Generator,FR0 4,urban central heat vent,3.34132
+Generator,FR0 4,urban central solar thermal,0.07818
+Generator,FR0 4,urban decentral heat vent,2236.63134
+Generator,FR0 4,urban decentral solar thermal,0.01866
+Generator,FR5 0,Offshore Wind (AC),0.00946
+Generator,FR5 0,Offshore Wind (Floating),0.00873
+Generator,FR5 0,Onshore Wind,17.0004
+Generator,FR5 0,Solar,0.08402
+Generator,FR5 0,forest residues,76215.56567
+Generator,FR5 0,industry wood,145694.57828
+Generator,FR5 0,landscape care,23761.87513
+Generator,FR5 0,manure and slurry,18211.82229
+Generator,FR5 0,municipal solid waste,46633.0855
+Generator,FR5 0,rural solar thermal,0.0334
+Generator,FR5 0,sewage sludge,3.10589
+Generator,FR5 0,solar-hsat,1422.03138
+Generator,FR5 0,solid biomass,10000.0
+Generator,FR5 0,straw,46652.31456
+Generator,FR5 0,unsustainable biogas,17541.1017
+Generator,FR5 0,unsustainable bioliquids,45026.88317
+Generator,FR5 0,unsustainable solid biomass,196862.12429
+Generator,FR5 0,urban decentral heat vent,0.06435
+Generator,GB2 0,Offshore Wind (AC),7243.10243
+Generator,GB2 0,Offshore Wind (DC),0.06013
+Generator,GB2 0,Offshore Wind (Floating),0.01372
+Generator,GB2 0,Onshore Wind,14107.54429
+Generator,GB2 0,Run of River,2874.675
+Generator,GB2 0,Solar,1620.20179
+Generator,GB2 0,forest residues,3220691.17547
+Generator,GB2 0,gas,110410.72653
+Generator,GB2 0,industry wood,3478186.79659
+Generator,GB2 0,landscape care,938345.80941
+Generator,GB2 0,manure and slurry,6315060.92161
+Generator,GB2 0,municipal solid waste,555449.569
+Generator,GB2 0,rural solar thermal,0.00539
+Generator,GB2 0,sewage sludge,4318.60335
+Generator,GB2 0,solar-hsat,0.06179
+Generator,GB2 0,solid biomass,10000.0
+Generator,GB2 0,straw,1274616.29867
+Generator,GB2 0,unsustainable biogas,7682872.78392
+Generator,GB2 0,unsustainable bioliquids,1640927.03895
+Generator,GB2 0,unsustainable solid biomass,13192163.23138
+Generator,GB2 0,urban central heat vent,171.6583
+Generator,GB2 0,urban central solar thermal,0.04919
+Generator,GB2 0,urban decentral heat vent,0.00688
+Generator,GB2 0,urban decentral solar thermal,0.00594
+Generator,GB2 1,Offshore Wind (AC),16045.70814
+Generator,GB2 1,Offshore Wind (DC),0.03979
+Generator,GB2 1,Offshore Wind (Floating),0.01204
+Generator,GB2 1,Onshore Wind,9895.41605
+Generator,GB2 1,Solar,9810.91486
+Generator,GB2 1,forest residues,1107159.00798
+Generator,GB2 1,gas,112436.06983
+Generator,GB2 1,industry wood,1111744.81681
+Generator,GB2 1,landscape care,304765.01924
+Generator,GB2 1,manure and slurry,6383823.24599
+Generator,GB2 1,municipal solid waste,724277.33965
+Generator,GB2 1,rural solar thermal,0.01171
+Generator,GB2 1,sewage sludge,5655.2992
+Generator,GB2 1,solar-hsat,0.07478
+Generator,GB2 1,solid biomass,10000.0
+Generator,GB2 1,straw,5075666.7652
+Generator,GB2 1,unsustainable biogas,12463407.23485
+Generator,GB2 1,unsustainable bioliquids,2661965.45281
+Generator,GB2 1,unsustainable solid biomass,21394535.86435
+Generator,GB2 1,urban central heat vent,3.14063
+Generator,GB2 1,urban central solar thermal,0.05725
+Generator,GB2 1,urban decentral heat vent,0.00687
+Generator,GB2 1,urban decentral solar thermal,0.01203
+Generator,GB3 0,Offshore Wind (AC),0.03707
+Generator,GB3 0,Offshore Wind (DC),0.032
+Generator,GB3 0,Offshore Wind (Floating),0.01232
+Generator,GB3 0,Onshore Wind,1256.30053
+Generator,GB3 0,Run of River,761.5
+Generator,GB3 0,Solar,237.502
+Generator,GB3 0,forest residues,159999.49122
+Generator,GB3 0,industry wood,158228.89866
+Generator,GB3 0,landscape care,42147.43634
+Generator,GB3 0,manure and slurry,1653563.10387
+Generator,GB3 0,municipal solid waste,52802.04109
+Generator,GB3 0,rural solar thermal,0.00616
+Generator,GB3 0,sewage sludge,338.67767
+Generator,GB3 0,solar-hsat,0.05417
+Generator,GB3 0,solid biomass,10000.0
+Generator,GB3 0,straw,7575.7518
+Generator,GB3 0,unsustainable biogas,924405.04523
+Generator,GB3 0,unsustainable bioliquids,197436.72404
+Generator,GB3 0,unsustainable solid biomass,1596080.95446
+Generator,GB3 0,urban central heat vent,2.12962
+Generator,GB3 0,urban central solar thermal,0.04226
+Generator,GB3 0,urban decentral heat vent,0.01318
+Generator,GB3 0,urban decentral solar thermal,0.00626
+Generator,GR0 0,Offshore Wind (AC),0.01634
+Generator,GR0 0,Offshore Wind (DC),0.02235
+Generator,GR0 0,Offshore Wind (Floating),0.01072
+Generator,GR0 0,Onshore Wind,5025.60733
+Generator,GR0 0,Run of River,103.1
+Generator,GR0 0,Solar,4166.30553
+Generator,GR0 0,forest residues,785774.01899
+Generator,GR0 0,gas,16944.49233
+Generator,GR0 0,industry wood,1164983.3851
+Generator,GR0 0,landscape care,536467.2177
+Generator,GR0 0,manure and slurry,640824.4297
+Generator,GR0 0,municipal solid waste,227388.63189
+Generator,GR0 0,rural solar thermal,0.56248
+Generator,GR0 0,sewage sludge,39454.15792
+Generator,GR0 0,solar-hsat,15356.55433
+Generator,GR0 0,solid biomass,10000.0
+Generator,GR0 0,straw,1735282.44713
+Generator,GR0 0,unsustainable biogas,959352.1872
+Generator,GR0 0,unsustainable bioliquids,1383278.9454
+Generator,GR0 0,unsustainable solid biomass,5927466.115
+Generator,GR0 0,urban central heat vent,2.65255
+Generator,GR0 0,urban central solar thermal,0.1158
+Generator,GR0 0,urban decentral heat vent,1.8738
+Generator,GR0 0,urban decentral solar thermal,0.04575
+Generator,HR0 0,Offshore Wind (AC),0.01499
+Generator,HR0 0,Offshore Wind (DC),0.01448
+Generator,HR0 0,Offshore Wind (Floating),0.00885
+Generator,HR0 0,Onshore Wind,1140.01074
+Generator,HR0 0,Run of River,273.16773
+Generator,HR0 0,Solar,81.3018
+Generator,HR0 0,forest residues,1496531.68065
+Generator,HR0 0,industry wood,2085214.69055
+Generator,HR0 0,landscape care,176725.23422
+Generator,HR0 0,manure and slurry,291974.0094
+Generator,HR0 0,municipal solid waste,17713.74602
+Generator,HR0 0,rural solar thermal,0.03294
+Generator,HR0 0,sewage sludge,3157.69521
+Generator,HR0 0,solar-hsat,6576.43487
+Generator,HR0 0,solid biomass,10000.0
+Generator,HR0 0,straw,894268.75666
+Generator,HR0 0,unsustainable biogas,630989.139
+Generator,HR0 0,unsustainable bioliquids,1788.4614
+Generator,HR0 0,unsustainable solid biomass,11423968.3306
+Generator,HR0 0,urban central heat vent,0.00719
+Generator,HR0 0,urban central solar thermal,0.13962
+Generator,HR0 0,urban decentral heat vent,0.00673
+Generator,HR0 0,urban decentral solar thermal,0.03677
+Generator,HU0 0,Onshore Wind,319.00293
+Generator,HU0 0,Run of River,19.7
+Generator,HU0 0,Solar,2584.80115
+Generator,HU0 0,forest residues,4278570.03381
+Generator,HU0 0,gas,26967.58796
+Generator,HU0 0,industry wood,3456948.5687
+Generator,HU0 0,landscape care,527646.27367
+Generator,HU0 0,manure and slurry,5642192.07085
+Generator,HU0 0,municipal solid waste,837039.49511
+Generator,HU0 0,rural solar thermal,0.01732
+Generator,HU0 0,sewage sludge,25313.56682
+Generator,HU0 0,solar-hsat,12744.17988
+Generator,HU0 0,solid biomass,10000.0
+Generator,HU0 0,straw,4338233.48982
+Generator,HU0 0,unsustainable biogas,693915.3474
+Generator,HU0 0,unsustainable bioliquids,3627467.943
+Generator,HU0 0,unsustainable solid biomass,15765669.4636
+Generator,HU0 0,urban central heat vent,0.00908
+Generator,HU0 0,urban central solar thermal,0.10502
+Generator,HU0 0,urban decentral heat vent,0.0068
+Generator,HU0 0,urban decentral solar thermal,0.02815
+Generator,IE3 0,Offshore Wind (AC),25.00077
+Generator,IE3 0,Offshore Wind (DC),0.04422
+Generator,IE3 0,Offshore Wind (Floating),0.0136
+Generator,IE3 0,Onshore Wind,4755.20878
+Generator,IE3 0,Run of River,216.0
+Generator,IE3 0,Solar,1226.30121
+Generator,IE3 0,forest residues,1236917.42039
+Generator,IE3 0,gas,2143.87243
+Generator,IE3 0,industry wood,1332304.17753
+Generator,IE3 0,landscape care,397316.81945
+Generator,IE3 0,manure and slurry,1664247.85957
+Generator,IE3 0,municipal solid waste,165375.35495
+Generator,IE3 0,rural solar thermal,0.00575
+Generator,IE3 0,sewage sludge,182.1814
+Generator,IE3 0,solar-hsat,0.0605
+Generator,IE3 0,solid biomass,10000.0
+Generator,IE3 0,straw,22430.61242
+Generator,IE3 0,unsustainable biogas,388679.4846
+Generator,IE3 0,unsustainable bioliquids,350814.7632
+Generator,IE3 0,unsustainable solid biomass,1831513.3948
+Generator,IE3 0,urban central heat vent,3.8809
+Generator,IE3 0,urban central solar thermal,0.05102
+Generator,IE3 0,urban decentral heat vent,0.00667
+Generator,IE3 0,urban decentral solar thermal,0.00856
+Generator,IT0 0,Offshore Wind (AC),30.00266
+Generator,IT0 0,Offshore Wind (DC),0.01329
+Generator,IT0 0,Offshore Wind (Floating),0.01003
+Generator,IT0 0,Onshore Wind,8776.2303
+Generator,IT0 0,Run of River,1764.0
+Generator,IT0 0,Solar,3713.10412
+Generator,IT0 0,forest residues,3650868.70464
+Generator,IT0 0,gas,71229.68942
+Generator,IT0 0,industry wood,3319061.63447
+Generator,IT0 0,landscape care,431517.17468
+Generator,IT0 0,manure and slurry,1251750.52655
+Generator,IT0 0,municipal solid waste,1371983.70693
+Generator,IT0 0,rural solar thermal,0.03646
+Generator,IT0 0,sewage sludge,10372.43766
+Generator,IT0 0,solar-hsat,37495.07363
+Generator,IT0 0,solid biomass,10000.0
+Generator,IT0 0,straw,2899228.50033
+Generator,IT0 0,unsustainable biogas,5103635.82
+Generator,IT0 0,unsustainable bioliquids,2690823.79127
+Generator,IT0 0,unsustainable solid biomass,18418929.18447
+Generator,IT0 0,urban central heat vent,3.03303
+Generator,IT0 0,urban central solar thermal,0.11458
+Generator,IT0 0,urban decentral heat vent,1.45671
+Generator,IT0 0,urban decentral solar thermal,0.04017
+Generator,IT0 1,Offshore Wind (AC),0.01469
+Generator,IT0 1,Offshore Wind (DC),0.01271
+Generator,IT0 1,Offshore Wind (Floating),0.00864
+Generator,IT0 1,Onshore Wind,162.00144
+Generator,IT0 1,Run of River,5720.54
+Generator,IT0 1,Solar,1375.20929
+Generator,IT0 1,forest residues,7048475.65874
+Generator,IT0 1,gas,30237.2564
+Generator,IT0 1,industry wood,6114302.22246
+Generator,IT0 1,landscape care,796482.40132
+Generator,IT0 1,manure and slurry,9423801.89035
+Generator,IT0 1,municipal solid waste,1515510.78893
+Generator,IT0 1,rural solar thermal,0.02277
+Generator,IT0 1,sewage sludge,11486.92136
+Generator,IT0 1,solar-hsat,52231.26522
+Generator,IT0 1,solid biomass,10000.0
+Generator,IT0 1,straw,2720819.18365
+Generator,IT0 1,unsustainable biogas,10095270.07192
+Generator,IT0 1,unsustainable bioliquids,5322596.25233
+Generator,IT0 1,unsustainable solid biomass,36423866.19396
+Generator,IT0 1,urban central heat vent,0.03516
+Generator,IT0 1,urban central solar thermal,0.1081
+Generator,IT0 1,urban decentral heat vent,1.05745
+Generator,IT0 1,urban decentral solar thermal,0.02804
+Generator,IT4 0,Offshore Wind (AC),0.01737
+Generator,IT4 0,Offshore Wind (Floating),0.01029
+Generator,IT4 0,Onshore Wind,1185.00179
+Generator,IT4 0,Run of River,60.0
+Generator,IT4 0,Solar,431.40168
+Generator,IT4 0,forest residues,146185.73248
+Generator,IT4 0,industry wood,135100.30234
+Generator,IT4 0,landscape care,17819.72988
+Generator,IT4 0,manure and slurry,180133.73645
+Generator,IT4 0,municipal solid waste,89725.75173
+Generator,IT4 0,rural solar thermal,0.0562
+Generator,IT4 0,sewage sludge,607.16614
+Generator,IT4 0,solar-hsat,3061.06864
+Generator,IT4 0,solid biomass,10000.0
+Generator,IT4 0,straw,36064.57538
+Generator,IT4 0,unsustainable biogas,253930.23428
+Generator,IT4 0,unsustainable bioliquids,133881.323
+Generator,IT4 0,unsustainable solid biomass,925932.06597
+Generator,IT4 0,urban central heat vent,0.95146
+Generator,IT4 0,urban central solar thermal,0.12907
+Generator,IT4 0,urban decentral heat vent,1.45148
+Generator,IT4 0,urban decentral solar thermal,0.05597
+Generator,LT0 0,Offshore Wind (AC),0.04145
+Generator,LT0 0,Offshore Wind (DC),0.04454
+Generator,LT0 0,Offshore Wind (Floating),0.01125
+Generator,LT0 0,Onshore Wind,1195.00107
+Generator,LT0 0,Run of River,101.0
+Generator,LT0 0,Solar,299.60217
+Generator,LT0 0,forest residues,3118821.39061
+Generator,LT0 0,gas,9178.2394
+Generator,LT0 0,industry wood,2769588.02971
+Generator,LT0 0,landscape care,332875.37285
+Generator,LT0 0,manure and slurry,1306378.81267
+Generator,LT0 0,municipal solid waste,123050.99257
+Generator,LT0 0,rural solar thermal,0.01559
+Generator,LT0 0,sewage sludge,0.42584
+Generator,LT0 0,solar-hsat,0.13214
+Generator,LT0 0,solid biomass,10000.0
+Generator,LT0 0,straw,1236708.91663
+Generator,LT0 0,unsustainable biogas,299202.684
+Generator,LT0 0,unsustainable bioliquids,1216967.3868
+Generator,LT0 0,unsustainable solid biomass,9586235.9704
+Generator,LT0 0,urban central heat vent,0.01
+Generator,LT0 0,urban central solar thermal,0.05848
+Generator,LT0 0,urban decentral heat vent,0.00512
+Generator,LT0 0,urban decentral solar thermal,0.01806
+Generator,LU0 0,Onshore Wind,148.10095
+Generator,LU0 0,Solar,54.10145
+Generator,LU0 0,forest residues,265789.65741
+Generator,LU0 0,industry wood,275171.94436
+Generator,LU0 0,landscape care,11114.99084
+Generator,LU0 0,manure and slurry,139480.68657
+Generator,LU0 0,municipal solid waste,21142.62294
+Generator,LU0 0,rural solar thermal,0.01569
+Generator,LU0 0,sewage sludge,62.63163
+Generator,LU0 0,solar-hsat,3146.47272
+Generator,LU0 0,solid biomass,10000.0
+Generator,LU0 0,straw,39719.18644
+Generator,LU0 0,unsustainable biogas,138087.642
+Generator,LU0 0,unsustainable solid biomass,884764.8712
+Generator,LU0 0,urban central heat vent,87.31619
+Generator,LU0 0,urban central solar thermal,0.05462
+Generator,LU0 0,urban decentral heat vent,0.00448
+Generator,LU0 0,urban decentral solar thermal,0.0189
+Generator,LV0 0,Offshore Wind (AC),0.05297
+Generator,LV0 0,Offshore Wind (DC),0.04866
+Generator,LV0 0,Offshore Wind (Floating),0.01387
+Generator,LV0 0,Onshore Wind,100.0035
+Generator,LV0 0,Run of River,1536.1
+Generator,LV0 0,Solar,44.00121
+Generator,LV0 0,forest residues,5917811.34181
+Generator,LV0 0,industry wood,5480829.70921
+Generator,LV0 0,landscape care,303399.06511
+Generator,LV0 0,manure and slurry,723223.1562
+Generator,LV0 0,municipal solid waste,73832.24545
+Generator,LV0 0,rural solar thermal,0.01299
+Generator,LV0 0,sewage sludge,91.4675
+Generator,LV0 0,solar-hsat,0.11878
+Generator,LV0 0,solid biomass,10000.0
+Generator,LV0 0,straw,728899.05631
+Generator,LV0 0,unsustainable biogas,618938.133
+Generator,LV0 0,unsustainable bioliquids,589547.4948
+Generator,LV0 0,unsustainable solid biomass,18853973.863
+Generator,LV0 0,urban central heat vent,0.00946
+Generator,LV0 0,urban central solar thermal,0.05791
+Generator,LV0 0,urban decentral heat vent,0.005
+Generator,LV0 0,urban decentral solar thermal,0.0162
+Generator,ME0 0,Offshore Wind (AC),0.0062
+Generator,ME0 0,Offshore Wind (Floating),0.00743
+Generator,ME0 0,Onshore Wind,118.00001
+Generator,ME0 0,Run of River,5.36
+Generator,ME0 0,Solar,3.20144
+Generator,ME0 0,forest residues,91105.25895
+Generator,ME0 0,industry wood,227754.08025
+Generator,ME0 0,landscape care,0.31495
+Generator,ME0 0,manure and slurry,27329.66479
+Generator,ME0 0,municipal solid waste,10000.0275
+Generator,ME0 0,rural heat vent,1.5926
+Generator,ME0 0,rural solar thermal,0.02117
+Generator,ME0 0,sewage sludge,0.01139
+Generator,ME0 0,solar-hsat,5352.21096
+Generator,ME0 0,solid biomass,10000.0
+Generator,ME0 0,straw,2491.55592
+Generator,ME0 0,unsustainable solid biomass,1342833.5878
+Generator,ME0 0,urban central heat vent,0.87731
+Generator,ME0 0,urban central solar thermal,0.13354
+Generator,ME0 0,urban decentral heat vent,1.43574
+Generator,ME0 0,urban decentral solar thermal,0.02132
+Generator,MK0 0,Onshore Wind,73.00029
+Generator,MK0 0,Run of River,191.6
+Generator,MK0 0,Solar,296.90237
+Generator,MK0 0,forest residues,197550.10275
+Generator,MK0 0,industry wood,631762.38406
+Generator,MK0 0,landscape care,88.9779
+Generator,MK0 0,manure and slurry,64171.57372
+Generator,MK0 0,municipal solid waste,73523.69417
+Generator,MK0 0,rural heat vent,0.44526
+Generator,MK0 0,rural solar thermal,0.0265
+Generator,MK0 0,sewage sludge,460.87441
+Generator,MK0 0,solar-hsat,1176.34411
+Generator,MK0 0,solid biomass,10000.0
+Generator,MK0 0,straw,132675.5146
+Generator,MK0 0,unsustainable biogas,145471.7616
+Generator,MK0 0,unsustainable solid biomass,1273958.6344
+Generator,MK0 0,urban central heat vent,0.7647
+Generator,MK0 0,urban central solar thermal,0.12649
+Generator,MK0 0,urban decentral heat vent,0.42071
+Generator,MK0 0,urban decentral solar thermal,0.02669
+Generator,NL0 0,Offshore Wind (AC),5714.0
+Generator,NL0 0,Offshore Wind (DC),0.06391
+Generator,NL0 0,Offshore Wind (Floating),0.00604
+Generator,NL0 0,Onshore Wind,26398.47448
+Generator,NL0 0,Solar,4741.80598
+Generator,NL0 0,forest residues,506547.36933
+Generator,NL0 0,gas,90134.49414
+Generator,NL0 0,industry wood,453298.23124
+Generator,NL0 0,landscape care,236861.65122
+Generator,NL0 0,manure and slurry,4302180.91243
+Generator,NL0 0,municipal solid waste,4302858.05195
+Generator,NL0 0,rural solar thermal,0.00075
+Generator,NL0 0,sewage sludge,31498.7442
+Generator,NL0 0,solar-hsat,0.12486
+Generator,NL0 0,solid biomass,10000.0
+Generator,NL0 0,straw,424970.40833
+Generator,NL0 0,unsustainable biogas,2734104.6084
+Generator,NL0 0,unsustainable bioliquids,13658449.0086
+Generator,NL0 0,unsustainable solid biomass,11065408.6852
+Generator,NL0 0,urban central heat vent,0.01164
+Generator,NL0 0,urban central solar thermal,0.06149
+Generator,NL0 0,urban decentral heat vent,0.00686
+Generator,NL0 0,urban decentral solar thermal,0.01666
+Generator,NO1 0,Offshore Wind (AC),138.00083
+Generator,NO1 0,Offshore Wind (DC),0.03322
+Generator,NO1 0,Offshore Wind (Floating),0.0127
+Generator,NO1 0,Onshore Wind,5528.80001
+Generator,NO1 0,Run of River,892.5
+Generator,NO1 0,Solar,1.40037
+Generator,NO1 0,forest residues,4067982.53752
+Generator,NO1 0,gas,419938.65253
+Generator,NO1 0,industry wood,6133912.38321
+Generator,NO1 0,landscape care,219.22043
+Generator,NO1 0,manure and slurry,60.4384
+Generator,NO1 0,municipal solid waste,1704334.6271
+Generator,NO1 0,rural solar thermal,0.00568
+Generator,NO1 0,sewage sludge,44756.84155
+Generator,NO1 0,solar-hsat,0.05801
+Generator,NO1 0,solid biomass,10000.0
+Generator,NO1 0,straw,46.13226
+Generator,NO1 0,unsustainable biogas,665676.0792
+Generator,NO1 0,unsustainable bioliquids,582078.9414
+Generator,NO1 0,unsustainable solid biomass,7172235.2494
+Generator,NO1 0,urban central heat vent,251.24917
+Generator,NO1 0,urban central solar thermal,0.05344
+Generator,NO1 0,urban decentral heat vent,0.01677
+Generator,NO1 0,urban decentral solar thermal,0.00588
+Generator,PL0 0,Offshore Wind (AC),3404.32203
+Generator,PL0 0,Offshore Wind (DC),5810.19819
+Generator,PL0 0,Offshore Wind (Floating),0.01602
+Generator,PL0 0,Onshore Wind,9037.00744
+Generator,PL0 0,Run of River,182.40037
+Generator,PL0 0,Solar,2622.10144
+Generator,PL0 0,forest residues,17419670.59719
+Generator,PL0 0,gas,26668.26651
+Generator,PL0 0,industry wood,15586187.4688
+Generator,PL0 0,landscape care,1824091.33746
+Generator,PL0 0,manure and slurry,7135057.33624
+Generator,PL0 0,municipal solid waste,2231129.89508
+Generator,PL0 0,rural solar thermal,0.01763
+Generator,PL0 0,sewage sludge,93258.50062
+Generator,PL0 0,solar-hsat,20267.62251
+Generator,PL0 0,solid biomass,10000.0
+Generator,PL0 0,straw,8065378.41405
+Generator,PL0 0,unsustainable biogas,2291310.7338
+Generator,PL0 0,unsustainable bioliquids,7528125.2838
+Generator,PL0 0,unsustainable solid biomass,69137111.1058
+Generator,PL0 0,urban central heat vent,0.02408
+Generator,PL0 0,urban central solar thermal,0.07829
+Generator,PL0 0,urban decentral heat vent,0.00367
+Generator,PL0 0,urban decentral solar thermal,0.02258
+Generator,PT0 0,Offshore Wind (AC),25.00053
+Generator,PT0 0,Offshore Wind (Floating),0.01164
+Generator,PT0 0,Onshore Wind,5327.60742
+Generator,PT0 0,Run of River,2537.5
+Generator,PT0 0,Solar,3496.10719
+Generator,PT0 0,forest residues,4825295.52849
+Generator,PT0 0,gas,9235.6544
+Generator,PT0 0,industry wood,3424705.51096
+Generator,PT0 0,landscape care,509085.60057
+Generator,PT0 0,manure and slurry,2029105.31925
+Generator,PT0 0,municipal solid waste,1116986.50726
+Generator,PT0 0,rural solar thermal,0.03616
+Generator,PT0 0,sewage sludge,48521.54535
+Generator,PT0 0,solar-hsat,7590.40409
+Generator,PT0 0,solid biomass,10000.0
+Generator,PT0 0,straw,737776.52536
+Generator,PT0 0,unsustainable biogas,615115.5846
+Generator,PT0 0,unsustainable bioliquids,2664546.5088
+Generator,PT0 0,unsustainable solid biomass,21729044.5384
+Generator,PT0 0,urban central heat vent,4.09057
+Generator,PT0 0,urban central solar thermal,0.09323
+Generator,PT0 0,urban decentral heat vent,1.94261
+Generator,PT0 0,urban decentral solar thermal,0.03187
+Generator,RO0 0,Offshore Wind (AC),0.02506
+Generator,RO0 0,Offshore Wind (DC),0.02561
+Generator,RO0 0,Offshore Wind (Floating),0.01079
+Generator,RO0 0,Onshore Wind,5511.00764
+Generator,RO0 0,Run of River,3521.45
+Generator,RO0 0,Solar,2026.70094
+Generator,RO0 0,forest residues,13994882.02141
+Generator,RO0 0,gas,98593.31834
+Generator,RO0 0,industry wood,10157939.25403
+Generator,RO0 0,landscape care,1914771.56389
+Generator,RO0 0,manure and slurry,2181186.34456
+Generator,RO0 0,municipal solid waste,763761.03938
+Generator,RO0 0,rural solar thermal,0.0351
+Generator,RO0 0,sewage sludge,2018.31501
+Generator,RO0 0,solar-hsat,1095.79538
+Generator,RO0 0,solid biomass,10000.0
+Generator,RO0 0,straw,5273920.74986
+Generator,RO0 0,unsustainable biogas,145617.6018
+Generator,RO0 0,unsustainable bioliquids,1681652.643
+Generator,RO0 0,unsustainable solid biomass,26538294.001
+Generator,RO0 0,urban central heat vent,0.01484
+Generator,RO0 0,urban central solar thermal,0.104
+Generator,RO0 0,urban decentral heat vent,0.00685
+Generator,RO0 0,urban decentral solar thermal,0.03214
+Generator,RS0 0,Onshore Wind,772.10066
+Generator,RS0 0,Run of River,1708.4
+Generator,RS0 0,Solar,35.60144
+Generator,RS0 0,forest residues,562374.60326
+Generator,RS0 0,industry wood,2028168.95642
+Generator,RS0 0,landscape care,691.8692
+Generator,RS0 0,manure and slurry,963267.22629
+Generator,RS0 0,municipal solid waste,860002.32632
+Generator,RS0 0,rural heat vent,2.02074
+Generator,RS0 0,rural solar thermal,0.02426
+Generator,RS0 0,sewage sludge,368.98243
+Generator,RS0 0,solar-hsat,3014.89457
+Generator,RS0 0,solid biomass,10000.0
+Generator,RS0 0,straw,2140997.31772
+Generator,RS0 0,unsustainable biogas,218161.5876
+Generator,RS0 0,unsustainable solid biomass,9039143.3254
+Generator,RS0 0,urban central heat vent,0.00971
+Generator,RS0 0,urban central solar thermal,0.14914
+Generator,RS0 0,urban decentral heat vent,1.87938
+Generator,RS0 0,urban decentral solar thermal,0.02452
+Generator,SE1 0,Offshore Wind (AC),179.00091
+Generator,SE1 0,Offshore Wind (DC),0.04375
+Generator,SE1 0,Offshore Wind (Floating),0.01315
+Generator,SE1 0,Onshore Wind,16587.80857
+Generator,SE1 0,Run of River,1279.0
+Generator,SE1 0,Solar,285.40213
+Generator,SE1 0,forest residues,28168872.40128
+Generator,SE1 0,gas,989.5344
+Generator,SE1 0,industry wood,28455525.61401
+Generator,SE1 0,landscape care,2590941.20498
+Generator,SE1 0,manure and slurry,1558743.32251
+Generator,SE1 0,municipal solid waste,2420033.38078
+Generator,SE1 0,rural solar thermal,0.00617
+Generator,SE1 0,sewage sludge,132424.99968
+Generator,SE1 0,solar-hsat,0.09806
+Generator,SE1 0,solid biomass,10000.0
+Generator,SE1 0,straw,1456748.66696
+Generator,SE1 0,unsustainable biogas,1393334.2434
+Generator,SE1 0,unsustainable bioliquids,3860336.3634
+Generator,SE1 0,unsustainable solid biomass,72604500.2398
+Generator,SE1 0,urban central heat vent,63.29505
+Generator,SE1 0,urban central solar thermal,0.05862
+Generator,SE1 0,urban decentral heat vent,0.0425
+Generator,SE1 0,urban decentral solar thermal,0.01298
+Generator,SI0 0,Offshore Wind (AC),0.00581
+Generator,SI0 0,Offshore Wind (Floating),0.00329
+Generator,SI0 0,Onshore Wind,0.01524
+Generator,SI0 0,Run of River,504.415
+Generator,SI0 0,Solar,30.00175
+Generator,SI0 0,forest residues,3574396.24169
+Generator,SI0 0,industry wood,3120318.88819
+Generator,SI0 0,landscape care,64008.66759
+Generator,SI0 0,manure and slurry,137871.30734
+Generator,SI0 0,municipal solid waste,97162.21012
+Generator,SI0 0,rural solar thermal,0.02478
+Generator,SI0 0,sewage sludge,6066.45995
+Generator,SI0 0,solar-hsat,0.20139
+Generator,SI0 0,solid biomass,10000.0
+Generator,SI0 0,straw,66364.83761
+Generator,SI0 0,unsustainable biogas,170441.139
+Generator,SI0 0,unsustainable solid biomass,4213206.6736
+Generator,SI0 0,urban central heat vent,0.00782
+Generator,SI0 0,urban central solar thermal,0.09722
+Generator,SI0 0,urban decentral heat vent,0.0066
+Generator,SI0 0,urban decentral solar thermal,0.02955
+Generator,SK0 0,Onshore Wind,0.029
+Generator,SK0 0,Run of River,1217.69
+Generator,SK0 0,Solar,449.20269
+Generator,SK0 0,forest residues,4015049.47104
+Generator,SK0 0,gas,94068.10034
+Generator,SK0 0,industry wood,3153132.37611
+Generator,SK0 0,landscape care,274177.3363
+Generator,SK0 0,manure and slurry,1228846.40426
+Generator,SK0 0,municipal solid waste,368662.56633
+Generator,SK0 0,rural solar thermal,0.024
+Generator,SK0 0,sewage sludge,222.81702
+Generator,SK0 0,solar-hsat,0.26507
+Generator,SK0 0,solid biomass,10000.0
+Generator,SK0 0,straw,1246648.10856
+Generator,SK0 0,unsustainable biogas,1097063.715
+Generator,SK0 0,unsustainable bioliquids,1316046.6132
+Generator,SK0 0,unsustainable solid biomass,10746364.0582
+Generator,SK0 0,urban central heat vent,0.00999
+Generator,SK0 0,urban central solar thermal,0.0831
+Generator,SK0 0,urban decentral heat vent,0.00549
+Generator,SK0 0,urban decentral solar thermal,0.02636
+Generator,XK0 0,Onshore Wind,135.00001
+Generator,XK0 0,Run of River,30.2
+Generator,XK0 0,Solar,165.10205
+Generator,XK0 0,forest residues,57002.28275
+Generator,XK0 0,industry wood,201946.47944
+Generator,XK0 0,manure and slurry,18363.27105
+Generator,XK0 0,municipal solid waste,10019.724
+Generator,XK0 0,rural heat vent,0.00695
+Generator,XK0 0,rural solar thermal,0.00026
+Generator,XK0 0,sewage sludge,2108.47551
+Generator,XK0 0,solar-hsat,294.78701
+Generator,XK0 0,solid biomass,10000.0
+Generator,XK0 0,straw,83770.39053
+Generator,XK0 0,unsustainable solid biomass,2460153.739
+Generator,XK0 0,urban central heat vent,0.02059
+Generator,XK0 0,urban central solar thermal,0.13422
+Generator,XK0 0,urban decentral heat vent,0.00703
+Generator,XK0 0,urban decentral solar thermal,0.0005
+Line,AL0 0,AC,9741.75134
+Line,AT0 0,AC,35168.60838
+Line,BA0 0,AC,16757.59634
+Line,BE0 0,AC,14646.13503
+Line,BG0 0,AC,15908.54503
+Line,CH0 0,AC,48619.35899
+Line,CZ0 0,AC,17696.01669
+Line,DE0 0,AC,48075.50491
+Line,DE0 1,AC,45349.58902
+Line,DE0 2,AC,31593.64596
+Line,DE0 3,AC,14076.38169
+Line,DE0 4,AC,7954.27013
+Line,DE0 5,AC,6971.15809
+Line,DK1 0,AC,3574.95287
+Line,EE0 0,AC,3318.00313
+Line,ES0 0,AC,20176.14502
+Line,FI1 0,AC,7462.71889
+Line,FR0 0,AC,55746.92127
+Line,FR0 1,AC,27203.15697
+Line,FR0 2,AC,10166.27222
+Line,FR0 4,AC,502.72775
+Line,GB2 0,AC,31476.34282
+Line,GB3 0,AC,5239.54507
+Line,GR0 0,AC,3574.95287
+Line,HR0 0,AC,15282.92351
+Line,HU0 0,AC,24667.18433
+Line,IT0 0,AC,10188.61567
+Line,IT0 1,AC,2279.03245
+Line,LT0 0,AC,7998.95704
+Line,ME0 0,AC,6166.79847
+Line,MK0 0,AC,4558.06491
+Line,NO1 0,AC,7909.58322
+Line,PL0 0,AC,3574.95287
+Line,RO0 0,AC,7149.90573
+Line,RS0 0,AC,2279.03245
+Link,AL0 0,BEV charger,4354.96032
+Link,AL0 0,CO2 pipeline,2.1179
+Link,AL0 0,Combined-Cycle Gas,0.04684
+Link,AL0 0,EAF,0.00477
+Link,AL0 0,H2 DRI,0.00258
+Link,AL0 0,H2 Electrolysis,0.01093
+Link,AL0 0,HVC to air,11552.35899
+Link,AL0 0,Haber-Bosch,0.03239
+Link,AL0 0,Open-Cycle Gas,0.09515
+Link,AL0 0,SMR,44.21591
+Link,AL0 0,Sabatier,0.01581
+Link,AL0 0,battery charger,0.16778
+Link,AL0 0,battery discharger,0.17124
+Link,AL0 0,biogas to gas,0.01782
+Link,AL0 0,biomass to liquid,215.69159
+Link,AL0 0,biomass-to-methanol,0.00507
+Link,AL0 0,electricity distribution grid,658.25326
+Link,AL0 0,gas DRI,0.01746
+Link,AL0 0,gas for industry,6.70669
+Link,AL0 0,gas pipeline new,4196.23481
+Link,AL0 0,heat100-200 industry electric boiler steam,0.00952
+Link,AL0 0,heat100-200 industry gas,28.36698
+Link,AL0 0,heat100-200 industry industrial heat pump high temperature,0.02083
+Link,AL0 0,heat100-200 industry solid biomass,0.02999
+Link,AL0 0,heat200-500 industry gas,8.64821
+Link,AL0 0,heat200-500 industry hydrogen,0.01046
+Link,AL0 0,heat200-500 industry solid biomass,0.02457
+Link,AL0 0,heat<100 industry electric boiler steam,0.00953
+Link,AL0 0,heat<100 industry gas,33.28173
+Link,AL0 0,heat<100 industry industrial heat pump medium temperature,0.02171
+Link,AL0 0,heat<100 industry solid biomass,0.03047
+Link,AL0 0,heat>500 industry gas,9.32658
+Link,AL0 0,heat>500 industry hydrogen,0.01102
+Link,AL0 0,home battery charger,0.16018
+Link,AL0 0,home battery discharger,0.16349
+Link,AL0 0,methanolisation,33.44313
+Link,AL0 0,municipal solid waste,14.95029
+Link,AL0 0,rural air heat pump,0.01044
+Link,AL0 0,rural biomass boiler,0.05887
+Link,AL0 0,rural gas boiler,305.77184
+Link,AL0 0,rural ground heat pump,0.01239
+Link,AL0 0,rural resistive heater,313.80883
+Link,AL0 0,solid biomass for industry,13.69863
+Link,AL0 0,steel emission,4.69927
+Link,AL0 0,urban central air heat pump,0.02197
+Link,AL0 0,urban central gas CHP,0.10738
+Link,AL0 0,urban central gas boiler,138.00245
+Link,AL0 0,urban central resistive heater,0.19155
+Link,AL0 0,urban central solid biomass CHP,0.03417
+Link,AL0 0,urban central solid biomass CHP CC,16.95371
+Link,AL0 0,urban decentral air heat pump,0.01012
+Link,AL0 0,urban decentral biomass boiler,0.06059
+Link,AL0 0,urban decentral gas boiler,403.22762
+Link,AL0 0,urban decentral resistive heater,427.81544
+Link,AL0 0,waste CHP,0.01154
+Link,AT0 0,BEV charger,17184.85868
+Link,AT0 0,CO2 pipeline,111.4818
+Link,AT0 0,Combined-Cycle Gas,5802.07104
+Link,AT0 0,EAF,0.0078
+Link,AT0 0,H2 DRI,0.00314
+Link,AT0 0,H2 Electrolysis,0.01035
+Link,AT0 0,HVC to air,27387.55097
+Link,AT0 0,Haber-Bosch,0.01511
+Link,AT0 0,Open-Cycle Gas,0.12238
+Link,AT0 0,SMR,671.26998
+Link,AT0 0,Sabatier,0.01575
+Link,AT0 0,battery charger,0.16335
+Link,AT0 0,battery discharger,0.16672
+Link,AT0 0,biogas to gas,188.02712
+Link,AT0 0,biomass to liquid,2595.82119
+Link,AT0 0,biomass-to-methanol,0.00509
+Link,AT0 0,electricity distribution grid,8743.60364
+Link,AT0 0,gas DRI,0.02913
+Link,AT0 0,gas for industry,236.77804
+Link,AT0 0,gas pipeline,4500.0
+Link,AT0 0,gas pipeline new,47281.34114
+Link,AT0 0,heat100-200 industry electric boiler steam,0.00894
+Link,AT0 0,heat100-200 industry gas,1711.26303
+Link,AT0 0,heat100-200 industry industrial heat pump high temperature,0.0126
+Link,AT0 0,heat100-200 industry solid biomass,0.02874
+Link,AT0 0,heat200-500 industry gas,378.50803
+Link,AT0 0,heat200-500 industry hydrogen,0.00884
+Link,AT0 0,heat200-500 industry solid biomass,0.02954
+Link,AT0 0,heat<100 industry electric boiler steam,0.00754
+Link,AT0 0,heat<100 industry gas,638.45811
+Link,AT0 0,heat<100 industry industrial heat pump medium temperature,0.01189
+Link,AT0 0,heat<100 industry solid biomass,0.02739
+Link,AT0 0,heat>500 industry gas,921.41135
+Link,AT0 0,heat>500 industry hydrogen,0.01001
+Link,AT0 0,home battery charger,0.11905
+Link,AT0 0,home battery discharger,0.1215
+Link,AT0 0,methanolisation,510.08241
+Link,AT0 0,municipal solid waste,84.25059
+Link,AT0 0,rural air heat pump,0.01769
+Link,AT0 0,rural biomass boiler,2758.76023
+Link,AT0 0,rural gas boiler,2114.79234
+Link,AT0 0,rural ground heat pump,588.46663
+Link,AT0 0,rural resistive heater,178.72819
+Link,AT0 0,solid biomass for industry,1883.56164
+Link,AT0 0,steel emission,319.8959
+Link,AT0 0,unsustainable bioliquids,3052205.112
+Link,AT0 0,urban central air heat pump,0.01603
+Link,AT0 0,urban central gas CHP,0.19812
+Link,AT0 0,urban central gas boiler,4708.9911
+Link,AT0 0,urban central resistive heater,2.11403
+Link,AT0 0,urban central solid biomass CHP,0.04513
+Link,AT0 0,urban central solid biomass CHP CC,0.28178
+Link,AT0 0,urban decentral air heat pump,291.91063
+Link,AT0 0,urban decentral biomass boiler,2841.33577
+Link,AT0 0,urban decentral gas boiler,2178.09256
+Link,AT0 0,urban decentral resistive heater,324.33745
+Link,AT0 0,waste CHP,0.0124
+Link,BA0 0,BEV charger,5130.39665
+Link,BA0 0,CO2 pipeline,1.21418
+Link,BA0 0,Combined-Cycle Gas,0.05141
+Link,BA0 0,EAF,0.00538
+Link,BA0 0,H2 DRI,0.00258
+Link,BA0 0,H2 Electrolysis,0.01055
+Link,BA0 0,HVC to air,11196.26612
+Link,BA0 0,Haber-Bosch,0.01491
+Link,BA0 0,Open-Cycle Gas,0.10269
+Link,BA0 0,SMR,2.56023
+Link,BA0 0,Sabatier,0.01558
+Link,BA0 0,battery charger,0.16469
+Link,BA0 0,battery discharger,0.16808
+Link,BA0 0,biogas to gas,1.41809
+Link,BA0 0,biomass to liquid,1445.22333
+Link,BA0 0,biomass-to-methanol,0.00509
+Link,BA0 0,electricity distribution grid,3196.23114
+Link,BA0 0,gas DRI,0.02008
+Link,BA0 0,gas for industry,38.66451
+Link,BA0 0,gas pipeline,1500.0
+Link,BA0 0,gas pipeline new,4189.3335
+Link,BA0 0,heat100-200 industry electric boiler steam,0.00707
+Link,BA0 0,heat100-200 industry gas,56.61119
+Link,BA0 0,heat100-200 industry industrial heat pump high temperature,0.01704
+Link,BA0 0,heat100-200 industry solid biomass,0.03213
+Link,BA0 0,heat200-500 industry gas,23.48286
+Link,BA0 0,heat200-500 industry hydrogen,0.01158
+Link,BA0 0,heat200-500 industry solid biomass,0.02966
+Link,BA0 0,heat<100 industry electric boiler steam,0.00709
+Link,BA0 0,heat<100 industry gas,57.84527
+Link,BA0 0,heat<100 industry industrial heat pump medium temperature,0.01685
+Link,BA0 0,heat<100 industry solid biomass,0.0322
+Link,BA0 0,heat>500 industry gas,84.6167
+Link,BA0 0,heat>500 industry hydrogen,0.00996
+Link,BA0 0,home battery charger,0.21005
+Link,BA0 0,home battery discharger,0.21438
+Link,BA0 0,methanolisation,1.84561
+Link,BA0 0,municipal solid waste,0.00812
+Link,BA0 0,rural air heat pump,0.00769
+Link,BA0 0,rural biomass boiler,0.06993
+Link,BA0 0,rural gas boiler,1683.10522
+Link,BA0 0,rural ground heat pump,0.00951
+Link,BA0 0,rural resistive heater,1231.73996
+Link,BA0 0,solid biomass for industry,76.48402
+Link,BA0 0,steel emission,38.61564
+Link,BA0 0,urban central air heat pump,0.02872
+Link,BA0 0,urban central gas CHP,0.13391
+Link,BA0 0,urban central gas boiler,803.03273
+Link,BA0 0,urban central resistive heater,10.54068
+Link,BA0 0,urban central solid biomass CHP,0.04136
+Link,BA0 0,urban central solid biomass CHP CC,4.22302
+Link,BA0 0,urban decentral air heat pump,0.00771
+Link,BA0 0,urban decentral biomass boiler,0.06992
+Link,BA0 0,urban decentral gas boiler,1213.87955
+Link,BA0 0,urban decentral resistive heater,890.95402
+Link,BA0 0,waste CHP,0.0116
+Link,BE0 0,BEV charger,20082.2061
+Link,BE0 0,CO2 pipeline,0.6378
+Link,BE0 0,Combined-Cycle Gas,8755.69049
+Link,BE0 0,DC,2000.0
+Link,BE0 0,EAF,0.00836
+Link,BE0 0,H2 DRI,0.00304
+Link,BE0 0,H2 Electrolysis,0.01021
+Link,BE0 0,HVC to air,38287.23616
+Link,BE0 0,Haber-Bosch,0.0209
+Link,BE0 0,Open-Cycle Gas,0.20077
+Link,BE0 0,SMR,1.10916
+Link,BE0 0,Sabatier,0.01519
+Link,BE0 0,battery charger,0.16246
+Link,BE0 0,battery discharger,0.16581
+Link,BE0 0,biogas to gas,202.98363
+Link,BE0 0,biomass to liquid,0.0151
+Link,BE0 0,biomass-to-methanol,0.00418
+Link,BE0 0,electricity distribution grid,11980.82977
+Link,BE0 0,gas DRI,0.03182
+Link,BE0 0,gas for industry,591.59622
+Link,BE0 0,gas pipeline,10500.0
+Link,BE0 0,gas pipeline new,4848.98078
+Link,BE0 0,heat100-200 industry electric boiler steam,0.00897
+Link,BE0 0,heat100-200 industry gas,1879.45065
+Link,BE0 0,heat100-200 industry industrial heat pump high temperature,0.01111
+Link,BE0 0,heat100-200 industry solid biomass,0.00713
+Link,BE0 0,heat200-500 industry gas,517.79671
+Link,BE0 0,heat200-500 industry hydrogen,0.00909
+Link,BE0 0,heat200-500 industry solid biomass,0.00782
+Link,BE0 0,heat<100 industry electric boiler steam,0.00859
+Link,BE0 0,heat<100 industry gas,1479.29742
+Link,BE0 0,heat<100 industry industrial heat pump medium temperature,0.01135
+Link,BE0 0,heat<100 industry solid biomass,0.00691
+Link,BE0 0,heat>500 industry gas,1706.8344
+Link,BE0 0,heat>500 industry hydrogen,0.01129
+Link,BE0 0,home battery charger,0.1193
+Link,BE0 0,home battery discharger,0.12176
+Link,BE0 0,methanolisation,0.73159
+Link,BE0 0,municipal solid waste,380.99039
+Link,BE0 0,rural air heat pump,0.02125
+Link,BE0 0,rural biomass boiler,183.16277
+Link,BE0 0,rural gas boiler,1208.17632
+Link,BE0 0,rural ground heat pump,90.22638
+Link,BE0 0,rural resistive heater,140.61226
+Link,BE0 0,solid biomass for industry,1066.21005
+Link,BE0 0,steel emission,249.63287
+Link,BE0 0,unsustainable bioliquids,3496518.795
+Link,BE0 0,urban central air heat pump,0.01769
+Link,BE0 0,urban central gas CHP,0.37948
+Link,BE0 0,urban central gas boiler,6126.67441
+Link,BE0 0,urban central resistive heater,0.47785
+Link,BE0 0,urban central solid biomass CHP,0.01724
+Link,BE0 0,urban central solid biomass CHP CC,0.01033
+Link,BE0 0,urban decentral air heat pump,105.97449
+Link,BE0 0,urban decentral biomass boiler,2422.37647
+Link,BE0 0,urban decentral gas boiler,15978.45446
+Link,BE0 0,urban decentral resistive heater,1867.87416
+Link,BE0 0,waste CHP,0.01251
+Link,BG0 0,BEV charger,10991.26204
+Link,BG0 0,CO2 pipeline,0.26049
+Link,BG0 0,Combined-Cycle Gas,160.34715
+Link,BG0 0,H2 Electrolysis,0.01064
+Link,BG0 0,HVC to air,19944.74847
+Link,BG0 0,Haber-Bosch,0.03398
+Link,BG0 0,Open-Cycle Gas,0.10135
+Link,BG0 0,SMR,304.58115
+Link,BG0 0,Sabatier,0.0157
+Link,BG0 0,battery charger,0.16658
+Link,BG0 0,battery discharger,0.17001
+Link,BG0 0,biogas to gas,44.66294
+Link,BG0 0,biomass to liquid,1105.63382
+Link,BG0 0,biomass-to-methanol,0.00509
+Link,BG0 0,co2 sequestered,0.37715
+Link,BG0 0,electricity distribution grid,6793.49257
+Link,BG0 0,gas for industry,184.93151
+Link,BG0 0,gas pipeline,1500.0
+Link,BG0 0,gas pipeline new,8266.29856
+Link,BG0 0,heat100-200 industry electric boiler steam,0.00746
+Link,BG0 0,heat100-200 industry gas,357.36073
+Link,BG0 0,heat100-200 industry industrial heat pump high temperature,0.01266
+Link,BG0 0,heat100-200 industry solid biomass,0.02604
+Link,BG0 0,heat200-500 industry gas,125.08539
+Link,BG0 0,heat200-500 industry hydrogen,0.01018
+Link,BG0 0,heat200-500 industry solid biomass,0.02606
+Link,BG0 0,heat<100 industry electric boiler steam,0.00762
+Link,BG0 0,heat<100 industry gas,253.0278
+Link,BG0 0,heat<100 industry industrial heat pump medium temperature,0.01326
+Link,BG0 0,heat<100 industry solid biomass,0.02651
+Link,BG0 0,heat>500 industry gas,477.32551
+Link,BG0 0,heat>500 industry hydrogen,0.00949
+Link,BG0 0,home battery charger,0.22191
+Link,BG0 0,home battery discharger,0.22649
+Link,BG0 0,methanolisation,231.3142
+Link,BG0 0,municipal solid waste,31.24743
+Link,BG0 0,rural air heat pump,0.01569
+Link,BG0 0,rural biomass boiler,919.43953
+Link,BG0 0,rural gas boiler,25.83149
+Link,BG0 0,rural ground heat pump,39.87674
+Link,BG0 0,rural resistive heater,751.12421
+Link,BG0 0,solid biomass for industry,402.96804
+Link,BG0 0,unsustainable bioliquids,1265631.9588
+Link,BG0 0,urban central air heat pump,0.01731
+Link,BG0 0,urban central gas CHP,0.14072
+Link,BG0 0,urban central gas boiler,1747.89346
+Link,BG0 0,urban central resistive heater,44.60022
+Link,BG0 0,urban central solid biomass CHP,0.03409
+Link,BG0 0,urban central solid biomass CHP CC,152.60025
+Link,BG0 0,urban decentral air heat pump,441.65697
+Link,BG0 0,urban decentral biomass boiler,1432.2777
+Link,BG0 0,urban decentral gas boiler,40.23958
+Link,BG0 0,urban decentral resistive heater,1142.35048
+Link,BG0 0,waste CHP,0.01184
+Link,CH0 0,BEV charger,15767.67632
+Link,CH0 0,CO2 pipeline,74.22128
+Link,CH0 0,Combined-Cycle Gas,94.82862
+Link,CH0 0,EAF,0.00461
+Link,CH0 0,H2 DRI,0.00254
+Link,CH0 0,H2 Electrolysis,0.01063
+Link,CH0 0,HVC to air,35510.70615
+Link,CH0 0,Haber-Bosch,0.01172
+Link,CH0 0,Open-Cycle Gas,0.10643
+Link,CH0 0,SMR,0.30481
+Link,CH0 0,Sabatier,0.01466
+Link,CH0 0,battery charger,0.1641
+Link,CH0 0,battery discharger,0.16749
+Link,CH0 0,biogas to gas,0.01711
+Link,CH0 0,biomass to liquid,1966.29876
+Link,CH0 0,biomass-to-methanol,0.00509
+Link,CH0 0,electricity distribution grid,13674.42658
+Link,CH0 0,gas DRI,0.01685
+Link,CH0 0,gas for industry,126.49021
+Link,CH0 0,gas pipeline,3000.0
+Link,CH0 0,gas pipeline new,29537.78595
+Link,CH0 0,heat100-200 industry electric boiler steam,0.0083
+Link,CH0 0,heat100-200 industry gas,558.62697
+Link,CH0 0,heat100-200 industry industrial heat pump high temperature,0.02299
+Link,CH0 0,heat100-200 industry solid biomass,0.03345
+Link,CH0 0,heat200-500 industry gas,145.62728
+Link,CH0 0,heat200-500 industry hydrogen,0.00969
+Link,CH0 0,heat200-500 industry solid biomass,0.03326
+Link,CH0 0,heat<100 industry electric boiler steam,0.00829
+Link,CH0 0,heat<100 industry gas,408.89012
+Link,CH0 0,heat<100 industry industrial heat pump medium temperature,0.02026
+Link,CH0 0,heat<100 industry solid biomass,0.03469
+Link,CH0 0,heat>500 industry gas,360.87881
+Link,CH0 0,heat>500 industry hydrogen,0.00929
+Link,CH0 0,home battery charger,0.19088
+Link,CH0 0,home battery discharger,0.19482
+Link,CH0 0,methanolisation,0.16585
+Link,CH0 0,municipal solid waste,860.34138
+Link,CH0 0,rural air heat pump,0.00837
+Link,CH0 0,rural biomass boiler,0.07067
+Link,CH0 0,rural gas boiler,73.79841
+Link,CH0 0,rural ground heat pump,1097.88422
+Link,CH0 0,rural resistive heater,72.29091
+Link,CH0 0,solid biomass for industry,252.28311
+Link,CH0 0,steel emission,28.86711
+Link,CH0 0,urban central air heat pump,0.01716
+Link,CH0 0,urban central gas CHP,0.11678
+Link,CH0 0,urban central gas boiler,2682.37225
+Link,CH0 0,urban central resistive heater,0.22424
+Link,CH0 0,urban central solid biomass CHP,0.04985
+Link,CH0 0,urban central solid biomass CHP CC,224.26658
+Link,CH0 0,urban decentral air heat pump,4987.9707
+Link,CH0 0,urban decentral biomass boiler,0.06798
+Link,CH0 0,urban decentral gas boiler,2780.82596
+Link,CH0 0,urban decentral resistive heater,1390.02203
+Link,CH0 0,waste CHP,0.0126
+Link,CZ0 0,BEV charger,20204.23295
+Link,CZ0 0,CO2 pipeline,0.28928
+Link,CZ0 0,Combined-Cycle Gas,2720.69134
+Link,CZ0 0,EAF,0.00713
+Link,CZ0 0,H2 DRI,0.00293
+Link,CZ0 0,H2 Electrolysis,0.01014
+Link,CZ0 0,HVC to air,30155.33561
+Link,CZ0 0,Haber-Bosch,0.01448
+Link,CZ0 0,Open-Cycle Gas,0.15967
+Link,CZ0 0,SMR,2.92176
+Link,CZ0 0,Sabatier,0.01575
+Link,CZ0 0,battery charger,0.16208
+Link,CZ0 0,battery discharger,0.16542
+Link,CZ0 0,biogas to gas,509.24916
+Link,CZ0 0,biomass to liquid,1376.32846
+Link,CZ0 0,biomass-to-methanol,0.0051
+Link,CZ0 0,electricity distribution grid,10544.90527
+Link,CZ0 0,gas DRI,0.02678
+Link,CZ0 0,gas for industry,164.80321
+Link,CZ0 0,gas pipeline,12000.0
+Link,CZ0 0,gas pipeline new,45299.56423
+Link,CZ0 0,heat100-200 industry electric boiler steam,0.00766
+Link,CZ0 0,heat100-200 industry gas,1108.58474
+Link,CZ0 0,heat100-200 industry industrial heat pump high temperature,0.00982
+Link,CZ0 0,heat100-200 industry solid biomass,0.02583
+Link,CZ0 0,heat200-500 industry gas,359.10249
+Link,CZ0 0,heat200-500 industry hydrogen,0.00886
+Link,CZ0 0,heat200-500 industry solid biomass,0.02858
+Link,CZ0 0,heat<100 industry electric boiler steam,0.00742
+Link,CZ0 0,heat<100 industry gas,987.06816
+Link,CZ0 0,heat<100 industry industrial heat pump medium temperature,0.00994
+Link,CZ0 0,heat<100 industry solid biomass,0.02568
+Link,CZ0 0,heat>500 industry gas,843.78128
+Link,CZ0 0,heat>500 industry hydrogen,0.00994
+Link,CZ0 0,home battery charger,0.15846
+Link,CZ0 0,home battery discharger,0.16173
+Link,CZ0 0,methanolisation,2.14058
+Link,CZ0 0,municipal solid waste,32.98869
+Link,CZ0 0,rural air heat pump,0.01325
+Link,CZ0 0,rural biomass boiler,3054.18086
+Link,CZ0 0,rural gas boiler,3471.00083
+Link,CZ0 0,rural ground heat pump,412.82548
+Link,CZ0 0,rural resistive heater,1150.96522
+Link,CZ0 0,solid biomass for industry,1007.99087
+Link,CZ0 0,steel emission,200.23888
+Link,CZ0 0,unsustainable bioliquids,2145647.0772
+Link,CZ0 0,urban central air heat pump,0.01157
+Link,CZ0 0,urban central gas CHP,880.73063
+Link,CZ0 0,urban central gas boiler,7489.65957
+Link,CZ0 0,urban central resistive heater,0.18812
+Link,CZ0 0,urban central solid biomass CHP,0.05191
+Link,CZ0 0,urban central solid biomass CHP CC,1.63976
+Link,CZ0 0,urban decentral air heat pump,395.53053
+Link,CZ0 0,urban decentral biomass boiler,5882.91821
+Link,CZ0 0,urban decentral gas boiler,6685.7907
+Link,CZ0 0,urban decentral resistive heater,2342.21908
+Link,CZ0 0,waste CHP,0.01255
+Link,DE0 0,BEV charger,26647.26198
+Link,DE0 0,CO2 pipeline,171.65988
+Link,DE0 0,Combined-Cycle Gas,5084.94212
+Link,DE0 0,DC,2000.0
+Link,DE0 0,EAF,0.00839
+Link,DE0 0,H2 DRI,0.00308
+Link,DE0 0,H2 Electrolysis,0.01027
+Link,DE0 0,HVC to air,40632.86288
+Link,DE0 0,Haber-Bosch,0.01848
+Link,DE0 0,Open-Cycle Gas,0.19242
+Link,DE0 0,SMR,1.4823
+Link,DE0 0,Sabatier,0.0159
+Link,DE0 0,battery charger,0.16278
+Link,DE0 0,battery discharger,0.16614
+Link,DE0 0,biogas to gas,1417.84092
+Link,DE0 0,biomass to liquid,1188.09939
+Link,DE0 0,biomass-to-methanol,0.00509
+Link,DE0 0,co2 sequestered,1.09305
+Link,DE0 0,electricity distribution grid,11729.15058
+Link,DE0 0,gas DRI,0.03187
+Link,DE0 0,gas for industry,495.25871
+Link,DE0 0,gas pipeline,18000.0
+Link,DE0 0,heat100-200 industry electric boiler steam,0.00877
+Link,DE0 0,heat100-200 industry gas,1773.87222
+Link,DE0 0,heat100-200 industry industrial heat pump high temperature,0.01091
+Link,DE0 0,heat100-200 industry solid biomass,0.0259
+Link,DE0 0,heat200-500 industry gas,492.66374
+Link,DE0 0,heat200-500 industry hydrogen,0.00899
+Link,DE0 0,heat200-500 industry solid biomass,0.02893
+Link,DE0 0,heat<100 industry electric boiler steam,0.00833
+Link,DE0 0,heat<100 industry gas,1282.88809
+Link,DE0 0,heat<100 industry industrial heat pump medium temperature,0.01082
+Link,DE0 0,heat<100 industry solid biomass,0.02395
+Link,DE0 0,heat>500 industry gas,1303.84957
+Link,DE0 0,heat>500 industry hydrogen,0.01066
+Link,DE0 0,home battery charger,0.11924
+Link,DE0 0,home battery discharger,0.1217
+Link,DE0 0,methanolisation,1.03239
+Link,DE0 0,municipal solid waste,204.22095
+Link,DE0 0,rural air heat pump,0.01579
+Link,DE0 0,rural biomass boiler,1382.28702
+Link,DE0 0,rural gas boiler,4552.1782
+Link,DE0 0,rural ground heat pump,454.52227
+Link,DE0 0,rural resistive heater,117.07672
+Link,DE0 0,solid biomass for industry,718.03653
+Link,DE0 0,steel emission,293.61425
+Link,DE0 0,unsustainable bioliquids,5854314.8773
+Link,DE0 0,urban central air heat pump,0.01423
+Link,DE0 0,urban central gas CHP,0.32707
+Link,DE0 0,urban central gas boiler,7603.20219
+Link,DE0 0,urban central resistive heater,0.49273
+Link,DE0 0,urban central solid biomass CHP,0.04015
+Link,DE0 0,urban central solid biomass CHP CC,518.12248
+Link,DE0 0,urban decentral air heat pump,276.51855
+Link,DE0 0,urban decentral biomass boiler,3445.8441
+Link,DE0 0,urban decentral gas boiler,11347.93002
+Link,DE0 0,urban decentral resistive heater,309.40404
+Link,DE0 0,waste CHP,0.0124
+Link,DE0 1,BEV charger,13428.70977
+Link,DE0 1,CO2 pipeline,54.57004
+Link,DE0 1,Combined-Cycle Gas,3512.92945
+Link,DE0 1,H2 Electrolysis,0.01025
+Link,DE0 1,HVC to air,22138.677
+Link,DE0 1,Haber-Bosch,0.00862
+Link,DE0 1,Open-Cycle Gas,0.13619
+Link,DE0 1,SMR,0.20248
+Link,DE0 1,Sabatier,0.01484
+Link,DE0 1,battery charger,0.16184
+Link,DE0 1,battery discharger,0.16517
+Link,DE0 1,biogas to gas,857.77982
+Link,DE0 1,biomass to liquid,1207.70219
+Link,DE0 1,biomass-to-methanol,0.0051
+Link,DE0 1,electricity distribution grid,6624.19121
+Link,DE0 1,gas for industry,67.3516
+Link,DE0 1,gas pipeline,6000.0
+Link,DE0 1,gas pipeline new,2059.06866
+Link,DE0 1,heat100-200 industry electric boiler steam,0.00753
+Link,DE0 1,heat100-200 industry gas,643.3366
+Link,DE0 1,heat100-200 industry industrial heat pump high temperature,0.01767
+Link,DE0 1,heat100-200 industry solid biomass,0.03772
+Link,DE0 1,heat200-500 industry gas,162.7465
+Link,DE0 1,heat200-500 industry hydrogen,0.00958
+Link,DE0 1,heat200-500 industry solid biomass,0.0379
+Link,DE0 1,heat<100 industry electric boiler steam,0.00754
+Link,DE0 1,heat<100 industry gas,378.212
+Link,DE0 1,heat<100 industry industrial heat pump medium temperature,0.01617
+Link,DE0 1,heat<100 industry solid biomass,0.03833
+Link,DE0 1,heat>500 industry gas,309.50567
+Link,DE0 1,heat>500 industry hydrogen,0.00933
+Link,DE0 1,home battery charger,0.11863
+Link,DE0 1,home battery discharger,0.12108
+Link,DE0 1,methanolisation,0.10474
+Link,DE0 1,municipal solid waste,114.87596
+Link,DE0 1,rural air heat pump,0.00921
+Link,DE0 1,rural biomass boiler,1489.60696
+Link,DE0 1,rural gas boiler,4905.60661
+Link,DE0 1,rural ground heat pump,232.99556
+Link,DE0 1,rural resistive heater,51.41323
+Link,DE0 1,solid biomass for industry,405.25114
+Link,DE0 1,unsustainable bioliquids,3541771.50411
+Link,DE0 1,urban central air heat pump,0.01588
+Link,DE0 1,urban central gas CHP,0.16165
+Link,DE0 1,urban central gas boiler,2332.21117
+Link,DE0 1,urban central resistive heater,0.48061
+Link,DE0 1,urban central solid biomass CHP,0.06165
+Link,DE0 1,urban central solid biomass CHP CC,165.39672
+Link,DE0 1,urban decentral air heat pump,131.94219
+Link,DE0 1,urban decentral biomass boiler,1032.20835
+Link,DE0 1,urban decentral gas boiler,3399.29139
+Link,DE0 1,urban decentral resistive heater,154.41368
+Link,DE0 1,waste CHP,0.01251
+Link,DE0 2,BEV charger,40774.68201
+Link,DE0 2,CO2 pipeline,112.00298
+Link,DE0 2,Combined-Cycle Gas,17040.41711
+Link,DE0 2,DC,1000.0
+Link,DE0 2,EAF,0.0091
+Link,DE0 2,H2 DRI,0.00329
+Link,DE0 2,H2 Electrolysis,0.01025
+Link,DE0 2,HVC to air,63936.38564
+Link,DE0 2,Haber-Bosch,0.01775
+Link,DE0 2,Open-Cycle Gas,0.19728
+Link,DE0 2,SMR,652.43864
+Link,DE0 2,Sabatier,0.015
+Link,DE0 2,battery charger,0.16233
+Link,DE0 2,battery discharger,0.16568
+Link,DE0 2,biogas to gas,999.13964
+Link,DE0 2,biomass to liquid,0.01542
+Link,DE0 2,biomass-to-methanol,0.00421
+Link,DE0 2,co2 sequestered,29.80779
+Link,DE0 2,electricity distribution grid,17463.13199
+Link,DE0 2,gas DRI,0.03434
+Link,DE0 2,gas for industry,779.63103
+Link,DE0 2,gas pipeline,28500.0
+Link,DE0 2,heat100-200 industry electric boiler steam,0.00961
+Link,DE0 2,heat100-200 industry gas,3438.3397
+Link,DE0 2,heat100-200 industry industrial heat pump high temperature,0.01225
+Link,DE0 2,heat100-200 industry solid biomass,0.00879
+Link,DE0 2,heat200-500 industry gas,885.37434
+Link,DE0 2,heat200-500 industry hydrogen,0.01072
+Link,DE0 2,heat200-500 industry solid biomass,0.00876
+Link,DE0 2,heat<100 industry electric boiler steam,0.00903
+Link,DE0 2,heat<100 industry gas,2371.66977
+Link,DE0 2,heat<100 industry industrial heat pump medium temperature,0.01195
+Link,DE0 2,heat<100 industry solid biomass,0.00777
+Link,DE0 2,heat>500 industry gas,2604.15645
+Link,DE0 2,heat>500 industry hydrogen,0.01153
+Link,DE0 2,home battery charger,0.11892
+Link,DE0 2,home battery discharger,0.12137
+Link,DE0 2,methanolisation,495.7607
+Link,DE0 2,municipal solid waste,307.20899
+Link,DE0 2,rural air heat pump,0.0215
+Link,DE0 2,rural biomass boiler,573.467
+Link,DE0 2,rural gas boiler,1888.55422
+Link,DE0 2,rural ground heat pump,582.60694
+Link,DE0 2,rural resistive heater,48.44076
+Link,DE0 2,solid biomass for industry,1546.80365
+Link,DE0 2,steel emission,698.53643
+Link,DE0 2,unsustainable bioliquids,4125458.46058
+Link,DE0 2,urban central air heat pump,0.01587
+Link,DE0 2,urban central gas CHP,0.55076
+Link,DE0 2,urban central gas boiler,14548.72446
+Link,DE0 2,urban central resistive heater,0.60261
+Link,DE0 2,urban central solid biomass CHP,0.01754
+Link,DE0 2,urban central solid biomass CHP CC,0.01014
+Link,DE0 2,urban decentral air heat pump,408.03599
+Link,DE0 2,urban decentral biomass boiler,6233.55552
+Link,DE0 2,urban decentral gas boiler,20528.48298
+Link,DE0 2,urban decentral resistive heater,438.78408
+Link,DE0 2,waste CHP,0.0126
+Link,DE0 3,BEV charger,19153.68387
+Link,DE0 3,CO2 pipeline,0.20023
+Link,DE0 3,Combined-Cycle Gas,5759.52219
+Link,DE0 3,H2 Electrolysis,0.01029
+Link,DE0 3,HVC to air,30022.36769
+Link,DE0 3,Haber-Bosch,0.0089
+Link,DE0 3,Open-Cycle Gas,56.85596
+Link,DE0 3,SMR,0.22948
+Link,DE0 3,Sabatier,0.01485
+Link,DE0 3,battery charger,0.16198
+Link,DE0 3,battery discharger,0.16532
+Link,DE0 3,biogas to gas,1078.25361
+Link,DE0 3,biomass to liquid,1326.35532
+Link,DE0 3,biomass-to-methanol,0.0051
+Link,DE0 3,electricity distribution grid,8956.25124
+Link,DE0 3,gas for industry,170.09132
+Link,DE0 3,gas pipeline,3000.0
+Link,DE0 3,gas pipeline new,8821.30406
+Link,DE0 3,heat100-200 industry electric boiler steam,0.0083
+Link,DE0 3,heat100-200 industry gas,1044.7158
+Link,DE0 3,heat100-200 industry industrial heat pump high temperature,0.0193
+Link,DE0 3,heat100-200 industry solid biomass,0.03707
+Link,DE0 3,heat200-500 industry gas,274.6176
+Link,DE0 3,heat200-500 industry hydrogen,0.00896
+Link,DE0 3,heat200-500 industry solid biomass,0.03964
+Link,DE0 3,heat<100 industry electric boiler steam,0.00757
+Link,DE0 3,heat<100 industry gas,662.98486
+Link,DE0 3,heat<100 industry industrial heat pump medium temperature,0.01676
+Link,DE0 3,heat<100 industry solid biomass,0.03812
+Link,DE0 3,heat>500 industry gas,788.98475
+Link,DE0 3,heat>500 industry hydrogen,0.00982
+Link,DE0 3,home battery charger,0.11859
+Link,DE0 3,home battery discharger,0.12103
+Link,DE0 3,methanolisation,0.12299
+Link,DE0 3,municipal solid waste,145.53586
+Link,DE0 3,rural air heat pump,0.0179
+Link,DE0 3,rural biomass boiler,1148.48124
+Link,DE0 3,rural gas boiler,3782.20384
+Link,DE0 3,rural ground heat pump,291.4972
+Link,DE0 3,rural resistive heater,66.78983
+Link,DE0 3,solid biomass for industry,690.63927
+Link,DE0 3,unsustainable bioliquids,4452131.53901
+Link,DE0 3,urban central air heat pump,0.01867
+Link,DE0 3,urban central gas CHP,0.15444
+Link,DE0 3,urban central gas boiler,4257.82265
+Link,DE0 3,urban central resistive heater,0.50704
+Link,DE0 3,urban central solid biomass CHP,0.08133
+Link,DE0 3,urban central solid biomass CHP CC,337.62768
+Link,DE0 3,urban decentral air heat pump,171.55791
+Link,DE0 3,urban decentral biomass boiler,1923.96439
+Link,DE0 3,urban decentral gas boiler,6336.04209
+Link,DE0 3,urban decentral resistive heater,183.85738
+Link,DE0 3,waste CHP,0.01284
+Link,DE0 4,BEV charger,37328.72735
+Link,DE0 4,CO2 pipeline,0.25622
+Link,DE0 4,Combined-Cycle Gas,10072.21775
+Link,DE0 4,EAF,0.00595
+Link,DE0 4,H2 DRI,0.00299
+Link,DE0 4,H2 Electrolysis,0.01026
+Link,DE0 4,HVC to air,58506.41421
+Link,DE0 4,Haber-Bosch,0.00971
+Link,DE0 4,Open-Cycle Gas,0.12492
+Link,DE0 4,SMR,0.23641
+Link,DE0 4,Sabatier,0.01469
+Link,DE0 4,battery charger,0.16184
+Link,DE0 4,battery discharger,0.16518
+Link,DE0 4,biogas to gas,1055.21348
+Link,DE0 4,biomass to liquid,0.12208
+Link,DE0 4,biomass-to-methanol,0.00506
+Link,DE0 4,electricity distribution grid,15847.66813
+Link,DE0 4,gas DRI,0.02147
+Link,DE0 4,gas for industry,550.76348
+Link,DE0 4,gas pipeline,35200.0
+Link,DE0 4,heat100-200 industry electric boiler steam,0.00995
+Link,DE0 4,heat100-200 industry gas,2726.35246
+Link,DE0 4,heat100-200 industry industrial heat pump high temperature,0.02087
+Link,DE0 4,heat100-200 industry solid biomass,0.03597
+Link,DE0 4,heat200-500 industry gas,586.26859
+Link,DE0 4,heat200-500 industry hydrogen,0.00905
+Link,DE0 4,heat200-500 industry solid biomass,0.03162
+Link,DE0 4,heat<100 industry electric boiler steam,0.00892
+Link,DE0 4,heat<100 industry gas,1760.35101
+Link,DE0 4,heat<100 industry industrial heat pump medium temperature,0.01757
+Link,DE0 4,heat<100 industry solid biomass,0.0311
+Link,DE0 4,heat>500 industry gas,1202.24734
+Link,DE0 4,heat>500 industry hydrogen,0.01069
+Link,DE0 4,home battery charger,0.11867
+Link,DE0 4,home battery discharger,0.12112
+Link,DE0 4,methanolisation,0.12083
+Link,DE0 4,municipal solid waste,268.55287
+Link,DE0 4,rural air heat pump,0.02235
+Link,DE0 4,rural biomass boiler,452.75535
+Link,DE0 4,rural gas boiler,1491.02393
+Link,DE0 4,rural ground heat pump,508.678
+Link,DE0 4,rural resistive heater,20.67941
+Link,DE0 4,solid biomass for industry,1139.26941
+Link,DE0 4,steel emission,236.31684
+Link,DE0 4,unsustainable bioliquids,4356989.39097
+Link,DE0 4,urban central air heat pump,0.02363
+Link,DE0 4,urban central gas CHP,0.17038
+Link,DE0 4,urban central gas boiler,12377.39184
+Link,DE0 4,urban central resistive heater,0.60385
+Link,DE0 4,urban central solid biomass CHP,0.06345
+Link,DE0 4,urban central solid biomass CHP CC,333.56566
+Link,DE0 4,urban decentral air heat pump,352.13623
+Link,DE0 4,urban decentral biomass boiler,5416.32131
+Link,DE0 4,urban decentral gas boiler,17837.14919
+Link,DE0 4,urban decentral resistive heater,370.04949
+Link,DE0 4,waste CHP,0.01309
+Link,DE0 5,BEV charger,25378.41659
+Link,DE0 5,CO2 pipeline,192.64266
+Link,DE0 5,Combined-Cycle Gas,6096.80738
+Link,DE0 5,DC,600.0
+Link,DE0 5,EAF,0.00585
+Link,DE0 5,H2 DRI,0.00275
+Link,DE0 5,H2 Electrolysis,0.01019
+Link,DE0 5,HVC to air,38988.85765
+Link,DE0 5,Haber-Bosch,0.01268
+Link,DE0 5,Open-Cycle Gas,0.17828
+Link,DE0 5,SMR,0.31962
+Link,DE0 5,Sabatier,0.01544
+Link,DE0 5,battery charger,0.16227
+Link,DE0 5,battery discharger,0.16562
+Link,DE0 5,biogas to gas,1245.78257
+Link,DE0 5,biomass to liquid,1082.0845
+Link,DE0 5,biomass-to-methanol,0.00509
+Link,DE0 5,electricity distribution grid,10353.97368
+Link,DE0 5,gas DRI,0.02168
+Link,DE0 5,gas for industry,813.30628
+Link,DE0 5,gas pipeline,6000.0
+Link,DE0 5,heat100-200 industry electric boiler steam,0.00887
+Link,DE0 5,heat100-200 industry gas,2094.2335
+Link,DE0 5,heat100-200 industry industrial heat pump high temperature,0.01237
+Link,DE0 5,heat100-200 industry solid biomass,0.03198
+Link,DE0 5,heat200-500 industry gas,521.19876
+Link,DE0 5,heat200-500 industry hydrogen,0.00911
+Link,DE0 5,heat200-500 industry solid biomass,0.03305
+Link,DE0 5,heat<100 industry electric boiler steam,0.00829
+Link,DE0 5,heat<100 industry gas,1530.83061
+Link,DE0 5,heat<100 industry industrial heat pump medium temperature,0.01196
+Link,DE0 5,heat<100 industry solid biomass,0.02922
+Link,DE0 5,heat>500 industry gas,1542.44282
+Link,DE0 5,heat>500 industry hydrogen,0.01136
+Link,DE0 5,home battery charger,0.11878
+Link,DE0 5,home battery discharger,0.12123
+Link,DE0 5,methanolisation,0.1726
+Link,DE0 5,municipal solid waste,191.78657
+Link,DE0 5,rural air heat pump,0.01237
+Link,DE0 5,rural biomass boiler,2127.12751
+Link,DE0 5,rural gas boiler,7005.10339
+Link,DE0 5,rural ground heat pump,479.44237
+Link,DE0 5,rural resistive heater,130.72391
+Link,DE0 5,solid biomass for industry,783.10502
+Link,DE0 5,steel emission,92.32401
+Link,DE0 5,unsustainable bioliquids,5143877.82562
+Link,DE0 5,urban central air heat pump,0.01337
+Link,DE0 5,urban central gas CHP,0.29707
+Link,DE0 5,urban central gas boiler,6645.12064
+Link,DE0 5,urban central resistive heater,0.50412
+Link,DE0 5,urban central solid biomass CHP,0.04419
+Link,DE0 5,urban central solid biomass CHP CC,419.36537
+Link,DE0 5,urban decentral air heat pump,281.6482
+Link,DE0 5,urban decentral biomass boiler,2963.79305
+Link,DE0 5,urban decentral gas boiler,9760.42886
+Link,DE0 5,urban decentral resistive heater,357.59946
+Link,DE0 5,waste CHP,0.01244
+Link,DK0 0,BEV charger,5752.71264
+Link,DK0 0,CO2 pipeline,0.10905
+Link,DK0 0,Combined-Cycle Gas,1336.55297
+Link,DK0 0,DC,5020.0
+Link,DK0 0,H2 Electrolysis,0.01133
+Link,DK0 0,HVC to air,12200.41369
+Link,DK0 0,Haber-Bosch,0.06681
+Link,DK0 0,Open-Cycle Gas,0.15109
+Link,DK0 0,SMR,1033.64971
+Link,DK0 0,Sabatier,0.01541
+Link,DK0 0,battery charger,0.16739
+Link,DK0 0,battery discharger,0.17085
+Link,DK0 0,biogas to gas,252.70431
+Link,DK0 0,biomass to liquid,369.22368
+Link,DK0 0,biomass-to-methanol,0.0051
+Link,DK0 0,co2 sequestered,24.98586
+Link,DK0 0,electricity distribution grid,3942.28486
+Link,DK0 0,gas for industry,139.26941
+Link,DK0 0,gas pipeline,6000.0
+Link,DK0 0,gas pipeline new,1647.85975
+Link,DK0 0,heat100-200 industry electric boiler steam,0.00814
+Link,DK0 0,heat100-200 industry gas,227.237
+Link,DK0 0,heat100-200 industry industrial heat pump high temperature,0.01617
+Link,DK0 0,heat100-200 industry solid biomass,0.02591
+Link,DK0 0,heat200-500 industry gas,57.73388
+Link,DK0 0,heat200-500 industry hydrogen,0.01118
+Link,DK0 0,heat200-500 industry solid biomass,0.02508
+Link,DK0 0,heat<100 industry electric boiler steam,0.008
+Link,DK0 0,heat<100 industry gas,194.10017
+Link,DK0 0,heat<100 industry industrial heat pump medium temperature,0.01634
+Link,DK0 0,heat<100 industry solid biomass,0.02661
+Link,DK0 0,heat>500 industry gas,161.09783
+Link,DK0 0,heat>500 industry hydrogen,0.00969
+Link,DK0 0,home battery charger,0.16449
+Link,DK0 0,home battery discharger,0.16788
+Link,DK0 0,methanolisation,785.26046
+Link,DK0 0,municipal solid waste,130.3125
+Link,DK0 0,rural air heat pump,0.02624
+Link,DK0 0,rural biomass boiler,300.90122
+Link,DK0 0,rural gas boiler,221.49418
+Link,DK0 0,rural ground heat pump,224.03192
+Link,DK0 0,rural resistive heater,108.76289
+Link,DK0 0,solid biomass for industry,275.11416
+Link,DK0 0,unsustainable bioliquids,19191.33247
+Link,DK0 0,urban central air heat pump,107.57689
+Link,DK0 0,urban central gas CHP,0.15901
+Link,DK0 0,urban central gas boiler,7267.70019
+Link,DK0 0,urban central resistive heater,144.4966
+Link,DK0 0,urban central solid biomass CHP,0.03185
+Link,DK0 0,urban central solid biomass CHP CC,0.22602
+Link,DK0 0,urban decentral air heat pump,545.55232
+Link,DK0 0,urban decentral biomass boiler,1517.25203
+Link,DK0 0,urban decentral gas boiler,1116.8532
+Link,DK0 0,urban decentral resistive heater,901.71986
+Link,DK0 0,waste CHP,0.01109
+Link,DK1 0,BEV charger,3323.27175
+Link,DK1 0,CO2 pipeline,0.02934
+Link,DK1 0,Combined-Cycle Gas,1789.65711
+Link,DK1 0,DC,1200.0
+Link,DK1 0,H2 Electrolysis,0.01178
+Link,DK1 0,HVC to air,8685.52125
+Link,DK1 0,Haber-Bosch,0.20787
+Link,DK1 0,Open-Cycle Gas,0.11074
+Link,DK1 0,SMR,1164.16301
+Link,DK1 0,Sabatier,0.01489
+Link,DK1 0,battery charger,0.1688
+Link,DK1 0,battery discharger,0.17228
+Link,DK1 0,biogas to gas,92.26469
+Link,DK1 0,biomass to liquid,0.01879
+Link,DK1 0,biomass-to-methanol,0.00446
+Link,DK1 0,co2 sequestered,5.67559
+Link,DK1 0,electricity distribution grid,3315.56701
+Link,DK1 0,gas for industry,21.6895
+Link,DK1 0,gas pipeline,1500.0
+Link,DK1 0,heat100-200 industry electric boiler steam,0.009
+Link,DK1 0,heat100-200 industry gas,99.55084
+Link,DK1 0,heat100-200 industry industrial heat pump high temperature,0.029
+Link,DK1 0,heat100-200 industry solid biomass,0.01147
+Link,DK1 0,heat200-500 industry gas,33.77402
+Link,DK1 0,heat200-500 industry hydrogen,0.01148
+Link,DK1 0,heat200-500 industry solid biomass,0.0105
+Link,DK1 0,heat<100 industry electric boiler steam,0.00898
+Link,DK1 0,heat<100 industry gas,90.97069
+Link,DK1 0,heat<100 industry industrial heat pump medium temperature,0.02853
+Link,DK1 0,heat<100 industry solid biomass,0.01152
+Link,DK1 0,heat>500 industry gas,17.30229
+Link,DK1 0,heat>500 industry hydrogen,0.01103
+Link,DK1 0,home battery charger,0.19425
+Link,DK1 0,home battery discharger,0.19825
+Link,DK1 0,methanolisation,883.79435
+Link,DK1 0,municipal solid waste,109.77039
+Link,DK1 0,rural air heat pump,0.02681
+Link,DK1 0,rural biomass boiler,121.32098
+Link,DK1 0,rural gas boiler,89.30469
+Link,DK1 0,rural ground heat pump,130.94134
+Link,DK1 0,rural resistive heater,43.55003
+Link,DK1 0,solid biomass for industry,71.91781
+Link,DK1 0,unsustainable bioliquids,7006.17293
+Link,DK1 0,urban central air heat pump,53.24536
+Link,DK1 0,urban central gas CHP,0.1076
+Link,DK1 0,urban central gas boiler,3800.57345
+Link,DK1 0,urban central resistive heater,336.25718
+Link,DK1 0,urban central solid biomass CHP,0.01865
+Link,DK1 0,urban central solid biomass CHP CC,0.01351
+Link,DK1 0,urban decentral air heat pump,371.13412
+Link,DK1 0,urban decentral biomass boiler,1053.5936
+Link,DK1 0,urban decentral gas boiler,775.55302
+Link,DK1 0,urban decentral resistive heater,605.57983
+Link,DK1 0,waste CHP,0.01073
+Link,EE0 0,BEV charger,2710.69766
+Link,EE0 0,CO2 pipeline,0.08284
+Link,EE0 0,Combined-Cycle Gas,372.41409
+Link,EE0 0,DC,1000.0
+Link,EE0 0,H2 Electrolysis,0.01045
+Link,EE0 0,HVC to air,5957.45347
+Link,EE0 0,Haber-Bosch,0.01968
+Link,EE0 0,Open-Cycle Gas,0.10838
+Link,EE0 0,SMR,153.31992
+Link,EE0 0,Sabatier,0.0149
+Link,EE0 0,battery charger,0.16396
+Link,EE0 0,battery discharger,0.16734
+Link,EE0 0,biogas to gas,12.17374
+Link,EE0 0,biomass to liquid,1730.22224
+Link,EE0 0,biomass-to-methanol,0.00508
+Link,EE0 0,co2 sequestered,17.75999
+Link,EE0 0,electricity distribution grid,1621.70305
+Link,EE0 0,gas for industry,2.28311
+Link,EE0 0,gas pipeline new,12480.64265
+Link,EE0 0,heat100-200 industry electric boiler steam,0.0081
+Link,EE0 0,heat100-200 industry gas,77.47399
+Link,EE0 0,heat100-200 industry industrial heat pump high temperature,0.01858
+Link,EE0 0,heat100-200 industry solid biomass,0.03095
+Link,EE0 0,heat200-500 industry gas,14.35389
+Link,EE0 0,heat200-500 industry hydrogen,0.01135
+Link,EE0 0,heat200-500 industry solid biomass,0.02609
+Link,EE0 0,heat<100 industry electric boiler steam,0.00819
+Link,EE0 0,heat<100 industry gas,70.1152
+Link,EE0 0,heat<100 industry industrial heat pump medium temperature,0.01859
+Link,EE0 0,heat<100 industry solid biomass,0.03124
+Link,EE0 0,heat>500 industry gas,19.58461
+Link,EE0 0,heat>500 industry hydrogen,0.01085
+Link,EE0 0,home battery charger,0.16541
+Link,EE0 0,home battery discharger,0.16882
+Link,EE0 0,methanolisation,116.41938
+Link,EE0 0,municipal solid waste,28.27513
+Link,EE0 0,rural air heat pump,0.00871
+Link,EE0 0,rural biomass boiler,1055.50026
+Link,EE0 0,rural gas boiler,83.49876
+Link,EE0 0,rural ground heat pump,139.81947
+Link,EE0 0,rural resistive heater,113.53799
+Link,EE0 0,solid biomass for industry,42.23744
+Link,EE0 0,urban central air heat pump,0.0154
+Link,EE0 0,urban central gas CHP,0.11791
+Link,EE0 0,urban central gas boiler,2061.4024
+Link,EE0 0,urban central resistive heater,1.88515
+Link,EE0 0,urban central solid biomass CHP,0.03898
+Link,EE0 0,urban central solid biomass CHP CC,76.97994
+Link,EE0 0,urban decentral air heat pump,205.85041
+Link,EE0 0,urban decentral biomass boiler,1096.70449
+Link,EE0 0,urban decentral gas boiler,86.75836
+Link,EE0 0,urban decentral resistive heater,341.09421
+Link,EE0 0,waste CHP,0.01103
+Link,ES0 0,BEV charger,82374.15714
+Link,ES0 0,CO2 pipeline,0.13087
+Link,ES0 0,Combined-Cycle Gas,32747.74534
+Link,ES0 0,DC,2400.0
+Link,ES0 0,EAF,0.01279
+Link,ES0 0,H2 DRI,0.0034
+Link,ES0 0,H2 Electrolysis,0.01135
+Link,ES0 0,HVC to air,121320.81266
+Link,ES0 0,Haber-Bosch,558.84114
+Link,ES0 0,Open-Cycle Gas,0.09139
+Link,ES0 0,SMR,3415.0247
+Link,ES0 0,Sabatier,0.01583
+Link,ES0 0,battery charger,0.17333
+Link,ES0 0,battery discharger,0.17691
+Link,ES0 0,biogas to gas,253.03307
+Link,ES0 0,biomass to liquid,1995.72776
+Link,ES0 0,biomass-to-methanol,0.00508
+Link,ES0 0,co2 sequestered,0.46074
+Link,ES0 0,electricity distribution grid,42788.0482
+Link,ES0 0,gas DRI,0.05009
+Link,ES0 0,gas for industry,1534.01777
+Link,ES0 0,gas pipeline,6000.0
+Link,ES0 0,gas pipeline new,0.52556
+Link,ES0 0,heat100-200 industry electric boiler steam,0.01394
+Link,ES0 0,heat100-200 industry gas,4040.95332
+Link,ES0 0,heat100-200 industry industrial heat pump high temperature,0.02842
+Link,ES0 0,heat100-200 industry solid biomass,0.03412
+Link,ES0 0,heat200-500 industry gas,1185.58167
+Link,ES0 0,heat200-500 industry hydrogen,0.01004
+Link,ES0 0,heat200-500 industry solid biomass,0.03279
+Link,ES0 0,heat<100 industry electric boiler steam,0.01083
+Link,ES0 0,heat<100 industry gas,1249.70452
+Link,ES0 0,heat<100 industry industrial heat pump medium temperature,0.02468
+Link,ES0 0,heat<100 industry solid biomass,0.02557
+Link,ES0 0,heat>500 industry gas,3335.94037
+Link,ES0 0,heat>500 industry hydrogen,0.01148
+Link,ES0 0,home battery charger,0.17831
+Link,ES0 0,home battery discharger,0.18199
+Link,ES0 0,methanolisation,0.28707
+Link,ES0 0,municipal solid waste,294.37068
+Link,ES0 0,rural air heat pump,0.02791
+Link,ES0 0,rural biomass boiler,1366.70289
+Link,ES0 0,rural gas boiler,3512.84231
+Link,ES0 0,rural ground heat pump,950.55685
+Link,ES0 0,rural resistive heater,6597.11129
+Link,ES0 0,solid biomass for industry,3014.84018
+Link,ES0 0,steel emission,202.00183
+Link,ES0 0,unsustainable bioliquids,15844516.9718
+Link,ES0 0,urban central air heat pump,0.02208
+Link,ES0 0,urban central gas CHP,0.08585
+Link,ES0 0,urban central gas boiler,4415.68043
+Link,ES0 0,urban central resistive heater,182.755
+Link,ES0 0,urban central solid biomass CHP,0.02693
+Link,ES0 0,urban central solid biomass CHP CC,0.08711
+Link,ES0 0,urban decentral air heat pump,437.91248
+Link,ES0 0,urban decentral biomass boiler,3651.98677
+Link,ES0 0,urban decentral gas boiler,9386.71732
+Link,ES0 0,urban decentral resistive heater,17394.98358
+Link,ES0 0,waste CHP,0.01171
+Link,ES6 0,BEV charger,1369.05252
+Link,ES6 0,Combined-Cycle Gas,15995.78277
+Link,ES6 0,DC,400.0
+Link,ES6 0,H2 Electrolysis,0.01116
+Link,ES6 0,HVC to air,3536.9174
+Link,ES6 0,Haber-Bosch,0.07385
+Link,ES6 0,Open-Cycle Gas,0.07517
+Link,ES6 0,SMR,0.56235
+Link,ES6 0,Sabatier,0.01381
+Link,ES6 0,battery charger,0.17047
+Link,ES6 0,battery discharger,0.17399
+Link,ES6 0,biogas to gas,1.9952
+Link,ES6 0,biomass to liquid,0.01736
+Link,ES6 0,biomass-to-methanol,0.00437
+Link,ES6 0,electricity distribution grid,1733.15271
+Link,ES6 0,gas pipeline,1500.0
+Link,ES6 0,gas pipeline new,1427.94016
+Link,ES6 0,heat100-200 industry electric boiler steam,0.0111
+Link,ES6 0,heat100-200 industry gas,33.11049
+Link,ES6 0,heat100-200 industry industrial heat pump high temperature,10.83601
+Link,ES6 0,heat100-200 industry solid biomass,0.01012
+Link,ES6 0,heat200-500 industry gas,9.80246
+Link,ES6 0,heat200-500 industry hydrogen,0.01085
+Link,ES6 0,heat200-500 industry solid biomass,0.00999
+Link,ES6 0,heat<100 industry electric boiler steam,0.01083
+Link,ES6 0,heat<100 industry gas,11.41843
+Link,ES6 0,heat<100 industry industrial heat pump medium temperature,4.20645
+Link,ES6 0,heat<100 industry solid biomass,0.00943
+Link,ES6 0,heat>500 industry gas,8.18433
+Link,ES6 0,heat>500 industry hydrogen,0.01102
+Link,ES6 0,home battery charger,0.18236
+Link,ES6 0,home battery discharger,0.18612
+Link,ES6 0,methanolisation,0.07212
+Link,ES6 0,municipal solid waste,7.53158
+Link,ES6 0,rural air heat pump,0.03636
+Link,ES6 0,rural biomass boiler,20.76748
+Link,ES6 0,rural gas boiler,53.37874
+Link,ES6 0,rural ground heat pump,0.37054
+Link,ES6 0,rural resistive heater,99.99348
+Link,ES6 0,solid biomass for industry,26.25571
+Link,ES6 0,unsustainable bioliquids,124017.7774
+Link,ES6 0,urban central air heat pump,2.59169
+Link,ES6 0,urban central gas CHP,0.06361
+Link,ES6 0,urban central gas boiler,194.90266
+Link,ES6 0,urban central resistive heater,4.37584
+Link,ES6 0,urban central solid biomass CHP,0.01739
+Link,ES6 0,urban central solid biomass CHP CC,0.01391
+Link,ES6 0,urban decentral air heat pump,15.63656
+Link,ES6 0,urban decentral biomass boiler,148.46027
+Link,ES6 0,urban decentral gas boiler,381.58808
+Link,ES6 0,urban decentral resistive heater,707.54309
+Link,ES6 0,waste CHP,0.00999
+Link,EU,BOF,13631.42264
+Link,EU,OCGT methanol,3.36616
+Link,EU,agriculture machinery oil,5870.29901
+Link,EU,ammonia cracker,0.78055
+Link,EU,coal,169070.83914
+Link,EU,coal for industry,19087.19854
+Link,EU,kerosene for aviation,84920.88774
+Link,EU,land transport oil,639070.57221
+Link,EU,lignite,161369.93383
+Link,EU,naphtha for industry,97456.58526
+Link,EU,nuclear,311349.69325
+Link,EU,oil,4.64158
+Link,EU,oil refining,1000000.0
+Link,EU,rural oil boiler,68625.56805
+Link,EU,shipping methanol,8612.49494
+Link,EU,shipping oil,56124.7587
+Link,EU,solid biomass import,0.21238
+Link,EU,urban decentral oil boiler,149130.77722
+Link,FI1 0,BEV charger,12189.2837
+Link,FI1 0,CO2 pipeline,0.05738
+Link,FI1 0,Combined-Cycle Gas,4671.7263
+Link,FI1 0,DC,2300.0
+Link,FI1 0,EAF,0.00709
+Link,FI1 0,H2 DRI,0.00314
+Link,FI1 0,H2 Electrolysis,0.01069
+Link,FI1 0,HVC to air,22365.67194
+Link,FI1 0,Haber-Bosch,0.02511
+Link,FI1 0,Open-Cycle Gas,0.08058
+Link,FI1 0,SMR,153.66461
+Link,FI1 0,Sabatier,0.01522
+Link,FI1 0,battery charger,0.16589
+Link,FI1 0,battery discharger,0.16931
+Link,FI1 0,biogas to gas,164.32777
+Link,FI1 0,biomass to liquid,3617.97795
+Link,FI1 0,biomass-to-methanol,0.00506
+Link,FI1 0,electricity distribution grid,13568.56799
+Link,FI1 0,gas DRI,0.02603
+Link,FI1 0,gas for industry,101.82248
+Link,FI1 0,heat100-200 industry electric boiler steam,0.00928
+Link,FI1 0,heat100-200 industry gas,325.3957
+Link,FI1 0,heat100-200 industry industrial heat pump high temperature,0.02685
+Link,FI1 0,heat100-200 industry solid biomass,0.03147
+Link,FI1 0,heat200-500 industry gas,173.02601
+Link,FI1 0,heat200-500 industry hydrogen,0.01057
+Link,FI1 0,heat200-500 industry solid biomass,0.03088
+Link,FI1 0,heat<100 industry electric boiler steam,0.01004
+Link,FI1 0,heat<100 industry gas,1701.41413
+Link,FI1 0,heat<100 industry industrial heat pump medium temperature,0.02377
+Link,FI1 0,heat<100 industry solid biomass,0.0306
+Link,FI1 0,heat>500 industry gas,164.52559
+Link,FI1 0,heat>500 industry hydrogen,0.00942
+Link,FI1 0,home battery charger,0.16998
+Link,FI1 0,home battery discharger,0.17349
+Link,FI1 0,methanolisation,116.65485
+Link,FI1 0,municipal solid waste,124.55382
+Link,FI1 0,rural air heat pump,0.00728
+Link,FI1 0,rural biomass boiler,1617.78256
+Link,FI1 0,rural gas boiler,393.38992
+Link,FI1 0,rural ground heat pump,838.30305
+Link,FI1 0,rural resistive heater,2119.36533
+Link,FI1 0,solid biomass for industry,5684.93151
+Link,FI1 0,steel emission,110.45326
+Link,FI1 0,unsustainable bioliquids,3128356.7238
+Link,FI1 0,urban central air heat pump,0.01383
+Link,FI1 0,urban central gas CHP,0.08513
+Link,FI1 0,urban central gas boiler,14345.2858
+Link,FI1 0,urban central resistive heater,0.18766
+Link,FI1 0,urban central solid biomass CHP,0.03993
+Link,FI1 0,urban central solid biomass CHP CC,77.10844
+Link,FI1 0,urban decentral air heat pump,1875.39106
+Link,FI1 0,urban decentral biomass boiler,5518.47191
+Link,FI1 0,urban decentral gas boiler,2140.02571
+Link,FI1 0,urban decentral resistive heater,8366.96231
+Link,FI1 0,waste CHP,0.01222
+Link,FR0 0,BEV charger,47119.93378
+Link,FR0 0,CO2 pipeline,40.83407
+Link,FR0 0,Combined-Cycle Gas,6146.5541
+Link,FR0 0,DC,3000.0
+Link,FR0 0,EAF,0.00944
+Link,FR0 0,H2 DRI,0.00316
+Link,FR0 0,H2 Electrolysis,0.0107
+Link,FR0 0,HVC to air,68898.38482
+Link,FR0 0,Haber-Bosch,0.03134
+Link,FR0 0,Open-Cycle Gas,0.15616
+Link,FR0 0,SMR,1314.68448
+Link,FR0 0,Sabatier,0.01533
+Link,FR0 0,battery charger,0.16558
+Link,FR0 0,battery discharger,0.16899
+Link,FR0 0,biogas to gas,288.78998
+Link,FR0 0,biomass to liquid,267.47104
+Link,FR0 0,biomass-to-methanol,0.0051
+Link,FR0 0,electricity distribution grid,35995.72503
+Link,FR0 0,gas DRI,0.03622
+Link,FR0 0,gas for industry,506.64068
+Link,FR0 0,gas pipeline,37500.0
+Link,FR0 0,heat100-200 industry electric boiler steam,0.00977
+Link,FR0 0,heat100-200 industry gas,1899.06326
+Link,FR0 0,heat100-200 industry industrial heat pump high temperature,0.01419
+Link,FR0 0,heat100-200 industry solid biomass,0.02633
+Link,FR0 0,heat200-500 industry gas,472.11581
+Link,FR0 0,heat200-500 industry hydrogen,0.00887
+Link,FR0 0,heat200-500 industry solid biomass,0.02903
+Link,FR0 0,heat<100 industry electric boiler steam,0.00921
+Link,FR0 0,heat<100 industry gas,1334.43227
+Link,FR0 0,heat<100 industry industrial heat pump medium temperature,0.01404
+Link,FR0 0,heat<100 industry solid biomass,0.02427
+Link,FR0 0,heat>500 industry gas,1116.62583
+Link,FR0 0,heat>500 industry hydrogen,0.0104
+Link,FR0 0,home battery charger,0.1886
+Link,FR0 0,home battery discharger,0.19249
+Link,FR0 0,methanolisation,999.00178
+Link,FR0 0,municipal solid waste,315.0356
+Link,FR0 0,rural air heat pump,0.02236
+Link,FR0 0,rural biomass boiler,1237.492
+Link,FR0 0,rural gas boiler,1715.91687
+Link,FR0 0,rural ground heat pump,1024.51186
+Link,FR0 0,rural resistive heater,2571.71617
+Link,FR0 0,solid biomass for industry,789.95434
+Link,FR0 0,steel emission,272.8348
+Link,FR0 0,unsustainable bioliquids,6493389.26331
+Link,FR0 0,urban central air heat pump,0.01637
+Link,FR0 0,urban central gas CHP,0.17905
+Link,FR0 0,urban central gas boiler,13146.15855
+Link,FR0 0,urban central resistive heater,0.21653
+Link,FR0 0,urban central solid biomass CHP,0.03701
+Link,FR0 0,urban central solid biomass CHP CC,536.47685
+Link,FR0 0,urban decentral air heat pump,6307.29025
+Link,FR0 0,urban decentral biomass boiler,8909.90323
+Link,FR0 0,urban decentral gas boiler,12354.54708
+Link,FR0 0,urban decentral resistive heater,19232.5435
+Link,FR0 0,waste CHP,0.01232
+Link,FR0 1,BEV charger,29704.34328
+Link,FR0 1,CO2 pipeline,0.21735
+Link,FR0 1,Combined-Cycle Gas,4037.93319
+Link,FR0 1,EAF,0.00904
+Link,FR0 1,H2 DRI,0.00311
+Link,FR0 1,H2 Electrolysis,0.01086
+Link,FR0 1,HVC to air,42893.95593
+Link,FR0 1,Haber-Bosch,0.03439
+Link,FR0 1,Open-Cycle Gas,0.12511
+Link,FR0 1,SMR,813.67861
+Link,FR0 1,Sabatier,0.01532
+Link,FR0 1,battery charger,0.16632
+Link,FR0 1,battery discharger,0.16975
+Link,FR0 1,biogas to gas,98.71474
+Link,FR0 1,biomass to liquid,0.1641
+Link,FR0 1,biomass-to-methanol,0.00506
+Link,FR0 1,electricity distribution grid,21513.04791
+Link,FR0 1,gas DRI,0.03458
+Link,FR0 1,gas for industry,456.20211
+Link,FR0 1,gas pipeline,15000.0
+Link,FR0 1,heat100-200 industry electric boiler steam,0.00952
+Link,FR0 1,heat100-200 industry gas,1249.72771
+Link,FR0 1,heat100-200 industry industrial heat pump high temperature,0.01565
+Link,FR0 1,heat100-200 industry solid biomass,0.0223
+Link,FR0 1,heat200-500 industry gas,348.83108
+Link,FR0 1,heat200-500 industry hydrogen,0.00874
+Link,FR0 1,heat200-500 industry solid biomass,0.0259
+Link,FR0 1,heat<100 industry electric boiler steam,0.00902
+Link,FR0 1,heat<100 industry gas,958.82279
+Link,FR0 1,heat<100 industry industrial heat pump medium temperature,0.01549
+Link,FR0 1,heat<100 industry solid biomass,0.02207
+Link,FR0 1,heat>500 industry gas,1056.121
+Link,FR0 1,heat>500 industry hydrogen,0.01031
+Link,FR0 1,home battery charger,0.18406
+Link,FR0 1,home battery discharger,0.18786
+Link,FR0 1,methanolisation,618.22728
+Link,FR0 1,municipal solid waste,187.59524
+Link,FR0 1,rural air heat pump,0.02475
+Link,FR0 1,rural biomass boiler,1024.94652
+Link,FR0 1,rural gas boiler,1421.19951
+Link,FR0 1,rural ground heat pump,715.07937
+Link,FR0 1,rural resistive heater,2199.84774
+Link,FR0 1,solid biomass for industry,469.17808
+Link,FR0 1,steel emission,206.52956
+Link,FR0 1,unsustainable bioliquids,2219307.53343
+Link,FR0 1,urban central air heat pump,0.02589
+Link,FR0 1,urban central gas CHP,0.14119
+Link,FR0 1,urban central gas boiler,6121.663
+Link,FR0 1,urban central resistive heater,299.01677
+Link,FR0 1,urban central solid biomass CHP,0.03515
+Link,FR0 1,urban central solid biomass CHP CC,184.03554
+Link,FR0 1,urban decentral air heat pump,3176.04889
+Link,FR0 1,urban decentral biomass boiler,4274.65824
+Link,FR0 1,urban decentral gas boiler,5927.27723
+Link,FR0 1,urban decentral resistive heater,9204.04182
+Link,FR0 1,waste CHP,0.01236
+Link,FR0 2,BEV charger,19222.93438
+Link,FR0 2,CO2 pipeline,0.03706
+Link,FR0 2,Combined-Cycle Gas,283.10538
+Link,FR0 2,DC,2000.0
+Link,FR0 2,H2 Electrolysis,0.01074
+Link,FR0 2,HVC to air,29239.82287
+Link,FR0 2,Haber-Bosch,0.02849
+Link,FR0 2,Open-Cycle Gas,0.17987
+Link,FR0 2,SMR,265.68397
+Link,FR0 2,Sabatier,0.01519
+Link,FR0 2,battery charger,0.16614
+Link,FR0 2,battery discharger,0.16956
+Link,FR0 2,biogas to gas,170.85117
+Link,FR0 2,biomass to liquid,2156.10724
+Link,FR0 2,biomass-to-methanol,0.0051
+Link,FR0 2,electricity distribution grid,18195.27665
+Link,FR0 2,gas for industry,70.77626
+Link,FR0 2,gas pipeline,19500.0
+Link,FR0 2,heat100-200 industry electric boiler steam,0.00822
+Link,FR0 2,heat100-200 industry gas,699.82629
+Link,FR0 2,heat100-200 industry industrial heat pump high temperature,0.01279
+Link,FR0 2,heat100-200 industry solid biomass,0.02504
+Link,FR0 2,heat200-500 industry gas,175.31315
+Link,FR0 2,heat200-500 industry hydrogen,0.00966
+Link,FR0 2,heat200-500 industry solid biomass,0.02722
+Link,FR0 2,heat<100 industry electric boiler steam,0.00787
+Link,FR0 2,heat<100 industry gas,442.05956
+Link,FR0 2,heat<100 industry industrial heat pump medium temperature,0.01295
+Link,FR0 2,heat<100 industry solid biomass,0.02665
+Link,FR0 2,heat>500 industry gas,459.05771
+Link,FR0 2,heat>500 industry hydrogen,0.00948
+Link,FR0 2,home battery charger,0.20622
+Link,FR0 2,home battery discharger,0.21047
+Link,FR0 2,methanolisation,201.77812
+Link,FR0 2,municipal solid waste,131.82423
+Link,FR0 2,rural air heat pump,0.01674
+Link,FR0 2,rural biomass boiler,2978.95413
+Link,FR0 2,rural gas boiler,4130.64296
+Link,FR0 2,rural ground heat pump,339.74156
+Link,FR0 2,rural resistive heater,6727.85412
+Link,FR0 2,solid biomass for industry,410.9589
+Link,FR0 2,unsustainable bioliquids,3841357.1299
+Link,FR0 2,urban central air heat pump,0.01858
+Link,FR0 2,urban central gas CHP,0.18911
+Link,FR0 2,urban central gas boiler,3409.74233
+Link,FR0 2,urban central resistive heater,0.2345
+Link,FR0 2,urban central solid biomass CHP,0.03749
+Link,FR0 2,urban central solid biomass CHP CC,133.31648
+Link,FR0 2,urban decentral air heat pump,2237.87256
+Link,FR0 2,urban decentral biomass boiler,1973.83323
+Link,FR0 2,urban decentral gas boiler,2736.93383
+Link,FR0 2,urban decentral resistive heater,4128.88348
+Link,FR0 2,waste CHP,0.0122
+Link,FR0 3,BEV charger,19858.89578
+Link,FR0 3,CO2 pipeline,0.03063
+Link,FR0 3,Combined-Cycle Gas,2791.38119
+Link,FR0 3,DC,1000.0
+Link,FR0 3,H2 Electrolysis,0.01067
+Link,FR0 3,HVC to air,30113.17413
+Link,FR0 3,Haber-Bosch,0.03554
+Link,FR0 3,Open-Cycle Gas,0.18525
+Link,FR0 3,SMR,423.10242
+Link,FR0 3,Sabatier,0.01564
+Link,FR0 3,battery charger,0.1658
+Link,FR0 3,battery discharger,0.16922
+Link,FR0 3,biogas to gas,163.51997
+Link,FR0 3,biomass to liquid,671.39568
+Link,FR0 3,biomass-to-methanol,0.0051
+Link,FR0 3,electricity distribution grid,16399.30109
+Link,FR0 3,gas for industry,155.25114
+Link,FR0 3,gas pipeline,16500.0
+Link,FR0 3,heat100-200 industry electric boiler steam,0.00817
+Link,FR0 3,heat100-200 industry gas,680.18966
+Link,FR0 3,heat100-200 industry industrial heat pump high temperature,0.01195
+Link,FR0 3,heat100-200 industry solid biomass,0.0246
+Link,FR0 3,heat200-500 industry gas,158.19055
+Link,FR0 3,heat200-500 industry hydrogen,0.00951
+Link,FR0 3,heat200-500 industry solid biomass,0.02657
+Link,FR0 3,heat<100 industry electric boiler steam,0.00822
+Link,FR0 3,heat<100 industry gas,502.20854
+Link,FR0 3,heat<100 industry industrial heat pump medium temperature,0.01223
+Link,FR0 3,heat<100 industry solid biomass,0.02544
+Link,FR0 3,heat>500 industry gas,409.96966
+Link,FR0 3,heat>500 industry hydrogen,0.00946
+Link,FR0 3,home battery charger,0.19598
+Link,FR0 3,home battery discharger,0.20002
+Link,FR0 3,methanolisation,321.38323
+Link,FR0 3,municipal solid waste,134.14583
+Link,FR0 3,rural air heat pump,0.02274
+Link,FR0 3,rural biomass boiler,989.51256
+Link,FR0 3,rural gas boiler,1372.06647
+Link,FR0 3,rural ground heat pump,330.68631
+Link,FR0 3,rural resistive heater,2131.48623
+Link,FR0 3,solid biomass for industry,294.52055
+Link,FR0 3,unsustainable bioliquids,3676480.71271
+Link,FR0 3,urban central air heat pump,0.01635
+Link,FR0 3,urban central gas CHP,0.213
+Link,FR0 3,urban central gas boiler,5662.29172
+Link,FR0 3,urban central resistive heater,0.23206
+Link,FR0 3,urban central solid biomass CHP,0.03525
+Link,FR0 3,urban central solid biomass CHP CC,212.01343
+Link,FR0 3,urban decentral air heat pump,2831.32416
+Link,FR0 3,urban decentral biomass boiler,3778.24878
+Link,FR0 3,urban decentral gas boiler,5238.95167
+Link,FR0 3,urban decentral resistive heater,8073.95044
+Link,FR0 3,waste CHP,0.01212
+Link,FR0 4,BEV charger,14617.59339
+Link,FR0 4,CO2 pipeline,0.20296
+Link,FR0 4,Combined-Cycle Gas,2108.62249
+Link,FR0 4,H2 Electrolysis,0.01087
+Link,FR0 4,HVC to air,22482.62627
+Link,FR0 4,Haber-Bosch,0.01175
+Link,FR0 4,Open-Cycle Gas,0.11588
+Link,FR0 4,SMR,0.28873
+Link,FR0 4,Sabatier,0.01502
+Link,FR0 4,battery charger,0.1652
+Link,FR0 4,battery discharger,0.1686
+Link,FR0 4,biogas to gas,128.35878
+Link,FR0 4,biomass to liquid,1107.56788
+Link,FR0 4,biomass-to-methanol,0.0051
+Link,FR0 4,electricity distribution grid,12895.81713
+Link,FR0 4,gas for industry,384.7032
+Link,FR0 4,gas pipeline,45700.0
+Link,FR0 4,heat100-200 industry electric boiler steam,0.0093
+Link,FR0 4,heat100-200 industry gas,985.73729
+Link,FR0 4,heat100-200 industry industrial heat pump high temperature,0.03856
+Link,FR0 4,heat100-200 industry solid biomass,0.03403
+Link,FR0 4,heat200-500 industry gas,212.97571
+Link,FR0 4,heat200-500 industry hydrogen,0.00934
+Link,FR0 4,heat200-500 industry solid biomass,0.03712
+Link,FR0 4,heat<100 industry electric boiler steam,0.00859
+Link,FR0 4,heat<100 industry gas,662.95625
+Link,FR0 4,heat<100 industry industrial heat pump medium temperature,0.0276
+Link,FR0 4,heat<100 industry solid biomass,0.03538
+Link,FR0 4,heat>500 industry gas,766.15282
+Link,FR0 4,heat>500 industry hydrogen,0.00974
+Link,FR0 4,home battery charger,0.181
+Link,FR0 4,home battery discharger,0.18473
+Link,FR0 4,methanolisation,0.15671
+Link,FR0 4,municipal solid waste,91.66887
+Link,FR0 4,rural air heat pump,0.01616
+Link,FR0 4,rural biomass boiler,1562.3529
+Link,FR0 4,rural gas boiler,2166.37173
+Link,FR0 4,rural ground heat pump,223.01807
+Link,FR0 4,rural resistive heater,3509.15038
+Link,FR0 4,solid biomass for industry,462.32877
+Link,FR0 4,unsustainable bioliquids,2885845.04949
+Link,FR0 4,urban central air heat pump,0.03382
+Link,FR0 4,urban central gas CHP,0.11504
+Link,FR0 4,urban central gas boiler,2602.11987
+Link,FR0 4,urban central resistive heater,9.27007
+Link,FR0 4,urban central solid biomass CHP,0.04705
+Link,FR0 4,urban central solid biomass CHP CC,123.37032
+Link,FR0 4,urban decentral air heat pump,1595.60289
+Link,FR0 4,urban decentral biomass boiler,1612.43088
+Link,FR0 4,urban decentral gas boiler,2235.81028
+Link,FR0 4,urban decentral resistive heater,3433.07506
+Link,FR0 4,waste CHP,0.01241
+Link,FR5 0,BEV charger,542.77978
+Link,FR5 0,CO2 pipeline,0.09349
+Link,FR5 0,Combined-Cycle Gas,398.27586
+Link,FR5 0,DC,600.0
+Link,FR5 0,H2 Electrolysis,0.01058
+Link,FR5 0,HVC to air,1661.30879
+Link,FR5 0,Haber-Bosch,0.00676
+Link,FR5 0,Open-Cycle Gas,0.10003
+Link,FR5 0,SMR,0.17298
+Link,FR5 0,Sabatier,0.01411
+Link,FR5 0,battery charger,0.17208
+Link,FR5 0,battery discharger,0.17562
+Link,FR5 0,biogas to gas,2.01588
+Link,FR5 0,biomass to liquid,2.61342
+Link,FR5 0,biomass-to-methanol,0.00505
+Link,FR5 0,electricity distribution grid,977.06563
+Link,FR5 0,gas pipeline new,1776.83877
+Link,FR5 0,heat100-200 industry electric boiler steam,0.00936
+Link,FR5 0,heat100-200 industry gas,11.06425
+Link,FR5 0,heat100-200 industry industrial heat pump high temperature,0.05435
+Link,FR5 0,heat100-200 industry solid biomass,0.04084
+Link,FR5 0,heat200-500 industry gas,4.07606
+Link,FR5 0,heat200-500 industry hydrogen,0.00928
+Link,FR5 0,heat200-500 industry solid biomass,0.03224
+Link,FR5 0,heat<100 industry electric boiler steam,0.00913
+Link,FR5 0,heat<100 industry gas,8.6872
+Link,FR5 0,heat<100 industry industrial heat pump medium temperature,0.03496
+Link,FR5 0,heat<100 industry solid biomass,0.03905
+Link,FR5 0,heat>500 industry gas,1.24664
+Link,FR5 0,heat>500 industry hydrogen,0.0105
+Link,FR5 0,home battery charger,0.31633
+Link,FR5 0,home battery discharger,0.32285
+Link,FR5 0,methanolisation,0.08923
+Link,FR5 0,municipal solid waste,4.29222
+Link,FR5 0,rural air heat pump,0.02007
+Link,FR5 0,rural biomass boiler,177.73263
+Link,FR5 0,rural gas boiler,246.44556
+Link,FR5 0,rural ground heat pump,9.20242
+Link,FR5 0,rural resistive heater,407.51823
+Link,FR5 0,solid biomass for industry,3.42466
+Link,FR5 0,unsustainable bioliquids,45026.88317
+Link,FR5 0,urban decentral air heat pump,0.00497
+Link,FR5 0,urban decentral biomass boiler,0.01532
+Link,FR5 0,urban decentral gas boiler,0.0172
+Link,FR5 0,urban decentral resistive heater,0.13496
+Link,FR5 0,waste CHP,0.009
+Link,GB2 0,BEV charger,34725.65576
+Link,GB2 0,CO2 pipeline,0.10446
+Link,GB2 0,Combined-Cycle Gas,8578.97048
+Link,GB2 0,DC,2400.0
+Link,GB2 0,H2 Electrolysis,0.01094
+Link,GB2 0,HVC to air,59647.82611
+Link,GB2 0,Haber-Bosch,652.2491
+Link,GB2 0,Open-Cycle Gas,0.09047
+Link,GB2 0,SMR,3987.91303
+Link,GB2 0,Sabatier,0.01576
+Link,GB2 0,battery charger,0.16717
+Link,GB2 0,battery discharger,0.17062
+Link,GB2 0,biogas to gas,877.05901
+Link,GB2 0,biomass to liquid,1427.0924
+Link,GB2 0,biomass-to-methanol,0.00512
+Link,GB2 0,co2 sequestered,0.62924
+Link,GB2 0,electricity distribution grid,16194.74227
+Link,GB2 0,gas for industry,465.75342
+Link,GB2 0,gas pipeline,18915.0
+Link,GB2 0,gas pipeline new,3563.71824
+Link,GB2 0,heat100-200 industry electric boiler steam,0.0111
+Link,GB2 0,heat100-200 industry gas,1820.48655
+Link,GB2 0,heat100-200 industry industrial heat pump high temperature,0.01961
+Link,GB2 0,heat100-200 industry solid biomass,0.0263
+Link,GB2 0,heat200-500 industry gas,491.52458
+Link,GB2 0,heat200-500 industry hydrogen,0.00991
+Link,GB2 0,heat200-500 industry solid biomass,0.02513
+Link,GB2 0,heat<100 industry electric boiler steam,0.01043
+Link,GB2 0,heat<100 industry gas,1298.81943
+Link,GB2 0,heat<100 industry industrial heat pump medium temperature,0.01926
+Link,GB2 0,heat<100 industry solid biomass,0.02485
+Link,GB2 0,heat>500 industry gas,852.91047
+Link,GB2 0,heat>500 industry hydrogen,0.00997
+Link,GB2 0,home battery charger,0.17164
+Link,GB2 0,home battery discharger,0.17518
+Link,GB2 0,methanolisation,1.92386
+Link,GB2 0,municipal solid waste,69.10898
+Link,GB2 0,rural air heat pump,0.01832
+Link,GB2 0,rural biomass boiler,134.85662
+Link,GB2 0,rural gas boiler,6614.65115
+Link,GB2 0,rural ground heat pump,41.96917
+Link,GB2 0,rural resistive heater,610.70605
+Link,GB2 0,solid biomass for industry,772.83105
+Link,GB2 0,unsustainable bioliquids,1640927.03895
+Link,GB2 0,urban central air heat pump,0.01875
+Link,GB2 0,urban central gas CHP,0.08923
+Link,GB2 0,urban central gas boiler,3683.06842
+Link,GB2 0,urban central resistive heater,661.68676
+Link,GB2 0,urban central solid biomass CHP,0.0307
+Link,GB2 0,urban central solid biomass CHP CC,1.29615
+Link,GB2 0,urban decentral air heat pump,134.30566
+Link,GB2 0,urban decentral biomass boiler,393.48628
+Link,GB2 0,urban decentral gas boiler,19300.3095
+Link,GB2 0,urban decentral resistive heater,1783.15253
+Link,GB2 0,waste CHP,0.01191
+Link,GB2 1,BEV charger,64346.38198
+Link,GB2 1,CO2 pipeline,0.01656
+Link,GB2 1,Combined-Cycle Gas,44428.6802
+Link,GB2 1,DC,7400.0
+Link,GB2 1,EAF,0.01048
+Link,GB2 1,H2 DRI,0.00309
+Link,GB2 1,H2 Electrolysis,0.01093
+Link,GB2 1,HVC to air,104525.85855
+Link,GB2 1,Haber-Bosch,554.5986
+Link,GB2 1,Open-Cycle Gas,0.09066
+Link,GB2 1,SMR,4382.63979
+Link,GB2 1,Sabatier,0.01589
+Link,GB2 1,battery charger,0.16699
+Link,GB2 1,battery discharger,0.17044
+Link,GB2 1,biogas to gas,1422.7831
+Link,GB2 1,biomass to liquid,999.30011
+Link,GB2 1,biomass-to-methanol,0.00513
+Link,GB2 1,co2 sequestered,66.87755
+Link,GB2 1,electricity distribution grid,29675.30718
+Link,GB2 1,gas DRI,0.04089
+Link,GB2 1,gas for industry,157.82283
+Link,GB2 1,gas pipeline,16500.0
+Link,GB2 1,heat100-200 industry electric boiler steam,0.01147
+Link,GB2 1,heat100-200 industry gas,2119.98894
+Link,GB2 1,heat100-200 industry industrial heat pump high temperature,0.02001
+Link,GB2 1,heat100-200 industry solid biomass,0.02648
+Link,GB2 1,heat200-500 industry gas,654.76721
+Link,GB2 1,heat200-500 industry hydrogen,0.01012
+Link,GB2 1,heat200-500 industry solid biomass,0.02433
+Link,GB2 1,heat<100 industry electric boiler steam,0.01078
+Link,GB2 1,heat<100 industry gas,1543.08575
+Link,GB2 1,heat<100 industry industrial heat pump medium temperature,0.01958
+Link,GB2 1,heat<100 industry solid biomass,0.02509
+Link,GB2 1,heat>500 industry gas,403.11568
+Link,GB2 1,heat>500 industry hydrogen,0.00948
+Link,GB2 1,home battery charger,0.17077
+Link,GB2 1,home battery discharger,0.17429
+Link,GB2 1,methanolisation,755.37942
+Link,GB2 1,municipal solid waste,88.90939
+Link,GB2 1,rural air heat pump,0.0138
+Link,GB2 1,rural biomass boiler,137.0372
+Link,GB2 1,rural gas boiler,6721.60743
+Link,GB2 1,rural ground heat pump,97.75629
+Link,GB2 1,rural resistive heater,619.81485
+Link,GB2 1,solid biomass for industry,914.38356
+Link,GB2 1,steel emission,142.36855
+Link,GB2 1,unsustainable bioliquids,2661965.45281
+Link,GB2 1,urban central air heat pump,0.02132
+Link,GB2 1,urban central gas CHP,0.09115
+Link,GB2 1,urban central gas boiler,11466.39809
+Link,GB2 1,urban central resistive heater,1217.81672
+Link,GB2 1,urban central solid biomass CHP,0.03086
+Link,GB2 1,urban central solid biomass CHP CC,498.74531
+Link,GB2 1,urban decentral air heat pump,319.92188
+Link,GB2 1,urban decentral biomass boiler,1087.25044
+Link,GB2 1,urban decentral gas boiler,53329.10249
+Link,GB2 1,urban decentral resistive heater,4928.58447
+Link,GB2 1,waste CHP,0.01201
+Link,GB3 0,BEV charger,2687.18942
+Link,GB3 0,CO2 pipeline,0.08805
+Link,GB3 0,Combined-Cycle Gas,6035.35123
+Link,GB3 0,DC,500.0
+Link,GB3 0,H2 Electrolysis,0.01102
+Link,GB3 0,HVC to air,6622.86699
+Link,GB3 0,Haber-Bosch,0.63661
+Link,GB3 0,Open-Cycle Gas,0.07991
+Link,GB3 0,SMR,44.23878
+Link,GB3 0,Sabatier,0.0156
+Link,GB3 0,battery charger,0.16645
+Link,GB3 0,battery discharger,0.16989
+Link,GB3 0,biogas to gas,105.54147
+Link,GB3 0,biomass to liquid,169.08227
+Link,GB3 0,biomass-to-methanol,0.00509
+Link,GB3 0,electricity distribution grid,1722.54781
+Link,GB3 0,gas for industry,11.41553
+Link,GB3 0,gas pipeline,1500.0
+Link,GB3 0,gas pipeline new,1958.5666
+Link,GB3 0,heat100-200 industry electric boiler steam,0.00861
+Link,GB3 0,heat100-200 industry gas,93.40642
+Link,GB3 0,heat100-200 industry industrial heat pump high temperature,0.02656
+Link,GB3 0,heat100-200 industry solid biomass,0.0288
+Link,GB3 0,heat200-500 industry gas,30.32854
+Link,GB3 0,heat200-500 industry hydrogen,0.01263
+Link,GB3 0,heat200-500 industry solid biomass,0.03274
+Link,GB3 0,heat<100 industry electric boiler steam,0.00853
+Link,GB3 0,heat<100 industry gas,70.09669
+Link,GB3 0,heat<100 industry industrial heat pump medium temperature,0.02555
+Link,GB3 0,heat<100 industry solid biomass,0.02928
+Link,GB3 0,heat>500 industry gas,28.69935
+Link,GB3 0,heat>500 industry hydrogen,0.01067
+Link,GB3 0,home battery charger,0.16704
+Link,GB3 0,home battery discharger,0.17048
+Link,GB3 0,methanolisation,30.65258
+Link,GB3 0,municipal solid waste,5.82831
+Link,GB3 0,rural air heat pump,0.01758
+Link,GB3 0,rural biomass boiler,32.05276
+Link,GB3 0,rural gas boiler,1572.1724
+Link,GB3 0,rural ground heat pump,3.46285
+Link,GB3 0,rural resistive heater,145.24822
+Link,GB3 0,solid biomass for industry,18.26484
+Link,GB3 0,unsustainable bioliquids,197436.72404
+Link,GB3 0,urban central air heat pump,0.01897
+Link,GB3 0,urban central gas CHP,0.07778
+Link,GB3 0,urban central gas boiler,138.4737
+Link,GB3 0,urban central resistive heater,32.08757
+Link,GB3 0,urban central solid biomass CHP,0.0284
+Link,GB3 0,urban central solid biomass CHP CC,20.11868
+Link,GB3 0,urban decentral air heat pump,10.80708
+Link,GB3 0,urban decentral biomass boiler,14.73133
+Link,GB3 0,urban decentral gas boiler,722.56446
+Link,GB3 0,urban decentral resistive heater,67.49085
+Link,GB3 0,waste CHP,0.01035
+Link,GR0 0,BEV charger,18436.33891
+Link,GR0 0,CO2 pipeline,0.3846
+Link,GR0 0,Combined-Cycle Gas,13363.7986
+Link,GR0 0,DC,500.0
+Link,GR0 0,H2 Electrolysis,0.01119
+Link,GR0 0,HVC to air,28236.34066
+Link,GR0 0,Haber-Bosch,142.30664
+Link,GR0 0,Open-Cycle Gas,0.08734
+Link,GR0 0,SMR,872.29638
+Link,GR0 0,Sabatier,0.01593
+Link,GR0 0,battery charger,0.16978
+Link,GR0 0,battery discharger,0.17328
+Link,GR0 0,biogas to gas,109.53301
+Link,GR0 0,biomass to liquid,0.01675
+Link,GR0 0,biomass-to-methanol,0.00432
+Link,GR0 0,co2 sequestered,0.78706
+Link,GR0 0,electricity distribution grid,8452.22104
+Link,GR0 0,gas for industry,51.36986
+Link,GR0 0,gas pipeline new,4.39072
+Link,GR0 0,heat100-200 industry electric boiler steam,0.01014
+Link,GR0 0,heat100-200 industry gas,256.67849
+Link,GR0 0,heat100-200 industry industrial heat pump high temperature,0.02593
+Link,GR0 0,heat100-200 industry solid biomass,0.00907
+Link,GR0 0,heat200-500 industry gas,69.16387
+Link,GR0 0,heat200-500 industry hydrogen,0.01134
+Link,GR0 0,heat200-500 industry solid biomass,0.00873
+Link,GR0 0,heat<100 industry electric boiler steam,0.01053
+Link,GR0 0,heat<100 industry gas,124.11977
+Link,GR0 0,heat<100 industry industrial heat pump medium temperature,0.02615
+Link,GR0 0,heat<100 industry solid biomass,0.00945
+Link,GR0 0,heat>500 industry gas,409.97108
+Link,GR0 0,heat>500 industry hydrogen,0.00928
+Link,GR0 0,home battery charger,0.18043
+Link,GR0 0,home battery discharger,0.18415
+Link,GR0 0,methanolisation,2.10011
+Link,GR0 0,municipal solid waste,25.43554
+Link,GR0 0,rural air heat pump,0.01522
+Link,GR0 0,rural biomass boiler,1006.2256
+Link,GR0 0,rural gas boiler,246.86371
+Link,GR0 0,rural ground heat pump,0.01628
+Link,GR0 0,rural resistive heater,809.47401
+Link,GR0 0,solid biomass for industry,187.21461
+Link,GR0 0,unsustainable bioliquids,1383278.9454
+Link,GR0 0,urban central air heat pump,0.01845
+Link,GR0 0,urban central gas CHP,0.08657
+Link,GR0 0,urban central gas boiler,2243.32595
+Link,GR0 0,urban central resistive heater,79.77613
+Link,GR0 0,urban central solid biomass CHP,0.01734
+Link,GR0 0,urban central solid biomass CHP CC,0.01127
+Link,GR0 0,urban decentral air heat pump,0.00884
+Link,GR0 0,urban decentral biomass boiler,3332.53434
+Link,GR0 0,urban decentral gas boiler,817.59181
+Link,GR0 0,urban decentral resistive heater,2680.8981
+Link,GR0 0,waste CHP,0.01164
+Link,HR0 0,BEV charger,5881.909
+Link,HR0 0,CO2 pipeline,0.18508
+Link,HR0 0,Combined-Cycle Gas,1337.58677
+Link,HR0 0,H2 Electrolysis,0.0105
+Link,HR0 0,HVC to air,12260.53895
+Link,HR0 0,Haber-Bosch,0.0142
+Link,HR0 0,Open-Cycle Gas,0.10537
+Link,HR0 0,SMR,1.52749
+Link,HR0 0,Sabatier,0.01541
+Link,HR0 0,battery charger,0.1644
+Link,HR0 0,battery discharger,0.16779
+Link,HR0 0,biogas to gas,72.04737
+Link,HR0 0,biomass to liquid,1203.07255
+Link,HR0 0,biomass-to-methanol,0.0051
+Link,HR0 0,electricity distribution grid,2565.74563
+Link,HR0 0,gas for industry,78.76712
+Link,HR0 0,gas pipeline,4500.0
+Link,HR0 0,gas pipeline new,1.58907
+Link,HR0 0,heat100-200 industry electric boiler steam,0.007
+Link,HR0 0,heat100-200 industry gas,165.86787
+Link,HR0 0,heat100-200 industry industrial heat pump high temperature,0.01349
+Link,HR0 0,heat100-200 industry solid biomass,0.03142
+Link,HR0 0,heat200-500 industry gas,39.46537
+Link,HR0 0,heat200-500 industry hydrogen,0.01089
+Link,HR0 0,heat200-500 industry solid biomass,0.02943
+Link,HR0 0,heat<100 industry electric boiler steam,0.00703
+Link,HR0 0,heat<100 industry gas,180.60328
+Link,HR0 0,heat<100 industry industrial heat pump medium temperature,0.01309
+Link,HR0 0,heat<100 industry solid biomass,0.03172
+Link,HR0 0,heat>500 industry gas,121.14347
+Link,HR0 0,heat>500 industry hydrogen,0.00977
+Link,HR0 0,home battery charger,0.12117
+Link,HR0 0,home battery discharger,0.12367
+Link,HR0 0,methanolisation,1.08388
+Link,HR0 0,municipal solid waste,0.91117
+Link,HR0 0,rural air heat pump,0.01404
+Link,HR0 0,rural biomass boiler,948.68561
+Link,HR0 0,rural gas boiler,1999.86741
+Link,HR0 0,rural ground heat pump,0.02318
+Link,HR0 0,rural resistive heater,399.90625
+Link,HR0 0,solid biomass for industry,78.76712
+Link,HR0 0,unsustainable bioliquids,1788.4614
+Link,HR0 0,urban central air heat pump,0.02605
+Link,HR0 0,urban central gas CHP,0.13994
+Link,HR0 0,urban central gas boiler,1263.61522
+Link,HR0 0,urban central resistive heater,1.39364
+Link,HR0 0,urban central solid biomass CHP,0.04408
+Link,HR0 0,urban central solid biomass CHP CC,0.83626
+Link,HR0 0,urban decentral air heat pump,0.01043
+Link,HR0 0,urban decentral biomass boiler,970.46653
+Link,HR0 0,urban decentral gas boiler,2045.78246
+Link,HR0 0,urban decentral resistive heater,409.08774
+Link,HR0 0,waste CHP,0.01185
+Link,HU0 0,BEV charger,12998.96433
+Link,HU0 0,CO2 pipeline,0.26821
+Link,HU0 0,Combined-Cycle Gas,3580.51809
+Link,HU0 0,EAF,0.00648
+Link,HU0 0,H2 DRI,0.00283
+Link,HU0 0,H2 Electrolysis,0.01036
+Link,HU0 0,HVC to air,28935.9658
+Link,HU0 0,Haber-Bosch,0.02343
+Link,HU0 0,Open-Cycle Gas,0.12202
+Link,HU0 0,SMR,394.94478
+Link,HU0 0,Sabatier,0.0158
+Link,HU0 0,battery charger,0.16456
+Link,HU0 0,battery discharger,0.16795
+Link,HU0 0,biogas to gas,79.23536
+Link,HU0 0,biomass to liquid,1063.87244
+Link,HU0 0,biomass-to-methanol,0.00509
+Link,HU0 0,electricity distribution grid,5344.01636
+Link,HU0 0,gas DRI,0.02419
+Link,HU0 0,gas for industry,85.20159
+Link,HU0 0,gas pipeline,3000.0
+Link,HU0 0,gas pipeline new,1.55215
+Link,HU0 0,heat100-200 industry electric boiler steam,0.00795
+Link,HU0 0,heat100-200 industry gas,1000.56484
+Link,HU0 0,heat100-200 industry industrial heat pump high temperature,0.01074
+Link,HU0 0,heat100-200 industry solid biomass,0.02466
+Link,HU0 0,heat200-500 industry gas,252.93855
+Link,HU0 0,heat200-500 industry hydrogen,0.01016
+Link,HU0 0,heat200-500 industry solid biomass,0.0269
+Link,HU0 0,heat<100 industry electric boiler steam,0.00756
+Link,HU0 0,heat<100 industry gas,698.60966
+Link,HU0 0,heat<100 industry industrial heat pump medium temperature,0.01082
+Link,HU0 0,heat<100 industry solid biomass,0.02476
+Link,HU0 0,heat>500 industry gas,754.73791
+Link,HU0 0,heat>500 industry hydrogen,0.00986
+Link,HU0 0,home battery charger,0.1185
+Link,HU0 0,home battery discharger,0.12094
+Link,HU0 0,methanolisation,300.03641
+Link,HU0 0,municipal solid waste,98.29848
+Link,HU0 0,rural air heat pump,0.01073
+Link,HU0 0,rural biomass boiler,1448.52311
+Link,HU0 0,rural gas boiler,5652.83813
+Link,HU0 0,rural ground heat pump,31.91769
+Link,HU0 0,rural resistive heater,21.88845
+Link,HU0 0,solid biomass for industry,476.0274
+Link,HU0 0,steel emission,67.55289
+Link,HU0 0,unsustainable bioliquids,3627467.943
+Link,HU0 0,urban central air heat pump,0.01456
+Link,HU0 0,urban central gas CHP,0.21146
+Link,HU0 0,urban central gas boiler,4014.99325
+Link,HU0 0,urban central resistive heater,1.45272
+Link,HU0 0,urban central solid biomass CHP,0.03722
+Link,HU0 0,urban central solid biomass CHP CC,197.61773
+Link,HU0 0,urban decentral air heat pump,19.60221
+Link,HU0 0,urban decentral biomass boiler,2503.66654
+Link,HU0 0,urban decentral gas boiler,9770.51836
+Link,HU0 0,urban decentral resistive heater,42.40948
+Link,HU0 0,waste CHP,0.01219
+Link,IE3 0,BEV charger,7683.4461
+Link,IE3 0,Combined-Cycle Gas,7567.24675
+Link,IE3 0,DC,500.0
+Link,IE3 0,H2 Electrolysis,0.01117
+Link,IE3 0,HVC to air,17741.50719
+Link,IE3 0,Haber-Bosch,0.06736
+Link,IE3 0,Open-Cycle Gas,0.08032
+Link,IE3 0,SMR,190.61739
+Link,IE3 0,Sabatier,0.0153
+Link,IE3 0,battery charger,0.1679
+Link,IE3 0,battery discharger,0.17136
+Link,IE3 0,biogas to gas,44.38642
+Link,IE3 0,biomass to liquid,65.04508
+Link,IE3 0,biomass-to-methanol,0.00512
+Link,IE3 0,co2 sequestered,0.80734
+Link,IE3 0,electricity distribution grid,3380.84561
+Link,IE3 0,gas for industry,62.78539
+Link,IE3 0,heat100-200 industry electric boiler steam,0.00963
+Link,IE3 0,heat100-200 industry gas,325.37162
+Link,IE3 0,heat100-200 industry industrial heat pump high temperature,0.03463
+Link,IE3 0,heat100-200 industry solid biomass,0.02907
+Link,IE3 0,heat200-500 industry gas,82.81169
+Link,IE3 0,heat200-500 industry hydrogen,0.00922
+Link,IE3 0,heat200-500 industry solid biomass,0.06965
+Link,IE3 0,heat<100 industry electric boiler steam,0.00975
+Link,IE3 0,heat<100 industry gas,248.06136
+Link,IE3 0,heat<100 industry industrial heat pump medium temperature,0.03186
+Link,IE3 0,heat<100 industry solid biomass,0.0299
+Link,IE3 0,heat>500 industry gas,585.7831
+Link,IE3 0,heat>500 industry hydrogen,0.00933
+Link,IE3 0,home battery charger,0.14041
+Link,IE3 0,home battery discharger,0.14331
+Link,IE3 0,methanolisation,144.54793
+Link,IE3 0,municipal solid waste,18.01259
+Link,IE3 0,rural air heat pump,0.0168
+Link,IE3 0,rural biomass boiler,74.74385
+Link,IE3 0,rural gas boiler,1523.08222
+Link,IE3 0,rural ground heat pump,33.83563
+Link,IE3 0,rural resistive heater,397.63031
+Link,IE3 0,solid biomass for industry,327.62557
+Link,IE3 0,unsustainable bioliquids,350814.7632
+Link,IE3 0,urban central air heat pump,0.0255
+Link,IE3 0,urban central gas CHP,0.08247
+Link,IE3 0,urban central gas boiler,1065.65334
+Link,IE3 0,urban central resistive heater,4.15599
+Link,IE3 0,urban central solid biomass CHP,0.03357
+Link,IE3 0,urban central solid biomass CHP CC,95.64765
+Link,IE3 0,urban decentral air heat pump,27.92052
+Link,IE3 0,urban decentral biomass boiler,118.28944
+Link,IE3 0,urban decentral gas boiler,2410.42626
+Link,IE3 0,urban decentral resistive heater,630.4916
+Link,IE3 0,waste CHP,0.01179
+Link,IT0 0,BEV charger,57947.70986
+Link,IT0 0,CO2 pipeline,0.1041
+Link,IT0 0,Combined-Cycle Gas,31055.04032
+Link,IT0 0,DC,2700.0
+Link,IT0 0,EAF,0.01162
+Link,IT0 0,H2 DRI,0.00335
+Link,IT0 0,H2 Electrolysis,0.01112
+Link,IT0 0,HVC to air,67751.64362
+Link,IT0 0,Haber-Bosch,0.77809
+Link,IT0 0,Open-Cycle Gas,0.09454
+Link,IT0 0,SMR,5.1356
+Link,IT0 0,Sabatier,0.01551
+Link,IT0 0,battery charger,0.16932
+Link,IT0 0,battery discharger,0.17281
+Link,IT0 0,biogas to gas,582.62631
+Link,IT0 0,biomass to liquid,0.01548
+Link,IT0 0,biomass-to-methanol,0.00422
+Link,IT0 0,co2 sequestered,0.62401
+Link,IT0 0,electricity distribution grid,23168.75642
+Link,IT0 0,gas DRI,0.04515
+Link,IT0 0,gas for industry,390.70419
+Link,IT0 0,gas pipeline,4500.0
+Link,IT0 0,heat100-200 industry electric boiler steam,0.01107
+Link,IT0 0,heat100-200 industry gas,1387.20214
+Link,IT0 0,heat100-200 industry industrial heat pump high temperature,0.0203
+Link,IT0 0,heat100-200 industry solid biomass,0.00697
+Link,IT0 0,heat200-500 industry gas,494.96521
+Link,IT0 0,heat200-500 industry hydrogen,0.00912
+Link,IT0 0,heat200-500 industry solid biomass,0.00833
+Link,IT0 0,heat<100 industry electric boiler steam,0.0117
+Link,IT0 0,heat<100 industry gas,2029.17257
+Link,IT0 0,heat<100 industry industrial heat pump medium temperature,0.02248
+Link,IT0 0,heat<100 industry solid biomass,0.0076
+Link,IT0 0,heat>500 industry gas,989.90958
+Link,IT0 0,heat>500 industry hydrogen,0.01016
+Link,IT0 0,home battery charger,0.18758
+Link,IT0 0,home battery discharger,0.19145
+Link,IT0 0,methanolisation,0.27705
+Link,IT0 0,municipal solid waste,158.68234
+Link,IT0 0,rural air heat pump,0.01947
+Link,IT0 0,rural biomass boiler,8372.90604
+Link,IT0 0,rural gas boiler,14701.57778
+Link,IT0 0,rural ground heat pump,230.5654
+Link,IT0 0,rural resistive heater,892.8788
+Link,IT0 0,solid biomass for industry,351.59817
+Link,IT0 0,steel emission,198.21685
+Link,IT0 0,unsustainable bioliquids,2690823.79127
+Link,IT0 0,urban central air heat pump,65.02846
+Link,IT0 0,urban central gas CHP,0.09603
+Link,IT0 0,urban central gas boiler,8097.58076
+Link,IT0 0,urban central resistive heater,161.79812
+Link,IT0 0,urban central solid biomass CHP,0.01677
+Link,IT0 0,urban central solid biomass CHP CC,0.01021
+Link,IT0 0,urban decentral air heat pump,7403.91741
+Link,IT0 0,urban decentral biomass boiler,5075.32287
+Link,IT0 0,urban decentral gas boiler,8911.51215
+Link,IT0 0,urban decentral resistive heater,4779.18755
+Link,IT0 0,waste CHP,0.01187
+Link,IT0 1,BEV charger,73558.21667
+Link,IT0 1,CO2 pipeline,0.0554
+Link,IT0 1,Combined-Cycle Gas,37763.11153
+Link,IT0 1,DC,300.0
+Link,IT0 1,H2 Electrolysis,0.01068
+Link,IT0 1,HVC to air,84666.38982
+Link,IT0 1,Haber-Bosch,0.01345
+Link,IT0 1,Open-Cycle Gas,0.09861
+Link,IT0 1,SMR,0.34534
+Link,IT0 1,Sabatier,0.01515
+Link,IT0 1,battery charger,0.16502
+Link,IT0 1,battery discharger,0.16842
+Link,IT0 1,biogas to gas,1152.44841
+Link,IT0 1,biomass to liquid,1554.35002
+Link,IT0 1,biomass-to-methanol,0.0051
+Link,IT0 1,co2 sequestered,1.31928
+Link,IT0 1,electricity distribution grid,33004.68202
+Link,IT0 1,gas for industry,1168.94977
+Link,IT0 1,gas pipeline,21560.2
+Link,IT0 1,heat100-200 industry electric boiler steam,0.01108
+Link,IT0 1,heat100-200 industry gas,2447.6912
+Link,IT0 1,heat100-200 industry industrial heat pump high temperature,0.02778
+Link,IT0 1,heat100-200 industry solid biomass,0.03722
+Link,IT0 1,heat200-500 industry gas,899.04707
+Link,IT0 1,heat200-500 industry hydrogen,0.00976
+Link,IT0 1,heat200-500 industry solid biomass,0.03856
+Link,IT0 1,heat<100 industry electric boiler steam,0.01174
+Link,IT0 1,heat<100 industry gas,3381.80403
+Link,IT0 1,heat<100 industry industrial heat pump medium temperature,0.02832
+Link,IT0 1,heat<100 industry solid biomass,0.0427
+Link,IT0 1,heat>500 industry gas,2042.46262
+Link,IT0 1,heat>500 industry hydrogen,0.01223
+Link,IT0 1,home battery charger,0.16643
+Link,IT0 1,home battery discharger,0.16987
+Link,IT0 1,methanolisation,0.18775
+Link,IT0 1,municipal solid waste,175.14282
+Link,IT0 1,rural air heat pump,0.02575
+Link,IT0 1,rural biomass boiler,4431.80797
+Link,IT0 1,rural gas boiler,7781.5957
+Link,IT0 1,rural ground heat pump,221.37071
+Link,IT0 1,rural resistive heater,472.26797
+Link,IT0 1,solid biomass for industry,549.08676
+Link,IT0 1,unsustainable bioliquids,5322596.25233
+Link,IT0 1,urban central air heat pump,124.63165
+Link,IT0 1,urban central gas CHP,0.11008
+Link,IT0 1,urban central gas boiler,8995.74278
+Link,IT0 1,urban central resistive heater,279.97367
+Link,IT0 1,urban central solid biomass CHP,0.04396
+Link,IT0 1,urban central solid biomass CHP CC,0.27585
+Link,IT0 1,urban decentral air heat pump,7861.51561
+Link,IT0 1,urban decentral biomass boiler,6775.69019
+Link,IT0 1,urban decentral gas boiler,11897.10428
+Link,IT0 1,urban decentral resistive heater,7036.66638
+Link,IT0 1,waste CHP,0.0125
+Link,IT4 0,BEV charger,3343.31459
+Link,IT4 0,Combined-Cycle Gas,0.04249
+Link,IT4 0,DC,1300.0
+Link,IT4 0,H2 Electrolysis,0.01124
+Link,IT4 0,HVC to air,7018.21032
+Link,IT4 0,Haber-Bosch,0.01459
+Link,IT4 0,Open-Cycle Gas,0.09505
+Link,IT4 0,SMR,0.24495
+Link,IT4 0,Sabatier,0.01481
+Link,IT4 0,battery charger,0.1729
+Link,IT4 0,battery discharger,0.17647
+Link,IT4 0,biogas to gas,29.00281
+Link,IT4 0,biomass to liquid,0.0155
+Link,IT4 0,biomass-to-methanol,0.00422
+Link,IT4 0,electricity distribution grid,1467.62763
+Link,IT4 0,gas for industry,28.53881
+Link,IT4 0,heat100-200 industry electric boiler steam,0.00969
+Link,IT4 0,heat100-200 industry gas,101.60924
+Link,IT4 0,heat100-200 industry industrial heat pump high temperature,2.43939
+Link,IT4 0,heat100-200 industry solid biomass,0.00886
+Link,IT4 0,heat200-500 industry gas,115.96812
+Link,IT4 0,heat200-500 industry hydrogen,0.01087
+Link,IT4 0,heat200-500 industry solid biomass,0.00852
+Link,IT4 0,heat<100 industry electric boiler steam,0.00966
+Link,IT4 0,heat<100 industry gas,192.68024
+Link,IT4 0,heat<100 industry industrial heat pump medium temperature,0.08927
+Link,IT4 0,heat<100 industry solid biomass,0.00869
+Link,IT4 0,heat>500 industry gas,202.19832
+Link,IT4 0,heat>500 industry hydrogen,0.00935
+Link,IT4 0,home battery charger,0.12904
+Link,IT4 0,home battery discharger,0.1317
+Link,IT4 0,methanolisation,0.10788
+Link,IT4 0,municipal solid waste,9.70408
+Link,IT4 0,rural air heat pump,0.01181
+Link,IT4 0,rural biomass boiler,1301.58362
+Link,IT4 0,rural gas boiler,2285.38726
+Link,IT4 0,rural ground heat pump,16.25045
+Link,IT4 0,rural resistive heater,138.78732
+Link,IT4 0,solid biomass for industry,25.11416
+Link,IT4 0,unsustainable bioliquids,133881.323
+Link,IT4 0,urban central air heat pump,1.3519
+Link,IT4 0,urban central gas CHP,0.09666
+Link,IT4 0,urban central gas boiler,199.09195
+Link,IT4 0,urban central resistive heater,2.65835
+Link,IT4 0,urban central solid biomass CHP,0.01725
+Link,IT4 0,urban central solid biomass CHP CC,0.01084
+Link,IT4 0,urban decentral air heat pump,247.94512
+Link,IT4 0,urban decentral biomass boiler,57.83755
+Link,IT4 0,urban decentral gas boiler,101.55414
+Link,IT4 0,urban decentral resistive heater,155.12942
+Link,IT4 0,waste CHP,0.01093
+Link,LT0 0,BEV charger,5717.86072
+Link,LT0 0,CO2 pipeline,0.12218
+Link,LT0 0,Combined-Cycle Gas,1979.31134
+Link,LT0 0,DC,700.0
+Link,LT0 0,H2 Electrolysis,0.01032
+Link,LT0 0,HVC to air,9723.52771
+Link,LT0 0,Haber-Bosch,0.02258
+Link,LT0 0,Open-Cycle Gas,0.11642
+Link,LT0 0,SMR,190.52361
+Link,LT0 0,Sabatier,0.01417
+Link,LT0 0,battery charger,0.16324
+Link,LT0 0,battery discharger,0.16661
+Link,LT0 0,biogas to gas,34.17107
+Link,LT0 0,biomass to liquid,506.31739
+Link,LT0 0,biomass-to-methanol,0.0051
+Link,LT0 0,co2 sequestered,0.26083
+Link,LT0 0,electricity distribution grid,1588.59369
+Link,LT0 0,gas for industry,2.28311
+Link,LT0 0,gas pipeline,3000.0
+Link,LT0 0,gas pipeline new,2871.8086
+Link,LT0 0,heat100-200 industry electric boiler steam,0.00687
+Link,LT0 0,heat100-200 industry gas,108.18812
+Link,LT0 0,heat100-200 industry industrial heat pump high temperature,0.01105
+Link,LT0 0,heat100-200 industry solid biomass,0.02716
+Link,LT0 0,heat200-500 industry gas,31.4764
+Link,LT0 0,heat200-500 industry hydrogen,0.01153
+Link,LT0 0,heat200-500 industry solid biomass,0.02671
+Link,LT0 0,heat<100 industry electric boiler steam,0.00688
+Link,LT0 0,heat<100 industry gas,98.37163
+Link,LT0 0,heat<100 industry industrial heat pump medium temperature,0.01122
+Link,LT0 0,heat<100 industry solid biomass,0.02735
+Link,LT0 0,heat>500 industry gas,36.68597
+Link,LT0 0,heat>500 industry hydrogen,0.01054
+Link,LT0 0,home battery charger,0.11945
+Link,LT0 0,home battery discharger,0.12191
+Link,LT0 0,methanolisation,144.6811
+Link,LT0 0,municipal solid waste,13.41095
+Link,LT0 0,rural air heat pump,0.00432
+Link,LT0 0,rural biomass boiler,2780.60414
+Link,LT0 0,rural gas boiler,0.06175
+Link,LT0 0,rural ground heat pump,42.7389
+Link,LT0 0,rural resistive heater,14.47055
+Link,LT0 0,solid biomass for industry,133.56164
+Link,LT0 0,unsustainable bioliquids,1216967.3868
+Link,LT0 0,urban central air heat pump,0.01361
+Link,LT0 0,urban central gas CHP,0.13333
+Link,LT0 0,urban central gas boiler,3305.70015
+Link,LT0 0,urban central resistive heater,1.83687
+Link,LT0 0,urban central solid biomass CHP,0.03526
+Link,LT0 0,urban central solid biomass CHP CC,95.5384
+Link,LT0 0,urban decentral air heat pump,9.36868
+Link,LT0 0,urban decentral biomass boiler,2713.46917
+Link,LT0 0,urban decentral gas boiler,0.07209
+Link,LT0 0,urban decentral resistive heater,14.66816
+Link,LT0 0,waste CHP,0.01133
+Link,LU0 0,BEV charger,1467.83791
+Link,LU0 0,Combined-Cycle Gas,0.30336
+Link,LU0 0,H2 Electrolysis,0.01006
+Link,LU0 0,HVC to air,2695.24912
+Link,LU0 0,Haber-Bosch,0.01276
+Link,LU0 0,Open-Cycle Gas,2845.07505
+Link,LU0 0,SMR,0.44108
+Link,LU0 0,Sabatier,0.01522
+Link,LU0 0,battery charger,0.16223
+Link,LU0 0,battery discharger,0.16557
+Link,LU0 0,biogas to gas,15.77939
+Link,LU0 0,biomass to liquid,91.52336
+Link,LU0 0,biomass-to-methanol,0.0051
+Link,LU0 0,electricity distribution grid,820.90127
+Link,LU0 0,gas for industry,203.19635
+Link,LU0 0,gas pipeline,1500.0
+Link,LU0 0,heat100-200 industry electric boiler steam,0.00591
+Link,LU0 0,heat100-200 industry gas,34.54411
+Link,LU0 0,heat100-200 industry industrial heat pump high temperature,0.00929
+Link,LU0 0,heat100-200 industry solid biomass,0.0295
+Link,LU0 0,heat200-500 industry gas,20.06045
+Link,LU0 0,heat200-500 industry hydrogen,0.01101
+Link,LU0 0,heat200-500 industry solid biomass,0.02774
+Link,LU0 0,heat<100 industry electric boiler steam,0.00596
+Link,LU0 0,heat<100 industry gas,35.77464
+Link,LU0 0,heat<100 industry industrial heat pump medium temperature,0.00925
+Link,LU0 0,heat<100 industry solid biomass,0.02975
+Link,LU0 0,heat>500 industry gas,73.20382
+Link,LU0 0,heat>500 industry hydrogen,0.01023
+Link,LU0 0,home battery charger,0.11729
+Link,LU0 0,home battery discharger,0.11971
+Link,LU0 0,methanolisation,0.26341
+Link,LU0 0,municipal solid waste,1.39428
+Link,LU0 0,rural air heat pump,0.01197
+Link,LU0 0,rural biomass boiler,20.29432
+Link,LU0 0,rural gas boiler,126.24023
+Link,LU0 0,rural ground heat pump,2.02576
+Link,LU0 0,rural resistive heater,15.11053
+Link,LU0 0,solid biomass for industry,30.82192
+Link,LU0 0,urban central air heat pump,0.01126
+Link,LU0 0,urban central gas CHP,502.45208
+Link,LU0 0,urban central gas boiler,513.95106
+Link,LU0 0,urban central resistive heater,1.25906
+Link,LU0 0,urban central solid biomass CHP,0.03908
+Link,LU0 0,urban central solid biomass CHP CC,0.09217
+Link,LU0 0,urban decentral air heat pump,14.66784
+Link,LU0 0,urban decentral biomass boiler,162.26606
+Link,LU0 0,urban decentral gas boiler,1009.37157
+Link,LU0 0,urban decentral resistive heater,130.31505
+Link,LU0 0,waste CHP,0.01052
+Link,LV0 0,BEV charger,2479.62924
+Link,LV0 0,Combined-Cycle Gas,1874.13901
+Link,LV0 0,H2 Electrolysis,0.01037
+Link,LV0 0,HVC to air,6948.73699
+Link,LV0 0,Haber-Bosch,0.02056
+Link,LV0 0,Open-Cycle Gas,0.10964
+Link,LV0 0,SMR,259.86181
+Link,LV0 0,Sabatier,0.0141
+Link,LV0 0,battery charger,0.16325
+Link,LV0 0,battery discharger,0.16661
+Link,LV0 0,biogas to gas,70.6732
+Link,LV0 0,biomass to liquid,1921.43895
+Link,LV0 0,biomass-to-methanol,0.0051
+Link,LV0 0,co2 sequestered,1.06308
+Link,LV0 0,electricity distribution grid,914.81581
+Link,LV0 0,gas for industry,3.42466
+Link,LV0 0,gas pipeline,3000.0
+Link,LV0 0,heat100-200 industry electric boiler steam,0.00689
+Link,LV0 0,heat100-200 industry gas,55.39851
+Link,LV0 0,heat100-200 industry industrial heat pump high temperature,0.01304
+Link,LV0 0,heat100-200 industry solid biomass,0.02974
+Link,LV0 0,heat200-500 industry gas,22.34311
+Link,LV0 0,heat200-500 industry hydrogen,0.01135
+Link,LV0 0,heat200-500 industry solid biomass,0.02789
+Link,LV0 0,heat<100 industry electric boiler steam,0.00702
+Link,LV0 0,heat<100 industry gas,129.05604
+Link,LV0 0,heat<100 industry industrial heat pump medium temperature,0.01194
+Link,LV0 0,heat<100 industry solid biomass,0.02777
+Link,LV0 0,heat>500 industry gas,37.82675
+Link,LV0 0,heat>500 industry hydrogen,0.01049
+Link,LV0 0,home battery charger,0.14229
+Link,LV0 0,home battery discharger,0.14523
+Link,LV0 0,methanolisation,197.3878
+Link,LV0 0,municipal solid waste,7.75022
+Link,LV0 0,rural air heat pump,0.00492
+Link,LV0 0,rural biomass boiler,1943.56038
+Link,LV0 0,rural gas boiler,597.59795
+Link,LV0 0,rural ground heat pump,0.00467
+Link,LV0 0,rural resistive heater,11.77159
+Link,LV0 0,solid biomass for industry,581.05023
+Link,LV0 0,unsustainable bioliquids,589547.4948
+Link,LV0 0,urban central air heat pump,0.01406
+Link,LV0 0,urban central gas CHP,0.11936
+Link,LV0 0,urban central gas boiler,2499.02259
+Link,LV0 0,urban central resistive heater,1.52942
+Link,LV0 0,urban central solid biomass CHP,0.03555
+Link,LV0 0,urban central solid biomass CHP CC,130.44174
+Link,LV0 0,urban decentral air heat pump,0.00382
+Link,LV0 0,urban decentral biomass boiler,1818.15089
+Link,LV0 0,urban decentral gas boiler,559.03755
+Link,LV0 0,urban decentral resistive heater,11.01071
+Link,LV0 0,waste CHP,0.01096
+Link,ME0 0,BEV charger,949.45157
+Link,ME0 0,CO2 pipeline,0.21308
+Link,ME0 0,Combined-Cycle Gas,0.05045
+Link,ME0 0,DC,1200.0
+Link,ME0 0,EAF,0.00423
+Link,ME0 0,H2 DRI,0.00256
+Link,ME0 0,H2 Electrolysis,0.01063
+Link,ME0 0,HVC to air,3463.19779
+Link,ME0 0,Haber-Bosch,0.02307
+Link,ME0 0,Open-Cycle Gas,0.10063
+Link,ME0 0,SMR,6.75141
+Link,ME0 0,Sabatier,0.01591
+Link,ME0 0,battery charger,0.16712
+Link,ME0 0,battery discharger,0.17057
+Link,ME0 0,biogas to gas,0.0148
+Link,ME0 0,biomass to liquid,155.48729
+Link,ME0 0,biomass-to-methanol,0.00507
+Link,ME0 0,electricity distribution grid,474.27814
+Link,ME0 0,gas DRI,0.01512
+Link,ME0 0,gas for industry,1.36445
+Link,ME0 0,heat100-200 industry electric boiler steam,0.00946
+Link,ME0 0,heat100-200 industry gas,13.6505
+Link,ME0 0,heat100-200 industry industrial heat pump high temperature,0.01712
+Link,ME0 0,heat100-200 industry solid biomass,0.0279
+Link,ME0 0,heat200-500 industry gas,6.36518
+Link,ME0 0,heat200-500 industry hydrogen,0.01
+Link,ME0 0,heat200-500 industry solid biomass,0.02493
+Link,ME0 0,heat<100 industry electric boiler steam,0.00946
+Link,ME0 0,heat<100 industry gas,13.65693
+Link,ME0 0,heat<100 industry industrial heat pump medium temperature,0.01709
+Link,ME0 0,heat<100 industry solid biomass,0.02784
+Link,ME0 0,heat>500 industry gas,24.14518
+Link,ME0 0,heat>500 industry hydrogen,0.01062
+Link,ME0 0,home battery charger,0.16634
+Link,ME0 0,home battery discharger,0.16977
+Link,ME0 0,methanolisation,5.01099
+Link,ME0 0,municipal solid waste,0.00812
+Link,ME0 0,rural air heat pump,0.00951
+Link,ME0 0,rural biomass boiler,0.05964
+Link,ME0 0,rural gas boiler,127.92653
+Link,ME0 0,rural ground heat pump,0.01111
+Link,ME0 0,rural resistive heater,87.8156
+Link,ME0 0,solid biomass for industry,27.39726
+Link,ME0 0,steel emission,1.30194
+Link,ME0 0,urban central air heat pump,0.02329
+Link,ME0 0,urban central gas CHP,0.12284
+Link,ME0 0,urban central gas boiler,54.642
+Link,ME0 0,urban central resistive heater,3.50362
+Link,ME0 0,urban central solid biomass CHP,0.03916
+Link,ME0 0,urban central solid biomass CHP CC,5.57204
+Link,ME0 0,urban decentral air heat pump,0.00957
+Link,ME0 0,urban decentral biomass boiler,0.05856
+Link,ME0 0,urban decentral gas boiler,200.53183
+Link,ME0 0,urban decentral resistive heater,138.35376
+Link,ME0 0,waste CHP,0.01065
+Link,MK0 0,BEV charger,3168.90909
+Link,MK0 0,CO2 pipeline,0.47503
+Link,MK0 0,Combined-Cycle Gas,379.32453
+Link,MK0 0,EAF,0.0061
+Link,MK0 0,H2 DRI,0.00282
+Link,MK0 0,H2 Electrolysis,0.01074
+Link,MK0 0,HVC to air,8691.44335
+Link,MK0 0,Haber-Bosch,0.03207
+Link,MK0 0,Open-Cycle Gas,0.09809
+Link,MK0 0,SMR,46.86229
+Link,MK0 0,Sabatier,0.01577
+Link,MK0 0,battery charger,0.16728
+Link,MK0 0,battery discharger,0.17073
+Link,MK0 0,biogas to gas,16.62133
+Link,MK0 0,biomass to liquid,208.74594
+Link,MK0 0,biomass-to-methanol,0.00507
+Link,MK0 0,electricity distribution grid,1300.08983
+Link,MK0 0,gas DRI,0.02256
+Link,MK0 0,gas for industry,34.23262
+Link,MK0 0,gas pipeline new,4436.45963
+Link,MK0 0,heat100-200 industry electric boiler steam,0.00937
+Link,MK0 0,heat100-200 industry gas,25.92288
+Link,MK0 0,heat100-200 industry industrial heat pump high temperature,0.01783
+Link,MK0 0,heat100-200 industry solid biomass,0.02853
+Link,MK0 0,heat200-500 industry gas,7.50716
+Link,MK0 0,heat200-500 industry hydrogen,0.01024
+Link,MK0 0,heat200-500 industry solid biomass,0.02424
+Link,MK0 0,heat<100 industry electric boiler steam,0.0093
+Link,MK0 0,heat<100 industry gas,32.06243
+Link,MK0 0,heat<100 industry industrial heat pump medium temperature,0.01914
+Link,MK0 0,heat<100 industry solid biomass,0.02951
+Link,MK0 0,heat>500 industry gas,5.90457
+Link,MK0 0,heat>500 industry hydrogen,0.01087
+Link,MK0 0,home battery charger,0.23468
+Link,MK0 0,home battery discharger,0.23952
+Link,MK0 0,methanolisation,35.45272
+Link,MK0 0,municipal solid waste,7.68262
+Link,MK0 0,rural air heat pump,0.00706
+Link,MK0 0,rural biomass boiler,0.06166
+Link,MK0 0,rural gas boiler,468.96518
+Link,MK0 0,rural ground heat pump,0.00836
+Link,MK0 0,rural resistive heater,462.01094
+Link,MK0 0,solid biomass for industry,6.84932
+Link,MK0 0,steel emission,34.81617
+Link,MK0 0,urban central air heat pump,0.02128
+Link,MK0 0,urban central gas CHP,0.11582
+Link,MK0 0,urban central gas boiler,588.42604
+Link,MK0 0,urban central resistive heater,39.05268
+Link,MK0 0,urban central solid biomass CHP,0.03455
+Link,MK0 0,urban central solid biomass CHP CC,23.29794
+Link,MK0 0,urban decentral air heat pump,0.00703
+Link,MK0 0,urban decentral biomass boiler,0.06121
+Link,MK0 0,urban decentral gas boiler,384.23736
+Link,MK0 0,urban decentral resistive heater,380.8006
+Link,MK0 0,waste CHP,0.01126
+Link,NL0 0,BEV charger,29591.67651
+Link,NL0 0,CO2 pipeline,0.00639
+Link,NL0 0,Combined-Cycle Gas,18013.82631
+Link,NL0 0,DC,2400.0
+Link,NL0 0,EAF,0.0095
+Link,NL0 0,H2 DRI,0.00316
+Link,NL0 0,H2 Electrolysis,0.01062
+Link,NL0 0,HVC to air,52046.073
+Link,NL0 0,Haber-Bosch,0.02554
+Link,NL0 0,Open-Cycle Gas,0.16537
+Link,NL0 0,SMR,1108.2148
+Link,NL0 0,Sabatier,0.01554
+Link,NL0 0,battery charger,0.16433
+Link,NL0 0,battery discharger,0.16772
+Link,NL0 0,biogas to gas,312.13072
+Link,NL0 0,biomass to liquid,289.53253
+Link,NL0 0,biomass-to-methanol,0.00509
+Link,NL0 0,co2 sequestered,0.87286
+Link,NL0 0,electricity distribution grid,16612.18015
+Link,NL0 0,gas DRI,0.03647
+Link,NL0 0,gas for industry,450.56349
+Link,NL0 0,gas pipeline,21000.0
+Link,NL0 0,heat100-200 industry electric boiler steam,0.0105
+Link,NL0 0,heat100-200 industry gas,3397.80554
+Link,NL0 0,heat100-200 industry industrial heat pump high temperature,0.01463
+Link,NL0 0,heat100-200 industry solid biomass,0.03097
+Link,NL0 0,heat200-500 industry gas,891.06333
+Link,NL0 0,heat200-500 industry hydrogen,0.00972
+Link,NL0 0,heat200-500 industry solid biomass,0.03072
+Link,NL0 0,heat<100 industry electric boiler steam,0.01018
+Link,NL0 0,heat<100 industry gas,2897.00258
+Link,NL0 0,heat<100 industry industrial heat pump medium temperature,0.01477
+Link,NL0 0,heat<100 industry solid biomass,0.0287
+Link,NL0 0,heat>500 industry gas,3024.2782
+Link,NL0 0,heat>500 industry hydrogen,0.01142
+Link,NL0 0,home battery charger,0.13302
+Link,NL0 0,home battery discharger,0.13577
+Link,NL0 0,methanolisation,842.11649
+Link,NL0 0,municipal solid waste,511.12407
+Link,NL0 0,rural air heat pump,0.02276
+Link,NL0 0,rural biomass boiler,104.9668
+Link,NL0 0,rural gas boiler,3916.29125
+Link,NL0 0,rural ground heat pump,768.95218
+Link,NL0 0,rural resistive heater,31.58752
+Link,NL0 0,solid biomass for industry,264.84018
+Link,NL0 0,steel emission,317.1599
+Link,NL0 0,unsustainable bioliquids,13658449.0086
+Link,NL0 0,urban central air heat pump,0.01596
+Link,NL0 0,urban central gas CHP,0.20341
+Link,NL0 0,urban central gas boiler,8916.02659
+Link,NL0 0,urban central resistive heater,101.70611
+Link,NL0 0,urban central solid biomass CHP,0.03637
+Link,NL0 0,urban central solid biomass CHP CC,550.1651
+Link,NL0 0,urban decentral air heat pump,858.47191
+Link,NL0 0,urban decentral biomass boiler,964.30908
+Link,NL0 0,urban decentral gas boiler,35978.18606
+Link,NL0 0,urban decentral resistive heater,907.38836
+Link,NL0 0,waste CHP,0.01226
+Link,NO1 0,BEV charger,8161.92529
+Link,NO1 0,CO2 pipeline,0.17119
+Link,NO1 0,Combined-Cycle Gas,1298.27901
+Link,NO1 0,DC,5140.0
+Link,NO1 0,EAF,0.01127
+Link,NO1 0,H2 DRI,0.0032
+Link,NO1 0,H2 Electrolysis,0.01091
+Link,NO1 0,HVC to air,19046.20401
+Link,NO1 0,Haber-Bosch,465.3816
+Link,NO1 0,Open-Cycle Gas,0.07917
+Link,NO1 0,SMR,2844.60933
+Link,NO1 0,Sabatier,0.01585
+Link,NO1 0,battery charger,0.16801
+Link,NO1 0,battery discharger,0.17147
+Link,NO1 0,biogas to gas,76.00759
+Link,NO1 0,biomass to liquid,0.01431
+Link,NO1 0,biomass-to-methanol,0.00409
+Link,NO1 0,co2 sequestered,0.6073
+Link,NO1 0,electricity distribution grid,14348.19612
+Link,NO1 0,gas DRI,0.04401
+Link,NO1 0,gas for industry,333.60591
+Link,NO1 0,gas pipeline,12915.0
+Link,NO1 0,gas pipeline new,9174.9303
+Link,NO1 0,heat100-200 industry electric boiler steam,0.01073
+Link,NO1 0,heat100-200 industry gas,726.81459
+Link,NO1 0,heat100-200 industry industrial heat pump high temperature,0.02237
+Link,NO1 0,heat100-200 industry solid biomass,0.00593
+Link,NO1 0,heat200-500 industry gas,234.69289
+Link,NO1 0,heat200-500 industry hydrogen,0.00927
+Link,NO1 0,heat200-500 industry solid biomass,0.00628
+Link,NO1 0,heat<100 industry electric boiler steam,0.01011
+Link,NO1 0,heat<100 industry gas,564.79632
+Link,NO1 0,heat<100 industry industrial heat pump medium temperature,0.02248
+Link,NO1 0,heat<100 industry solid biomass,0.00602
+Link,NO1 0,heat>500 industry gas,1279.87875
+Link,NO1 0,heat>500 industry hydrogen,0.01053
+Link,NO1 0,home battery charger,0.1666
+Link,NO1 0,home battery discharger,0.17004
+Link,NO1 0,methanolisation,0.77257
+Link,NO1 0,municipal solid waste,205.89733
+Link,NO1 0,rural air heat pump,0.00831
+Link,NO1 0,rural biomass boiler,1489.5115
+Link,NO1 0,rural gas boiler,49.10067
+Link,NO1 0,rural ground heat pump,650.2238
+Link,NO1 0,rural resistive heater,71.73957
+Link,NO1 0,solid biomass for industry,874.42922
+Link,NO1 0,steel emission,120.10116
+Link,NO1 0,unsustainable bioliquids,582078.9414
+Link,NO1 0,urban central air heat pump,0.01275
+Link,NO1 0,urban central gas CHP,0.07317
+Link,NO1 0,urban central gas boiler,2922.3685
+Link,NO1 0,urban central resistive heater,1.8395
+Link,NO1 0,urban central solid biomass CHP,0.01583
+Link,NO1 0,urban central solid biomass CHP CC,0.00926
+Link,NO1 0,urban decentral air heat pump,4125.48466
+Link,NO1 0,urban decentral biomass boiler,5186.69517
+Link,NO1 0,urban decentral gas boiler,1705.65776
+Link,NO1 0,urban decentral resistive heater,1574.88806
+Link,NO1 0,waste CHP,0.01126
+Link,PL0 0,BEV charger,83068.16606
+Link,PL0 0,CO2 pipeline,0.06632
+Link,PL0 0,Combined-Cycle Gas,10788.8194
+Link,PL0 0,DC,600.0
+Link,PL0 0,EAF,0.00679
+Link,PL0 0,H2 DRI,0.00295
+Link,PL0 0,H2 Electrolysis,0.01006
+Link,PL0 0,HVC to air,106236.65947
+Link,PL0 0,Haber-Bosch,0.01356
+Link,PL0 0,Open-Cycle Gas,0.2861
+Link,PL0 0,SMR,0.43121
+Link,PL0 0,Sabatier,0.01488
+Link,PL0 0,battery charger,0.16231
+Link,PL0 0,battery discharger,0.16565
+Link,PL0 0,biogas to gas,261.58734
+Link,PL0 0,biomass to liquid,2180.33515
+Link,PL0 0,biomass-to-methanol,0.00509
+Link,PL0 0,co2 sequestered,0.62529
+Link,PL0 0,electricity distribution grid,26445.47367
+Link,PL0 0,gas DRI,0.02523
+Link,PL0 0,gas for industry,496.71336
+Link,PL0 0,gas pipeline,12000.0
+Link,PL0 0,heat100-200 industry electric boiler steam,0.00841
+Link,PL0 0,heat100-200 industry gas,2186.30277
+Link,PL0 0,heat100-200 industry industrial heat pump high temperature,0.01014
+Link,PL0 0,heat100-200 industry solid biomass,0.0305
+Link,PL0 0,heat200-500 industry gas,766.63457
+Link,PL0 0,heat200-500 industry hydrogen,0.00968
+Link,PL0 0,heat200-500 industry solid biomass,0.03019
+Link,PL0 0,heat<100 industry electric boiler steam,0.00831
+Link,PL0 0,heat<100 industry gas,2132.29695
+Link,PL0 0,heat<100 industry industrial heat pump medium temperature,0.01042
+Link,PL0 0,heat<100 industry solid biomass,0.03031
+Link,PL0 0,heat>500 industry gas,2572.1557
+Link,PL0 0,heat>500 industry hydrogen,0.0132
+Link,PL0 0,home battery charger,0.15304
+Link,PL0 0,home battery discharger,0.1562
+Link,PL0 0,methanolisation,0.25245
+Link,PL0 0,municipal solid waste,258.30803
+Link,PL0 0,rural air heat pump,0.01329
+Link,PL0 0,rural biomass boiler,13135.80914
+Link,PL0 0,rural gas boiler,5435.37092
+Link,PL0 0,rural ground heat pump,72.50449
+Link,PL0 0,rural resistive heater,4303.64299
+Link,PL0 0,solid biomass for industry,3563.92694
+Link,PL0 0,steel emission,234.38719
+Link,PL0 0,unsustainable bioliquids,7528125.2838
+Link,PL0 0,urban central air heat pump,0.01128
+Link,PL0 0,urban central gas CHP,9703.34084
+Link,PL0 0,urban central gas boiler,20265.46442
+Link,PL0 0,urban central resistive heater,1.46143
+Link,PL0 0,urban central solid biomass CHP,0.05079
+Link,PL0 0,urban central solid biomass CHP CC,0.4673
+Link,PL0 0,urban decentral air heat pump,10.202
+Link,PL0 0,urban decentral biomass boiler,11161.04665
+Link,PL0 0,urban decentral gas boiler,4618.24831
+Link,PL0 0,urban decentral resistive heater,3658.1227
+Link,PL0 0,waste CHP,0.01271
+Link,PT0 0,BEV charger,18738.08981
+Link,PT0 0,Combined-Cycle Gas,7536.20906
+Link,PT0 0,H2 Electrolysis,0.0113
+Link,PT0 0,HVC to air,31820.17559
+Link,PT0 0,Haber-Bosch,88.86214
+Link,PT0 0,Open-Cycle Gas,0.09172
+Link,PT0 0,SMR,543.30573
+Link,PT0 0,Sabatier,0.01579
+Link,PT0 0,battery charger,0.1716
+Link,PT0 0,battery discharger,0.17514
+Link,PT0 0,biogas to gas,70.23577
+Link,PT0 0,biomass to liquid,1324.51542
+Link,PT0 0,biomass-to-methanol,0.00509
+Link,PT0 0,co2 sequestered,0.59442
+Link,PT0 0,electricity distribution grid,13033.93249
+Link,PT0 0,gas for industry,159.81735
+Link,PT0 0,heat100-200 industry electric boiler steam,0.00998
+Link,PT0 0,heat100-200 industry gas,535.29882
+Link,PT0 0,heat100-200 industry industrial heat pump high temperature,0.02603
+Link,PT0 0,heat100-200 industry solid biomass,0.02754
+Link,PT0 0,heat200-500 industry gas,192.43401
+Link,PT0 0,heat200-500 industry hydrogen,0.01067
+Link,PT0 0,heat200-500 industry solid biomass,0.02896
+Link,PT0 0,heat<100 industry electric boiler steam,0.00987
+Link,PT0 0,heat<100 industry gas,532.85227
+Link,PT0 0,heat<100 industry industrial heat pump medium temperature,0.02626
+Link,PT0 0,heat<100 industry solid biomass,0.02837
+Link,PT0 0,heat>500 industry gas,580.07375
+Link,PT0 0,heat>500 industry hydrogen,0.00946
+Link,PT0 0,home battery charger,0.22941
+Link,PT0 0,home battery discharger,0.23414
+Link,PT0 0,methanolisation,0.25123
+Link,PT0 0,municipal solid waste,133.81411
+Link,PT0 0,rural air heat pump,0.01555
+Link,PT0 0,rural biomass boiler,1405.36285
+Link,PT0 0,rural gas boiler,911.90572
+Link,PT0 0,rural ground heat pump,93.69864
+Link,PT0 0,rural resistive heater,10517.14046
+Link,PT0 0,solid biomass for industry,1518.26484
+Link,PT0 0,unsustainable bioliquids,2664546.5088
+Link,PT0 0,urban central air heat pump,0.01996
+Link,PT0 0,urban central gas CHP,0.08774
+Link,PT0 0,urban central gas boiler,1675.2766
+Link,PT0 0,urban central resistive heater,71.20266
+Link,PT0 0,urban central solid biomass CHP,0.02873
+Link,PT0 0,urban central solid biomass CHP CC,0.19876
+Link,PT0 0,urban decentral air heat pump,1245.42582
+Link,PT0 0,urban decentral biomass boiler,1818.6776
+Link,PT0 0,urban decentral gas boiler,1180.0956
+Link,PT0 0,urban decentral resistive heater,11095.63701
+Link,PT0 0,waste CHP,0.01163
+Link,RO0 0,BEV charger,23539.17544
+Link,RO0 0,CO2 pipeline,0.05826
+Link,RO0 0,Combined-Cycle Gas,2175.00044
+Link,RO0 0,EAF,0.00784
+Link,RO0 0,H2 DRI,0.00289
+Link,RO0 0,H2 Electrolysis,0.0105
+Link,RO0 0,HVC to air,53349.9906
+Link,RO0 0,Haber-Bosch,0.03046
+Link,RO0 0,Open-Cycle Gas,0.10644
+Link,RO0 0,SMR,519.43453
+Link,RO0 0,Sabatier,0.0157
+Link,RO0 0,battery charger,0.16585
+Link,RO0 0,battery discharger,0.16927
+Link,RO0 0,biogas to gas,16.64356
+Link,RO0 0,biomass to liquid,1837.31776
+Link,RO0 0,biomass-to-methanol,0.0051
+Link,RO0 0,electricity distribution grid,8059.58127
+Link,RO0 0,gas DRI,0.02995
+Link,RO0 0,gas for industry,542.40363
+Link,RO0 0,gas pipeline,1500.0
+Link,RO0 0,heat100-200 industry electric boiler steam,0.00833
+Link,RO0 0,heat100-200 industry gas,982.15098
+Link,RO0 0,heat100-200 industry industrial heat pump high temperature,0.01132
+Link,RO0 0,heat100-200 industry solid biomass,0.02412
+Link,RO0 0,heat200-500 industry gas,256.36437
+Link,RO0 0,heat200-500 industry hydrogen,0.00923
+Link,RO0 0,heat200-500 industry solid biomass,0.02645
+Link,RO0 0,heat<100 industry electric boiler steam,0.00788
+Link,RO0 0,heat<100 industry gas,783.30347
+Link,RO0 0,heat<100 industry industrial heat pump medium temperature,0.01143
+Link,RO0 0,heat<100 industry solid biomass,0.02486
+Link,RO0 0,heat>500 industry gas,911.13531
+Link,RO0 0,heat>500 industry hydrogen,0.01009
+Link,RO0 0,home battery charger,0.11959
+Link,RO0 0,home battery discharger,0.12205
+Link,RO0 0,methanolisation,394.61896
+Link,RO0 0,municipal solid waste,88.78587
+Link,RO0 0,rural air heat pump,0.01159
+Link,RO0 0,rural biomass boiler,7262.39816
+Link,RO0 0,rural gas boiler,5126.83577
+Link,RO0 0,rural ground heat pump,0.01847
+Link,RO0 0,rural resistive heater,226.84716
+Link,RO0 0,solid biomass for industry,513.69863
+Link,RO0 0,steel emission,111.16899
+Link,RO0 0,unsustainable bioliquids,1681652.643
+Link,RO0 0,urban central air heat pump,0.0148
+Link,RO0 0,urban central gas CHP,0.16154
+Link,RO0 0,urban central gas boiler,4078.72737
+Link,RO0 0,urban central resistive heater,0.88174
+Link,RO0 0,urban central solid biomass CHP,0.03707
+Link,RO0 0,urban central solid biomass CHP CC,260.50804
+Link,RO0 0,urban decentral air heat pump,0.00981
+Link,RO0 0,urban decentral biomass boiler,6033.07044
+Link,RO0 0,urban decentral gas boiler,4259.00104
+Link,RO0 0,urban decentral resistive heater,188.44453
+Link,RO0 0,waste CHP,0.01228
+Link,RS0 0,BEV charger,10598.13864
+Link,RS0 0,CO2 pipeline,0.43005
+Link,RS0 0,Combined-Cycle Gas,515.51806
+Link,RS0 0,EAF,0.0061
+Link,RS0 0,H2 DRI,0.00283
+Link,RS0 0,H2 Electrolysis,0.01064
+Link,RS0 0,HVC to air,22198.11654
+Link,RS0 0,Haber-Bosch,0.01849
+Link,RS0 0,Open-Cycle Gas,0.10242
+Link,RS0 0,SMR,25.0449
+Link,RS0 0,Sabatier,0.01597
+Link,RS0 0,battery charger,0.1659
+Link,RS0 0,battery discharger,0.16932
+Link,RS0 0,biogas to gas,24.92227
+Link,RS0 0,biomass to liquid,1178.17544
+Link,RS0 0,biomass-to-methanol,0.00509
+Link,RS0 0,electricity distribution grid,8048.45045
+Link,RS0 0,gas DRI,0.02256
+Link,RS0 0,gas for industry,105.0992
+Link,RS0 0,gas pipeline,1500.0
+Link,RS0 0,gas pipeline new,4282.50286
+Link,RS0 0,heat100-200 industry electric boiler steam,0.00735
+Link,RS0 0,heat100-200 industry gas,227.23883
+Link,RS0 0,heat100-200 industry industrial heat pump high temperature,0.01492
+Link,RS0 0,heat100-200 industry solid biomass,0.02907
+Link,RS0 0,heat200-500 industry gas,58.87336
+Link,RS0 0,heat200-500 industry hydrogen,0.01055
+Link,RS0 0,heat200-500 industry solid biomass,0.02795
+Link,RS0 0,heat<100 industry electric boiler steam,0.00742
+Link,RS0 0,heat<100 industry gas,248.11185
+Link,RS0 0,heat<100 industry industrial heat pump medium temperature,0.01472
+Link,RS0 0,heat<100 industry solid biomass,0.02906
+Link,RS0 0,heat>500 industry gas,50.37986
+Link,RS0 0,heat>500 industry hydrogen,0.01017
+Link,RS0 0,home battery charger,0.22821
+Link,RS0 0,home battery discharger,0.23291
+Link,RS0 0,methanolisation,18.93486
+Link,RS0 0,municipal solid waste,101.03052
+Link,RS0 0,rural air heat pump,0.00725
+Link,RS0 0,rural biomass boiler,0.07243
+Link,RS0 0,rural gas boiler,2969.8483
+Link,RS0 0,rural ground heat pump,0.00976
+Link,RS0 0,rural resistive heater,2381.015
+Link,RS0 0,solid biomass for industry,133.56164
+Link,RS0 0,steel emission,66.34087
+Link,RS0 0,urban central air heat pump,0.02532
+Link,RS0 0,urban central gas CHP,0.1408
+Link,RS0 0,urban central gas boiler,3446.60344
+Link,RS0 0,urban central resistive heater,0.30604
+Link,RS0 0,urban central solid biomass CHP,0.04191
+Link,RS0 0,urban central solid biomass CHP CC,14.68869
+Link,RS0 0,urban decentral air heat pump,0.00723
+Link,RS0 0,urban decentral biomass boiler,0.07194
+Link,RS0 0,urban decentral gas boiler,1959.22808
+Link,RS0 0,urban decentral resistive heater,1581.22008
+Link,RS0 0,waste CHP,0.01219
+Link,SE1 0,BEV charger,16665.06556
+Link,SE1 0,Combined-Cycle Gas,86.20846
+Link,SE1 0,DC,3880.0
+Link,SE1 0,EAF,0.00863
+Link,SE1 0,H2 DRI,0.00332
+Link,SE1 0,H2 Electrolysis,0.01067
+Link,SE1 0,HVC to air,36993.34814
+Link,SE1 0,Haber-Bosch,0.04606
+Link,SE1 0,Open-Cycle Gas,0.08138
+Link,SE1 0,SMR,1866.70246
+Link,SE1 0,Sabatier,0.01622
+Link,SE1 0,battery charger,0.16631
+Link,SE1 0,battery discharger,0.16974
+Link,SE1 0,biogas to gas,159.07423
+Link,SE1 0,biomass to liquid,6373.60478
+Link,SE1 0,biomass-to-methanol,0.00509
+Link,SE1 0,co2 sequestered,0.73604
+Link,SE1 0,electricity distribution grid,22832.10173
+Link,SE1 0,gas DRI,0.03223
+Link,SE1 0,gas for industry,84.22813
+Link,SE1 0,heat100-200 industry electric boiler steam,0.0094
+Link,SE1 0,heat100-200 industry gas,235.8031
+Link,SE1 0,heat100-200 industry industrial heat pump high temperature,0.02274
+Link,SE1 0,heat100-200 industry solid biomass,0.03075
+Link,SE1 0,heat200-500 industry gas,71.43056
+Link,SE1 0,heat200-500 industry hydrogen,0.01066
+Link,SE1 0,heat200-500 industry solid biomass,0.02777
+Link,SE1 0,heat<100 industry electric boiler steam,0.00893
+Link,SE1 0,heat<100 industry gas,822.55252
+Link,SE1 0,heat<100 industry industrial heat pump medium temperature,0.02099
+Link,SE1 0,heat<100 industry solid biomass,0.02776
+Link,SE1 0,heat>500 industry gas,258.13787
+Link,SE1 0,heat>500 industry hydrogen,0.00915
+Link,SE1 0,home battery charger,0.16922
+Link,SE1 0,home battery discharger,0.17271
+Link,SE1 0,methanolisation,1418.46585
+Link,SE1 0,municipal solid waste,292.07652
+Link,SE1 0,rural air heat pump,0.01155
+Link,SE1 0,rural biomass boiler,329.06232
+Link,SE1 0,rural gas boiler,35.25169
+Link,SE1 0,rural ground heat pump,1461.22105
+Link,SE1 0,rural resistive heater,337.84845
+Link,SE1 0,solid biomass for industry,5742.00913
+Link,SE1 0,steel emission,148.85706
+Link,SE1 0,unsustainable bioliquids,3860336.3634
+Link,SE1 0,urban central air heat pump,0.01498
+Link,SE1 0,urban central gas CHP,0.08557
+Link,SE1 0,urban central gas boiler,16760.16515
+Link,SE1 0,urban central resistive heater,0.18787
+Link,SE1 0,urban central solid biomass CHP,0.03604
+Link,SE1 0,urban central solid biomass CHP CC,937.18391
+Link,SE1 0,urban decentral air heat pump,3390.25888
+Link,SE1 0,urban decentral biomass boiler,6498.30393
+Link,SE1 0,urban decentral gas boiler,696.14838
+Link,SE1 0,urban decentral resistive heater,4896.95913
+Link,SE1 0,waste CHP,0.01213
+Link,SI0 0,BEV charger,3973.91511
+Link,SI0 0,Combined-Cycle Gas,334.48327
+Link,SI0 0,H2 Electrolysis,0.01023
+Link,SI0 0,HVC to air,8639.97111
+Link,SI0 0,Haber-Bosch,0.01346
+Link,SI0 0,Open-Cycle Gas,0.11054
+Link,SI0 0,SMR,1.25246
+Link,SI0 0,Sabatier,0.01528
+Link,SI0 0,battery charger,0.16387
+Link,SI0 0,battery discharger,0.16725
+Link,SI0 0,biogas to gas,19.47178
+Link,SI0 0,biomass to liquid,384.59984
+Link,SI0 0,biomass-to-methanol,0.0051
+Link,SI0 0,electricity distribution grid,1826.61744
+Link,SI0 0,gas for industry,125.57078
+Link,SI0 0,gas pipeline,20060.2
+Link,SI0 0,heat100-200 industry electric boiler steam,0.00738
+Link,SI0 0,heat100-200 industry gas,253.01901
+Link,SI0 0,heat100-200 industry industrial heat pump high temperature,0.01386
+Link,SI0 0,heat100-200 industry solid biomass,0.02915
+Link,SI0 0,heat200-500 industry gas,64.5805
+Link,SI0 0,heat200-500 industry hydrogen,0.01034
+Link,SI0 0,heat200-500 industry solid biomass,0.02886
+Link,SI0 0,heat<100 industry electric boiler steam,0.00701
+Link,SI0 0,heat<100 industry gas,111.86269
+Link,SI0 0,heat<100 industry industrial heat pump medium temperature,0.01419
+Link,SI0 0,heat<100 industry solid biomass,0.03068
+Link,SI0 0,heat>500 industry gas,140.54917
+Link,SI0 0,heat>500 industry hydrogen,0.00969
+Link,SI0 0,home battery charger,0.1189
+Link,SI0 0,home battery discharger,0.12135
+Link,SI0 0,methanolisation,0.87851
+Link,SI0 0,municipal solid waste,10.4498
+Link,SI0 0,rural air heat pump,0.01161
+Link,SI0 0,rural biomass boiler,1297.50958
+Link,SI0 0,rural gas boiler,154.14429
+Link,SI0 0,rural ground heat pump,54.63416
+Link,SI0 0,rural resistive heater,166.45962
+Link,SI0 0,solid biomass for industry,166.66667
+Link,SI0 0,urban central air heat pump,0.01816
+Link,SI0 0,urban central gas CHP,0.15598
+Link,SI0 0,urban central gas boiler,749.33801
+Link,SI0 0,urban central resistive heater,2.04464
+Link,SI0 0,urban central solid biomass CHP,0.04456
+Link,SI0 0,urban central solid biomass CHP CC,0.76981
+Link,SI0 0,urban decentral air heat pump,22.40549
+Link,SI0 0,urban decentral biomass boiler,1326.88286
+Link,SI0 0,urban decentral gas boiler,157.63384
+Link,SI0 0,urban decentral resistive heater,182.14101
+Link,SI0 0,waste CHP,0.01136
+Link,SK0 0,BEV charger,8162.09757
+Link,SK0 0,Combined-Cycle Gas,1341.15518
+Link,SK0 0,EAF,0.00775
+Link,SK0 0,H2 DRI,0.00309
+Link,SK0 0,H2 Electrolysis,0.01028
+Link,SK0 0,HVC to air,17423.93837
+Link,SK0 0,Haber-Bosch,0.02055
+Link,SK0 0,Open-Cycle Gas,0.12691
+Link,SK0 0,SMR,229.86175
+Link,SK0 0,Sabatier,0.01532
+Link,SK0 0,battery charger,0.16358
+Link,SK0 0,battery discharger,0.16695
+Link,SK0 0,biogas to gas,125.25331
+Link,SK0 0,biomass to liquid,1125.85994
+Link,SK0 0,biomass-to-methanol,0.00509
+Link,SK0 0,electricity distribution grid,3444.07276
+Link,SK0 0,gas DRI,0.029
+Link,SK0 0,gas for industry,66.94154
+Link,SK0 0,gas pipeline,1500.0
+Link,SK0 0,heat100-200 industry electric boiler steam,0.00739
+Link,SK0 0,heat100-200 industry gas,578.31489
+Link,SK0 0,heat100-200 industry industrial heat pump high temperature,0.01023
+Link,SK0 0,heat100-200 industry solid biomass,0.02499
+Link,SK0 0,heat200-500 industry gas,150.19945
+Link,SK0 0,heat200-500 industry hydrogen,0.01113
+Link,SK0 0,heat200-500 industry solid biomass,0.02524
+Link,SK0 0,heat<100 industry electric boiler steam,0.00693
+Link,SK0 0,heat<100 industry gas,278.8121
+Link,SK0 0,heat<100 industry industrial heat pump medium temperature,0.01091
+Link,SK0 0,heat<100 industry solid biomass,0.02615
+Link,SK0 0,heat>500 industry gas,389.42058
+Link,SK0 0,heat>500 industry hydrogen,0.00941
+Link,SK0 0,home battery charger,0.11846
+Link,SK0 0,home battery discharger,0.1209
+Link,SK0 0,methanolisation,174.58575
+Link,SK0 0,municipal solid waste,41.79736
+Link,SK0 0,rural air heat pump,0.01214
+Link,SK0 0,rural biomass boiler,118.04309
+Link,SK0 0,rural gas boiler,3599.41994
+Link,SK0 0,rural ground heat pump,16.99084
+Link,SK0 0,rural resistive heater,260.52529
+Link,SK0 0,solid biomass for industry,773.9726
+Link,SK0 0,steel emission,174.27425
+Link,SK0 0,unsustainable bioliquids,1316046.6132
+Link,SK0 0,urban central air heat pump,0.01336
+Link,SK0 0,urban central gas CHP,0.24424
+Link,SK0 0,urban central gas boiler,1919.34533
+Link,SK0 0,urban central resistive heater,0.81542
+Link,SK0 0,urban central solid biomass CHP,0.03823
+Link,SK0 0,urban central solid biomass CHP CC,115.04975
+Link,SK0 0,urban decentral air heat pump,43.3257
+Link,SK0 0,urban decentral biomass boiler,104.34659
+Link,SK0 0,urban decentral gas boiler,3181.78043
+Link,SK0 0,urban decentral resistive heater,258.40218
+Link,SK0 0,waste CHP,0.01189
+Link,XK0 0,BEV charger,2720.13295
+Link,XK0 0,Combined-Cycle Gas,0.05048
+Link,XK0 0,EAF,0.00481
+Link,XK0 0,H2 DRI,0.00261
+Link,XK0 0,H2 Electrolysis,0.01074
+Link,XK0 0,HVC to air,7132.87245
+Link,XK0 0,Haber-Bosch,0.02791
+Link,XK0 0,Open-Cycle Gas,0.09894
+Link,XK0 0,SMR,18.71631
+Link,XK0 0,Sabatier,0.01575
+Link,XK0 0,battery charger,0.1674
+Link,XK0 0,battery discharger,0.17085
+Link,XK0 0,biogas to gas,0.01649
+Link,XK0 0,biomass to liquid,289.23971
+Link,XK0 0,biomass-to-methanol,0.00508
+Link,XK0 0,electricity distribution grid,1020.85329
+Link,XK0 0,gas DRI,0.01754
+Link,XK0 0,gas for industry,9.46061
+Link,XK0 0,heat100-200 industry electric boiler steam,0.00913
+Link,XK0 0,heat100-200 industry gas,23.46935
+Link,XK0 0,heat100-200 industry industrial heat pump high temperature,0.01719
+Link,XK0 0,heat100-200 industry solid biomass,0.02931
+Link,XK0 0,heat200-500 industry gas,8.64846
+Link,XK0 0,heat200-500 industry hydrogen,0.01039
+Link,XK0 0,heat200-500 industry solid biomass,0.02437
+Link,XK0 0,heat<100 industry electric boiler steam,0.00921
+Link,XK0 0,heat<100 industry gas,24.70183
+Link,XK0 0,heat<100 industry industrial heat pump medium temperature,0.01757
+Link,XK0 0,heat<100 industry solid biomass,0.02949
+Link,XK0 0,heat>500 industry gas,12.74638
+Link,XK0 0,heat>500 industry hydrogen,0.01097
+Link,XK0 0,home battery charger,0.21373
+Link,XK0 0,home battery discharger,0.21814
+Link,XK0 0,methanolisation,13.66309
+Link,XK0 0,municipal solid waste,0.00992
+Link,XK0 0,rural air heat pump,0.0173
+Link,XK0 0,rural biomass boiler,0.03819
+Link,XK0 0,rural gas boiler,26.97092
+Link,XK0 0,rural ground heat pump,0.06723
+Link,XK0 0,rural resistive heater,0.21874
+Link,XK0 0,solid biomass for industry,11.41553
+Link,XK0 0,steel emission,10.54191
+Link,XK0 0,urban central air heat pump,0.0249
+Link,XK0 0,urban central gas CHP,0.11322
+Link,XK0 0,urban central gas boiler,0.39391
+Link,XK0 0,urban central resistive heater,0.23955
+Link,XK0 0,urban central solid biomass CHP,0.03678
+Link,XK0 0,urban central solid biomass CHP CC,8.4693
+Link,XK0 0,urban decentral air heat pump,0.01758
+Link,XK0 0,urban decentral biomass boiler,0.03826
+Link,XK0 0,urban decentral gas boiler,29.49201
+Link,XK0 0,urban decentral resistive heater,0.21647
+Link,XK0 0,waste CHP,0.01102
+StorageUnit,AL0 0,Reservoir & Dam,1690.7
+StorageUnit,AT0 0,Pumped Hydro Storage,5303.3
+StorageUnit,AT0 0,Reservoir & Dam,4353.12
+StorageUnit,AT0 0,rural heat vent,0.14451
+StorageUnit,BA0 0,Pumped Hydro Storage,440.0
+StorageUnit,BA0 0,Reservoir & Dam,1773.5
+StorageUnit,BE0 0,Pumped Hydro Storage,1308.0
+StorageUnit,BE0 0,Reservoir & Dam,12.73567
+StorageUnit,BE0 0,rural heat vent,0.15189
+StorageUnit,BG0 0,Pumped Hydro Storage,864.0
+StorageUnit,BG0 0,Reservoir & Dam,1925.14
+StorageUnit,BG0 0,rural heat vent,0.4337
+StorageUnit,CH0 0,Pumped Hydro Storage,5107.55
+StorageUnit,CH0 0,Reservoir & Dam,10456.87
+StorageUnit,CH0 0,rural heat vent,2.31819
+StorageUnit,CZ0 0,Pumped Hydro Storage,1175.00955
+StorageUnit,CZ0 0,Reservoir & Dam,672.9839
+StorageUnit,CZ0 0,rural heat vent,0.14264
+StorageUnit,DE0 0,Pumped Hydro Storage,320.0
+StorageUnit,DE0 0,rural heat vent,0.14682
+StorageUnit,DE0 1,Pumped Hydro Storage,1550.098
+StorageUnit,DE0 1,rural heat vent,0.14229
+StorageUnit,DE0 2,Pumped Hydro Storage,2083.5
+StorageUnit,DE0 2,rural heat vent,0.14587
+StorageUnit,DE0 3,Pumped Hydro Storage,590.508
+StorageUnit,DE0 3,rural heat vent,0.14049
+StorageUnit,DE0 4,Pumped Hydro Storage,1697.9
+StorageUnit,DE0 4,rural heat vent,0.14043
+StorageUnit,DE0 5,Pumped Hydro Storage,999.8
+StorageUnit,DE0 5,rural heat vent,0.14179
+StorageUnit,DK0 0,rural heat vent,1.80606
+StorageUnit,DK1 0,rural heat vent,3.64237
+StorageUnit,EE0 0,rural heat vent,0.15664
+StorageUnit,ES0 0,Pumped Hydro Storage,7498.35
+StorageUnit,ES0 0,Reservoir & Dam,13659.142
+StorageUnit,ES0 0,rural heat vent,1.97567
+StorageUnit,ES6 0,Pumped Hydro Storage,1372.4
+StorageUnit,ES6 0,Reservoir & Dam,1264.195
+StorageUnit,ES6 0,rural heat vent,0.21274
+StorageUnit,FI1 0,Reservoir & Dam,1171.0
+StorageUnit,FI1 0,rural heat vent,0.31421
+StorageUnit,FR0 0,Pumped Hydro Storage,808.0
+StorageUnit,FR0 0,rural heat vent,1.35782
+StorageUnit,FR0 1,Pumped Hydro Storage,3507.3
+StorageUnit,FR0 1,Reservoir & Dam,4712.32484
+StorageUnit,FR0 1,rural heat vent,1.56829
+StorageUnit,FR0 2,Pumped Hydro Storage,921.0
+StorageUnit,FR0 2,Reservoir & Dam,3587.20637
+StorageUnit,FR0 2,rural heat vent,1.61522
+StorageUnit,FR0 3,rural heat vent,1.47342
+StorageUnit,FR0 4,Reservoir & Dam,139.0
+StorageUnit,FR0 4,rural heat vent,2782.16858
+StorageUnit,FR5 0,Reservoir & Dam,134.96178
+StorageUnit,FR5 0,rural heat vent,2.48081
+StorageUnit,GB2 0,Reservoir & Dam,79.5
+StorageUnit,GB2 0,rural heat vent,0.17744
+StorageUnit,GB2 1,rural heat vent,0.17647
+StorageUnit,GB3 0,Pumped Hydro Storage,440.0
+StorageUnit,GB3 0,Reservoir & Dam,142.0
+StorageUnit,GB3 0,rural heat vent,0.17995
+StorageUnit,GR0 0,Pumped Hydro Storage,699.0
+StorageUnit,GR0 0,Reservoir & Dam,2566.0
+StorageUnit,GR0 0,rural heat vent,2.27042
+StorageUnit,HR0 0,Pumped Hydro Storage,245.7
+StorageUnit,HR0 0,Reservoir & Dam,1452.40446
+StorageUnit,HR0 0,rural heat vent,0.14823
+StorageUnit,HU0 0,Reservoir & Dam,28.0
+StorageUnit,HU0 0,rural heat vent,0.26094
+StorageUnit,IE3 0,Pumped Hydro Storage,392.0
+StorageUnit,IE3 0,Reservoir & Dam,1.0
+StorageUnit,IE3 0,rural heat vent,0.17552
+StorageUnit,IT0 0,Pumped Hydro Storage,2396.0
+StorageUnit,IT0 0,Reservoir & Dam,729.0
+StorageUnit,IT0 0,rural heat vent,0.18041
+StorageUnit,IT0 1,Pumped Hydro Storage,4935.9
+StorageUnit,IT0 1,Reservoir & Dam,3387.8
+StorageUnit,IT0 1,rural heat vent,0.15932
+StorageUnit,IT4 0,Pumped Hydro Storage,240.0
+StorageUnit,IT4 0,Reservoir & Dam,78.0
+StorageUnit,IT4 0,rural heat vent,1.71494
+StorageUnit,LT0 0,Pumped Hydro Storage,900.0
+StorageUnit,LT0 0,rural heat vent,0.26337
+StorageUnit,LU0 0,Pumped Hydro Storage,1294.0
+StorageUnit,LU0 0,rural heat vent,0.13337
+StorageUnit,LV0 0,rural heat vent,0.26014
+StorageUnit,ME0 0,Pumped Hydro Storage,307.0
+StorageUnit,ME0 0,Reservoir & Dam,344.961
+StorageUnit,MK0 0,Reservoir & Dam,371.0
+StorageUnit,NL0 0,rural heat vent,0.2474
+StorageUnit,NO1 0,Pumped Hydro Storage,234.3
+StorageUnit,NO1 0,Reservoir & Dam,30270.91
+StorageUnit,NO1 0,rural heat vent,0.30502
+StorageUnit,PL0 0,Pumped Hydro Storage,2548.0
+StorageUnit,PL0 0,Reservoir & Dam,132.99363
+StorageUnit,PL0 0,rural heat vent,0.13824
+StorageUnit,PT0 0,Pumped Hydro Storage,3923.0
+StorageUnit,PT0 0,Reservoir & Dam,1159.4
+StorageUnit,PT0 0,rural heat vent,2.27129
+StorageUnit,RO0 0,Reservoir & Dam,4449.94
+StorageUnit,RO0 0,rural heat vent,0.14688
+StorageUnit,RS0 0,Pumped Hydro Storage,614.0
+StorageUnit,RS0 0,Reservoir & Dam,790.1
+StorageUnit,SE1 0,Pumped Hydro Storage,92.0
+StorageUnit,SE1 0,Reservoir & Dam,10879.18662
+StorageUnit,SE1 0,rural heat vent,0.16522
+StorageUnit,SI0 0,Pumped Hydro Storage,180.0
+StorageUnit,SI0 0,Reservoir & Dam,576.19
+StorageUnit,SI0 0,rural heat vent,0.14301
+StorageUnit,SK0 0,Pumped Hydro Storage,822.52
+StorageUnit,SK0 0,Reservoir & Dam,282.4
+StorageUnit,SK0 0,rural heat vent,0.13923
+StorageUnit,XK0 0,Reservoir & Dam,35.0
+Store,AL0 0,Battery Storage,0.26787
+Store,AL0 0,EV battery,9897.6371
+Store,AL0 0,H2 Store,17.77604
+Store,AL0 0,co2 stored,10.43302
+Store,AL0 0,gas,2590.23337
+Store,AL0 0,home battery,0.48762
+Store,AL0 0,non-sequestered HVC,4418037.02426
+Store,AT0 0,Battery Storage,0.22237
+Store,AT0 0,EV battery,39056.497
+Store,AT0 0,H2 Store,0.58019
+Store,AT0 0,co2 stored,10.28246
+Store,AT0 0,gas,87282219.33922
+Store,AT0 0,home battery,0.14428
+Store,AT0 0,non-sequestered HVC,15149727.73383
+Store,BA0 0,Battery Storage,0.24715
+Store,BA0 0,EV battery,11659.99239
+Store,BA0 0,H2 Store,17.34221
+Store,BA0 0,co2 stored,10.34623
+Store,BA0 0,gas,1059.96219
+Store,BA0 0,home battery,0.63905
+Store,BA0 0,non-sequestered HVC,5583075.93822
+Store,BE0 0,Battery Storage,0.20777
+Store,BE0 0,EV battery,45641.3775
+Store,BE0 0,H2 Store,0.58065
+Store,BE0 0,co2 stored,10.30947
+Store,BE0 0,gas,545286.78804
+Store,BE0 0,home battery,0.14601
+Store,BE0 0,non-sequestered HVC,19509149.21411
+Store,BG0 0,Battery Storage,0.26581
+Store,BG0 0,EV battery,24980.141
+Store,BG0 0,H2 Store,0.58023
+Store,BG0 0,co2 sequestered,135.97161
+Store,BG0 0,co2 stored,10.26084
+Store,BG0 0,gas,5680081.9611
+Store,BG0 0,home battery,0.65566
+Store,BG0 0,non-sequestered HVC,11064265.11567
+Store,CH0 0,Battery Storage,0.22285
+Store,CH0 0,EV battery,35835.628
+Store,CH0 0,H2 Store,0.57941
+Store,CH0 0,co2 stored,12.90282
+Store,CH0 0,gas,3445.1755
+Store,CH0 0,home battery,0.56574
+Store,CH0 0,non-sequestered HVC,13539947.27361
+Store,CZ0 0,Battery Storage,0.21547
+Store,CZ0 0,EV battery,45918.71125
+Store,CZ0 0,H2 Store,0.58042
+Store,CZ0 0,co2 stored,10.25115
+Store,CZ0 0,gas,36712948.20168
+Store,CZ0 0,home battery,0.47149
+Store,CZ0 0,non-sequestered HVC,17454431.63931
+Store,DE0 0,Battery Storage,0.2077
+Store,DE0 0,EV battery,60561.95905
+Store,DE0 0,H2 Store,18.49216
+Store,DE0 0,co2 sequestered,385.60868
+Store,DE0 0,co2 stored,10.30031
+Store,DE0 0,gas,92258783.92523
+Store,DE0 0,home battery,0.14543
+Store,DE0 0,non-sequestered HVC,22559642.55868
+Store,DE0 1,Battery Storage,0.20877
+Store,DE0 1,EV battery,30519.79493
+Store,DE0 1,H2 Store,17.13044
+Store,DE0 1,co2 stored,10.34284
+Store,DE0 1,gas,34729658.40808
+Store,DE0 1,home battery,0.145
+Store,DE0 1,non-sequestered HVC,11368781.24985
+Store,DE0 2,Battery Storage,0.20661
+Store,DE0 2,EV battery,92669.73183
+Store,DE0 2,H2 Store,18.88995
+Store,DE0 2,co2 sequestered,727.7171
+Store,DE0 2,co2 stored,10.30061
+Store,DE0 2,gas,62990665.13352
+Store,DE0 2,home battery,0.14379
+Store,DE0 2,non-sequestered HVC,34519953.761
+Store,DE0 3,Battery Storage,0.21277
+Store,DE0 3,EV battery,43531.0997
+Store,DE0 3,H2 Store,0.57922
+Store,DE0 3,co2 stored,10.47502
+Store,DE0 3,gas,33873002.43669
+Store,DE0 3,home battery,0.14476
+Store,DE0 3,non-sequestered HVC,16215559.48316
+Store,DE0 4,Battery Storage,0.20971
+Store,DE0 4,EV battery,84838.01671
+Store,DE0 4,H2 Store,0.57907
+Store,DE0 4,co2 stored,11.36008
+Store,DE0 4,gas,6046520.70331
+Store,DE0 4,home battery,0.14364
+Store,DE0 4,non-sequestered HVC,31602599.42735
+Store,DE0 5,Battery Storage,0.20972
+Store,DE0 5,EV battery,57678.21953
+Store,DE0 5,H2 Store,17.33224
+Store,DE0 5,co2 stored,10.24152
+Store,DE0 5,gas,34597139.47781
+Store,DE0 5,home battery,0.14508
+Store,DE0 5,non-sequestered HVC,21485434.69019
+Store,DK0 0,Battery Storage,0.22962
+Store,DK0 0,EV battery,13074.3469
+Store,DK0 0,H2 Store,19.11756
+Store,DK0 0,co2 sequestered,242.12993
+Store,DK0 0,co2 stored,10.61876
+Store,DK0 0,gas,3805603.0082
+Store,DK0 0,home battery,0.50174
+Store,DK0 0,non-sequestered HVC,4360036.63476
+Store,DK1 0,Battery Storage,0.23751
+Store,DK1 0,EV battery,7552.89035
+Store,DK1 0,H2 Store,16.27084
+Store,DK1 0,co2 sequestered,201.80868
+Store,DK1 0,co2 stored,10.69623
+Store,DK1 0,gas,6816016.5814
+Store,DK1 0,home battery,0.58423
+Store,DK1 0,non-sequestered HVC,2518739.85615
+Store,EE0 0,Battery Storage,0.20119
+Store,EE0 0,EV battery,6160.6765
+Store,EE0 0,H2 Store,0.57947
+Store,EE0 0,co2 sequestered,1374.70006
+Store,EE0 0,co2 stored,10.40865
+Store,EE0 0,gas,27222.71861
+Store,EE0 0,home battery,0.49993
+Store,EE0 0,non-sequestered HVC,1928934.72075
+Store,ES0 0,Battery Storage,0.32514
+Store,ES0 0,EV battery,187213.9935
+Store,ES0 0,H2 Store,17.67878
+Store,ES0 0,co2 sequestered,117.70306
+Store,ES0 0,co2 stored,10.32432
+Store,ES0 0,gas,41406461.90887
+Store,ES0 0,home battery,0.54676
+Store,ES0 0,non-sequestered HVC,69722112.14899
+Store,ES6 0,Battery Storage,0.21395
+Store,ES6 0,EV battery,3111.483
+Store,ES6 0,H2 Store,0.57905
+Store,ES6 0,co2 stored,10.20931
+Store,ES6 0,gas,55718.81026
+Store,ES6 0,home battery,0.55347
+Store,ES6 0,non-sequestered HVC,1158776.44842
+Store,EU,ammonia store,6663.77325
+Store,EU,methanol,2936807992.62406
+Store,EU,solid biomass import,1390000000.0
+Store,EU,uranium,118842537066.67703
+Store,FI1 0,Battery Storage,0.19816
+Store,FI1 0,EV battery,27702.9175
+Store,FI1 0,H2 Store,0.57892
+Store,FI1 0,co2 stored,11.58057
+Store,FI1 0,gas,688576.71124
+Store,FI1 0,home battery,0.50085
+Store,FI1 0,non-sequestered HVC,8562318.82018
+Store,FR0 0,Battery Storage,0.22429
+Store,FR0 0,EV battery,107090.7586
+Store,FR0 0,H2 Store,0.58145
+Store,FR0 0,co2 stored,19.40366
+Store,FR0 0,gas,101183742.194
+Store,FR0 0,home battery,0.57576
+Store,FR0 0,non-sequestered HVC,38380610.06915
+Store,FR0 1,Battery Storage,0.22981
+Store,FR0 1,EV battery,67509.87108
+Store,FR0 1,H2 Store,18.14403
+Store,FR0 1,co2 stored,13.49015
+Store,FR0 1,gas,8179212.96787
+Store,FR0 1,home battery,0.54279
+Store,FR0 1,non-sequestered HVC,24195085.28813
+Store,FR0 2,Battery Storage,0.23927
+Store,FR0 2,EV battery,43688.48723
+Store,FR0 2,H2 Store,0.58116
+Store,FR0 2,co2 stored,92.08331
+Store,FR0 2,gas,32944015.59405
+Store,FR0 2,home battery,0.62629
+Store,FR0 2,non-sequestered HVC,15657660.9857
+Store,FR0 3,Battery Storage,0.22899
+Store,FR0 3,EV battery,45133.85404
+Store,FR0 3,H2 Store,0.58267
+Store,FR0 3,co2 stored,146.62365
+Store,FR0 3,gas,143.07409
+Store,FR0 3,home battery,0.57635
+Store,FR0 3,non-sequestered HVC,16175670.76207
+Store,FR0 4,Battery Storage,0.22252
+Store,FR0 4,EV battery,33221.80315
+Store,FR0 4,H2 Store,17.229
+Store,FR0 4,co2 stored,18.07656
+Store,FR0 4,gas,14352081.68764
+Store,FR0 4,home battery,0.5572
+Store,FR0 4,non-sequestered HVC,11906471.56849
+Store,FR5 0,Battery Storage,0.36101
+Store,FR5 0,EV battery,1233.5904
+Store,FR5 0,H2 Store,0.58007
+Store,FR5 0,co2 stored,10.20475
+Store,FR5 0,gas,12923.19064
+Store,FR5 0,home battery,0.96556
+Store,FR5 0,non-sequestered HVC,442110.53223
+Store,GB2 0,Battery Storage,0.20632
+Store,GB2 0,EV battery,78921.94491
+Store,GB2 0,H2 Store,18.04061
+Store,GB2 0,co2 sequestered,168.78448
+Store,GB2 0,co2 stored,10.31977
+Store,GB2 0,gas,32872498.84797
+Store,GB2 0,home battery,0.51394
+Store,GB2 0,non-sequestered HVC,35429983.71716
+Store,GB2 1,Battery Storage,0.20676
+Store,GB2 1,EV battery,146241.77722
+Store,GB2 1,H2 Store,18.36173
+Store,GB2 1,co2 sequestered,329.8311
+Store,GB2 1,co2 stored,10.6208
+Store,GB2 1,gas,101184035.2077
+Store,GB2 1,home battery,0.5266
+Store,GB2 1,non-sequestered HVC,65651496.44503
+Store,GB3 0,Battery Storage,0.20282
+Store,GB3 0,EV battery,6107.24869
+Store,GB3 0,H2 Store,17.09821
+Store,GB3 0,co2 stored,10.24789
+Store,GB3 0,gas,4696083.16846
+Store,GB3 0,home battery,0.50875
+Store,GB3 0,non-sequestered HVC,2741692.7189
+Store,GR0 0,Battery Storage,0.25594
+Store,GR0 0,EV battery,41900.77025
+Store,GR0 0,H2 Store,17.3974
+Store,GR0 0,co2 sequestered,157.45973
+Store,GR0 0,co2 stored,10.37574
+Store,GR0 0,gas,4696074.71441
+Store,GR0 0,home battery,0.54142
+Store,GR0 0,non-sequestered HVC,13566837.88513
+Store,HR0 0,Battery Storage,0.2447
+Store,HR0 0,EV battery,13367.975
+Store,HR0 0,H2 Store,0.58048
+Store,HR0 0,co2 stored,10.29212
+Store,HR0 0,gas,10035288.651
+Store,HR0 0,home battery,0.32609
+Store,HR0 0,non-sequestered HVC,6244520.00713
+Store,HU0 0,Battery Storage,0.24155
+Store,HU0 0,EV battery,29543.10075
+Store,HU0 0,H2 Store,0.58046
+Store,HU0 0,co2 stored,10.23773
+Store,HU0 0,gas,89268724.88026
+Store,HU0 0,home battery,0.14067
+Store,HU0 0,non-sequestered HVC,16139322.20286
+Store,IE3 0,Battery Storage,0.20334
+Store,IE3 0,EV battery,17462.3775
+Store,IE3 0,H2 Store,0.57878
+Store,IE3 0,co2 sequestered,186.93924
+Store,IE3 0,co2 stored,10.28945
+Store,IE3 0,gas,9392151.83894
+Store,IE3 0,home battery,0.42834
+Store,IE3 0,non-sequestered HVC,7452692.56078
+Store,IT0 0,Battery Storage,0.25591
+Store,IT0 0,EV battery,131699.3406
+Store,IT0 0,H2 Store,0.57982
+Store,IT0 0,co2 sequestered,138.29715
+Store,IT0 0,co2 stored,10.34221
+Store,IT0 0,gas,48292501.43766
+Store,IT0 0,home battery,0.56008
+Store,IT0 0,non-sequestered HVC,38750284.72323
+Store,IT0 1,Battery Storage,0.24096
+Store,IT0 1,EV battery,167177.76516
+Store,IT0 1,H2 Store,0.57974
+Store,IT0 1,co2 sequestered,424.77731
+Store,IT0 1,co2 stored,10.26003
+Store,IT0 1,gas,101183559.67938
+Store,IT0 1,home battery,0.5116
+Store,IT0 1,non-sequestered HVC,49189206.03324
+Store,IT4 0,Battery Storage,0.35301
+Store,IT4 0,EV battery,7598.44224
+Store,IT4 0,H2 Store,0.58103
+Store,IT4 0,co2 stored,10.21137
+Store,IT4 0,gas,33281.56139
+Store,IT4 0,home battery,0.37141
+Store,IT4 0,non-sequestered HVC,2235712.0319
+Store,LT0 0,Battery Storage,0.20137
+Store,LT0 0,EV battery,12995.138
+Store,LT0 0,H2 Store,0.57928
+Store,LT0 0,co2 sequestered,221.3852
+Store,LT0 0,co2 stored,10.28001
+Store,LT0 0,gas,539.78171
+Store,LT0 0,home battery,0.1425
+Store,LT0 0,non-sequestered HVC,4423955.0609
+Store,LU0 0,Battery Storage,0.22408
+Store,LU0 0,EV battery,3335.99525
+Store,LU0 0,H2 Store,0.58036
+Store,LU0 0,co2 stored,10.29302
+Store,LU0 0,gas,17177.58128
+Store,LU0 0,home battery,0.14392
+Store,LU0 0,non-sequestered HVC,868762.77828
+Store,LV0 0,Battery Storage,0.20049
+Store,LV0 0,EV battery,5635.521
+Store,LV0 0,H2 Store,0.57907
+Store,LV0 0,co2 sequestered,303.35372
+Store,LV0 0,co2 stored,10.31729
+Store,LV0 0,gas,24424027.39885
+Store,LV0 0,home battery,0.42647
+Store,LV0 0,non-sequestered HVC,2859977.11909
+Store,ME0 0,Battery Storage,0.26379
+Store,ME0 0,EV battery,2157.84447
+Store,ME0 0,H2 Store,0.58064
+Store,ME0 0,co2 stored,10.38848
+Store,ME0 0,gas,760.78195
+Store,ME0 0,home battery,0.50077
+Store,ME0 0,non-sequestered HVC,1043247.63876
+Store,MK0 0,Battery Storage,0.26166
+Store,MK0 0,EV battery,7202.06611
+Store,MK0 0,H2 Store,0.58059
+Store,MK0 0,co2 stored,10.80093
+Store,MK0 0,gas,1921.42535
+Store,MK0 0,home battery,0.7068
+Store,MK0 0,non-sequestered HVC,3388004.745
+Store,NL0 0,Battery Storage,0.21603
+Store,NL0 0,EV battery,67253.81025
+Store,NL0 0,H2 Store,19.03877
+Store,NL0 0,co2 sequestered,258.16386
+Store,NL0 0,co2 stored,10.33224
+Store,NL0 0,gas,101183674.07707
+Store,NL0 0,home battery,0.4051
+Store,NL0 0,non-sequestered HVC,25571909.42127
+Store,NO1 0,Battery Storage,0.19542
+Store,NO1 0,EV battery,18549.83021
+Store,NO1 0,H2 Store,0.57774
+Store,NO1 0,co2 sequestered,141.91072
+Store,NO1 0,co2 stored,10.32939
+Store,NO1 0,gas,142.09382
+Store,NO1 0,home battery,0.4959
+Store,NO1 0,non-sequestered HVC,8282849.70024
+Store,PL0 0,Battery Storage,0.21256
+Store,PL0 0,EV battery,188791.2865
+Store,PL0 0,H2 Store,17.57901
+Store,PL0 0,co2 sequestered,493.30439
+Store,PL0 0,co2 stored,10.21366
+Store,PL0 0,gas,101183694.69669
+Store,PL0 0,home battery,0.45966
+Store,PL0 0,non-sequestered HVC,60929686.8194
+Store,PT0 0,Battery Storage,0.30802
+Store,PT0 0,EV battery,42586.56775
+Store,PT0 0,H2 Store,17.79614
+Store,PT0 0,co2 sequestered,122.67791
+Store,PT0 0,co2 stored,10.36639
+Store,PT0 0,gas,4696071.28566
+Store,PT0 0,home battery,0.69015
+Store,PT0 0,non-sequestered HVC,14473313.46458
+Store,RO0 0,Battery Storage,0.25236
+Store,RO0 0,EV battery,53498.126
+Store,RO0 0,H2 Store,14.65418
+Store,RO0 0,co2 stored,10.26716
+Store,RO0 0,gas,51843723.09298
+Store,RO0 0,home battery,0.14477
+Store,RO0 0,non-sequestered HVC,31627074.56074
+Store,RS0 0,Battery Storage,0.2586
+Store,RS0 0,EV battery,24086.67872
+Store,RS0 0,H2 Store,0.58066
+Store,RS0 0,co2 stored,10.50328
+Store,RS0 0,gas,4696072.17765
+Store,RS0 0,home battery,0.69579
+Store,RS0 0,non-sequestered HVC,11713131.26916
+Store,SE1 0,Battery Storage,0.1976
+Store,SE1 0,EV battery,37875.149
+Store,SE1 0,H2 Store,0.57804
+Store,SE1 0,co2 sequestered,208.20483
+Store,SE1 0,co2 stored,10.30373
+Store,SE1 0,gas,3578400.02816
+Store,SE1 0,home battery,0.48674
+Store,SE1 0,non-sequestered HVC,15962801.19766
+Store,SI0 0,Battery Storage,0.23776
+Store,SI0 0,EV battery,9031.62525
+Store,SI0 0,H2 Store,0.58035
+Store,SI0 0,co2 stored,10.26723
+Store,SI0 0,gas,192.16667
+Store,SI0 0,home battery,0.1437
+Store,SI0 0,non-sequestered HVC,3791146.67288
+Store,SK0 0,Battery Storage,0.23395
+Store,SK0 0,EV battery,18550.22175
+Store,SK0 0,H2 Store,0.58052
+Store,SK0 0,co2 stored,10.22685
+Store,SK0 0,gas,34081824.16615
+Store,SK0 0,home battery,0.14129
+Store,SK0 0,non-sequestered HVC,9165059.17238
+Store,XK0 0,Battery Storage,0.26477
+Store,XK0 0,EV battery,6182.12033
+Store,XK0 0,H2 Store,0.58063
+Store,XK0 0,co2 stored,10.4406
+Store,XK0 0,gas,170.41739
+Store,XK0 0,home battery,0.65383
+Store,XK0 0,non-sequestered HVC,2737886.02561

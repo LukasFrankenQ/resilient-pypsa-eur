@@ -1,0 +1,2281 @@
+component,location,carrier,0
+StorageUnit,AL0 0,Reservoir & Dam,0.49042509611403556
+StorageUnit,AT0 0,Pumped Hydro Storage,0.14677714819074913
+StorageUnit,AT0 0,Reservoir & Dam,0.46457252729077075
+StorageUnit,AT0 0,rural heat vent,0.019168223652342397
+StorageUnit,BA0 0,Pumped Hydro Storage,0.0003230454545454545
+StorageUnit,BA0 0,Reservoir & Dam,0.3189265125458134
+StorageUnit,BE0 0,Pumped Hydro Storage,0.023097186544342507
+StorageUnit,BE0 0,Reservoir & Dam,0.517214249427003
+StorageUnit,BE0 0,rural heat vent,0.019158601619593124
+StorageUnit,BG0 0,Pumped Hydro Storage,0.3235990625
+StorageUnit,BG0 0,Reservoir & Dam,0.15607703855304028
+StorageUnit,BG0 0,rural heat vent,0.010975328568134657
+StorageUnit,CH0 0,Pumped Hydro Storage,0.1389520846589852
+StorageUnit,CH0 0,Reservoir & Dam,0.2589010965996517
+StorageUnit,CH0 0,rural heat vent,0.006574094444372549
+StorageUnit,CZ0 0,Pumped Hydro Storage,0.01318821621492353
+StorageUnit,CZ0 0,Reservoir & Dam,0.33220081490805353
+StorageUnit,CZ0 0,rural heat vent,0.019209197980931014
+StorageUnit,DE0 0,Pumped Hydro Storage,0.0308141875
+StorageUnit,DE0 0,rural heat vent,0.019207192480588477
+StorageUnit,DE0 1,Pumped Hydro Storage,0.028883135130811085
+StorageUnit,DE0 1,rural heat vent,0.019186169091292428
+StorageUnit,DE0 2,Pumped Hydro Storage,0.021081905447564192
+StorageUnit,DE0 2,rural heat vent,0.019195173784876944
+StorageUnit,DE0 3,Pumped Hydro Storage,0.03592684603764894
+StorageUnit,DE0 3,rural heat vent,0.019147270268346502
+StorageUnit,DE0 4,Pumped Hydro Storage,0.026072442428882736
+StorageUnit,DE0 4,rural heat vent,0.01915545111443424
+StorageUnit,DE0 5,Pumped Hydro Storage,0.02648861772354471
+StorageUnit,DE0 5,rural heat vent,0.019183299245362863
+StorageUnit,DK0 0,rural heat vent,0.009761580456906194
+StorageUnit,DK1 0,rural heat vent,0.019177074267578524
+StorageUnit,EE0 0,rural heat vent,0.019152196118488254
+StorageUnit,ES0 0,Pumped Hydro Storage,0.31392122933712086
+StorageUnit,ES0 0,Reservoir & Dam,0.1657603596184885
+StorageUnit,ES0 0,rural heat vent,0.014263515668102467
+StorageUnit,ES6 0,Pumped Hydro Storage,0.1299710871466045
+StorageUnit,ES6 0,Reservoir & Dam,0.16575819394950939
+StorageUnit,ES6 0,rural heat vent,0.01917833975745041
+StorageUnit,FI1 0,Reservoir & Dam,0.5899966011955594
+StorageUnit,FI1 0,rural heat vent,0.01919098691957608
+StorageUnit,FR0 0,Pumped Hydro Storage,0.05591837871287128
+StorageUnit,FR0 0,rural heat vent,0.003969598326729611
+StorageUnit,FR0 1,Pumped Hydro Storage,0.1566895332592022
+StorageUnit,FR0 1,Reservoir & Dam,0.36865860673560863
+StorageUnit,FR0 1,rural heat vent,0.003615402763519502
+StorageUnit,FR0 2,Pumped Hydro Storage,0.1475803691639522
+StorageUnit,FR0 2,Reservoir & Dam,0.3686575634621211
+StorageUnit,FR0 2,rural heat vent,0.003268904545510828
+StorageUnit,FR0 3,rural heat vent,0.00343418712926389
+StorageUnit,FR0 4,Reservoir & Dam,0.3686452517985611
+StorageUnit,FR0 4,rural heat vent,0.0031424587506483884
+StorageUnit,FR5 0,Reservoir & Dam,0.36864696064322805
+StorageUnit,FR5 0,rural heat vent,0.01917921969034307
+StorageUnit,GB2 0,Reservoir & Dam,0.1388267924528302
+StorageUnit,GB2 0,rural heat vent,0.01916140667267809
+StorageUnit,GB2 1,rural heat vent,0.019153397177990597
+StorageUnit,GB3 0,Pumped Hydro Storage,0.06673990909090909
+StorageUnit,GB3 0,Reservoir & Dam,0.13883408450704224
+StorageUnit,GB3 0,rural heat vent,0.019171992220061128
+StorageUnit,GR0 0,Pumped Hydro Storage,0.2618614592274678
+StorageUnit,GR0 0,Reservoir & Dam,0.18069268511301637
+StorageUnit,GR0 0,rural heat vent,0.007681398155407369
+StorageUnit,HR0 0,Pumped Hydro Storage,0.24893036223036225
+StorageUnit,HR0 0,Reservoir & Dam,0.487259967516211
+StorageUnit,HR0 0,rural heat vent,0.019159414423530998
+StorageUnit,HU0 0,Reservoir & Dam,0.4663732142857143
+StorageUnit,HU0 0,rural heat vent,0.019161493063539512
+StorageUnit,IE3 0,Pumped Hydro Storage,0.040517397959183674
+StorageUnit,IE3 0,Reservoir & Dam,0.42259
+StorageUnit,IE3 0,rural heat vent,0.019200091157702825
+StorageUnit,IT0 0,Pumped Hydro Storage,0.2993948121869783
+StorageUnit,IT0 0,Reservoir & Dam,0.3354300548696845
+StorageUnit,IT0 0,rural heat vent,0.0191785377750679
+StorageUnit,IT0 1,Pumped Hydro Storage,0.21649763366356695
+StorageUnit,IT0 1,Reservoir & Dam,0.3354329063108802
+StorageUnit,IT0 1,rural heat vent,0.019206628169721317
+StorageUnit,IT4 0,Pumped Hydro Storage,0.421164375
+StorageUnit,IT4 0,Reservoir & Dam,0.3354125641025641
+StorageUnit,IT4 0,rural heat vent,0.007685400072305737
+StorageUnit,LT0 0,Pumped Hydro Storage,0.02711758888888889
+StorageUnit,LT0 0,rural heat vent,0.01917454531647492
+StorageUnit,LU0 0,Pumped Hydro Storage,0.0537856800618238
+StorageUnit,LU0 0,rural heat vent,0.019194721451600814
+StorageUnit,LV0 0,rural heat vent,0.01918197893441993
+StorageUnit,ME0 0,Pumped Hydro Storage,0.23261097719869706
+StorageUnit,ME0 0,Reservoir & Dam,0.560959238870481
+StorageUnit,MK0 0,Reservoir & Dam,0.2942702964959569
+StorageUnit,NL0 0,rural heat vent,0.01915925626515764
+StorageUnit,NO1 0,Pumped Hydro Storage,1.9931711481007254e-05
+StorageUnit,NO1 0,Reservoir & Dam,0.44818119838485204
+StorageUnit,NO1 0,rural heat vent,0.019179070224903286
+StorageUnit,PL0 0,Pumped Hydro Storage,0.03574957613814757
+StorageUnit,PL0 0,Reservoir & Dam,0.7791558888948291
+StorageUnit,PL0 0,rural heat vent,0.019169560185185185
+StorageUnit,PT0 0,Pumped Hydro Storage,0.20916086413459087
+StorageUnit,PT0 0,Reservoir & Dam,0.33075620148352597
+StorageUnit,PT0 0,rural heat vent,0.0191785285014243
+StorageUnit,RO0 0,Reservoir & Dam,0.24139357834038214
+StorageUnit,RO0 0,rural heat vent,0.019199346405228756
+StorageUnit,RS0 0,Pumped Hydro Storage,0.2106570358306189
+StorageUnit,RS0 0,Reservoir & Dam,0.5253661055562587
+StorageUnit,SE1 0,Pumped Hydro Storage,0.052131413043478264
+StorageUnit,SE1 0,Reservoir & Dam,0.5533313068583062
+StorageUnit,SE1 0,rural heat vent,0.019186539159908002
+StorageUnit,SI0 0,Pumped Hydro Storage,0.13175827777777777
+StorageUnit,SI0 0,Reservoir & Dam,0.46545670698901404
+StorageUnit,SI0 0,rural heat vent,0.01915949933571079
+StorageUnit,SK0 0,Pumped Hydro Storage,0.0983944584934105
+StorageUnit,SK0 0,Reservoir & Dam,0.2815794971671388
+StorageUnit,SK0 0,rural heat vent,0.019176901529842708
+StorageUnit,XK0 0,Reservoir & Dam,0.5602982857142857
+Load,AL0 0,agriculture electricity,
+Load,AL0 0,agriculture heat,
+Load,AL0 0,agriculture machinery electric,
+Load,AL0 0,agriculture machinery oil,
+Load,AL0 0,electricity,
+Load,AL0 0,gas for industry,
+Load,AL0 0,heat100-200 industry,
+Load,AL0 0,heat200-500 industry,
+Load,AL0 0,heat<100 industry,
+Load,AL0 0,heat>500 industry,
+Load,AL0 0,industry electricity,
+Load,AL0 0,kerosene for aviation,
+Load,AL0 0,land transport EV,
+Load,AL0 0,land transport oil,
+Load,AL0 0,naphtha for industry,
+Load,AL0 0,rural heat,
+Load,AL0 0,shipping oil,
+Load,AL0 0,solid biomass for industry,
+Load,AL0 0,steel,
+Load,AL0 0,urban central heat,
+Load,AL0 0,urban decentral heat,
+Load,AT0 0,agriculture electricity,
+Load,AT0 0,agriculture heat,
+Load,AT0 0,agriculture machinery electric,
+Load,AT0 0,agriculture machinery oil,
+Load,AT0 0,electricity,
+Load,AT0 0,gas for industry,
+Load,AT0 0,heat100-200 industry,
+Load,AT0 0,heat200-500 industry,
+Load,AT0 0,heat<100 industry,
+Load,AT0 0,heat>500 industry,
+Load,AT0 0,industry electricity,
+Load,AT0 0,kerosene for aviation,
+Load,AT0 0,land transport EV,
+Load,AT0 0,land transport oil,
+Load,AT0 0,naphtha for industry,
+Load,AT0 0,rural heat,
+Load,AT0 0,shipping oil,
+Load,AT0 0,solid biomass for industry,
+Load,AT0 0,steel,
+Load,AT0 0,urban central heat,
+Load,AT0 0,urban decentral heat,
+Load,BA0 0,H2 for industry,
+Load,BA0 0,agriculture electricity,
+Load,BA0 0,agriculture heat,
+Load,BA0 0,agriculture machinery electric,
+Load,BA0 0,agriculture machinery oil,
+Load,BA0 0,electricity,
+Load,BA0 0,gas for industry,
+Load,BA0 0,heat100-200 industry,
+Load,BA0 0,heat200-500 industry,
+Load,BA0 0,heat<100 industry,
+Load,BA0 0,heat>500 industry,
+Load,BA0 0,industry electricity,
+Load,BA0 0,kerosene for aviation,
+Load,BA0 0,land transport EV,
+Load,BA0 0,land transport oil,
+Load,BA0 0,naphtha for industry,
+Load,BA0 0,rural heat,
+Load,BA0 0,shipping oil,
+Load,BA0 0,solid biomass for industry,
+Load,BA0 0,steel,
+Load,BA0 0,urban central heat,
+Load,BA0 0,urban decentral heat,
+Load,BE0 0,agriculture electricity,
+Load,BE0 0,agriculture heat,
+Load,BE0 0,agriculture machinery electric,
+Load,BE0 0,agriculture machinery oil,
+Load,BE0 0,electricity,
+Load,BE0 0,gas for industry,
+Load,BE0 0,heat100-200 industry,
+Load,BE0 0,heat200-500 industry,
+Load,BE0 0,heat<100 industry,
+Load,BE0 0,heat>500 industry,
+Load,BE0 0,industry electricity,
+Load,BE0 0,kerosene for aviation,
+Load,BE0 0,land transport EV,
+Load,BE0 0,land transport oil,
+Load,BE0 0,naphtha for industry,
+Load,BE0 0,rural heat,
+Load,BE0 0,shipping oil,
+Load,BE0 0,solid biomass for industry,
+Load,BE0 0,steel,
+Load,BE0 0,urban central heat,
+Load,BE0 0,urban decentral heat,
+Load,BG0 0,agriculture electricity,
+Load,BG0 0,agriculture heat,
+Load,BG0 0,agriculture machinery electric,
+Load,BG0 0,agriculture machinery oil,
+Load,BG0 0,electricity,
+Load,BG0 0,gas for industry,
+Load,BG0 0,heat100-200 industry,
+Load,BG0 0,heat200-500 industry,
+Load,BG0 0,heat<100 industry,
+Load,BG0 0,heat>500 industry,
+Load,BG0 0,industry electricity,
+Load,BG0 0,kerosene for aviation,
+Load,BG0 0,land transport EV,
+Load,BG0 0,land transport oil,
+Load,BG0 0,naphtha for industry,
+Load,BG0 0,rural heat,
+Load,BG0 0,shipping oil,
+Load,BG0 0,solid biomass for industry,
+Load,BG0 0,urban central heat,
+Load,BG0 0,urban decentral heat,
+Load,CH0 0,electricity,
+Load,CH0 0,gas for industry,
+Load,CH0 0,heat100-200 industry,
+Load,CH0 0,heat200-500 industry,
+Load,CH0 0,heat<100 industry,
+Load,CH0 0,heat>500 industry,
+Load,CH0 0,industry electricity,
+Load,CH0 0,kerosene for aviation,
+Load,CH0 0,land transport EV,
+Load,CH0 0,land transport oil,
+Load,CH0 0,naphtha for industry,
+Load,CH0 0,rural heat,
+Load,CH0 0,shipping oil,
+Load,CH0 0,solid biomass for industry,
+Load,CH0 0,steel,
+Load,CH0 0,urban central heat,
+Load,CH0 0,urban decentral heat,
+Load,CZ0 0,agriculture electricity,
+Load,CZ0 0,agriculture heat,
+Load,CZ0 0,agriculture machinery electric,
+Load,CZ0 0,agriculture machinery oil,
+Load,CZ0 0,electricity,
+Load,CZ0 0,gas for industry,
+Load,CZ0 0,heat100-200 industry,
+Load,CZ0 0,heat200-500 industry,
+Load,CZ0 0,heat<100 industry,
+Load,CZ0 0,heat>500 industry,
+Load,CZ0 0,industry electricity,
+Load,CZ0 0,kerosene for aviation,
+Load,CZ0 0,land transport EV,
+Load,CZ0 0,land transport oil,
+Load,CZ0 0,naphtha for industry,
+Load,CZ0 0,rural heat,
+Load,CZ0 0,shipping oil,
+Load,CZ0 0,solid biomass for industry,
+Load,CZ0 0,steel,
+Load,CZ0 0,urban central heat,
+Load,CZ0 0,urban decentral heat,
+Load,DE0 0,agriculture electricity,
+Load,DE0 0,agriculture heat,
+Load,DE0 0,agriculture machinery electric,
+Load,DE0 0,agriculture machinery oil,
+Load,DE0 0,electricity,
+Load,DE0 0,gas for industry,
+Load,DE0 0,heat100-200 industry,
+Load,DE0 0,heat200-500 industry,
+Load,DE0 0,heat<100 industry,
+Load,DE0 0,heat>500 industry,
+Load,DE0 0,industry electricity,
+Load,DE0 0,kerosene for aviation,
+Load,DE0 0,land transport EV,
+Load,DE0 0,land transport oil,
+Load,DE0 0,naphtha for industry,
+Load,DE0 0,rural heat,
+Load,DE0 0,shipping oil,
+Load,DE0 0,solid biomass for industry,
+Load,DE0 0,steel,
+Load,DE0 0,urban central heat,
+Load,DE0 0,urban decentral heat,
+Load,DE0 1,agriculture electricity,
+Load,DE0 1,agriculture heat,
+Load,DE0 1,agriculture machinery electric,
+Load,DE0 1,agriculture machinery oil,
+Load,DE0 1,electricity,
+Load,DE0 1,gas for industry,
+Load,DE0 1,heat100-200 industry,
+Load,DE0 1,heat200-500 industry,
+Load,DE0 1,heat<100 industry,
+Load,DE0 1,heat>500 industry,
+Load,DE0 1,industry electricity,
+Load,DE0 1,kerosene for aviation,
+Load,DE0 1,land transport EV,
+Load,DE0 1,land transport oil,
+Load,DE0 1,naphtha for industry,
+Load,DE0 1,rural heat,
+Load,DE0 1,shipping oil,
+Load,DE0 1,solid biomass for industry,
+Load,DE0 1,urban central heat,
+Load,DE0 1,urban decentral heat,
+Load,DE0 2,agriculture electricity,
+Load,DE0 2,agriculture heat,
+Load,DE0 2,agriculture machinery electric,
+Load,DE0 2,agriculture machinery oil,
+Load,DE0 2,electricity,
+Load,DE0 2,gas for industry,
+Load,DE0 2,heat100-200 industry,
+Load,DE0 2,heat200-500 industry,
+Load,DE0 2,heat<100 industry,
+Load,DE0 2,heat>500 industry,
+Load,DE0 2,industry electricity,
+Load,DE0 2,kerosene for aviation,
+Load,DE0 2,land transport EV,
+Load,DE0 2,land transport oil,
+Load,DE0 2,naphtha for industry,
+Load,DE0 2,rural heat,
+Load,DE0 2,shipping oil,
+Load,DE0 2,solid biomass for industry,
+Load,DE0 2,steel,
+Load,DE0 2,urban central heat,
+Load,DE0 2,urban decentral heat,
+Load,DE0 3,agriculture electricity,
+Load,DE0 3,agriculture heat,
+Load,DE0 3,agriculture machinery electric,
+Load,DE0 3,agriculture machinery oil,
+Load,DE0 3,electricity,
+Load,DE0 3,gas for industry,
+Load,DE0 3,heat100-200 industry,
+Load,DE0 3,heat200-500 industry,
+Load,DE0 3,heat<100 industry,
+Load,DE0 3,heat>500 industry,
+Load,DE0 3,industry electricity,
+Load,DE0 3,kerosene for aviation,
+Load,DE0 3,land transport EV,
+Load,DE0 3,land transport oil,
+Load,DE0 3,naphtha for industry,
+Load,DE0 3,rural heat,
+Load,DE0 3,shipping oil,
+Load,DE0 3,solid biomass for industry,
+Load,DE0 3,urban central heat,
+Load,DE0 3,urban decentral heat,
+Load,DE0 4,agriculture electricity,
+Load,DE0 4,agriculture heat,
+Load,DE0 4,agriculture machinery electric,
+Load,DE0 4,agriculture machinery oil,
+Load,DE0 4,electricity,
+Load,DE0 4,gas for industry,
+Load,DE0 4,heat100-200 industry,
+Load,DE0 4,heat200-500 industry,
+Load,DE0 4,heat<100 industry,
+Load,DE0 4,heat>500 industry,
+Load,DE0 4,industry electricity,
+Load,DE0 4,kerosene for aviation,
+Load,DE0 4,land transport EV,
+Load,DE0 4,land transport oil,
+Load,DE0 4,naphtha for industry,
+Load,DE0 4,rural heat,
+Load,DE0 4,shipping oil,
+Load,DE0 4,solid biomass for industry,
+Load,DE0 4,steel,
+Load,DE0 4,urban central heat,
+Load,DE0 4,urban decentral heat,
+Load,DE0 5,agriculture electricity,
+Load,DE0 5,agriculture heat,
+Load,DE0 5,agriculture machinery electric,
+Load,DE0 5,agriculture machinery oil,
+Load,DE0 5,electricity,
+Load,DE0 5,gas for industry,
+Load,DE0 5,heat100-200 industry,
+Load,DE0 5,heat200-500 industry,
+Load,DE0 5,heat<100 industry,
+Load,DE0 5,heat>500 industry,
+Load,DE0 5,industry electricity,
+Load,DE0 5,kerosene for aviation,
+Load,DE0 5,land transport EV,
+Load,DE0 5,land transport oil,
+Load,DE0 5,naphtha for industry,
+Load,DE0 5,rural heat,
+Load,DE0 5,shipping oil,
+Load,DE0 5,solid biomass for industry,
+Load,DE0 5,steel,
+Load,DE0 5,urban central heat,
+Load,DE0 5,urban decentral heat,
+Load,DK0 0,agriculture electricity,
+Load,DK0 0,agriculture heat,
+Load,DK0 0,agriculture machinery electric,
+Load,DK0 0,agriculture machinery oil,
+Load,DK0 0,electricity,
+Load,DK0 0,gas for industry,
+Load,DK0 0,heat100-200 industry,
+Load,DK0 0,heat200-500 industry,
+Load,DK0 0,heat<100 industry,
+Load,DK0 0,heat>500 industry,
+Load,DK0 0,industry electricity,
+Load,DK0 0,kerosene for aviation,
+Load,DK0 0,land transport EV,
+Load,DK0 0,land transport oil,
+Load,DK0 0,naphtha for industry,
+Load,DK0 0,rural heat,
+Load,DK0 0,shipping oil,
+Load,DK0 0,solid biomass for industry,
+Load,DK0 0,urban central heat,
+Load,DK0 0,urban decentral heat,
+Load,DK1 0,agriculture electricity,
+Load,DK1 0,agriculture heat,
+Load,DK1 0,agriculture machinery electric,
+Load,DK1 0,agriculture machinery oil,
+Load,DK1 0,electricity,
+Load,DK1 0,gas for industry,
+Load,DK1 0,heat100-200 industry,
+Load,DK1 0,heat200-500 industry,
+Load,DK1 0,heat<100 industry,
+Load,DK1 0,heat>500 industry,
+Load,DK1 0,industry electricity,
+Load,DK1 0,kerosene for aviation,
+Load,DK1 0,land transport EV,
+Load,DK1 0,land transport oil,
+Load,DK1 0,naphtha for industry,
+Load,DK1 0,rural heat,
+Load,DK1 0,shipping oil,
+Load,DK1 0,solid biomass for industry,
+Load,DK1 0,urban central heat,
+Load,DK1 0,urban decentral heat,
+Load,EE0 0,agriculture electricity,
+Load,EE0 0,agriculture heat,
+Load,EE0 0,agriculture machinery electric,
+Load,EE0 0,agriculture machinery oil,
+Load,EE0 0,electricity,
+Load,EE0 0,gas for industry,
+Load,EE0 0,heat100-200 industry,
+Load,EE0 0,heat200-500 industry,
+Load,EE0 0,heat<100 industry,
+Load,EE0 0,heat>500 industry,
+Load,EE0 0,industry electricity,
+Load,EE0 0,kerosene for aviation,
+Load,EE0 0,land transport EV,
+Load,EE0 0,land transport oil,
+Load,EE0 0,naphtha for industry,
+Load,EE0 0,rural heat,
+Load,EE0 0,shipping oil,
+Load,EE0 0,solid biomass for industry,
+Load,EE0 0,urban central heat,
+Load,EE0 0,urban decentral heat,
+Load,ES0 0,agriculture electricity,
+Load,ES0 0,agriculture heat,
+Load,ES0 0,agriculture machinery electric,
+Load,ES0 0,agriculture machinery oil,
+Load,ES0 0,electricity,
+Load,ES0 0,gas for industry,
+Load,ES0 0,heat100-200 industry,
+Load,ES0 0,heat200-500 industry,
+Load,ES0 0,heat<100 industry,
+Load,ES0 0,heat>500 industry,
+Load,ES0 0,industry electricity,
+Load,ES0 0,kerosene for aviation,
+Load,ES0 0,land transport EV,
+Load,ES0 0,land transport oil,
+Load,ES0 0,naphtha for industry,
+Load,ES0 0,rural heat,
+Load,ES0 0,shipping oil,
+Load,ES0 0,solid biomass for industry,
+Load,ES0 0,steel,
+Load,ES0 0,urban central heat,
+Load,ES0 0,urban decentral heat,
+Load,ES6 0,agriculture electricity,
+Load,ES6 0,agriculture heat,
+Load,ES6 0,agriculture machinery electric,
+Load,ES6 0,agriculture machinery oil,
+Load,ES6 0,electricity,
+Load,ES6 0,heat100-200 industry,
+Load,ES6 0,heat200-500 industry,
+Load,ES6 0,heat<100 industry,
+Load,ES6 0,heat>500 industry,
+Load,ES6 0,industry electricity,
+Load,ES6 0,kerosene for aviation,
+Load,ES6 0,land transport EV,
+Load,ES6 0,land transport oil,
+Load,ES6 0,naphtha for industry,
+Load,ES6 0,rural heat,
+Load,ES6 0,shipping oil,
+Load,ES6 0,solid biomass for industry,
+Load,ES6 0,urban central heat,
+Load,ES6 0,urban decentral heat,
+Load,EU,NH3,
+Load,EU,coal for industry,
+Load,EU,shipping methanol,
+Load,FI1 0,agriculture electricity,
+Load,FI1 0,agriculture heat,
+Load,FI1 0,agriculture machinery electric,
+Load,FI1 0,agriculture machinery oil,
+Load,FI1 0,electricity,
+Load,FI1 0,gas for industry,
+Load,FI1 0,heat100-200 industry,
+Load,FI1 0,heat200-500 industry,
+Load,FI1 0,heat<100 industry,
+Load,FI1 0,heat>500 industry,
+Load,FI1 0,industry electricity,
+Load,FI1 0,kerosene for aviation,
+Load,FI1 0,land transport EV,
+Load,FI1 0,land transport oil,
+Load,FI1 0,naphtha for industry,
+Load,FI1 0,rural heat,
+Load,FI1 0,shipping oil,
+Load,FI1 0,solid biomass for industry,
+Load,FI1 0,steel,
+Load,FI1 0,urban central heat,
+Load,FI1 0,urban decentral heat,
+Load,FR0 0,agriculture electricity,
+Load,FR0 0,agriculture heat,
+Load,FR0 0,agriculture machinery electric,
+Load,FR0 0,agriculture machinery oil,
+Load,FR0 0,electricity,
+Load,FR0 0,gas for industry,
+Load,FR0 0,heat100-200 industry,
+Load,FR0 0,heat200-500 industry,
+Load,FR0 0,heat<100 industry,
+Load,FR0 0,heat>500 industry,
+Load,FR0 0,industry electricity,
+Load,FR0 0,kerosene for aviation,
+Load,FR0 0,land transport EV,
+Load,FR0 0,land transport oil,
+Load,FR0 0,naphtha for industry,
+Load,FR0 0,rural heat,
+Load,FR0 0,shipping oil,
+Load,FR0 0,solid biomass for industry,
+Load,FR0 0,steel,
+Load,FR0 0,urban central heat,
+Load,FR0 0,urban decentral heat,
+Load,FR0 1,agriculture electricity,
+Load,FR0 1,agriculture heat,
+Load,FR0 1,agriculture machinery electric,
+Load,FR0 1,agriculture machinery oil,
+Load,FR0 1,electricity,
+Load,FR0 1,gas for industry,
+Load,FR0 1,heat100-200 industry,
+Load,FR0 1,heat200-500 industry,
+Load,FR0 1,heat<100 industry,
+Load,FR0 1,heat>500 industry,
+Load,FR0 1,industry electricity,
+Load,FR0 1,kerosene for aviation,
+Load,FR0 1,land transport EV,
+Load,FR0 1,land transport oil,
+Load,FR0 1,naphtha for industry,
+Load,FR0 1,rural heat,
+Load,FR0 1,shipping oil,
+Load,FR0 1,solid biomass for industry,
+Load,FR0 1,steel,
+Load,FR0 1,urban central heat,
+Load,FR0 1,urban decentral heat,
+Load,FR0 2,agriculture electricity,
+Load,FR0 2,agriculture heat,
+Load,FR0 2,agriculture machinery electric,
+Load,FR0 2,agriculture machinery oil,
+Load,FR0 2,electricity,
+Load,FR0 2,gas for industry,
+Load,FR0 2,heat100-200 industry,
+Load,FR0 2,heat200-500 industry,
+Load,FR0 2,heat<100 industry,
+Load,FR0 2,heat>500 industry,
+Load,FR0 2,industry electricity,
+Load,FR0 2,kerosene for aviation,
+Load,FR0 2,land transport EV,
+Load,FR0 2,land transport oil,
+Load,FR0 2,naphtha for industry,
+Load,FR0 2,rural heat,
+Load,FR0 2,shipping oil,
+Load,FR0 2,solid biomass for industry,
+Load,FR0 2,urban central heat,
+Load,FR0 2,urban decentral heat,
+Load,FR0 3,agriculture electricity,
+Load,FR0 3,agriculture heat,
+Load,FR0 3,agriculture machinery electric,
+Load,FR0 3,agriculture machinery oil,
+Load,FR0 3,electricity,
+Load,FR0 3,gas for industry,
+Load,FR0 3,heat100-200 industry,
+Load,FR0 3,heat200-500 industry,
+Load,FR0 3,heat<100 industry,
+Load,FR0 3,heat>500 industry,
+Load,FR0 3,industry electricity,
+Load,FR0 3,kerosene for aviation,
+Load,FR0 3,land transport EV,
+Load,FR0 3,land transport oil,
+Load,FR0 3,naphtha for industry,
+Load,FR0 3,rural heat,
+Load,FR0 3,shipping oil,
+Load,FR0 3,solid biomass for industry,
+Load,FR0 3,urban central heat,
+Load,FR0 3,urban decentral heat,
+Load,FR0 4,agriculture electricity,
+Load,FR0 4,agriculture heat,
+Load,FR0 4,agriculture machinery electric,
+Load,FR0 4,agriculture machinery oil,
+Load,FR0 4,electricity,
+Load,FR0 4,gas for industry,
+Load,FR0 4,heat100-200 industry,
+Load,FR0 4,heat200-500 industry,
+Load,FR0 4,heat<100 industry,
+Load,FR0 4,heat>500 industry,
+Load,FR0 4,industry electricity,
+Load,FR0 4,kerosene for aviation,
+Load,FR0 4,land transport EV,
+Load,FR0 4,land transport oil,
+Load,FR0 4,naphtha for industry,
+Load,FR0 4,rural heat,
+Load,FR0 4,shipping oil,
+Load,FR0 4,solid biomass for industry,
+Load,FR0 4,urban central heat,
+Load,FR0 4,urban decentral heat,
+Load,FR5 0,agriculture electricity,
+Load,FR5 0,agriculture heat,
+Load,FR5 0,agriculture machinery electric,
+Load,FR5 0,agriculture machinery oil,
+Load,FR5 0,electricity,
+Load,FR5 0,heat100-200 industry,
+Load,FR5 0,heat200-500 industry,
+Load,FR5 0,heat<100 industry,
+Load,FR5 0,heat>500 industry,
+Load,FR5 0,industry electricity,
+Load,FR5 0,kerosene for aviation,
+Load,FR5 0,land transport EV,
+Load,FR5 0,land transport oil,
+Load,FR5 0,naphtha for industry,
+Load,FR5 0,rural heat,
+Load,FR5 0,shipping oil,
+Load,FR5 0,solid biomass for industry,
+Load,GB2 0,agriculture electricity,
+Load,GB2 0,agriculture heat,
+Load,GB2 0,agriculture machinery electric,
+Load,GB2 0,agriculture machinery oil,
+Load,GB2 0,electricity,
+Load,GB2 0,gas for industry,
+Load,GB2 0,heat100-200 industry,
+Load,GB2 0,heat200-500 industry,
+Load,GB2 0,heat<100 industry,
+Load,GB2 0,heat>500 industry,
+Load,GB2 0,industry electricity,
+Load,GB2 0,kerosene for aviation,
+Load,GB2 0,land transport EV,
+Load,GB2 0,land transport oil,
+Load,GB2 0,naphtha for industry,
+Load,GB2 0,rural heat,
+Load,GB2 0,shipping oil,
+Load,GB2 0,solid biomass for industry,
+Load,GB2 0,urban central heat,
+Load,GB2 0,urban decentral heat,
+Load,GB2 1,agriculture electricity,
+Load,GB2 1,agriculture heat,
+Load,GB2 1,agriculture machinery electric,
+Load,GB2 1,agriculture machinery oil,
+Load,GB2 1,electricity,
+Load,GB2 1,gas for industry,
+Load,GB2 1,heat100-200 industry,
+Load,GB2 1,heat200-500 industry,
+Load,GB2 1,heat<100 industry,
+Load,GB2 1,heat>500 industry,
+Load,GB2 1,industry electricity,
+Load,GB2 1,kerosene for aviation,
+Load,GB2 1,land transport EV,
+Load,GB2 1,land transport oil,
+Load,GB2 1,naphtha for industry,
+Load,GB2 1,rural heat,
+Load,GB2 1,shipping oil,
+Load,GB2 1,solid biomass for industry,
+Load,GB2 1,steel,
+Load,GB2 1,urban central heat,
+Load,GB2 1,urban decentral heat,
+Load,GB3 0,agriculture electricity,
+Load,GB3 0,agriculture heat,
+Load,GB3 0,agriculture machinery electric,
+Load,GB3 0,agriculture machinery oil,
+Load,GB3 0,electricity,
+Load,GB3 0,gas for industry,
+Load,GB3 0,heat100-200 industry,
+Load,GB3 0,heat200-500 industry,
+Load,GB3 0,heat<100 industry,
+Load,GB3 0,heat>500 industry,
+Load,GB3 0,industry electricity,
+Load,GB3 0,kerosene for aviation,
+Load,GB3 0,land transport EV,
+Load,GB3 0,land transport oil,
+Load,GB3 0,naphtha for industry,
+Load,GB3 0,rural heat,
+Load,GB3 0,shipping oil,
+Load,GB3 0,solid biomass for industry,
+Load,GB3 0,urban central heat,
+Load,GB3 0,urban decentral heat,
+Load,GR0 0,agriculture electricity,
+Load,GR0 0,agriculture heat,
+Load,GR0 0,agriculture machinery electric,
+Load,GR0 0,agriculture machinery oil,
+Load,GR0 0,electricity,
+Load,GR0 0,gas for industry,
+Load,GR0 0,heat100-200 industry,
+Load,GR0 0,heat200-500 industry,
+Load,GR0 0,heat<100 industry,
+Load,GR0 0,heat>500 industry,
+Load,GR0 0,industry electricity,
+Load,GR0 0,kerosene for aviation,
+Load,GR0 0,land transport EV,
+Load,GR0 0,land transport oil,
+Load,GR0 0,naphtha for industry,
+Load,GR0 0,rural heat,
+Load,GR0 0,shipping oil,
+Load,GR0 0,solid biomass for industry,
+Load,GR0 0,urban central heat,
+Load,GR0 0,urban decentral heat,
+Load,HR0 0,agriculture electricity,
+Load,HR0 0,agriculture heat,
+Load,HR0 0,agriculture machinery electric,
+Load,HR0 0,agriculture machinery oil,
+Load,HR0 0,electricity,
+Load,HR0 0,gas for industry,
+Load,HR0 0,heat100-200 industry,
+Load,HR0 0,heat200-500 industry,
+Load,HR0 0,heat<100 industry,
+Load,HR0 0,heat>500 industry,
+Load,HR0 0,industry electricity,
+Load,HR0 0,kerosene for aviation,
+Load,HR0 0,land transport EV,
+Load,HR0 0,land transport oil,
+Load,HR0 0,naphtha for industry,
+Load,HR0 0,rural heat,
+Load,HR0 0,shipping oil,
+Load,HR0 0,solid biomass for industry,
+Load,HR0 0,urban central heat,
+Load,HR0 0,urban decentral heat,
+Load,HU0 0,agriculture electricity,
+Load,HU0 0,agriculture heat,
+Load,HU0 0,agriculture machinery electric,
+Load,HU0 0,agriculture machinery oil,
+Load,HU0 0,electricity,
+Load,HU0 0,gas for industry,
+Load,HU0 0,heat100-200 industry,
+Load,HU0 0,heat200-500 industry,
+Load,HU0 0,heat<100 industry,
+Load,HU0 0,heat>500 industry,
+Load,HU0 0,industry electricity,
+Load,HU0 0,kerosene for aviation,
+Load,HU0 0,land transport EV,
+Load,HU0 0,land transport oil,
+Load,HU0 0,naphtha for industry,
+Load,HU0 0,rural heat,
+Load,HU0 0,shipping oil,
+Load,HU0 0,solid biomass for industry,
+Load,HU0 0,steel,
+Load,HU0 0,urban central heat,
+Load,HU0 0,urban decentral heat,
+Load,IE3 0,agriculture electricity,
+Load,IE3 0,agriculture heat,
+Load,IE3 0,agriculture machinery electric,
+Load,IE3 0,agriculture machinery oil,
+Load,IE3 0,electricity,
+Load,IE3 0,gas for industry,
+Load,IE3 0,heat100-200 industry,
+Load,IE3 0,heat200-500 industry,
+Load,IE3 0,heat<100 industry,
+Load,IE3 0,heat>500 industry,
+Load,IE3 0,industry electricity,
+Load,IE3 0,kerosene for aviation,
+Load,IE3 0,land transport EV,
+Load,IE3 0,land transport oil,
+Load,IE3 0,naphtha for industry,
+Load,IE3 0,rural heat,
+Load,IE3 0,shipping oil,
+Load,IE3 0,solid biomass for industry,
+Load,IE3 0,urban central heat,
+Load,IE3 0,urban decentral heat,
+Load,IT0 0,agriculture electricity,
+Load,IT0 0,agriculture heat,
+Load,IT0 0,agriculture machinery electric,
+Load,IT0 0,agriculture machinery oil,
+Load,IT0 0,electricity,
+Load,IT0 0,gas for industry,
+Load,IT0 0,heat100-200 industry,
+Load,IT0 0,heat200-500 industry,
+Load,IT0 0,heat<100 industry,
+Load,IT0 0,heat>500 industry,
+Load,IT0 0,industry electricity,
+Load,IT0 0,kerosene for aviation,
+Load,IT0 0,land transport EV,
+Load,IT0 0,land transport oil,
+Load,IT0 0,naphtha for industry,
+Load,IT0 0,rural heat,
+Load,IT0 0,shipping oil,
+Load,IT0 0,solid biomass for industry,
+Load,IT0 0,steel,
+Load,IT0 0,urban central heat,
+Load,IT0 0,urban decentral heat,
+Load,IT0 1,agriculture electricity,
+Load,IT0 1,agriculture heat,
+Load,IT0 1,agriculture machinery electric,
+Load,IT0 1,agriculture machinery oil,
+Load,IT0 1,electricity,
+Load,IT0 1,gas for industry,
+Load,IT0 1,heat100-200 industry,
+Load,IT0 1,heat200-500 industry,
+Load,IT0 1,heat<100 industry,
+Load,IT0 1,heat>500 industry,
+Load,IT0 1,industry electricity,
+Load,IT0 1,kerosene for aviation,
+Load,IT0 1,land transport EV,
+Load,IT0 1,land transport oil,
+Load,IT0 1,naphtha for industry,
+Load,IT0 1,rural heat,
+Load,IT0 1,shipping oil,
+Load,IT0 1,solid biomass for industry,
+Load,IT0 1,urban central heat,
+Load,IT0 1,urban decentral heat,
+Load,IT4 0,agriculture electricity,
+Load,IT4 0,agriculture heat,
+Load,IT4 0,agriculture machinery electric,
+Load,IT4 0,agriculture machinery oil,
+Load,IT4 0,electricity,
+Load,IT4 0,gas for industry,
+Load,IT4 0,heat100-200 industry,
+Load,IT4 0,heat200-500 industry,
+Load,IT4 0,heat<100 industry,
+Load,IT4 0,heat>500 industry,
+Load,IT4 0,industry electricity,
+Load,IT4 0,kerosene for aviation,
+Load,IT4 0,land transport EV,
+Load,IT4 0,land transport oil,
+Load,IT4 0,naphtha for industry,
+Load,IT4 0,rural heat,
+Load,IT4 0,shipping oil,
+Load,IT4 0,solid biomass for industry,
+Load,IT4 0,urban central heat,
+Load,IT4 0,urban decentral heat,
+Load,LT0 0,agriculture electricity,
+Load,LT0 0,agriculture heat,
+Load,LT0 0,agriculture machinery electric,
+Load,LT0 0,agriculture machinery oil,
+Load,LT0 0,electricity,
+Load,LT0 0,gas for industry,
+Load,LT0 0,heat100-200 industry,
+Load,LT0 0,heat200-500 industry,
+Load,LT0 0,heat<100 industry,
+Load,LT0 0,heat>500 industry,
+Load,LT0 0,industry electricity,
+Load,LT0 0,kerosene for aviation,
+Load,LT0 0,land transport EV,
+Load,LT0 0,land transport oil,
+Load,LT0 0,naphtha for industry,
+Load,LT0 0,rural heat,
+Load,LT0 0,shipping oil,
+Load,LT0 0,solid biomass for industry,
+Load,LT0 0,urban central heat,
+Load,LT0 0,urban decentral heat,
+Load,LU0 0,agriculture electricity,
+Load,LU0 0,agriculture heat,
+Load,LU0 0,agriculture machinery electric,
+Load,LU0 0,agriculture machinery oil,
+Load,LU0 0,electricity,
+Load,LU0 0,gas for industry,
+Load,LU0 0,heat100-200 industry,
+Load,LU0 0,heat200-500 industry,
+Load,LU0 0,heat<100 industry,
+Load,LU0 0,heat>500 industry,
+Load,LU0 0,industry electricity,
+Load,LU0 0,kerosene for aviation,
+Load,LU0 0,land transport EV,
+Load,LU0 0,land transport oil,
+Load,LU0 0,naphtha for industry,
+Load,LU0 0,rural heat,
+Load,LU0 0,shipping oil,
+Load,LU0 0,solid biomass for industry,
+Load,LU0 0,urban central heat,
+Load,LU0 0,urban decentral heat,
+Load,LV0 0,agriculture electricity,
+Load,LV0 0,agriculture heat,
+Load,LV0 0,agriculture machinery electric,
+Load,LV0 0,agriculture machinery oil,
+Load,LV0 0,electricity,
+Load,LV0 0,gas for industry,
+Load,LV0 0,heat100-200 industry,
+Load,LV0 0,heat200-500 industry,
+Load,LV0 0,heat<100 industry,
+Load,LV0 0,heat>500 industry,
+Load,LV0 0,industry electricity,
+Load,LV0 0,kerosene for aviation,
+Load,LV0 0,land transport EV,
+Load,LV0 0,land transport oil,
+Load,LV0 0,naphtha for industry,
+Load,LV0 0,rural heat,
+Load,LV0 0,shipping oil,
+Load,LV0 0,solid biomass for industry,
+Load,LV0 0,urban central heat,
+Load,LV0 0,urban decentral heat,
+Load,ME0 0,agriculture electricity,
+Load,ME0 0,agriculture heat,
+Load,ME0 0,agriculture machinery electric,
+Load,ME0 0,agriculture machinery oil,
+Load,ME0 0,electricity,
+Load,ME0 0,gas for industry,
+Load,ME0 0,heat100-200 industry,
+Load,ME0 0,heat200-500 industry,
+Load,ME0 0,heat<100 industry,
+Load,ME0 0,heat>500 industry,
+Load,ME0 0,industry electricity,
+Load,ME0 0,kerosene for aviation,
+Load,ME0 0,land transport EV,
+Load,ME0 0,land transport oil,
+Load,ME0 0,naphtha for industry,
+Load,ME0 0,rural heat,
+Load,ME0 0,solid biomass for industry,
+Load,ME0 0,steel,
+Load,ME0 0,urban central heat,
+Load,ME0 0,urban decentral heat,
+Load,MK0 0,agriculture electricity,
+Load,MK0 0,agriculture heat,
+Load,MK0 0,agriculture machinery electric,
+Load,MK0 0,agriculture machinery oil,
+Load,MK0 0,electricity,
+Load,MK0 0,gas for industry,
+Load,MK0 0,heat100-200 industry,
+Load,MK0 0,heat200-500 industry,
+Load,MK0 0,heat<100 industry,
+Load,MK0 0,heat>500 industry,
+Load,MK0 0,industry electricity,
+Load,MK0 0,kerosene for aviation,
+Load,MK0 0,land transport EV,
+Load,MK0 0,land transport oil,
+Load,MK0 0,naphtha for industry,
+Load,MK0 0,rural heat,
+Load,MK0 0,solid biomass for industry,
+Load,MK0 0,steel,
+Load,MK0 0,urban central heat,
+Load,MK0 0,urban decentral heat,
+Load,NL0 0,agriculture electricity,
+Load,NL0 0,agriculture heat,
+Load,NL0 0,agriculture machinery electric,
+Load,NL0 0,agriculture machinery oil,
+Load,NL0 0,electricity,
+Load,NL0 0,gas for industry,
+Load,NL0 0,heat100-200 industry,
+Load,NL0 0,heat200-500 industry,
+Load,NL0 0,heat<100 industry,
+Load,NL0 0,heat>500 industry,
+Load,NL0 0,industry electricity,
+Load,NL0 0,kerosene for aviation,
+Load,NL0 0,land transport EV,
+Load,NL0 0,land transport oil,
+Load,NL0 0,naphtha for industry,
+Load,NL0 0,rural heat,
+Load,NL0 0,shipping oil,
+Load,NL0 0,solid biomass for industry,
+Load,NL0 0,steel,
+Load,NL0 0,urban central heat,
+Load,NL0 0,urban decentral heat,
+Load,NO1 0,agriculture electricity,
+Load,NO1 0,agriculture heat,
+Load,NO1 0,agriculture machinery electric,
+Load,NO1 0,agriculture machinery oil,
+Load,NO1 0,electricity,
+Load,NO1 0,gas for industry,
+Load,NO1 0,heat100-200 industry,
+Load,NO1 0,heat200-500 industry,
+Load,NO1 0,heat<100 industry,
+Load,NO1 0,heat>500 industry,
+Load,NO1 0,industry electricity,
+Load,NO1 0,kerosene for aviation,
+Load,NO1 0,land transport EV,
+Load,NO1 0,land transport oil,
+Load,NO1 0,naphtha for industry,
+Load,NO1 0,rural heat,
+Load,NO1 0,shipping oil,
+Load,NO1 0,solid biomass for industry,
+Load,NO1 0,steel,
+Load,NO1 0,urban central heat,
+Load,NO1 0,urban decentral heat,
+Load,PL0 0,agriculture electricity,
+Load,PL0 0,agriculture heat,
+Load,PL0 0,agriculture machinery electric,
+Load,PL0 0,agriculture machinery oil,
+Load,PL0 0,electricity,
+Load,PL0 0,gas for industry,
+Load,PL0 0,heat100-200 industry,
+Load,PL0 0,heat200-500 industry,
+Load,PL0 0,heat<100 industry,
+Load,PL0 0,heat>500 industry,
+Load,PL0 0,industry electricity,
+Load,PL0 0,kerosene for aviation,
+Load,PL0 0,land transport EV,
+Load,PL0 0,land transport oil,
+Load,PL0 0,naphtha for industry,
+Load,PL0 0,rural heat,
+Load,PL0 0,shipping oil,
+Load,PL0 0,solid biomass for industry,
+Load,PL0 0,steel,
+Load,PL0 0,urban central heat,
+Load,PL0 0,urban decentral heat,
+Load,PT0 0,agriculture electricity,
+Load,PT0 0,agriculture heat,
+Load,PT0 0,agriculture machinery electric,
+Load,PT0 0,agriculture machinery oil,
+Load,PT0 0,electricity,
+Load,PT0 0,gas for industry,
+Load,PT0 0,heat100-200 industry,
+Load,PT0 0,heat200-500 industry,
+Load,PT0 0,heat<100 industry,
+Load,PT0 0,heat>500 industry,
+Load,PT0 0,industry electricity,
+Load,PT0 0,kerosene for aviation,
+Load,PT0 0,land transport EV,
+Load,PT0 0,land transport oil,
+Load,PT0 0,naphtha for industry,
+Load,PT0 0,rural heat,
+Load,PT0 0,shipping oil,
+Load,PT0 0,solid biomass for industry,
+Load,PT0 0,urban central heat,
+Load,PT0 0,urban decentral heat,
+Load,RO0 0,agriculture electricity,
+Load,RO0 0,agriculture heat,
+Load,RO0 0,agriculture machinery electric,
+Load,RO0 0,agriculture machinery oil,
+Load,RO0 0,electricity,
+Load,RO0 0,gas for industry,
+Load,RO0 0,heat100-200 industry,
+Load,RO0 0,heat200-500 industry,
+Load,RO0 0,heat<100 industry,
+Load,RO0 0,heat>500 industry,
+Load,RO0 0,industry electricity,
+Load,RO0 0,kerosene for aviation,
+Load,RO0 0,land transport EV,
+Load,RO0 0,land transport oil,
+Load,RO0 0,naphtha for industry,
+Load,RO0 0,rural heat,
+Load,RO0 0,shipping oil,
+Load,RO0 0,solid biomass for industry,
+Load,RO0 0,steel,
+Load,RO0 0,urban central heat,
+Load,RO0 0,urban decentral heat,
+Load,RS0 0,agriculture electricity,
+Load,RS0 0,agriculture heat,
+Load,RS0 0,agriculture machinery electric,
+Load,RS0 0,agriculture machinery oil,
+Load,RS0 0,electricity,
+Load,RS0 0,gas for industry,
+Load,RS0 0,heat100-200 industry,
+Load,RS0 0,heat200-500 industry,
+Load,RS0 0,heat<100 industry,
+Load,RS0 0,heat>500 industry,
+Load,RS0 0,industry electricity,
+Load,RS0 0,kerosene for aviation,
+Load,RS0 0,land transport EV,
+Load,RS0 0,land transport oil,
+Load,RS0 0,naphtha for industry,
+Load,RS0 0,rural heat,
+Load,RS0 0,shipping oil,
+Load,RS0 0,solid biomass for industry,
+Load,RS0 0,steel,
+Load,RS0 0,urban central heat,
+Load,RS0 0,urban decentral heat,
+Load,SE1 0,agriculture electricity,
+Load,SE1 0,agriculture heat,
+Load,SE1 0,agriculture machinery electric,
+Load,SE1 0,agriculture machinery oil,
+Load,SE1 0,electricity,
+Load,SE1 0,gas for industry,
+Load,SE1 0,heat100-200 industry,
+Load,SE1 0,heat200-500 industry,
+Load,SE1 0,heat<100 industry,
+Load,SE1 0,heat>500 industry,
+Load,SE1 0,industry electricity,
+Load,SE1 0,kerosene for aviation,
+Load,SE1 0,land transport EV,
+Load,SE1 0,land transport oil,
+Load,SE1 0,naphtha for industry,
+Load,SE1 0,rural heat,
+Load,SE1 0,shipping oil,
+Load,SE1 0,solid biomass for industry,
+Load,SE1 0,steel,
+Load,SE1 0,urban central heat,
+Load,SE1 0,urban decentral heat,
+Load,SI0 0,agriculture electricity,
+Load,SI0 0,agriculture heat,
+Load,SI0 0,agriculture machinery electric,
+Load,SI0 0,agriculture machinery oil,
+Load,SI0 0,electricity,
+Load,SI0 0,gas for industry,
+Load,SI0 0,heat100-200 industry,
+Load,SI0 0,heat200-500 industry,
+Load,SI0 0,heat<100 industry,
+Load,SI0 0,heat>500 industry,
+Load,SI0 0,industry electricity,
+Load,SI0 0,kerosene for aviation,
+Load,SI0 0,land transport EV,
+Load,SI0 0,land transport oil,
+Load,SI0 0,naphtha for industry,
+Load,SI0 0,rural heat,
+Load,SI0 0,shipping oil,
+Load,SI0 0,solid biomass for industry,
+Load,SI0 0,urban central heat,
+Load,SI0 0,urban decentral heat,
+Load,SK0 0,agriculture electricity,
+Load,SK0 0,agriculture heat,
+Load,SK0 0,agriculture machinery electric,
+Load,SK0 0,agriculture machinery oil,
+Load,SK0 0,electricity,
+Load,SK0 0,gas for industry,
+Load,SK0 0,heat100-200 industry,
+Load,SK0 0,heat200-500 industry,
+Load,SK0 0,heat<100 industry,
+Load,SK0 0,heat>500 industry,
+Load,SK0 0,industry electricity,
+Load,SK0 0,kerosene for aviation,
+Load,SK0 0,land transport EV,
+Load,SK0 0,land transport oil,
+Load,SK0 0,naphtha for industry,
+Load,SK0 0,rural heat,
+Load,SK0 0,shipping oil,
+Load,SK0 0,solid biomass for industry,
+Load,SK0 0,steel,
+Load,SK0 0,urban central heat,
+Load,SK0 0,urban decentral heat,
+Load,XK0 0,H2 for industry,
+Load,XK0 0,agriculture electricity,
+Load,XK0 0,agriculture heat,
+Load,XK0 0,agriculture machinery electric,
+Load,XK0 0,agriculture machinery oil,
+Load,XK0 0,electricity,
+Load,XK0 0,gas for industry,
+Load,XK0 0,heat100-200 industry,
+Load,XK0 0,heat200-500 industry,
+Load,XK0 0,heat<100 industry,
+Load,XK0 0,heat>500 industry,
+Load,XK0 0,industry electricity,
+Load,XK0 0,kerosene for aviation,
+Load,XK0 0,land transport EV,
+Load,XK0 0,land transport oil,
+Load,XK0 0,naphtha for industry,
+Load,XK0 0,rural heat,
+Load,XK0 0,solid biomass for industry,
+Load,XK0 0,steel,
+Load,XK0 0,urban central heat,
+Load,XK0 0,urban decentral heat,
+Line,AL0 0,AC,0.2356682510025964
+Line,AT0 0,AC,0.19524145356586897
+Line,BA0 0,AC,0.17916917791086975
+Line,BE0 0,AC,0.27269156824099006
+Line,BG0 0,AC,0.2461880569602285
+Line,CH0 0,AC,0.25283359397083655
+Line,CZ0 0,AC,0.16656292100276043
+Line,DE0 0,AC,0.22540356175741305
+Line,DE0 1,AC,0.13445600901280227
+Line,DE0 2,AC,0.2524287253866537
+Line,DE0 3,AC,0.12245564719409083
+Line,DE0 4,AC,0.47993064701210997
+Line,DE0 5,AC,0.16997897547321295
+Line,DK1 0,AC,0.3331839057223711
+Line,EE0 0,AC,0.15629510873909272
+Line,ES0 0,AC,0.16045960845299276
+Line,FI1 0,AC,0.15527212897603865
+Line,FR0 0,AC,0.11634464652472816
+Line,FR0 1,AC,0.162086348465459
+Line,FR0 2,AC,0.09891223727235586
+Line,FR0 4,AC,0.42602122122759284
+Line,GB2 0,AC,0.11567610096324399
+Line,GB3 0,AC,0.14923334364981425
+Line,GR0 0,AC,0.3364509110297725
+Line,HR0 0,AC,0.1387189282608665
+Line,HU0 0,AC,0.1432463597275109
+Line,IT0 0,AC,0.24621604065275338
+Line,IT0 1,AC,0.18442474129756248
+Line,LT0 0,AC,0.21908036900770753
+Line,ME0 0,AC,0.21276185307219875
+Line,MK0 0,AC,0.23772943154510714
+Line,NO1 0,AC,0.2066054689035815
+Line,PL0 0,AC,0.30160707824939803
+Line,RO0 0,AC,0.12739208660867196
+Line,RS0 0,AC,0.28704364872031546
+Generator,,co2-ets,2.935893214e-05
+Generator,AL0 0,Offshore Wind (AC),0.10391822827938671
+Generator,AL0 0,Offshore Wind (Floating),0.1322115384615385
+Generator,AL0 0,Onshore Wind,0.044100746003157686
+Generator,AL0 0,Run of River,0.5107446058091286
+Generator,AL0 0,Solar,0.16614937144445482
+Generator,AL0 0,forest residues,0.00011415521931136268
+Generator,AL0 0,industry wood,0.00011415525926597975
+Generator,AL0 0,landscape care,0.00011419466744688427
+Generator,AL0 0,manure and slurry,2.3684294841321477e-08
+Generator,AL0 0,municipal solid waste,0.00010579958634554026
+Generator,AL0 0,rural heat vent,0.890829694323144
+Generator,AL0 0,rural solar thermal,0.04654771140418929
+Generator,AL0 0,sewage sludge,1.0865690769919482e-06
+Generator,AL0 0,solar-hsat,0.21062506500132847
+Generator,AL0 0,solid biomass,1.6590000000000001e-06
+Generator,AL0 0,straw,3.5435563399951015e-08
+Generator,AL0 0,unsustainable solid biomass,0.00011324282490354295
+Generator,AL0 0,urban central heat vent,0.5649847094801224
+Generator,AL0 0,urban central solar thermal,0.05946255002858777
+Generator,AL0 0,urban decentral heat vent,0.8846715328467153
+Generator,AL0 0,urban decentral solar thermal,0.043895241608262636
+Generator,AT0 0,Onshore Wind,0.1378481265399823
+Generator,AT0 0,Run of River,0.501192973381265
+Generator,AT0 0,Solar,0.13928314186962115
+Generator,AT0 0,forest residues,0.00011415524772546497
+Generator,AT0 0,gas,0.9999328203201522
+Generator,AT0 0,industry wood,0.00011415525051688128
+Generator,AT0 0,landscape care,0.00011415523892477349
+Generator,AT0 0,manure and slurry,7.3719242386845675e-09
+Generator,AT0 0,municipal solid waste,0.00011257084181467115
+Generator,AT0 0,rural solar thermal,0.035967818267865596
+Generator,AT0 0,sewage sludge,9.900570866038352e-09
+Generator,AT0 0,solar-hsat,0.16608542592558243
+Generator,AT0 0,solid biomass,5.669999999999999e-07
+Generator,AT0 0,straw,2.9118826861953673e-09
+Generator,AT0 0,unsustainable biogas,0.00011415525284664707
+Generator,AT0 0,unsustainable bioliquids,0.00011415525078250375
+Generator,AT0 0,unsustainable solid biomass,0.00011412309643250957
+Generator,AT0 0,urban central heat vent,0.8981723237597911
+Generator,AT0 0,urban central solar thermal,0.03504622661793162
+Generator,AT0 0,urban decentral heat vent,0.22897585345545377
+Generator,AT0 0,urban decentral solar thermal,0.03261329944938585
+Generator,BA0 0,Offshore Wind (AC),0.0816326530612245
+Generator,BA0 0,Offshore Wind (Floating),0.04790419161676647
+Generator,BA0 0,Onshore Wind,0.04719391279612215
+Generator,BA0 0,Solar,0.15392441220524902
+Generator,BA0 0,forest residues,0.00011415522271123103
+Generator,BA0 0,industry wood,0.000114155247560002
+Generator,BA0 0,landscape care,0.0001141443655278312
+Generator,BA0 0,manure and slurry,2.081506743992672e-08
+Generator,BA0 0,municipal solid waste,7.934559899107413e-07
+Generator,BA0 0,rural heat vent,0.024725633655604914
+Generator,BA0 0,rural solar thermal,0.02861883036084612
+Generator,BA0 0,sewage sludge,3.7018235004646187e-07
+Generator,BA0 0,solar-hsat,0.18923145494073165
+Generator,BA0 0,solid biomass,1.502e-06
+Generator,BA0 0,straw,1.7329782839366373e-08
+Generator,BA0 0,unsustainable biogas,0.00011415585346152844
+Generator,BA0 0,unsustainable solid biomass,0.00011405298313915732
+Generator,BA0 0,urban central heat vent,0.5888501742160279
+Generator,BA0 0,urban central solar thermal,0.05034241585312546
+Generator,BA0 0,urban decentral heat vent,0.024803528202407398
+Generator,BA0 0,urban decentral solar thermal,0.028018129377832716
+Generator,BE0 0,Offshore Wind (AC),0.5081616888297872
+Generator,BE0 0,Offshore Wind (DC),0.5151960064601381
+Generator,BE0 0,Offshore Wind (Floating),0.28186714542190305
+Generator,BE0 0,Onshore Wind,0.3009817644184094
+Generator,BE0 0,Run of River,0.5590509179477742
+Generator,BE0 0,Solar,0.1130566432662014
+Generator,BE0 0,forest residues,0.00011415525089845195
+Generator,BE0 0,gas,0.6381757335122811
+Generator,BE0 0,industry wood,0.0001141552500700545
+Generator,BE0 0,landscape care,0.00011415526117052334
+Generator,BE0 0,manure and slurry,1.4236976341054615e-09
+Generator,BE0 0,municipal solid waste,0.00011378074180519806
+Generator,BE0 0,rural solar thermal,0.03225806451612904
+Generator,BE0 0,sewage sludge,3.224053382192259e-09
+Generator,BE0 0,solar-hsat,0.12497998398718976
+Generator,BE0 0,solid biomass,0.009128123
+Generator,BE0 0,straw,6.714326233078086e-09
+Generator,BE0 0,unsustainable biogas,0.00011415525118007577
+Generator,BE0 0,unsustainable bioliquids,0.00011415525080854027
+Generator,BE0 0,unsustainable solid biomass,0.0001140359165041617
+Generator,BE0 0,urban central heat vent,0.9022842639593909
+Generator,BE0 0,urban central solar thermal,0.023510466988727857
+Generator,BE0 0,urban decentral heat vent,0.42347696879643393
+Generator,BE0 0,urban decentral solar thermal,0.017272185824895772
+Generator,BG0 0,Offshore Wind (AC),0.22985781990521328
+Generator,BG0 0,Offshore Wind (DC),0.3128205128205128
+Generator,BG0 0,Offshore Wind (Floating),0.20302171860245513
+Generator,BG0 0,Onshore Wind,0.12298455011792679
+Generator,BG0 0,Run of River,0.17340045289855072
+Generator,BG0 0,Solar,0.15829296636899393
+Generator,BG0 0,forest residues,0.00011415524305617082
+Generator,BG0 0,gas,0.5541010331486095
+Generator,BG0 0,industry wood,0.00011415525010821057
+Generator,BG0 0,landscape care,0.00011415526005897816
+Generator,BG0 0,manure and slurry,5.848795693256655e-09
+Generator,BG0 0,municipal solid waste,0.0001100555286565635
+Generator,BG0 0,rural solar thermal,0.04596935376415722
+Generator,BG0 0,sewage sludge,0.00011471748906359938
+Generator,BG0 0,solar-hsat,0.19685181245915495
+Generator,BG0 0,solid biomass,1.382e-06
+Generator,BG0 0,straw,2.2462220518281283e-09
+Generator,BG0 0,unsustainable biogas,0.00011415526707813251
+Generator,BG0 0,unsustainable bioliquids,0.00011415525579567881
+Generator,BG0 0,unsustainable solid biomass,0.00011406324419574175
+Generator,BG0 0,urban central heat vent,0.0210235263270803
+Generator,BG0 0,urban central solar thermal,0.04932614555256065
+Generator,BG0 0,urban decentral heat vent,0.012624584717607973
+Generator,BG0 0,urban decentral solar thermal,0.03417438518045353
+Generator,CH0 0,Onshore Wind,0.04783031854091429
+Generator,CH0 0,Run of River,0.28766320530274825
+Generator,CH0 0,Solar,0.1455864914987706
+Generator,CH0 0,forest residues,0.00011415524831317892
+Generator,CH0 0,industry wood,0.00011415525143908636
+Generator,CH0 0,landscape care,0.00011415836718545447
+Generator,CH0 0,manure and slurry,2.816482114923609e-07
+Generator,CH0 0,municipal solid waste,0.00011398039301585622
+Generator,CH0 0,rural solar thermal,0.03613369467028004
+Generator,CH0 0,sewage sludge,1.6534506309529043e-05
+Generator,CH0 0,solar-hsat,0.17357812980774756
+Generator,CH0 0,solid biomass,4.32e-07
+Generator,CH0 0,straw,1.0223088503432674e-06
+Generator,CH0 0,unsustainable solid biomass,4.06e-07
+Generator,CH0 0,urban central heat vent,0.0163084290446198
+Generator,CH0 0,urban central solar thermal,0.03586587436332767
+Generator,CH0 0,urban decentral heat vent,0.0057506392428919246
+Generator,CH0 0,urban decentral solar thermal,0.035746201966041107
+Generator,CZ0 0,Onshore Wind,0.18819956786485956
+Generator,CZ0 0,Run of River,0.3642530100893991
+Generator,CZ0 0,Solar,0.12643662106410725
+Generator,CZ0 0,forest residues,0.0001141552460656358
+Generator,CZ0 0,industry wood,0.00011415525163838617
+Generator,CZ0 0,landscape care,0.0001141552448845375
+Generator,CZ0 0,manure and slurry,1.1134430745434695e-09
+Generator,CZ0 0,municipal solid waste,0.00011026467529245512
+Generator,CZ0 0,rural solar thermal,0.028048780487804875
+Generator,CZ0 0,sewage sludge,6.075520054864059e-08
+Generator,CZ0 0,solar-hsat,0.15115097752558415
+Generator,CZ0 0,solid biomass,9.429999999999999e-07
+Generator,CZ0 0,straw,2.0918064060953373e-09
+Generator,CZ0 0,unsustainable biogas,0.0001141552511569068
+Generator,CZ0 0,unsustainable bioliquids,0.00011415525069464578
+Generator,CZ0 0,unsustainable solid biomass,0.00011411027883457922
+Generator,CZ0 0,urban central heat vent,0.9790209790209791
+Generator,CZ0 0,urban central solar thermal,0.031089381973172875
+Generator,CZ0 0,urban decentral heat vent,0.2909090909090909
+Generator,CZ0 0,urban decentral solar thermal,0.021385402138540212
+Generator,DE0 0,Offshore Wind (AC),0.4833298247919404
+Generator,DE0 0,Offshore Wind (DC),0.5841584158415842
+Generator,DE0 0,Offshore Wind (Floating),0.24564459930313587
+Generator,DE0 0,Onshore Wind,0.2928365072472843
+Generator,DE0 0,Run of River,0.4767443014878516
+Generator,DE0 0,Solar,0.11618308991302764
+Generator,DE0 0,forest residues,0.00011415524549519799
+Generator,DE0 0,gas,0.31852582829506326
+Generator,DE0 0,industry wood,0.0001141552516997314
+Generator,DE0 0,landscape care,0.00011415524507497174
+Generator,DE0 0,manure and slurry,1.571637370824316e-09
+Generator,DE0 0,municipal solid waste,0.00011350428317909278
+Generator,DE0 0,rural solar thermal,0.024072869225764477
+Generator,DE0 0,sewage sludge,2.231275917510929e-08
+Generator,DE0 0,solar-hsat,0.13215258855585832
+Generator,DE0 0,solid biomass,5.83e-07
+Generator,DE0 0,straw,1.2659041002886075e-09
+Generator,DE0 0,unsustainable biogas,0.0001141552516884268
+Generator,DE0 0,unsustainable bioliquids,0.00011415525198197388
+Generator,DE0 0,unsustainable solid biomass,0.00011410016299140144
+Generator,DE0 0,urban central heat vent,0.6435897435897436
+Generator,DE0 0,urban central solar thermal,0.026129726406394094
+Generator,DE0 0,urban decentral heat vent,0.43390357698289267
+Generator,DE0 0,urban decentral solar thermal,0.019417475728155338
+Generator,DE0 1,Onshore Wind,0.1914503399343911
+Generator,DE0 1,Run of River,0.4767595143551365
+Generator,DE0 1,Solar,0.12228735935124517
+Generator,DE0 1,forest residues,0.00011415524415531366
+Generator,DE0 1,industry wood,0.0001141552513779578
+Generator,DE0 1,landscape care,0.00011415526590189707
+Generator,DE0 1,manure and slurry,5.014027757433549e-09
+Generator,DE0 1,municipal solid waste,0.00011298424426147971
+Generator,DE0 1,rural solar thermal,0.023479831426851294
+Generator,DE0 1,sewage sludge,3.905591942998906e-08
+Generator,DE0 1,solar-hsat,0.14446172101968166
+Generator,DE0 1,solid biomass,5.82e-07
+Generator,DE0 1,straw,2.735369041197321e-09
+Generator,DE0 1,unsustainable biogas,0.00011415525207451711
+Generator,DE0 1,unsustainable bioliquids,0.00011415525240146687
+Generator,DE0 1,unsustainable solid biomass,0.00011406514128544026
+Generator,DE0 1,urban central heat vent,0.5958727429062769
+Generator,DE0 1,urban central solar thermal,0.027827116637063352
+Generator,DE0 1,urban decentral heat vent,0.4498327759197325
+Generator,DE0 1,urban decentral solar thermal,0.020854021847070504
+Generator,DE0 2,Offshore Wind (AC),0.5714966511210762
+Generator,DE0 2,Offshore Wind (DC),0.5903540903540904
+Generator,DE0 2,Offshore Wind (Floating),0.3748079877112135
+Generator,DE0 2,Onshore Wind,0.25933922551994243
+Generator,DE0 2,Run of River,0.4767632269450566
+Generator,DE0 2,Solar,0.11440114472182203
+Generator,DE0 2,forest residues,0.00011415525293953558
+Generator,DE0 2,gas,0.4543953950613056
+Generator,DE0 2,industry wood,0.00011415525257478179
+Generator,DE0 2,landscape care,0.00011415526478159398
+Generator,DE0 2,manure and slurry,2.2638224773374103e-09
+Generator,DE0 2,municipal solid waste,0.00011371696731376792
+Generator,DE0 2,rural solar thermal,0.029049295774647887
+Generator,DE0 2,sewage sludge,1.3484658187331539e-08
+Generator,DE0 2,solar-hsat,0.1291970802919708
+Generator,DE0 2,solid biomass,0.06678571600000001
+Generator,DE0 2,straw,2.631332979933102e-09
+Generator,DE0 2,unsustainable biogas,0.00011415525136889036
+Generator,DE0 2,unsustainable bioliquids,0.00011415525195563112
+Generator,DE0 2,unsustainable solid biomass,0.00011408086251431795
+Generator,DE0 2,urban central heat vent,0.9768707482993197
+Generator,DE0 2,urban central solar thermal,0.02481997855063582
+Generator,DE0 2,urban decentral heat vent,0.7596685082872928
+Generator,DE0 2,urban decentral solar thermal,0.01948051948051948
+Generator,DE0 3,Onshore Wind,0.14082313443787634
+Generator,DE0 3,Run of River,0.4767680947468154
+Generator,DE0 3,Solar,0.12987761332464717
+Generator,DE0 3,forest residues,0.00011415524596104546
+Generator,DE0 3,industry wood,0.00011415525176123348
+Generator,DE0 3,landscape care,0.00011415524449971394
+Generator,DE0 3,manure and slurry,5.0362819107203535e-09
+Generator,DE0 3,municipal solid waste,0.00011323192026359612
+Generator,DE0 3,rural solar thermal,0.028812717337307503
+Generator,DE0 3,sewage sludge,3.172196807606699e-08
+Generator,DE0 3,solar-hsat,0.15606679617934938
+Generator,DE0 3,solid biomass,5.83e-07
+Generator,DE0 3,straw,2.1676235612863847e-09
+Generator,DE0 3,unsustainable biogas,0.00011415525196387643
+Generator,DE0 3,unsustainable bioliquids,0.00011415525250024702
+Generator,DE0 3,unsustainable solid biomass,0.00011408268350201892
+Generator,DE0 3,urban central heat vent,0.6770508826583593
+Generator,DE0 3,urban central solar thermal,0.03252415743577657
+Generator,DE0 3,urban decentral heat vent,0.44723618090452266
+Generator,DE0 3,urban decentral solar thermal,0.024944320712694874
+Generator,DE0 4,Onshore Wind,0.16105688405017404
+Generator,DE0 4,Run of River,0.47676600133947666
+Generator,DE0 4,Solar,0.12480153797568938
+Generator,DE0 4,forest residues,0.00011415524828865967
+Generator,DE0 4,industry wood,0.00011415525005739235
+Generator,DE0 4,landscape care,0.00011415525318722887
+Generator,DE0 4,manure and slurry,6.1541782498734585e-09
+Generator,DE0 4,municipal solid waste,0.0001136602790805746
+Generator,DE0 4,rural solar thermal,0.03446033810143043
+Generator,DE0 4,sewage sludge,1.7084299170467126e-08
+Generator,DE0 4,solar-hsat,0.14864786477487615
+Generator,DE0 4,solid biomass,6.219999999999999e-07
+Generator,DE0 4,straw,3.4200388964094288e-09
+Generator,DE0 4,unsustainable biogas,0.0001141552510973402
+Generator,DE0 4,unsustainable bioliquids,0.00011415525156678644
+Generator,DE0 4,unsustainable solid biomass,0.00011408174947505405
+Generator,DE0 4,urban central heat vent,0.9786910197869101
+Generator,DE0 4,urban central solar thermal,0.03036850318089065
+Generator,DE0 4,urban decentral heat vent,0.44666666666666666
+Generator,DE0 4,urban decentral solar thermal,0.02314130969965534
+Generator,DE0 5,Offshore Wind (AC),0.4989568257241446
+Generator,DE0 5,Offshore Wind (DC),0.5649376280623908
+Generator,DE0 5,Offshore Wind (Floating),0.26755852842809363
+Generator,DE0 5,Onshore Wind,0.25738688659914094
+Generator,DE0 5,Run of River,0.4767489979795543
+Generator,DE0 5,Solar,0.12125126378088087
+Generator,DE0 5,forest residues,0.00011415524584824612
+Generator,DE0 5,gas,0.9999874124745195
+Generator,DE0 5,industry wood,0.00011415525105546343
+Generator,DE0 5,landscape care,0.00011415525694042353
+Generator,DE0 5,manure and slurry,1.5900834041071004e-09
+Generator,DE0 5,municipal solid waste,0.00011346122199542977
+Generator,DE0 5,rural solar thermal,0.023388773388773387
+Generator,DE0 5,sewage sludge,2.3815960248970595e-08
+Generator,DE0 5,solar-hsat,0.14381623623829612
+Generator,DE0 5,solid biomass,5.86e-07
+Generator,DE0 5,straw,2.175820317866942e-09
+Generator,DE0 5,unsustainable biogas,0.00011415525187578094
+Generator,DE0 5,unsustainable bioliquids,0.00011415525210869947
+Generator,DE0 5,unsustainable solid biomass,0.00011409208796891943
+Generator,DE0 5,urban central heat vent,0.4596728708403835
+Generator,DE0 5,urban central solar thermal,0.027921406411582212
+Generator,DE0 5,urban decentral heat vent,0.6940874035989718
+Generator,DE0 5,urban decentral solar thermal,0.01950354609929078
+Generator,DK0 0,Offshore Wind (AC),0.530645050623454
+Generator,DK0 0,Offshore Wind (DC),0.5040177334441674
+Generator,DK0 0,Offshore Wind (Floating),0.3432203389830508
+Generator,DK0 0,Onshore Wind,0.41751766860756245
+Generator,DK0 0,Solar,0.1132601125342541
+Generator,DK0 0,forest residues,0.00011415523218085525
+Generator,DK0 0,gas,0.9257608750964974
+Generator,DK0 0,industry wood,0.0001141552475598614
+Generator,DK0 0,landscape care,0.00011415524489180554
+Generator,DK0 0,manure and slurry,1.7114952388736751e-09
+Generator,DK0 0,municipal solid waste,0.00011312441917148666
+Generator,DK0 0,rural solar thermal,0.0350109409190372
+Generator,DK0 0,sewage sludge,2.4337917618741337e-07
+Generator,DK0 0,solar-hsat,0.12105196929658991
+Generator,DK0 0,solid biomass,4e-07
+Generator,DK0 0,straw,2.8667309371539674e-09
+Generator,DK0 0,unsustainable biogas,0.00011415525295275452
+Generator,DK0 0,unsustainable bioliquids,0.00011415517934591854
+Generator,DK0 0,unsustainable solid biomass,0.00011401981516856895
+Generator,DK0 0,urban central heat vent,0.007863301727348249
+Generator,DK0 0,urban central solar thermal,0.022226372805379157
+Generator,DK0 0,urban decentral heat vent,0.0293116268148554
+Generator,DK0 0,urban decentral solar thermal,0.021075581395348836
+Generator,DK1 0,Offshore Wind (AC),0.5096225350639305
+Generator,DK1 0,Offshore Wind (DC),0.3913347309573725
+Generator,DK1 0,Offshore Wind (Floating),0.3059177532597794
+Generator,DK1 0,Onshore Wind,0.47622544720926246
+Generator,DK1 0,Solar,0.12131304936193912
+Generator,DK1 0,forest residues,0.00011415526647060198
+Generator,DK1 0,industry wood,0.00011415528281110309
+Generator,DK1 0,landscape care,0.0001141552761431638
+Generator,DK1 0,manure and slurry,4.600201164083487e-09
+Generator,DK1 0,municipal solid waste,0.00011292182298947613
+Generator,DK1 0,rural solar thermal,0.04043126684636118
+Generator,DK1 0,sewage sludge,2.7017232729618335e-07
+Generator,DK1 0,solar-hsat,0.12912221144519884
+Generator,DK1 0,solid biomass,6.92e-07
+Generator,DK1 0,straw,9.747088530163658e-09
+Generator,DK1 0,unsustainable biogas,0.00011415526245410807
+Generator,DK1 0,unsustainable bioliquids,0.000114155046983689
+Generator,DK1 0,unsustainable solid biomass,0.00011378585009079803
+Generator,DK1 0,urban central heat vent,0.019554307262788628
+Generator,DK1 0,urban central solar thermal,0.02551555400209717
+Generator,DK1 0,urban decentral heat vent,0.043812985067380586
+Generator,DK1 0,urban decentral solar thermal,0.023225806451612905
+Generator,EE0 0,Offshore Wind (AC),0.44557329462989836
+Generator,EE0 0,Offshore Wind (DC),0.4638804317741489
+Generator,EE0 0,Offshore Wind (Floating),0.3168469860896445
+Generator,EE0 0,Onshore Wind,0.3155826078726215
+Generator,EE0 0,Solar,0.11097534598680878
+Generator,EE0 0,forest residues,0.00011415524075736842
+Generator,EE0 0,industry wood,0.00011415525117987808
+Generator,EE0 0,landscape care,0.00011415522978515279
+Generator,EE0 0,manure and slurry,4.942991707177589e-09
+Generator,EE0 0,municipal solid waste,0.0001096317362060186
+Generator,EE0 0,rural solar thermal,0.021144278606965175
+Generator,EE0 0,sewage sludge,0.0005506607929515419
+Generator,EE0 0,solar-hsat,0.12887931034482758
+Generator,EE0 0,solid biomass,9.440000000000001e-07
+Generator,EE0 0,straw,1.1083479172786462e-08
+Generator,EE0 0,unsustainable biogas,0.00011415531094288406
+Generator,EE0 0,unsustainable solid biomass,0.00011407111298928209
+Generator,EE0 0,urban central heat vent,0.8773234200743494
+Generator,EE0 0,urban central solar thermal,0.025074003134250393
+Generator,EE0 0,urban decentral heat vent,0.48058252427184467
+Generator,EE0 0,urban decentral solar thermal,0.013789299503585218
+Generator,ES0 0,Offshore Wind (AC),0.2985619513824275
+Generator,ES0 0,Offshore Wind (Floating),0.1909594095940959
+Generator,ES0 0,Onshore Wind,0.15595412530669572
+Generator,ES0 0,Run of River,0.1836856923076923
+Generator,ES0 0,Solar,0.1789839477599755
+Generator,ES0 0,forest residues,0.00011415524790257054
+Generator,ES0 0,gas,0.43954713962003283
+Generator,ES0 0,industry wood,0.0001141552513489364
+Generator,ES0 0,landscape care,0.00011415524867500716
+Generator,ES0 0,manure and slurry,5.903011319092179e-10
+Generator,ES0 0,municipal solid waste,0.00011370289486889587
+Generator,ES0 0,rural solar thermal,0.07231208372978117
+Generator,ES0 0,sewage sludge,2.295745374438858e-08
+Generator,ES0 0,solar-hsat,0.2271763767837866
+Generator,ES0 0,solid biomass,6.58e-07
+Generator,ES0 0,straw,7.90651997082097e-10
+Generator,ES0 0,unsustainable biogas,0.00011415525137744595
+Generator,ES0 0,unsustainable bioliquids,0.00011415525151187493
+Generator,ES0 0,unsustainable solid biomass,0.00011412514294698426
+Generator,ES0 0,urban central heat vent,0.15551669790755573
+Generator,ES0 0,urban central solar thermal,0.052274464831804285
+Generator,ES0 0,urban decentral heat vent,0.014959290391025682
+Generator,ES0 0,urban decentral solar thermal,0.04928337943173246
+Generator,ES6 0,Offshore Wind (AC),0.1657754010695187
+Generator,ES6 0,Offshore Wind (Floating),0.14095449500554938
+Generator,ES6 0,Onshore Wind,0.16341145833333334
+Generator,ES6 0,Run of River,0.18416360986543273
+Generator,ES6 0,Solar,0.1851776847765415
+Generator,ES6 0,forest residues,0.00011415528217039791
+Generator,ES6 0,industry wood,0.00011415534729896938
+Generator,ES6 0,landscape care,0.0001141556894101404
+Generator,ES6 0,manure and slurry,1.745155211847099e-07
+Generator,ES6 0,municipal solid waste,9.850512497112773e-05
+Generator,ES6 0,rural solar thermal,0.07509881422924901
+Generator,ES6 0,sewage sludge,8.529432467724628e-07
+Generator,ES6 0,solar-hsat,0.232707956421878
+Generator,ES6 0,solid biomass,3.751e-06
+Generator,ES6 0,straw,4.015995281342726e-08
+Generator,ES6 0,unsustainable biogas,0.0001141552525892177
+Generator,ES6 0,unsustainable bioliquids,0.00011415524690736797
+Generator,ES6 0,unsustainable solid biomass,0.00011054354159716976
+Generator,ES6 0,urban central heat vent,0.4215644820295983
+Generator,ES6 0,urban central solar thermal,0.06391608391608393
+Generator,ES6 0,urban decentral heat vent,0.603030303030303
+Generator,ES6 0,urban decentral solar thermal,0.028886554621848737
+Generator,EU,co2-ets,0.00023416125972
+Generator,EU,coal,0.2522759418714597
+Generator,EU,lignite,0.0032965430236019553
+Generator,EU,oil primary,0.5979887830001945
+Generator,EU,uranium,0.9707629962497356
+Generator,FI1 0,Offshore Wind (AC),0.4192966636609558
+Generator,FI1 0,Offshore Wind (DC),0.47575159095896424
+Generator,FI1 0,Offshore Wind (Floating),0.323397913561848
+Generator,FI1 0,Onshore Wind,0.22729840286922987
+Generator,FI1 0,Run of River,0.6257967972256223
+Generator,FI1 0,Solar,0.10456613123419649
+Generator,FI1 0,forest residues,0.00011415524890531393
+Generator,FI1 0,gas,0.9999584015632886
+Generator,FI1 0,industry wood,0.00011415525077132561
+Generator,FI1 0,landscape care,0.00011415524485493378
+Generator,FI1 0,manure and slurry,9.572794018469091e-09
+Generator,FI1 0,municipal solid waste,0.00011308789352959429
+Generator,FI1 0,rural solar thermal,0.02466793168880455
+Generator,FI1 0,sewage sludge,1.0772116039702963e-08
+Generator,FI1 0,solar-hsat,0.11877076411960133
+Generator,FI1 0,solid biomass,5.219999999999999e-07
+Generator,FI1 0,straw,4.692847908105614e-09
+Generator,FI1 0,unsustainable biogas,0.00011415525352085982
+Generator,FI1 0,unsustainable bioliquids,0.00011415525195164127
+Generator,FI1 0,unsustainable solid biomass,0.0001141373756470919
+Generator,FI1 0,urban central heat vent,0.9585635359116023
+Generator,FI1 0,urban central solar thermal,0.018849778803616078
+Generator,FI1 0,urban decentral heat vent,0.7981283422459893
+Generator,FI1 0,urban decentral solar thermal,0.014821272885789017
+Generator,FR0 0,Offshore Wind (AC),0.4635337182724103
+Generator,FR0 0,Offshore Wind (DC),0.44369063772048845
+Generator,FR0 0,Offshore Wind (Floating),0.2747826086956522
+Generator,FR0 0,Onshore Wind,0.25132776188901174
+Generator,FR0 0,Solar,0.11829882300521759
+Generator,FR0 0,forest residues,0.00011415523905180937
+Generator,FR0 0,gas,0.9999645265766812
+Generator,FR0 0,industry wood,0.00011415525147287362
+Generator,FR0 0,landscape care,0.00011415524982430436
+Generator,FR0 0,manure and slurry,1.1576721217391912e-09
+Generator,FR0 0,municipal solid waste,0.00011372791409544353
+Generator,FR0 0,rural solar thermal,0.033532934131736525
+Generator,FR0 0,sewage sludge,3.334389510792456e-06
+Generator,FR0 0,solar-hsat,0.12563724934858955
+Generator,FR0 0,solid biomass,5.459999999999999e-07
+Generator,FR0 0,straw,7.773477258995304e-10
+Generator,FR0 0,unsustainable biogas,0.00011415525112079394
+Generator,FR0 0,unsustainable bioliquids,0.00011415525081614251
+Generator,FR0 0,unsustainable solid biomass,0.00011411092611747027
+Generator,FR0 0,urban central heat vent,0.2149480191064906
+Generator,FR0 0,urban central solar thermal,0.025546367395156526
+Generator,FR0 0,urban decentral heat vent,0.004207952101867858
+Generator,FR0 0,urban decentral solar thermal,0.019219898247597515
+Generator,FR0 1,Offshore Wind (AC),0.37193371922466983
+Generator,FR0 1,Offshore Wind (Floating),0.2823813354786806
+Generator,FR0 1,Onshore Wind,0.16835321004139728
+Generator,FR0 1,Run of River,0.4096195318401409
+Generator,FR0 1,Solar,0.15288415698969868
+Generator,FR0 1,forest residues,0.00011415524652968728
+Generator,FR0 1,gas,0.9999782105568955
+Generator,FR0 1,industry wood,0.00011415525105337582
+Generator,FR0 1,landscape care,0.00011415524819673597
+Generator,FR0 1,manure and slurry,2.141169537693438e-09
+Generator,FR0 1,municipal solid waste,0.0001134474011170082
+Generator,FR0 1,rural solar thermal,0.05119617224880383
+Generator,FR0 1,sewage sludge,2.20375833586089e-05
+Generator,FR0 1,solar-hsat,0.1880299448065899
+Generator,FR0 1,solid biomass,5.64e-07
+Generator,FR0 1,straw,4.312482042132585e-09
+Generator,FR0 1,unsustainable biogas,0.00011415525147692478
+Generator,FR0 1,unsustainable bioliquids,0.00011415525166467015
+Generator,FR0 1,unsustainable solid biomass,0.00011403198472895847
+Generator,FR0 1,urban central heat vent,0.019439183501683503
+Generator,FR0 1,urban central solar thermal,0.04761183861933237
+Generator,FR0 1,urban decentral heat vent,0.004349420503679952
+Generator,FR0 1,urban decentral solar thermal,0.03696991663646249
+Generator,FR0 2,Offshore Wind (AC),0.25705329153605017
+Generator,FR0 2,Offshore Wind (DC),0.31407942238267145
+Generator,FR0 2,Offshore Wind (Floating),0.20162748643761302
+Generator,FR0 2,Onshore Wind,0.17091877113497597
+Generator,FR0 2,Run of River,0.4096169865543676
+Generator,FR0 2,Solar,0.14326433288856563
+Generator,FR0 2,forest residues,0.00011415524499297242
+Generator,FR0 2,industry wood,0.00011415525048379074
+Generator,FR0 2,landscape care,0.00011415524689139412
+Generator,FR0 2,manure and slurry,1.673913994788711e-09
+Generator,FR0 2,municipal solid waste,0.00011311962816492016
+Generator,FR0 2,rural solar thermal,0.033035367275553826
+Generator,FR0 2,sewage sludge,3.101883838798673e-05
+Generator,FR0 2,solar-hsat,0.17311203771836592
+Generator,FR0 2,solid biomass,5.4e-07
+Generator,FR0 2,straw,2.0849342755344524e-09
+Generator,FR0 2,unsustainable biogas,0.00011415525226595995
+Generator,FR0 2,unsustainable bioliquids,0.00011415525169132492
+Generator,FR0 2,unsustainable solid biomass,0.00011408349112807472
+Generator,FR0 2,urban central heat vent,0.4224089635854341
+Generator,FR0 2,urban central solar thermal,0.03957589754356498
+Generator,FR0 2,urban decentral heat vent,0.003701223961663745
+Generator,FR0 2,urban decentral solar thermal,0.027591349739000744
+Generator,FR0 3,Offshore Wind (AC),0.4547089084926089
+Generator,FR0 3,Offshore Wind (DC),0.4219539584503088
+Generator,FR0 3,Offshore Wind (Floating),0.30144267274107817
+Generator,FR0 3,Onshore Wind,0.263439379826355
+Generator,FR0 3,Solar,0.12500256709162347
+Generator,FR0 3,forest residues,0.00011415523591963097
+Generator,FR0 3,gas,0.5251207906189039
+Generator,FR0 3,industry wood,0.00011415524918902055
+Generator,FR0 3,landscape care,0.00011415526101229859
+Generator,FR0 3,manure and slurry,4.587246896131138e-10
+Generator,FR0 3,municipal solid waste,0.00011314466321079413
+Generator,FR0 3,rural solar thermal,0.031907671418873046
+Generator,FR0 3,sewage sludge,3.405814103097777e-05
+Generator,FR0 3,solar-hsat,0.13927356176307668
+Generator,FR0 3,solid biomass,5.41e-07
+Generator,FR0 3,straw,1.9626511449931365e-09
+Generator,FR0 3,unsustainable biogas,0.00011415525674153625
+Generator,FR0 3,unsustainable bioliquids,0.00011415525139274815
+Generator,FR0 3,unsustainable solid biomass,0.00011407926018228327
+Generator,FR0 3,urban central heat vent,0.4803439803439804
+Generator,FR0 3,urban central solar thermal,0.027310032545634643
+Generator,FR0 3,urban decentral heat vent,0.003934226953150667
+Generator,FR0 3,urban decentral solar thermal,0.020517830972154375
+Generator,FR0 4,Onshore Wind,0.20367060509891305
+Generator,FR0 4,Run of River,0.4065987670212045
+Generator,FR0 4,Solar,0.12390195112938225
+Generator,FR0 4,forest residues,0.00011415524183625922
+Generator,FR0 4,industry wood,0.00011415525063527166
+Generator,FR0 4,landscape care,0.00011415524580265959
+Generator,FR0 4,manure and slurry,2.085574048280789e-09
+Generator,FR0 4,municipal solid waste,0.00011269678164581965
+Generator,FR0 4,rural solar thermal,0.027551659361302442
+Generator,FR0 4,sewage sludge,1.5538911891699656e-05
+Generator,FR0 4,solar-hsat,0.1354784081287045
+Generator,FR0 4,solid biomass,5.41e-07
+Generator,FR0 4,straw,2.4415051352049788e-09
+Generator,FR0 4,unsustainable biogas,0.00011415525896217674
+Generator,FR0 4,unsustainable bioliquids,0.00011415525239590364
+Generator,FR0 4,unsustainable solid biomass,0.00011406020724563325
+Generator,FR0 4,urban central heat vent,0.00549782720601439
+Generator,FR0 4,urban central solar thermal,0.03031465848042978
+Generator,FR0 4,urban decentral heat vent,0.0012107270212890783
+Generator,FR0 4,urban decentral solar thermal,0.021436227224008578
+Generator,FR5 0,Offshore Wind (AC),0.1226215644820296
+Generator,FR5 0,Offshore Wind (Floating),0.1179839633447881
+Generator,FR5 0,Onshore Wind,0.1391502552881109
+Generator,FR5 0,Solar,0.1461556772197096
+Generator,FR5 0,forest residues,0.00011415502756577522
+Generator,FR5 0,industry wood,0.0001141552430869221
+Generator,FR5 0,landscape care,0.000114155132335299
+Generator,FR5 0,manure and slurry,1.75710038734405e-07
+Generator,FR5 0,municipal solid waste,8.975322896015533e-05
+Generator,FR5 0,rural solar thermal,0.0377245508982036
+Generator,FR5 0,sewage sludge,0.00011590880552756215
+Generator,FR5 0,solar-hsat,0.21684340749217507
+Generator,FR5 0,solid biomass,5.48e-07
+Generator,FR5 0,straw,8.188232536859582e-08
+Generator,FR5 0,unsustainable biogas,0.00011415531556948899
+Generator,FR5 0,unsustainable bioliquids,0.00011415535871300683
+Generator,FR5 0,unsustainable solid biomass,0.00010838031986574373
+Generator,FR5 0,urban decentral heat vent,0.26340326340326337
+Generator,GB2 0,Offshore Wind (AC),0.5447587050070201
+Generator,GB2 0,Offshore Wind (DC),0.5421586562448029
+Generator,GB2 0,Offshore Wind (Floating),0.3957725947521866
+Generator,GB2 0,Onshore Wind,0.36896816292043694
+Generator,GB2 0,Run of River,0.15426799203388208
+Generator,GB2 0,Solar,0.10325576791271165
+Generator,GB2 0,forest residues,0.0001141552418313895
+Generator,GB2 0,gas,0.21273315879882382
+Generator,GB2 0,industry wood,0.00011415525192300465
+Generator,GB2 0,landscape care,0.00011415524951014764
+Generator,GB2 0,manure and slurry,8.804348950892622e-10
+Generator,GB2 0,municipal solid waste,0.00011210587508800461
+Generator,GB2 0,rural solar thermal,0.024118738404452687
+Generator,GB2 0,sewage sludge,5.256328993492768e-07
+Generator,GB2 0,solar-hsat,0.10454766143388898
+Generator,GB2 0,solid biomass,5.34e-07
+Generator,GB2 0,straw,3.797221175541458e-09
+Generator,GB2 0,unsustainable biogas,0.0001141552521649996
+Generator,GB2 0,unsustainable bioliquids,0.00011415525221637094
+Generator,GB2 0,unsustainable solid biomass,0.00011406870000065829
+Generator,GB2 0,urban central heat vent,0.04807026517214722
+Generator,GB2 0,urban central solar thermal,0.015450294775360847
+Generator,GB2 0,urban decentral heat vent,0.4912790697674419
+Generator,GB2 0,urban decentral solar thermal,0.023569023569023566
+Generator,GB2 1,Offshore Wind (AC),0.510769486674709
+Generator,GB2 1,Offshore Wind (DC),0.5172153807489319
+Generator,GB2 1,Offshore Wind (Floating),0.3496677740863787
+Generator,GB2 1,Onshore Wind,0.36647298725756966
+Generator,GB2 1,Solar,0.11088807879023832
+Generator,GB2 1,forest residues,0.00011415522891386086
+Generator,GB2 1,gas,0.4005434274614222
+Generator,GB2 1,industry wood,0.00011415525224948227
+Generator,GB2 1,landscape care,0.00011415525996637671
+Generator,GB2 1,manure and slurry,8.474545411949325e-10
+Generator,GB2 1,municipal solid waste,0.00011258315777130914
+Generator,GB2 1,rural solar thermal,0.02305721605465414
+Generator,GB2 1,sewage sludge,4.0492994605838003e-07
+Generator,GB2 1,solar-hsat,0.11647499331372026
+Generator,GB2 1,solid biomass,5.36e-07
+Generator,GB2 1,straw,1.174229963413517e-09
+Generator,GB2 1,unsustainable biogas,0.00011415525170530331
+Generator,GB2 1,unsustainable bioliquids,0.00011415525309662593
+Generator,GB2 1,unsustainable solid biomass,0.00011410066923058094
+Generator,GB2 1,urban central heat vent,0.0839735976539739
+Generator,GB2 1,urban central solar thermal,0.020087336244541485
+Generator,GB2 1,urban decentral heat vent,0.49053857350800584
+Generator,GB2 1,urban decentral solar thermal,0.022443890274314215
+Generator,GB3 0,Offshore Wind (AC),0.49123280280550313
+Generator,GB3 0,Offshore Wind (DC),0.5340625
+Generator,GB3 0,Offshore Wind (Floating),0.4025974025974026
+Generator,GB3 0,Onshore Wind,0.37256171499028184
+Generator,GB3 0,Run of River,0.15421703217334207
+Generator,GB3 0,Solar,0.10055515321976236
+Generator,GB3 0,forest residues,0.00011415517549918869
+Generator,GB3 0,industry wood,0.00011415525326263431
+Generator,GB3 0,landscape care,0.00011415522313592751
+Generator,GB3 0,manure and slurry,2.4794941241760646e-09
+Generator,GB3 0,municipal solid waste,9.259263276710579e-05
+Generator,GB3 0,rural solar thermal,0.022727272727272728
+Generator,GB3 0,sewage sludge,7.086383935498316e-06
+Generator,GB3 0,solar-hsat,0.09968617315857485
+Generator,GB3 0,solid biomass,5.38e-07
+Generator,GB3 0,straw,4.250403240507431e-07
+Generator,GB3 0,unsustainable biogas,0.00011415525103905538
+Generator,GB3 0,unsustainable bioliquids,0.0001141552571315648
+Generator,GB3 0,unsustainable solid biomass,0.00011344305531247897
+Generator,GB3 0,urban central heat vent,0.05969609601712981
+Generator,GB3 0,urban central solar thermal,0.01609086606720303
+Generator,GB3 0,urban decentral heat vent,0.26024279210925644
+Generator,GB3 0,urban decentral solar thermal,0.022364217252396165
+Generator,GR0 0,Offshore Wind (AC),0.17074663402692777
+Generator,GR0 0,Offshore Wind (DC),0.4049217002237137
+Generator,GR0 0,Offshore Wind (Floating),0.23787313432835822
+Generator,GR0 0,Onshore Wind,0.17430177737344235
+Generator,GR0 0,Run of River,0.20064481086323957
+Generator,GR0 0,Solar,0.17479683973153068
+Generator,GR0 0,forest residues,0.00011415525053283998
+Generator,GR0 0,gas,0.5863590856840973
+Generator,GR0 0,industry wood,0.00011415525036744147
+Generator,GR0 0,landscape care,0.00011415525120538972
+Generator,GR0 0,manure and slurry,5.539738866793705e-09
+Generator,GR0 0,municipal solid waste,0.00010915281821127632
+Generator,GR0 0,rural solar thermal,0.0557175366235244
+Generator,GR0 0,sewage sludge,5.930933831472838e-08
+Generator,GR0 0,solar-hsat,0.21992896501542217
+Generator,GR0 0,solid biomass,0.018374236
+Generator,GR0 0,straw,3.4461248714238877e-09
+Generator,GR0 0,unsustainable biogas,0.00011415525128434292
+Generator,GR0 0,unsustainable bioliquids,0.00011415525445906204
+Generator,GR0 0,unsustainable solid biomass,0.0001139705207745418
+Generator,GR0 0,urban central heat vent,0.0090667470924205
+Generator,GR0 0,urban central solar thermal,0.054404145077720206
+Generator,GR0 0,urban decentral heat vent,0.0076048671149535705
+Generator,GR0 0,urban decentral solar thermal,0.035628415300546445
+Generator,HR0 0,Offshore Wind (AC),0.142761841227485
+Generator,HR0 0,Offshore Wind (DC),0.17610497237569062
+Generator,HR0 0,Offshore Wind (Floating),0.12768361581920903
+Generator,HR0 0,Onshore Wind,0.0961478047127872
+Generator,HR0 0,Run of River,0.5050889063653309
+Generator,HR0 0,Solar,0.1488050695064562
+Generator,HR0 0,forest residues,0.00011415523119817891
+Generator,HR0 0,industry wood,0.00011415525273189717
+Generator,HR0 0,landscape care,0.00011415523136263521
+Generator,HR0 0,manure and slurry,9.932390920546094e-09
+Generator,HR0 0,municipal solid waste,5.001595930074197e-05
+Generator,HR0 0,rural solar thermal,0.0358227079538555
+Generator,HR0 0,sewage sludge,7.917166900981555e-07
+Generator,HR0 0,solar-hsat,0.18490894748266545
+Generator,HR0 0,solid biomass,1.031e-06
+Generator,HR0 0,straw,5.803624426491322e-09
+Generator,HR0 0,unsustainable biogas,0.00011415526123659635
+Generator,HR0 0,unsustainable bioliquids,0.00011415398733235172
+Generator,HR0 0,unsustainable solid biomass,0.00011405582563721676
+Generator,HR0 0,urban central heat vent,0.9388038942976356
+Generator,HR0 0,urban central solar thermal,0.05006446067898582
+Generator,HR0 0,urban decentral heat vent,0.41901931649331353
+Generator,HR0 0,urban decentral solar thermal,0.025836279575741094
+Generator,HU0 0,Onshore Wind,0.15298636912206418
+Generator,HU0 0,Run of River,0.510217766497462
+Generator,HU0 0,Solar,0.14492702465719656
+Generator,HU0 0,forest residues,0.00011415524255543587
+Generator,HU0 0,gas,0.5038100541343336
+Generator,HU0 0,industry wood,0.00011415525055045924
+Generator,HU0 0,landscape care,0.00011415524567443687
+Generator,HU0 0,manure and slurry,9.85432599631863e-10
+Generator,HU0 0,municipal solid waste,0.00011279283779505862
+Generator,HU0 0,rural solar thermal,0.03695150115473442
+Generator,HU0 0,sewage sludge,9.876126970873084e-08
+Generator,HU0 0,solar-hsat,0.17734413365797533
+Generator,HU0 0,solid biomass,1.171e-06
+Generator,HU0 0,straw,1.6481362786899387e-09
+Generator,HU0 0,unsustainable biogas,0.0001141552644667735
+Generator,HU0 0,unsustainable bioliquids,0.00011415525278426975
+Generator,HU0 0,unsustainable solid biomass,0.0001140821843406391
+Generator,HU0 0,urban central heat vent,0.8259911894273128
+Generator,HU0 0,urban central solar thermal,0.04399162064368692
+Generator,HU0 0,urban decentral heat vent,0.7352941176470589
+Generator,HU0 0,urban decentral solar thermal,0.02486678507992895
+Generator,IE3 0,Offshore Wind (AC),0.5271165648098038
+Generator,IE3 0,Offshore Wind (DC),0.5585707824513795
+Generator,IE3 0,Offshore Wind (Floating),0.36911764705882355
+Generator,IE3 0,Onshore Wind,0.33815215154443756
+Generator,IE3 0,Run of River,0.47117430555555556
+Generator,IE3 0,Solar,0.10411004161041315
+Generator,IE3 0,forest residues,0.00011415523596998049
+Generator,IE3 0,gas,0.9999309707061255
+Generator,IE3 0,industry wood,0.00011415525265556359
+Generator,IE3 0,landscape care,0.00011415524785179088
+Generator,IE3 0,manure and slurry,2.3914707037858725e-09
+Generator,IE3 0,municipal solid waste,0.00010727293680103452
+Generator,IE3 0,rural solar thermal,0.02434782608695652
+Generator,IE3 0,sewage sludge,1.4875283645860665e-05
+Generator,IE3 0,solar-hsat,0.10413223140495868
+Generator,IE3 0,solid biomass,5.91e-07
+Generator,IE3 0,straw,1.7253207034817108e-07
+Generator,IE3 0,unsustainable biogas,0.00011415526612026385
+Generator,IE3 0,unsustainable bioliquids,0.00011415525856068078
+Generator,IE3 0,unsustainable solid biomass,0.00011353482895095451
+Generator,IE3 0,urban central heat vent,0.04508490298642067
+Generator,IE3 0,urban central solar thermal,0.017640141121128966
+Generator,IE3 0,urban decentral heat vent,0.5007496251874063
+Generator,IE3 0,urban decentral solar thermal,0.023364485981308414
+Generator,IT0 0,Offshore Wind (AC),0.21311543709791067
+Generator,IT0 0,Offshore Wind (DC),0.28141459744168545
+Generator,IT0 0,Offshore Wind (Floating),0.1415752741774676
+Generator,IT0 0,Onshore Wind,0.11785634886996985
+Generator,IT0 0,Run of River,0.37268336167800453
+Generator,IT0 0,Solar,0.17141896360288436
+Generator,IT0 0,forest residues,0.00011415525282251856
+Generator,IT0 0,gas,0.46025807534680674
+Generator,IT0 0,industry wood,0.000114155252817564
+Generator,IT0 0,landscape care,0.00011415524778713544
+Generator,IT0 0,manure and slurry,3.0996591714595274e-09
+Generator,IT0 0,municipal solid waste,0.00011332392594362832
+Generator,IT0 0,rural solar thermal,0.04031815688425672
+Generator,IT0 0,sewage sludge,2.4777203626018224e-07
+Generator,IT0 0,solar-hsat,0.21337727854463212
+Generator,IT0 0,solid biomass,0.049304511
+Generator,IT0 0,straw,2.4040878458550785e-09
+Generator,IT0 0,unsustainable biogas,0.00011415525138312082
+Generator,IT0 0,unsustainable bioliquids,0.0001141552527506912
+Generator,IT0 0,unsustainable solid biomass,0.00011409575274179927
+Generator,IT0 0,urban central heat vent,0.010586772963010586
+Generator,IT0 0,urban central solar thermal,0.05149240705184151
+Generator,IT0 0,urban decentral heat vent,0.01337259989977415
+Generator,IT0 0,urban decentral solar thermal,0.03211351755041075
+Generator,IT0 1,Offshore Wind (AC),0.11980939414567733
+Generator,IT0 1,Offshore Wind (DC),0.15027537372147914
+Generator,IT0 1,Offshore Wind (Floating),0.11342592592592592
+Generator,IT0 1,Onshore Wind,0.07663555336298244
+Generator,IT0 1,Run of River,0.3727025315791866
+Generator,IT0 1,Solar,0.150037918955594
+Generator,IT0 1,forest residues,0.00011415524702880732
+Generator,IT0 1,gas,0.999997511348285
+Generator,IT0 1,industry wood,0.00011415525019945417
+Generator,IT0 1,landscape care,0.00011415525295890414
+Generator,IT0 1,manure and slurry,5.273879966735394e-10
+Generator,IT0 1,municipal solid waste,0.0001134026700801918
+Generator,IT0 1,rural solar thermal,0.0461133069828722
+Generator,IT0 1,sewage sludge,2.4201436685033594e-07
+Generator,IT0 1,solar-hsat,0.18262791260793435
+Generator,IT0 1,solid biomass,5.95e-07
+Generator,IT0 1,straw,2.3926617539011852e-09
+Generator,IT0 1,unsustainable biogas,0.00011415525110174909
+Generator,IT0 1,unsustainable bioliquids,0.0001141552507827394
+Generator,IT0 1,unsustainable solid biomass,0.00011412296948008507
+Generator,IT0 1,urban central heat vent,0.22667804323094426
+Generator,IT0 1,urban central solar thermal,0.04209065679925995
+Generator,IT0 1,urban decentral heat vent,0.005702397276466972
+Generator,IT0 1,urban decentral solar thermal,0.03708987161198288
+Generator,IT4 0,Offshore Wind (AC),0.1848013816925734
+Generator,IT4 0,Offshore Wind (Floating),0.16326530612244897
+Generator,IT4 0,Onshore Wind,0.16210995765668845
+Generator,IT4 0,Run of River,0.3716508333333334
+Generator,IT4 0,Solar,0.1768423108598001
+Generator,IT4 0,forest residues,0.00011415525795092968
+Generator,IT4 0,industry wood,0.00011415525896594378
+Generator,IT4 0,landscape care,0.00011415549021779
+Generator,IT4 0,manure and slurry,1.8375236450606586e-08
+Generator,IT4 0,municipal solid waste,0.00010147020029876098
+Generator,IT4 0,rural solar thermal,0.03451957295373666
+Generator,IT4 0,sewage sludge,4.199838943587994e-06
+Generator,IT4 0,solar-hsat,0.22685740885575176
+Generator,IT4 0,solid biomass,0.013633453
+Generator,IT4 0,straw,9.372077625720267e-08
+Generator,IT4 0,unsustainable biogas,0.00011415525245424901
+Generator,IT4 0,unsustainable bioliquids,0.00011415528064358909
+Generator,IT4 0,unsustainable solid biomass,0.00011297242405188413
+Generator,IT4 0,urban central heat vent,0.01578626531856305
+Generator,IT4 0,urban central solar thermal,0.06019989153172697
+Generator,IT4 0,urban decentral heat vent,0.007585361148620718
+Generator,IT4 0,urban decentral solar thermal,0.03073074861532964
+Generator,LT0 0,Offshore Wind (AC),0.44053075995174906
+Generator,LT0 0,Offshore Wind (DC),0.4840592725639874
+Generator,LT0 0,Offshore Wind (Floating),0.32355555555555554
+Generator,LT0 0,Onshore Wind,0.24852873144289317
+Generator,LT0 0,Run of River,0.48333811881188116
+Generator,LT0 0,Solar,0.11368912982172324
+Generator,LT0 0,forest residues,0.00011415524180766418
+Generator,LT0 0,gas,0.9351844984562071
+Generator,LT0 0,industry wood,0.00011415525219218435
+Generator,LT0 0,landscape care,0.00011415524577458991
+Generator,LT0 0,manure and slurry,2.8628755792174264e-09
+Generator,LT0 0,municipal solid waste,0.00010492438728322563
+Generator,LT0 0,rural solar thermal,0.017960230917254648
+Generator,LT0 0,sewage sludge,0.00011741499154612061
+Generator,LT0 0,solar-hsat,0.1305433630997427
+Generator,LT0 0,solid biomass,1.142e-06
+Generator,LT0 0,straw,4.576663048102988e-09
+Generator,LT0 0,unsustainable biogas,0.00011415525938263308
+Generator,LT0 0,unsustainable bioliquids,0.0001141552530551347
+Generator,LT0 0,unsustainable solid biomass,0.00011403708957045265
+Generator,LT0 0,urban central heat vent,0.749
+Generator,LT0 0,urban central solar thermal,0.026333789329685362
+Generator,LT0 0,urban decentral heat vent,0.955078125
+Generator,LT0 0,urban decentral solar thermal,0.012181616832779624
+Generator,LU0 0,Onshore Wind,0.2444548127476562
+Generator,LU0 0,Solar,0.115739411790257
+Generator,LU0 0,forest residues,0.00011415519435805726
+Generator,LU0 0,industry wood,0.00011415524236331343
+Generator,LU0 0,landscape care,0.00011415573960113132
+Generator,LU0 0,manure and slurry,2.100649252632941e-08
+Generator,LU0 0,municipal solid waste,6.032127629666747e-05
+Generator,LU0 0,rural solar thermal,0.022944550669216066
+Generator,LU0 0,sewage sludge,5.444533377145062e-05
+Generator,LU0 0,solar-hsat,0.1397156241672421
+Generator,LU0 0,solid biomass,5.32e-07
+Generator,LU0 0,straw,8.937746006864083e-08
+Generator,LU0 0,unsustainable biogas,0.00011415525510964986
+Generator,LU0 0,unsustainable solid biomass,0.0001128704509533199
+Generator,LU0 0,urban central heat vent,0.002763061466607739
+Generator,LU0 0,urban central solar thermal,0.023617722445990478
+Generator,LU0 0,urban decentral heat vent,0.5558035714285715
+Generator,LU0 0,urban decentral solar thermal,0.015873015873015872
+Generator,LV0 0,Offshore Wind (AC),0.42457995091561257
+Generator,LV0 0,Offshore Wind (DC),0.47266748869708175
+Generator,LV0 0,Offshore Wind (Floating),0.3439077144917087
+Generator,LV0 0,Onshore Wind,0.2696041638542651
+Generator,LV0 0,Run of River,0.27889096412993947
+Generator,LV0 0,Solar,0.11196373917899076
+Generator,LV0 0,forest residues,0.00011415524439367799
+Generator,LV0 0,industry wood,0.0001141552507914322
+Generator,LV0 0,landscape care,0.00011415526276405274
+Generator,LV0 0,manure and slurry,5.143640615084609e-09
+Generator,LV0 0,municipal solid waste,9.876348681468958e-05
+Generator,LV0 0,rural solar thermal,0.02386451116243264
+Generator,LV0 0,sewage sludge,3.717167299860606e-05
+Generator,LV0 0,solar-hsat,0.12872537464219566
+Generator,LV0 0,solid biomass,1.015e-06
+Generator,LV0 0,straw,6.832221769103253e-09
+Generator,LV0 0,unsustainable biogas,0.00011415525435076077
+Generator,LV0 0,unsustainable bioliquids,0.00011415524719146004
+Generator,LV0 0,unsustainable solid biomass,0.0001140945323055474
+Generator,LV0 0,urban central heat vent,0.7695560253699789
+Generator,LV0 0,urban central solar thermal,0.02555689863581419
+Generator,LV0 0,urban decentral heat vent,0.9820000000000001
+Generator,LV0 0,urban decentral solar thermal,0.014814814814814815
+Generator,ME0 0,Offshore Wind (AC),0.07096774193548387
+Generator,ME0 0,Offshore Wind (Floating),0.10901749663526245
+Generator,ME0 0,Onshore Wind,0.0344104208126762
+Generator,ME0 0,Run of River,0.5869440298507462
+Generator,ME0 0,Solar,0.15838185316607528
+Generator,ME0 0,forest residues,0.00011415510059312554
+Generator,ME0 0,industry wood,0.00011415527647830143
+Generator,ME0 0,landscape care,0.00012700428639466583
+Generator,ME0 0,manure and slurry,1.331886076162883e-07
+Generator,ME0 0,municipal solid waste,7.67997888005808e-07
+Generator,ME0 0,rural heat vent,0.006410900414416677
+Generator,ME0 0,rural solar thermal,0.040623523854511095
+Generator,ME0 0,sewage sludge,0.000877963125548727
+Generator,ME0 0,solar-hsat,0.20143285420872123
+Generator,ME0 0,solid biomass,1.481e-06
+Generator,ME0 0,straw,2.0429001649700083e-06
+Generator,ME0 0,unsustainable solid biomass,0.00011331331103304415
+Generator,ME0 0,urban central heat vent,0.009437940978673443
+Generator,ME0 0,urban central solar thermal,0.05256851879586641
+Generator,ME0 0,urban decentral heat vent,0.006818783345173917
+Generator,ME0 0,urban decentral solar thermal,0.040337711069418386
+Generator,MK0 0,Onshore Wind,0.02342798912168705
+Generator,MK0 0,Run of River,0.324647860125261
+Generator,MK0 0,Solar,0.1667561629770756
+Generator,MK0 0,forest residues,0.0001141551924604099
+Generator,MK0 0,industry wood,0.00011415524542080158
+Generator,MK0 0,landscape care,0.00011418565733738378
+Generator,MK0 0,manure and slurry,4.0828046565163777e-08
+Generator,MK0 0,municipal solid waste,9.873592563527742e-05
+Generator,MK0 0,rural heat vent,0.019404392938957016
+Generator,MK0 0,rural solar thermal,0.030188679245283023
+Generator,MK0 0,sewage sludge,5.728241670002897e-06
+Generator,MK0 0,solar-hsat,0.20788524201477065
+Generator,MK0 0,solid biomass,1.836e-06
+Generator,MK0 0,straw,2.7510728042052757e-08
+Generator,MK0 0,unsustainable biogas,0.00011415528221664154
+Generator,MK0 0,unsustainable solid biomass,0.00011326917225060568
+Generator,MK0 0,urban central heat vent,0.01404472342094939
+Generator,MK0 0,urban central solar thermal,0.053442959917780065
+Generator,MK0 0,urban decentral heat vent,0.020037555560837632
+Generator,MK0 0,urban decentral solar thermal,0.029599100786811543
+Generator,NL0 0,Offshore Wind (AC),0.5321320896044802
+Generator,NL0 0,Offshore Wind (DC),0.5415427945548428
+Generator,NL0 0,Offshore Wind (Floating),0.3079470198675497
+Generator,NL0 0,Onshore Wind,0.3496916034672319
+Generator,NL0 0,Solar,0.11634470333178835
+Generator,NL0 0,forest residues,0.00011415522713400722
+Generator,NL0 0,gas,0.39466136665445095
+Generator,NL0 0,industry wood,0.0001141552435765026
+Generator,NL0 0,landscape care,0.00011415524573408402
+Generator,NL0 0,manure and slurry,1.2853945737201674e-09
+Generator,NL0 0,municipal solid waste,0.0001138857415428619
+Generator,NL0 0,rural solar thermal,0.04
+Generator,NL0 0,sewage sludge,7.841582459023874e-08
+Generator,NL0 0,solar-hsat,0.12830370014416145
+Generator,NL0 0,solid biomass,5.34e-07
+Generator,NL0 0,straw,1.0047758423415307e-08
+Generator,NL0 0,unsustainable biogas,0.00011415525179288894
+Generator,NL0 0,unsustainable bioliquids,0.00011415525137724386
+Generator,NL0 0,unsustainable solid biomass,0.00011405245263900432
+Generator,NL0 0,urban central heat vent,0.6572164948453608
+Generator,NL0 0,urban central solar thermal,0.024719466579931695
+Generator,NL0 0,urban decentral heat vent,0.44023323615160354
+Generator,NL0 0,urban decentral solar thermal,0.018607442977190875
+Generator,NO1 0,Offshore Wind (AC),0.4279280059402541
+Generator,NO1 0,Offshore Wind (DC),0.4879590608067429
+Generator,NO1 0,Offshore Wind (Floating),0.3377952755905512
+Generator,NO1 0,Onshore Wind,0.22398189982639652
+Generator,NO1 0,Run of River,0.49797561904761906
+Generator,NO1 0,Solar,0.09761705834886494
+Generator,NO1 0,forest residues,0.00011415525158156285
+Generator,NO1 0,gas,0.034198718797322517
+Generator,NO1 0,industry wood,0.00011415525137213676
+Generator,NO1 0,landscape care,0.00011417731458696619
+Generator,NO1 0,manure and slurry,5.724837189601313e-05
+Generator,NO1 0,municipal solid waste,0.00011346379221845947
+Generator,NO1 0,rural solar thermal,0.02288732394366197
+Generator,NO1 0,sewage sludge,5.384651634337678e-08
+Generator,NO1 0,solar-hsat,0.10308567488364076
+Generator,NO1 0,solid biomass,0.11078516299999999
+Generator,NO1 0,straw,0.00011380322576869203
+Generator,NO1 0,unsustainable biogas,0.00011415525114155251
+Generator,NO1 0,unsustainable bioliquids,0.00011415525502465808
+Generator,NO1 0,unsustainable solid biomass,0.00011400260470658733
+Generator,NO1 0,urban central heat vent,0.09382279750416689
+Generator,NO1 0,urban central solar thermal,0.015905688622754488
+Generator,NO1 0,urban decentral heat vent,0.37507453786523554
+Generator,NO1 0,urban decentral solar thermal,0.022108843537414966
+Generator,PL0 0,Offshore Wind (AC),0.4909619757681972
+Generator,PL0 0,Offshore Wind (DC),0.558398518244005
+Generator,PL0 0,Offshore Wind (Floating),0.35518102372034954
+Generator,PL0 0,Onshore Wind,0.26280997064222844
+Generator,PL0 0,Run of River,0.6477125567234321
+Generator,PL0 0,Solar,0.12111229762339021
+Generator,PL0 0,forest residues,0.00011415524931457523
+Generator,PL0 0,gas,0.999992157345513
+Generator,PL0 0,industry wood,0.00011415525083100943
+Generator,PL0 0,landscape care,0.00011415524854690354
+Generator,PL0 0,manure and slurry,7.932662252413911e-10
+Generator,PL0 0,municipal solid waste,0.00011364551232948647
+Generator,PL0 0,rural solar thermal,0.028927963698241636
+Generator,PL0 0,sewage sludge,2.6592750081895965e-08
+Generator,PL0 0,solar-hsat,0.14819586947201338
+Generator,PL0 0,solid biomass,1.096e-06
+Generator,PL0 0,straw,9.894142085260042e-10
+Generator,PL0 0,unsustainable biogas,0.00011415525451941213
+Generator,PL0 0,unsustainable bioliquids,0.00011415525082311198
+Generator,PL0 0,unsustainable solid biomass,0.00011413769021856051
+Generator,PL0 0,urban central heat vent,0.3222591362126246
+Generator,PL0 0,urban central solar thermal,0.03039979563162601
+Generator,PL0 0,urban decentral heat vent,0.7193460490463215
+Generator,PL0 0,urban decentral solar thermal,0.018600531443755536
+Generator,PT0 0,Offshore Wind (AC),0.37599522890114734
+Generator,PT0 0,Offshore Wind (Floating),0.24398625429553267
+Generator,PT0 0,Onshore Wind,0.1703454568730216
+Generator,PT0 0,Run of River,0.33200421674876845
+Generator,PT0 0,Solar,0.17394125435839394
+Generator,PT0 0,forest residues,0.00011415524432601425
+Generator,PT0 0,gas,0.9290199198012434
+Generator,PT0 0,industry wood,0.00011415525181620972
+Generator,PT0 0,landscape care,0.00011415524213399771
+Generator,PT0 0,manure and slurry,2.084662614537671e-09
+Generator,PT0 0,municipal solid waste,0.00011313723950882453
+Generator,PT0 0,rural solar thermal,0.042865044247787615
+Generator,PT0 0,sewage sludge,5.0493033194376606e-08
+Generator,PT0 0,solar-hsat,0.22189656703771088
+Generator,PT0 0,solid biomass,8.729999999999999e-07
+Generator,PT0 0,straw,5.909648586165745e-09
+Generator,PT0 0,unsustainable biogas,0.00011415526082900682
+Generator,PT0 0,unsustainable bioliquids,0.00011415525268387465
+Generator,PT0 0,unsustainable solid biomass,0.00011410268664222473
+Generator,PT0 0,urban central heat vent,0.016181119012753726
+Generator,PT0 0,urban central solar thermal,0.05105652686903358
+Generator,PT0 0,urban decentral heat vent,0.01779564606380076
+Generator,PT0 0,urban decentral solar thermal,0.03169124568559774
+Generator,RO0 0,Offshore Wind (AC),0.3216280925778132
+Generator,RO0 0,Offshore Wind (DC),0.353377586880125
+Generator,RO0 0,Offshore Wind (Floating),0.23076923076923078
+Generator,RO0 0,Onshore Wind,0.12569231531676847
+Generator,RO0 0,Run of River,0.2682146331766744
+Generator,RO0 0,Solar,0.14837997756097157
+Generator,RO0 0,forest residues,0.00011415524815114099
+Generator,RO0 0,gas,0.08995241309777381
+Generator,RO0 0,industry wood,0.00011415525147386114
+Generator,RO0 0,landscape care,0.00011415525179198717
+Generator,RO0 0,manure and slurry,2.1777139820477806e-09
+Generator,RO0 0,municipal solid waste,0.00011266935018033258
+Generator,RO0 0,rural solar thermal,0.03447293447293447
+Generator,RO0 0,sewage sludge,1.1494736889461077e-06
+Generator,RO0 0,solar-hsat,0.18321775549008062
+Generator,RO0 0,solid biomass,1.416e-06
+Generator,RO0 0,straw,1.4069229235568186e-09
+Generator,RO0 0,unsustainable biogas,0.00011415529300387092
+Generator,RO0 0,unsustainable bioliquids,0.00011415525126374152
+Generator,RO0 0,unsustainable solid biomass,0.00011411124241392039
+Generator,RO0 0,urban central heat vent,0.5202156334231806
+Generator,RO0 0,urban central solar thermal,0.04288461538461539
+Generator,RO0 0,urban decentral heat vent,0.40875912408759124
+Generator,RO0 0,urban decentral solar thermal,0.0283136278780336
+Generator,RS0 0,Onshore Wind,0.10694368529616334
+Generator,RS0 0,Run of River,0.5756213181924608
+Generator,RS0 0,Solar,0.15425134488942022
+Generator,RS0 0,forest residues,0.00011415520833951965
+Generator,RS0 0,industry wood,0.00011415525282897329
+Generator,RS0 0,landscape care,0.0001141545251616924
+Generator,RS0 0,manure and slurry,3.633467333338189e-09
+Generator,RS0 0,municipal solid waste,0.00011283622965909562
+Generator,RS0 0,rural heat vent,0.007348793016419728
+Generator,RS0 0,rural solar thermal,0.02926628194558945
+Generator,RS0 0,sewage sludge,6.639882554841432e-06
+Generator,RS0 0,solar-hsat,0.19185063244185022
+Generator,RS0 0,solid biomass,1.575e-06
+Generator,RS0 0,straw,2.7837494006517243e-09
+Generator,RS0 0,unsustainable biogas,0.00011415529321166344
+Generator,RS0 0,unsustainable solid biomass,0.00011402958254944896
+Generator,RS0 0,urban central heat vent,0.713697219361483
+Generator,RS0 0,urban central solar thermal,0.05357382325331903
+Generator,RS0 0,urban decentral heat vent,0.007635496812778682
+Generator,RS0 0,urban decentral solar thermal,0.028548123980424143
+Generator,SE1 0,Offshore Wind (AC),0.47604445139412976
+Generator,SE1 0,Offshore Wind (DC),0.4818285714285715
+Generator,SE1 0,Offshore Wind (Floating),0.3102661596958175
+Generator,SE1 0,Onshore Wind,0.23613665985295365
+Generator,SE1 0,Run of River,0.6146024550430024
+Generator,SE1 0,Solar,0.11057405212778194
+Generator,SE1 0,forest residues,0.00011415524995788903
+Generator,SE1 0,gas,0.9971790773519345
+Generator,SE1 0,industry wood,0.00011415525104202206
+Generator,SE1 0,landscape care,0.00011415524961797932
+Generator,SE1 0,manure and slurry,2.630324018580485e-09
+Generator,SE1 0,municipal solid waste,0.00011368357237755409
+Generator,SE1 0,rural solar thermal,0.027552674230145867
+Generator,SE1 0,sewage sludge,2.15216160610679e-08
+Generator,SE1 0,solar-hsat,0.12502549459514584
+Generator,SE1 0,solid biomass,4.75e-07
+Generator,SE1 0,straw,3.288144419583344e-09
+Generator,SE1 0,unsustainable biogas,0.0001141552579744772
+Generator,SE1 0,unsustainable bioliquids,0.00011415525190449262
+Generator,SE1 0,unsustainable solid biomass,0.00011413884625098312
+Generator,SE1 0,urban central heat vent,0.026129373466013534
+Generator,SE1 0,urban central solar thermal,0.019617877857386556
+Generator,SE1 0,urban decentral heat vent,0.07435294117647058
+Generator,SE1 0,urban decentral solar thermal,0.020030816640986132
+Generator,SI0 0,Offshore Wind (AC),0.11015490533562823
+Generator,SI0 0,Offshore Wind (Floating),0.060790273556231005
+Generator,SI0 0,Onshore Wind,0.03805774278215223
+Generator,SI0 0,Run of River,0.5058526610033405
+Generator,SI0 0,Solar,0.13718466422792003
+Generator,SI0 0,forest residues,0.00011415524256680553
+Generator,SI0 0,industry wood,0.00011415524911513804
+Generator,SI0 0,landscape care,0.00011415532107001012
+Generator,SI0 0,manure and slurry,2.1759422303886598e-08
+Generator,SI0 0,municipal solid waste,0.00010245104539826621
+Generator,SI0 0,rural solar thermal,0.031476997578692496
+Generator,SI0 0,sewage sludge,3.9726628377394954e-07
+Generator,SI0 0,solar-hsat,0.1587467103629773
+Generator,SI0 0,solid biomass,8.23e-07
+Generator,SI0 0,straw,5.364286462841538e-08
+Generator,SI0 0,unsustainable biogas,0.00011415530378496239
+Generator,SI0 0,unsustainable solid biomass,0.0001138859607829327
+Generator,SI0 0,urban central heat vent,0.8503836317135549
+Generator,SI0 0,urban central solar thermal,0.03908660769389014
+Generator,SI0 0,urban decentral heat vent,0.41212121212121217
+Generator,SI0 0,urban decentral solar thermal,0.027072758037225045
+Generator,SK0 0,Onshore Wind,0.10275862068965516
+Generator,SK0 0,Run of River,0.31187165042005766
+Generator,SK0 0,Solar,0.1328464885194699
+Generator,SK0 0,forest residues,0.00011415524349224981
+Generator,SK0 0,gas,0.5497483119472549
+Generator,SK0 0,industry wood,0.00011415525168786726
+Generator,SK0 0,landscape care,0.00011415524135719746
+Generator,SK0 0,manure and slurry,3.043504857103922e-09
+Generator,SK0 0,municipal solid waste,0.00011107333301462942
+Generator,SK0 0,rural solar thermal,0.0275
+Generator,SK0 0,sewage sludge,1.0636530369179159e-05
+Generator,SK0 0,solar-hsat,0.15554381861395106
+Generator,SK0 0,solid biomass,9.87e-07
+Generator,SK0 0,straw,4.4599594398954654e-09
+Generator,SK0 0,unsustainable biogas,0.00011415525669810344
+Generator,SK0 0,unsustainable bioliquids,0.00011415524989248155
+Generator,SK0 0,unsustainable solid biomass,0.00011404966957775757
+Generator,SK0 0,urban central heat vent,0.7367367367367367
+Generator,SK0 0,urban central solar thermal,0.03465703971119134
+Generator,SK0 0,urban decentral heat vent,0.48269581056466304
+Generator,SK0 0,urban decentral solar thermal,0.023899848254931716
+Generator,XK0 0,Onshore Wind,0.033094071622661356
+Generator,XK0 0,Run of River,0.5956596026490066
+Generator,XK0 0,Solar,0.1645597374472334
+Generator,XK0 0,forest residues,0.00011415507741222873
+Generator,XK0 0,industry wood,0.0001141552458053586
+Generator,XK0 0,manure and slurry,1.9223154689534468e-07
+Generator,XK0 0,municipal solid waste,9.391476252240081e-07
+Generator,XK0 0,rural heat vent,0.6575539568345324
+Generator,XK0 0,rural solar thermal,0.07692307692307694
+Generator,XK0 0,sewage sludge,1.1572342142119543e-06
+Generator,XK0 0,solar-hsat,0.2045004289707338
+Generator,XK0 0,solid biomass,1.5509999999999998e-06
+Generator,XK0 0,straw,5.324076886573398e-08
+Generator,XK0 0,unsustainable solid biomass,0.00011369571972916445
+Generator,XK0 0,urban central heat vent,0.3394851869839728
+Generator,XK0 0,urban central solar thermal,0.054090299508270004
+Generator,XK0 0,urban decentral heat vent,0.6372688477951636
+Generator,XK0 0,urban decentral solar thermal,0.06
