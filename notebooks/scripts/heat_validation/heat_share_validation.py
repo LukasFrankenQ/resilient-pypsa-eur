@@ -681,8 +681,6 @@ def main() -> None:
             labels += ["• heat pump", "• resistive"]
         ax.legend(handles, labels, frameon=True, fontsize=7)
         style_ax(ax)
-    fig.suptitle("Heating fuel-mix validation  —  solid = model, hatched = source",
-                 fontsize=12, y=1.0)
     fig.tight_layout()
 
     out_pdf = SCRIPT_DIR / "heat_share_validation.pdf"

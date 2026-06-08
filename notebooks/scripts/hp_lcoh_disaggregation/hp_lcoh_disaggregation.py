@@ -14,15 +14,25 @@ computed as a heat-delivered-weighted average across all 50 regions (i.e. the
 total annual cost of each part divided by the total annual heat delivered):
 
     1. capex heat pump          capital_cost * p_nom_opt of the heat-pump link
-    2. capex distribution       share of the 'electricity distribution grid'
-                                 link capex, allocated by the electricity the
-                                 heat pump draws from the low-voltage bus
+                                 (for industry HPs, with the folded-in grid
+                                 connection charge removed -- see below)
+    2. capex distribution       electricity-grid connection cost.  Two cases:
+                                 - residential / urban HPs sit on the low-voltage
+                                   bus behind the 'electricity distribution grid'
+                                   link: their share of that link's capex,
+                                   allocated by the electricity they draw.
+                                 - industry HPs sit directly on the AC/HV bus
+                                   (config: industry_electric_grid_connection).
+                                   prepare_sector_network folds a per-MW_el grid
+                                   connection charge (= the distribution-grid
+                                   capex, ~500 EUR/kW_el) straight into the HP
+                                   capital_cost; we split it back out here.
     3. opex (marginal_cost)     marginal_cost * p0  (the asset O&M term)
     4. electricity cost         AC (wholesale) price * p0  consumed
 
-Electricity is valued at the *AC* bus price and the distribution-grid capex is
-added separately, so the two are not double-counted (the low-voltage LMP would
-already embed the distribution-grid cost).
+Electricity is valued at the *AC* bus price and the distribution / connection
+capex is reported separately, so the two are not double-counted (the low-voltage
+LMP would already embed the distribution-grid cost).
 
 The figure shows, at each demand, three stacked bars (one per wiggle setting).
 
@@ -87,30 +97,47 @@ def style_ax(ax):
 def disaggregate(n):
     """Return a DataFrame (demand x component) of LCOH parts in EUR/MWh_heat."""
     w = n.snapshot_weightings.generators  # hours represented by each snapshot
+    lv_buses = set(n.buses.index[n.buses.carrier == "low voltage"])
 
-    # Distribution-grid cost per MWh of electricity delivered to each LV bus.
-    # The 'electricity distribution grid' link connects AC (bus0) -> low voltage
-    # (bus1); its annualised capex / electricity delivered gives a per-MWh_elec
-    # cost we allocate to heat pumps by the electricity they draw from that bus.
+    # Distribution grid: the forward links (AC bus0 -> low voltage bus1) carry
+    # the capex. Per-MWh_elec distribution cost at each LV bus = annualised capex
+    # / electricity delivered, allocated to LV heat pumps by what they draw.
     dg = n.links[n.links.carrier == "electricity distribution grid"]
+    dg = dg[dg.bus1.isin(lv_buses)]  # drop the zero-cost LV->AC return links
     dg_capex = dg.capital_cost * dg.p_nom_opt
     dg_delivered = (-n.links_t.p1[dg.index]).multiply(w, axis=0).sum()
     dist_cost_per_mwh = pd.Series(
         dg_capex.values / dg_delivered.values, index=dg.bus1.values
     )
+    # Per-MW_el grid-connection charge that prepare_sector_network folds into the
+    # capital_cost of the AC-connected (industry) heat pumps.
+    grid_conn = dg.capital_cost.max()
 
     records = {}
     for demand, carriers in HP_TECHS.items():
         hp = n.links[n.links.carrier.isin(carriers)]
+        on_lv = hp.bus0.isin(lv_buses)  # True: residential/urban, False: industry
 
         elec_mwh = n.links_t.p0[hp.index].multiply(w, axis=0).sum()     # MWh_elec/link
         heat_mwh = (-n.links_t.p1[hp.index]).multiply(w, axis=0).sum()  # MWh_heat/link
         total_heat = heat_mwh.sum()
 
-        capex_hp = (hp.capital_cost * hp.p_nom_opt).sum()
-        capex_dist = (
-            elec_mwh * dist_cost_per_mwh.reindex(hp.bus0.values).values
-        ).sum()
+        # capex of the heat-pump asset itself (industry: strip folded connection)
+        capex_hp_link = hp.capital_cost * hp.p_nom_opt
+        capex_hp_link[~on_lv] = (
+            (hp.capital_cost[~on_lv] - grid_conn) * hp.p_nom_opt[~on_lv]
+        )
+        capex_hp = capex_hp_link.sum()
+
+        # distribution / grid-connection capex
+        capex_dist_link = pd.Series(0.0, index=hp.index)
+        capex_dist_link[on_lv] = (  # LV HPs: share of the distribution grid
+            elec_mwh[on_lv].values
+            * dist_cost_per_mwh.reindex(hp.bus0[on_lv].values).values
+        )
+        capex_dist_link[~on_lv] = grid_conn * hp.p_nom_opt[~on_lv]  # industry: HV connection
+        capex_dist = capex_dist_link.sum()
+
         opex = (hp.marginal_cost * elec_mwh).sum()
 
         ac_buses = hp.bus0.str.replace(" low voltage", "", regex=False)
@@ -206,7 +233,11 @@ ax.set_ylabel("Levelized cost of heat  [EUR/MWh$_{heat}$]")
 ax.set_ylim(0, ymax * 1.15)
 
 style_ax(ax)
-legend_handles = [Patch(facecolor=COMPONENT_COLORS[c], label=c) for c in COMPONENTS]
+legend_labels = {"capex distribution": "capex distribution grid (500 €/kW)"}
+legend_handles = [
+    Patch(facecolor=COMPONENT_COLORS[c], label=legend_labels.get(c, c))
+    for c in COMPONENTS
+]
 ax.legend(handles=legend_handles, frameon=True, loc="upper left")
 plt.tight_layout()
 

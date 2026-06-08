@@ -23,7 +23,7 @@ from matplotlib.colors import LinearSegmentedColormap, Normalize
 
 ROOT = Path(__file__).resolve().parents[3]
 NETWORK_DIR = ROOT / "results" / "networks"
-PREFIX = "base_s_50__3H-T-H-B-I-A-dist1_2030"
+PREFIX = "base_s_50_lv1.25_3H-T-H-B-I-A-dist1_2030"
 NETWORK_PATH = NETWORK_DIR / f"{PREFIX}_free_1000.nc"
 REGIONS_PATH = ROOT / "resources" / "regions_onshore_base_s_50.geojson"
 LOCAL_OUT = Path(__file__).parent / "renewable_cf_maps.pdf"

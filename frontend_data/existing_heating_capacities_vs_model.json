@@ -485,12 +485,12 @@
         ]
       },
       "supply_share": {
-        "air heat pump": 3.762005813547175e-06,
-        "biomass boiler": 0.19032559106710134,
-        "gas boiler": 0.35017271638148695,
-        "ground heat pump": 0.14698363719688928,
-        "oil boiler": 0.17948335873748203,
-        "resistive heater": 0.13303093461122695
+        "air heat pump": 4.094865952789089e-06,
+        "biomass boiler": 0.19378400424651515,
+        "gas boiler": 0.382423926650546,
+        "ground heat pump": 0.17670468218276295,
+        "oil boiler": 0.18904128313727042,
+        "resistive heater": 0.05804200891695282
       },
       "colors": {
         "air heat pump": "#36eb41",
@@ -983,12 +983,12 @@
         ]
       },
       "supply_share": {
-        "air heat pump": 0.1347904711025937,
-        "biomass boiler": 0.14528970243161074,
-        "gas boiler": 0.40627756023251854,
+        "air heat pump": 0.13380585842004045,
+        "biomass boiler": 0.1465556378991733,
+        "gas boiler": 0.4264881486161149,
         "ground heat pump": 0.0,
-        "oil boiler": 0.1713437111913076,
-        "resistive heater": 0.14229855504196942
+        "oil boiler": 0.17760572424173307,
+        "resistive heater": 0.11554463082293842
       },
       "colors": {
         "air heat pump": "#36eb41",

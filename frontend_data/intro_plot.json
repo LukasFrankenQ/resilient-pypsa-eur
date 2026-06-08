@@ -2278,7 +2278,8 @@
     "labels": [
       "Source",
       "Country\nConsumption",
-      "Sectoral\nConsumption"
+      "Sectoral\nConsumption",
+      "Future\nSupply"
     ],
     "supply_TWh": [
       {
@@ -2407,23 +2408,23 @@
     "sectoral_demand_TWh": [
       {
         "sector": "Industry feedstock",
-        "value_TWh": 141.91206975222224
+        "value_TWh": 142.63819878333334
       },
       {
         "sector": "Other",
-        "value_TWh": 269.0338467288889
+        "value_TWh": 270.9120313788889
       },
       {
         "sector": "Industry heating",
-        "value_TWh": 981.0909270888889
+        "value_TWh": 995.9275343011112
       },
       {
         "sector": "Power sector",
-        "value_TWh": 1254.7171244922224
+        "value_TWh": 1268.9806377866666
       },
       {
         "sector": "Residential + Services heating",
-        "value_TWh": 1592.5345592977778
+        "value_TWh": 1598.6959512433334
       }
     ]
   },

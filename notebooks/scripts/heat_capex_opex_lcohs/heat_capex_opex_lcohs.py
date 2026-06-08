@@ -79,8 +79,18 @@ def get_annuity_factor(lifetime, discount_rate):
 
 # Map our display carriers onto the names used in the technology-data costs file.
 tech_costs_mapper = {
+    "rural gas boiler": "decentral gas boiler",
     "urban decentral air heat pump": "decentral air-sourced heat pump",
     "urban decentral gas boiler": "decentral gas boiler",
+    "urban decentral biomass boiler": "biomass boiler",
+    "urban central solid biomass CHP": "central solid biomass CHP",
+    "heat<100 industry gas": "gas boiler steam",
+    "heat<100 industry electric boiler steam": "electric boiler steam",
+    "heat<100 industry solid biomass": "solid biomass boiler steam",
+    "heat100-200 industry solid biomass": "solid biomass boiler steam",
+    "heat200-500 industry solid biomass": "solid biomass boiler steam",
+    "heat200-500 industry gas": "gas boiler steam",
+    "heat>500 industry gas": "gas boiler steam",
     "rural ground heat pump": "decentral ground-sourced heat pump",
     "Combined-Cycle Gas": "CCGT",
     "Open-Cycle Gas": "OCGT",
@@ -422,17 +432,26 @@ for load, carriers in shown_techs.items():
             else 0.07
         )
         annuity_factor = get_annuity_factor(lt, dr)
-        overnight = capital_cost / annuity_factor / 1e3  # un-annuitise, EUR/kW input
+        overnight = capital_cost / annuity_factor / 1e3  # EUR/kW input (fallback only)
 
-        # Express per kW of *heat output*. For heat pumps the rated per-kW_th cost
-        # is the techno-economic investment itself (capital_cost embeds the rated
-        # COP); for everything else divide the per-input cost by the rated heat
-        # efficiency (~1 for boilers, 0.82 for the CHP heat side).
-        if "heat pump" in carrier and (costs_carrier_name, "investment") in costs.index:
-            cost_value = costs.loc[(costs_carrier_name, "investment"), "value"]
+        # Overnight investment per kW of *heat output*, taken straight from the
+        # techno-economic 'investment' row (already EUR/kW_th, no FOM/annuity).
+        # The network capital_cost is NOT used here: it folds in FOM and is keyed
+        # to the input (fuel) capacity, which inflates boilers ~3-4x and would
+        # make heat pumps look cheaper than gas boilers.
+        if (costs_carrier_name, "investment") in costs.index:
+            inv = costs.loc[(costs_carrier_name, "investment"), "value"]
+            unit = str(costs.loc[(costs_carrier_name, "investment"), "unit"])
+            if "kW_e" in unit:  # CHP is quoted per electrical kW -> scale to heat kW
+                links_c = n.links[n.links.carrier == carrier_n]
+                cost_value = inv * links_c.efficiency.mean() / rated_heat_efficiency(n, carrier_n)
+            else:
+                cost_value = inv
         else:
+            # no techno-economic entry (e.g. direct firing): fall back to the
+            # network capital cost, expressed per kW heat output.
             cost_value = overnight / rated_heat_efficiency(n, carrier_n)
-        rated_cop = overnight / cost_value  # input->output capacity ratio
+        rated_cop = overnight / cost_value  # input->output capacity ratio (grid lift)
         cap_kwargs = {"s": 45, "linewidth": 0.5, "alpha": 1.0}
 
         axs[0].scatter(

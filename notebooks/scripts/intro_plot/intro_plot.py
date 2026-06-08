@@ -577,7 +577,7 @@ pts_sizes = np.array([60, 180, 120, 300, 90, 250, 150, 200, 100, 220])
 pts_cat = np.array([0, 1, 2, 0, 1, 2, 0, 1, 2, 0])
 
 # --- Bar chart data (dummy) ---
-bar_labels = ['Source', 'Country\nConsumption', 'Sectoral\nConsumption']
+bar_labels = ['Source', 'Country\nConsumption', 'Sectoral\nConsumption', 'Future\nSupply']
 total = 100
 
 bar1_vals = [35, 40, 25]
@@ -1152,7 +1152,49 @@ for i, row in _supply_sorted.iterrows():
             zorder=5,
         )
     elif value > 50:
-        ax_bar.text(0, bottom + value / 2, row['origin'],
+        ax_bar.text(0, bottom + value / 2,
+                    row['origin'].replace('North Africa', 'North\nAfrica'),
+                    ha='center', va='center',
+                    fontsize=7.5, color=_text_color_for(to_rgba(color)),
+                    weight='medium')
+    bottom += value
+
+
+# --- Bar 3 (x=3): future supply, white -> gold ramp ---
+# A re-scaled version of the Source bar telling the future-supply story:
+#   * Domestic producers (Romania, Netherlands, Rest of EU, UK, Norway) scaled
+#     so the group totals 2000 TWh (the Autarky line).
+#   * North Africa + Azerbaijan scaled so the pair totals 750 TWh, taking the
+#     stack to 2750 TWh (the No-LNG line).
+#   * LNG fills the remainder up to 4100 TWh.
+# (Russia and storage drawdown are dropped from the future picture.)
+from matplotlib.colors import LinearSegmentedColormap
+_cmap_future = LinearSegmentedColormap.from_list('future_gold', ['white', '#FFD700'])
+
+_future_dom = _domestic.copy()
+_future_dom = _future_dom.assign(
+    future_twh=_future_dom['twh_2024'] * (2000.0 / _future_dom['twh_2024'].sum()))
+
+_future_pipe = (_pipeline.set_index('origin')
+                .reindex(['Azerbaijan', 'North Africa']).dropna()
+                .reset_index())
+_future_pipe = _future_pipe.assign(
+    future_twh=_future_pipe['twh_2024'] * (750.0 / _future_pipe['twh_2024'].sum()))
+
+_future_segments = (
+    [(r['origin'], r['future_twh']) for _, r in _future_dom.iterrows()]
+    + [(r['origin'], r['future_twh']) for _, r in _future_pipe.iterrows()]
+    + [('LNG', 4100.0 - 2000.0 - 750.0)]
+)
+
+bottom = 0
+_n_future = len(_future_segments)
+for i, (name, value) in enumerate(_future_segments):
+    color = _shade(_cmap_future, i, _n_future)
+    ax_bar.bar(3, value, bottom=bottom, color=color, width=width, edgecolor='k')
+    if value > 50:
+        ax_bar.text(3, bottom + value / 2,
+                    name.replace('North Africa', 'North\nAfrica'),
                     ha='center', va='center',
                     fontsize=7.5, color=_text_color_for(to_rgba(color)),
                     weight='medium')
@@ -1166,7 +1208,7 @@ for i, row in _supply_sorted.iterrows():
 # width to the left (over the map); clip_on=False lets them render off-axis.
 _line_x_left = -0.55
 for _y, _lbl in [(2750, "No-LNG"), (2000, "Autarky")]:
-    ax_bar.plot([_line_x_left, 2.55], [_y, _y], color='red', linestyle='--',
+    ax_bar.plot([_line_x_left, 3.55], [_y, _y], color='red', linestyle='--',
                 linewidth=1.3, zorder=6, clip_on=False)
     ax_bar.text(_line_x_left, _y, _lbl, ha='right', va='center',
                 fontsize=9, color='red', weight='medium',
@@ -1196,11 +1238,11 @@ ax_bar.text(0.5, 0.97, "2024 European Gas Balance",
             transform=ax_bar.transAxes,
             ha='center', va='top',
             fontsize=12, weight='bold')
-ax_bar.set_xticks(list(range(3)))
+ax_bar.set_xticks(list(range(4)))
 ax_bar.set_xticklabels(bar_labels, fontsize=10)
 ax_bar.set_ylim(0, 4800)
 # Tight x-limits so the first bar sits flush against the map on the left.
-ax_bar.set_xlim(-0.35, 2.55)
+ax_bar.set_xlim(-0.35, 3.55)
 ax_bar.spines['left'].set_visible(False)
 ax_bar.spines['top'].set_visible(False)
 
