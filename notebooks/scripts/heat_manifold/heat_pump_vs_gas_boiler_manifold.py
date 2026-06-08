@@ -5,7 +5,7 @@ carbon-price regimes.
 Idea
 ----
 For a given peak heat demand the equipment is sized to the peak, so the
-*capacity factor* (CF) of the demand profile sets the full-load hours over
+*load factor* (CF) of the demand profile sets the full-load hours over
 which the (annualized) capex is spread:
 
     full_load_hours = CF * 8760
@@ -24,7 +24,7 @@ with FIX = investment * (annuity + FOM) the annualized fixed cost per MW of
 the gas CO2 intensity EF (model assumption).
 
 Each row is one heat application (a heat-pump / gas-boiler pair); each column
-fixes the gas price and CO2 price. The x-axis is the demand capacity factor;
+fixes the gas price and CO2 price. The x-axis is the demand load factor;
 the y-axis is the electricity/gas price ratio (1..4). Filled contours show
 LCOH_hp - LCOH_gb (BrBG, centered on 0); the solid line is the break-even.
 
@@ -58,7 +58,7 @@ DISCOUNT_RATE = 0.07           # fill value when a tech has no discount rate
 GRID_INVEST_EL = 500.0         # EUR/kW_el grid connection capacity (heat pumps)
 
 # axis ranges
-CF_MIN, CF_MAX = 0.1, 1.0      # capacity factor of the demand profile
+CF_MIN, CF_MAX = 0.1, 1.0      # load factor of the demand profile
 RATIO_MIN, RATIO_MAX = 0.0, 5.0  # electricity price / gas price
 
 # gas price [EUR/MWh] and CO2 price [EUR/tCO2]
@@ -199,7 +199,7 @@ levels = np.linspace(vmin, vmax, 257)
 # network overlay: one marker per location per application
 #
 # For each location:
-#   x = capacity factor of the (total) heat demand on that heat bus
+#   x = load factor of the (total) heat demand on that heat bus
 #   y = (demand-weighted avg electricity price on the heat pump's bus0)
 #       / (demand-weighted avg gas price on the gas boiler's bus0)
 #       i.e. each price is weighted by the heat-demand profile, so it reflects
@@ -252,7 +252,7 @@ def compute_points(n, row, hp_d, gb_d):
         ratio = p_el / p_gas
 
         # marker value: same metric as the contours (LCOH_hp - LCOH_gb), but at
-        # the bus's actual local prices and capacity factor
+        # the bus's actual local prices and load factor
         lcoh_diff = (lcoh_hp(hp_d, cf, p_el)
                      - lcoh_gb(gb_d, cf, p_gas, REGIME["co2"]))
 
@@ -324,7 +324,7 @@ for j, (row, (hp, gb)) in enumerate(zip(ROWS, pairs)):
     ax.set_ylim(RATIO_MIN, RATIO_MAX)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.set_xlabel("demand capacity factor")
+    ax.set_xlabel("demand load factor")
 
     # title as a framed label in the top-left corner (first line only)
     ax.text(0.04, 0.95, row["row"].split("\n")[0], transform=ax.transAxes,
@@ -355,14 +355,14 @@ cbar.ax.text(0.0, 1.55, "◄ heat pump favoured", ha="left", va="bottom",
 cbar.ax.text(1.0, 1.55, "gas boiler favoured ►", ha="right", va="bottom",
              fontsize=9, color=LBL, transform=cbar.ax.transAxes)
 
-# demand-profile insets next to the colorbar: low vs high capacity factor
+# demand-profile insets next to the colorbar: low vs high load factor
 res_prof = n.loads_t.p_set["DE0 0 urban decentral heat"].values
 res_prof = res_prof / res_prof.max()
 xs = np.arange(len(res_prof))
 flat_prof = np.ones_like(res_prof)
 for left, prof, title in [
-    (0.50, res_prof, "residential heat profile\n(demand capacity factor ≈ 0.25)"),
-    (0.635, flat_prof, "flat industry profile\n(demand capacity factor ≈ 1)"),
+    (0.50, res_prof, "residential heat profile\n(demand load factor ≈ 0.25)"),
+    (0.635, flat_prof, "flat industry profile\n(demand load factor ≈ 1)"),
 ]:
     axp = fig.add_axes([left, 0.85, 0.11, 0.11])
     axp.plot(xs, prof, color="navy", lw=0.5)
