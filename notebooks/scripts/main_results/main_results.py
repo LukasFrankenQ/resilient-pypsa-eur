@@ -57,12 +57,16 @@ tech_colors.update({
     "heat>500 industry gas":         "#98df8a",
     "gas DRI":                       "#000000",
     "hydrogen heating":               "magenta",
+    # Aggregate sectors coloured from config.basicrun.yaml tech_colors so the
+    # site matches the canonical PyPSA-Eur palette. ">500C industry heat and
+    # feedstock" has no config equivalent (custom aggregate), so it keeps a
+    # distinct teal.
     ">500C industry heat and feedstock": "#4A9BA8",
-    "<500C industry heat": "#6BBF8A",
-    "biomethane": "#E8C547",
-    "building heat": "#C2714F",
-    "electricity": "#D94F5C",
-    "hydrogen": "#8B6BBF",
+    "<500C industry heat": "#8f2727",   # config: low-temperature heat for industry
+    "biomethane": "#e36311",            # config: biogas to gas
+    "building heat": "#cc1f1f",         # config: heat
+    "electricity": "#110d63",           # config: electricity
+    "hydrogen": "#bf13a0",              # config: hydrogen / H2
 })
 
 tech_colors['AC'] = tech_colors['electricity']
@@ -117,8 +121,8 @@ commidity_nice_names = {
 }
 commidity_colors = {
     'gas': tech_colors['gas'],
-    'low voltage': '#08306b',
-    'urban decentral heat': '#a83232',
+    'low voltage': tech_colors['electricity'],     # config: electricity
+    'urban decentral heat': tech_colors['building heat'],  # config: heat
     'heat<100 industry': tech_colors['<500C industry heat'],
     'solid biomass': tech_colors['solid biomass'],
 }

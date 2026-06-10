@@ -90,3 +90,17 @@ rule solve_gasprice_hike_network:
         "../envs/environment.yaml"
     script:
         "../scripts/solve_gasprice_hike_network.py"
+
+
+localrules:
+    solve_hike_networks,
+
+
+rule solve_hike_networks:
+    input:
+        expand(
+            RESULTS
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.nc",
+            **config["scenario"],
+            run=config["run"]["name"],
+        ),

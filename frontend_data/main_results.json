@@ -90,7 +90,7 @@
         225.53776556768102,
         230.82238781525658
       ],
-      "y_label": "System Cost [B\u20ac]"
+      "y_label": "System Cost [B€]"
     },
     "commodity_prices": {
       "x_gas_TWh": [
@@ -130,9 +130,9 @@
       },
       "colors": {
         "gas": "#e05b09",
-        "low voltage": "#08306b",
-        "urban decentral heat": "#a83232",
-        "heat<100 industry": "#6BBF8A",
+        "low voltage": "#110d63",
+        "urban decentral heat": "#cc1f1f",
+        "heat<100 industry": "#8f2727",
         "solid biomass": "#baa741"
       },
       "prices_EUR_per_MWh": {
@@ -409,17 +409,17 @@
       },
       "colors": {
         ">500C industry heat and feedstock": "#4A9BA8",
-        "hydrogen": "#991f83",
-        "building heat": "#a83232",
-        "electricity": "#08306b",
-        "<500C industry heat": "#6BBF8A",
-        "biomethane": "#E8C547"
+        "hydrogen": "#bf13a0",
+        "building heat": "#cc1f1f",
+        "electricity": "#110d63",
+        "<500C industry heat": "#8f2727",
+        "biomethane": "#e36311"
       }
     }
   },
   "right_panels": {
     "heat<100 industry": {
-      "nice_name": "Industry Heat <100\u00b0C",
+      "nice_name": "Industry Heat <100°C",
       "x_gas_TWh": [
         0,
         250,
@@ -550,7 +550,7 @@
       ]
     },
     "heat100-200 industry": {
-      "nice_name": "Industry Heat 100-200\u00b0C",
+      "nice_name": "Industry Heat 100-200°C",
       "x_gas_TWh": [
         0,
         250,
@@ -681,7 +681,7 @@
       ]
     },
     "heat200-500 industry": {
-      "nice_name": "Industry Heat 200-500\u00b0C",
+      "nice_name": "Industry Heat 200-500°C",
       "x_gas_TWh": [
         0,
         250,
@@ -1529,7 +1529,7 @@
       ]
     },
     "heat>500 industry": {
-      "nice_name": "Industry Heat >500\u00b0C",
+      "nice_name": "Industry Heat >500°C",
       "x_gas_TWh": [
         0,
         250,

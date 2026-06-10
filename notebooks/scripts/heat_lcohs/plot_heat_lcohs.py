@@ -197,6 +197,8 @@ def per_bus_lcoh(
     demand: str,
     techs: list[tuple[str, int, int, int | None]],
     buses: list[str],
+    include_carbon: bool = False,
+    gas_price_override: float | None = None,
 ) -> pd.DataFrame:
     """For one network and one (demand, column-of-techs), return a DataFrame
     indexed by AC bus (region key) with columns
@@ -207,6 +209,20 @@ def per_bus_lcoh(
     (e.g. 'EU oil') are routed to the correct heat-output region. Links
     with capacity factor below CF_MIN are dropped (filters out the
     'huge capex / tiny dispatch' regime that produces astronomical LCOHs).
+
+    When ``include_carbon`` is True, any link port whose bus carrier is 'co2'
+    (the 'co2 atmosphere' bus that gas/oil combustion emits into) adds its
+    endogenous carbon payment ``price_co2 * p_co2`` to the cost. Both the CO2
+    bus price and the emission flow are negative under PyPSA's sign convention,
+    so the product is a positive cost (gas boiler emits 0.202 tCO2/MWh_heat, so
+    ~+20 EUR/MWh_heat at the 100 EUR/tCO2 price carried by the 3H runs).
+    Defaults to False so the headline heat-LCOH figure is unchanged.
+
+    When ``gas_price_override`` is not None, fuel withdrawn from a 'gas'-carrier
+    bus is charged at that fixed EUR/MWh price instead of the endogenous gas-bus
+    marginal price, stripping out the scarcity rent so the gas LCOH reflects the
+    exogenous commodity price (+ carbon, capex, opex) only. Non-gas fuels keep
+    their endogenous marginal price.
     """
     w = n.snapshot_weightings["generators"]
     hours_total = float(w.sum())
@@ -260,12 +276,16 @@ def per_bus_lcoh(
             opex_link = float(link.marginal_cost) * float(fuel_withdrawal.mul(w).sum())
 
             fuel_bus = link[f"bus{fuel_port}"]
-            fuel_cost = float(
-                n.buses_t.marginal_price[fuel_bus]
-                .mul(fuel_withdrawal)
-                .mul(w)
-                .sum()
-            )
+            if gas_price_override is not None and \
+                    n.buses.at[fuel_bus, "carrier"] == "gas":
+                fuel_cost = gas_price_override * float(fuel_withdrawal.mul(w).sum())
+            else:
+                fuel_cost = float(
+                    n.buses_t.marginal_price[fuel_bus]
+                    .mul(fuel_withdrawal)
+                    .mul(w)
+                    .sum()
+                )
 
             elec_revenue = 0.0
             if elec_port is not None and elec_p_col in n.links_t and \
@@ -280,7 +300,28 @@ def per_bus_lcoh(
                         .sum()
                     )
 
-            cost.loc[bus_region] += capex_link + opex_link + fuel_cost - elec_revenue
+            carbon_cost = 0.0
+            if include_carbon:
+                for port in range(1, 5):
+                    bus_p = link.get(f"bus{port}")
+                    if not isinstance(bus_p, str) or bus_p not in n.buses.index:
+                        continue
+                    if n.buses.at[bus_p, "carrier"] != "co2":
+                        continue
+                    p_col = f"p{port}"
+                    if p_col not in n.links_t or link_name not in n.links_t[p_col].columns:
+                        continue
+                    if bus_p not in n.buses_t.marginal_price.columns:
+                        continue
+                    co2_flow = n.links_t[p_col][link_name]
+                    # price<0 and flow<0 (emission) -> positive cost
+                    carbon_cost += float(
+                        n.buses_t.marginal_price[bus_p].mul(co2_flow).mul(w).sum()
+                    )
+
+            cost.loc[bus_region] += (
+                capex_link + opex_link + fuel_cost - elec_revenue + carbon_cost
+            )
             output.loc[bus_region] += heat_year
             seen.loc[bus_region] = True
 
