@@ -54,7 +54,7 @@ def remove_flexibility_options(n, current_year):
         )
 
 
-def _unfix_bottlenecks(new, deci, name, extendable_i):
+def _unfix_bottlenecks(new, deci, name, extendable_i, unconstrained=False):
     if name == "links":
         # Links that have 0-cost and are extendable
         virtual_links = [
@@ -89,6 +89,14 @@ def _unfix_bottlenecks(new, deci, name, extendable_i):
             "rural biomass boiler",
             "urban decentral biomass boiler",
         ]
+        if unconstrained:
+            # Unconstrained gas run: forbid biomass-boiler capacity expansion so
+            # the model cannot build its way off gas (a gas-avoidance loophole).
+            bottleneck_links = [
+                c
+                for c in bottleneck_links
+                if c not in ("rural biomass boiler", "urban decentral biomass boiler")
+            ]
         _idx = new.loc[new.carrier.isin(bottleneck_links)].index.intersection(
             extendable_i
         )
@@ -154,7 +162,7 @@ nominal_attrs = {
     "stores": "e_nom",
     }
 
-def fix_capacities(n_lt, no_flex=False):
+def fix_capacities(n_lt, no_flex=False, unconstrained=False):
     n = n_lt.copy()
 
 
@@ -167,7 +175,7 @@ def fix_capacities(n_lt, no_flex=False):
         new.loc[extendable_i, attr + "_extendable"] = False
         new.loc[extendable_i, attr] = new.loc[extendable_i, attr + "_opt"]
 
-        _unfix_bottlenecks(new, lt, name, extendable_i)
+        _unfix_bottlenecks(new, lt, name, extendable_i, unconstrained=unconstrained)
 
         # The CO2 constraints on atmosphere and sequestration need extendable stores to work correctly
         if name == "stores":
@@ -238,6 +246,53 @@ def pin_installed_heating_dispatch(
     )
 
 
+# Optional realism lever for the unconstrained ("endo") gas run: also strip
+# perfect-foresight flexibility (decentral TES, BEV DSM, and 2030 batteries) so
+# the optimiser cannot time-shift its way off gas. Off by default - it is a
+# larger scenario change than the gas-boiler floor and biomass-expansion lock.
+STRIP_FLEXIBILITY = False
+
+
+def pin_installed_gas_boiler_floor(n, n_lt, tolerance=1e-2):
+    """Floor installed gas-boiler dispatch at its main-solve level (unconstrained run).
+
+    In an unconstrained gas run the fixed-gas-consumption equality is dropped, so
+    gas dispatch responds to price. Buildings with an installed gas boiler cannot,
+    however, swap to a heat pump in response to a price shock. To stop the model
+    over-stating its freedom to shed gas, we floor each decentral gas boiler's
+    per-unit dispatch at the decision network's profile (minus a small tolerance)
+    while leaving headroom above; capacity is locked to ``p_nom_opt``.
+
+    Urban central (district-heating) gas boilers are excluded - there the heat
+    source genuinely is dispatchable. Mirrors ``pin_installed_heating_dispatch``
+    but sets only the lower bound (``p_min_pu``), not a tight band.
+    """
+    mask = (
+        n.links.carrier.str.contains("gas boiler")
+        & ~n.links.carrier.str.contains("urban central")
+    )
+    names = n.links.index[mask]
+    pinned = 0
+    for name in names:
+        if name not in n_lt.links_t.p0.columns:
+            continue
+        p_nom_opt = n_lt.links.at[name, "p_nom_opt"]
+        if p_nom_opt <= 1e-3:
+            continue
+        profile = (n_lt.links_t.p0[name] / p_nom_opt).clip(0, 1)
+        n.links.at[name, "p_nom"] = p_nom_opt
+        n.links.at[name, "p_nom_min"] = p_nom_opt
+        n.links.at[name, "p_nom_max"] = p_nom_opt
+        n.links.at[name, "p_nom_extendable"] = True
+        n.links.at[name, "p_min_pu"] = 0.0
+        n.links_t.p_min_pu[name] = (profile - tolerance).clip(lower=0.0)
+        pinned += 1
+    logger.info(
+        f"Floored dispatch of {pinned} installed gas boilers to main-solve profile "
+        "(unconstrained gas run)."
+    )
+
+
 def add_load_shedding(
     n: pypsa.Network,
     marginal_cost: float=10000,
@@ -302,9 +357,23 @@ if __name__ == "__main__":
 
     n_lt = pypsa.Network(snakemake.input.network)
 
-    n = fix_capacities(n_lt)
+    # An unconstrained ("endo") gas run drops the fixed-gas-consumption equality
+    # (gas_consumption=None below) so gas dispatch responds to price. To stop the
+    # model over-stating its freedom to shed gas, the unconstrained branch also
+    # floors installed gas-boiler dispatch and forbids biomass-boiler expansion.
+    unconstrained = str(snakemake.wildcards["wiggle"]) == "endo"
+    if unconstrained:
+        logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
+                    "equality and applying gas-stickiness realism levers.")
+
+    n = fix_capacities(n_lt, unconstrained=unconstrained)
 
     pin_installed_heating_dispatch(n, n_lt)
+
+    if unconstrained:
+        pin_installed_gas_boiler_floor(n, n_lt)
+        if STRIP_FLEXIBILITY:
+            remove_flexibility_options(n, int(snakemake.wildcards.planning_horizons))
 
     carrier = 'heat200-500 industry solid biomass'
 
@@ -358,7 +427,7 @@ if __name__ == "__main__":
         co2_sequestration_potential=snakemake.params.co2_sequestration_potential,
         )
     
-    gas_consumption = float(snakemake.wildcards['wiggle'])
+    gas_consumption = None if unconstrained else float(snakemake.wildcards['wiggle'])
 
     logging_frequency = snakemake.config.get("solving", {}).get(
         "mem_logging_frequency", 30

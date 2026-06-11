@@ -70,7 +70,7 @@ scenario:
   # - 'NT+freepumps+freepumps+biogastogas-100'
   # - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
   wiggle:
-  # - endo
+  - endo  # unconstrained (price-responsive) gas run; gas equality dropped + realism levers
   - 0
   # - 250
   # - 500
