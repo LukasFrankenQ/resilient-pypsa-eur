@@ -6,6 +6,7 @@ import importlib
 import pathlib
 import pypsa
 
+from scripts._benchmark import memory_logger
 from scripts._helpers import (
     configure_logging,
     set_scenario_config,
@@ -359,16 +360,24 @@ if __name__ == "__main__":
     
     gas_consumption = float(snakemake.wildcards['wiggle'])
 
-    solve_network(
-        n,
-        config=snakemake.config,
-        params=snakemake.params,
-        solving=snakemake.params.solving,
-        log_fn=snakemake.log.solver,
-        rule_name=snakemake.rule,
-        hike_run=True,
-        gas_consumption=gas_consumption,
+    logging_frequency = snakemake.config.get("solving", {}).get(
+        "mem_logging_frequency", 30
     )
+    with memory_logger(
+        filename=getattr(snakemake.log, "memory", None), interval=logging_frequency
+    ) as mem:
+        solve_network(
+            n,
+            config=snakemake.config,
+            params=snakemake.params,
+            solving=snakemake.params.solving,
+            log_fn=snakemake.log.solver,
+            rule_name=snakemake.rule,
+            hike_run=True,
+            gas_consumption=gas_consumption,
+        )
+
+    logger.info(f"Maximum memory usage: {mem.mem_usage}")
 
     n.meta = dict(snakemake.config, **dict(wildcards=dict(snakemake.wildcards)))
     n.export_to_netcdf(snakemake.output[0])
