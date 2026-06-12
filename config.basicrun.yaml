@@ -69,29 +69,21 @@ scenario:
   # - 'NT+freepumps+freepumps+h2electrolysis-900'
   # - 'NT+freepumps+freepumps+biogastogas-100'
   # - 'NT+freepumps+freepumps+h2electrolysis-200+biogastogas-115'
+  # wiggle = which built system to operate (capacities fixed from
+  # ..._free_{wiggle}.nc). It NO LONGER sets gas dispatch when the hike carries a
+  # "u" suffix - then only the installed system differs across wiggles.
   wiggle:
-  - endo  # unconstrained (price-responsive) gas run; gas equality dropped + realism levers
   - 0
-  # - 250
-  # - 500
-  # - 750
-  # - 1000
-  # - 1250
-  # - 1500
-  # - 1750
+  - 1000
   - 2000
-  # - 2250
-  # - 2500
-  # - 2750
-  # - 3000
-  # - 3250
-  # - 3500
-  # - 3750
+  - 3000
   - 4000
-  # - 4250
-  # - 4500
+  # hike = gas-price markup [EUR/MWh]. A trailing "u" makes the run unconstrained
+  # (operation-only, gas equality dropped -> price-responsive gas). Without "u"
+  # the legacy fixed-gas equality is applied (gas pinned to wiggle).
   hike:
-  - 50
+  - 50u
+  - 200u
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries

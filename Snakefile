@@ -54,6 +54,7 @@ wildcard_constraints:
     planning_horizons=r"[0-9]{4}",
     # wiggle=r"[-+][0-9.]+", # like '+0.01' or '-0.01'
     wiggle=r"[0-9]+|endo",
+    hike=r"[0-9]+u?",  # "u" suffix = unconstrained (price-responsive) operation-only run
     # tyndp_scenario=r"NT\+(very_slow|slow|medium|fast|freepumps)\+(freepumps|NT)|free",
     # tyndp_scenario=r"NT(\+[a-zA-Z_=\-]+)+|free",
     tyndp_scenario=r"[-+a-zA-Z0-9\.\s]*",

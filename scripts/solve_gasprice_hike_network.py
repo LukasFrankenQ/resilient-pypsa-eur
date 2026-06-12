@@ -357,11 +357,21 @@ if __name__ == "__main__":
 
     n_lt = pypsa.Network(snakemake.input.network)
 
-    # An unconstrained ("endo") gas run drops the fixed-gas-consumption equality
+    # An unconstrained gas run drops the fixed-gas-consumption equality
     # (gas_consumption=None below) so gas dispatch responds to price. To stop the
     # model over-stating its freedom to shed gas, the unconstrained branch also
     # floors installed gas-boiler dispatch and forbids biomass-boiler expansion.
-    unconstrained = str(snakemake.wildcards["wiggle"]) == "endo"
+    #
+    # Two ways to request it:
+    #   * wiggle="endo"  - legacy: input is an endogenously-built planning network
+    #                      (investment+operation without a gas budget).
+    #   * hike="<n>u"    - operation-only on an EXISTING numeric-wiggle system:
+    #                      the "u" suffix (e.g. "50u") keeps fix_capacities active
+    #                      (capacities locked from ..._free_{wiggle}.nc) but drops
+    #                      the gas equality, so only dispatch re-optimises.
+    hike_str = str(snakemake.wildcards["hike"])
+    unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
+                     or hike_str.endswith("u"))
     if unconstrained:
         logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
                     "equality and applying gas-stickiness realism levers.")
@@ -414,7 +424,7 @@ if __name__ == "__main__":
     # set_minimum_investment(n, snakemake.wildcards.planning_horizons)
     # add_load_shedding(n)
 
-    gasprice_markup = float(snakemake.wildcards['hike'])
+    gasprice_markup = float(hike_str.rstrip("u"))
     # logger.info(f"Applying gas price markup of {gasprice_markup}")
     mask = n.generators.carrier == 'gas'
     n.generators.loc[mask, 'marginal_cost'] += gasprice_markup
