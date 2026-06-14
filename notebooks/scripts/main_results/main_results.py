@@ -286,11 +286,14 @@ sector_items = [
     'biomethane',
 ]
 
-# panel c sector colours: electricity deep blue (matching panel b), hydrogen to
-# match the >500 industry heat hydrogen colour used in panel d
-tech_colors['electricity'] = '#08306b'
-tech_colors['hydrogen'] = tech_colors.get('heat>500 industry hydrogen', tech_colors['hydrogen'])
-tech_colors['building heat'] = commidity_colors['urban decentral heat']
+# Sectoral gas allocation panel colours: restore the original standalone palette
+# (from plot_total_gas_use.ipynb) rather than the canonical PyPSA-Eur tech colours.
+tech_colors['>500C industry heat and feedstock'] = '#4A9BA8'
+tech_colors['<500C industry heat'] = '#6BBF8A'
+tech_colors['biomethane'] = '#E8C547'
+tech_colors['building heat'] = '#C2714F'
+tech_colors['electricity'] = '#D94F5C'
+tech_colors['hydrogen'] = '#8B6BBF'
 
 area_data = []
 bottoms_pos = pd.Series(0, index=gb.columns, dtype=float)
@@ -553,17 +556,19 @@ line_kwargs = {
 width = 1
 n_right = len(right_panel_data)
 
-fig = plt.figure(figsize=(14, 10))
+fig = plt.figure(figsize=(14, 8.5))
 outer = fig.add_gridspec(
     1, 2,
     width_ratios=[1, 1],
     wspace=0.1,
 )
 
-gs_left = outer[0, 0].subgridspec(3, 1, height_ratios=[1.5, 1.5, 3], hspace=0.12)
+# Panel a (cost) extended by 1.4x (1.5 -> 2.1); panel c (allocation) keeps ratio
+# 3. Figure height reduced 10 -> 8.5 so the ratio-sum drop (6 -> 5.1) leaves the
+# per-unit height unchanged, i.e. panel c keeps its absolute height.
+gs_left = outer[0, 0].subgridspec(2, 1, height_ratios=[2.1, 3], hspace=0.12)
 ax_cost = fig.add_subplot(gs_left[0])
-ax_comm = fig.add_subplot(gs_left[1])
-ax_alloc = fig.add_subplot(gs_left[2])
+ax_alloc = fig.add_subplot(gs_left[1])
 
 gs_right = outer[0, 1].subgridspec(n_right, 1, hspace=0.08)
 ax_right = [fig.add_subplot(gs_right[i]) for i in range(n_right)]
@@ -615,55 +620,6 @@ for i in range(0, len(cost_x) - 2, 2):
 
 ax_cost.text(-0.04, 1.13, "a", transform=ax_cost.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
 
-# --- Left: Commodity Prices ---
-comm_handles = []
-comm_labels = []
-for name, row in commodity_prices.iterrows():
-    x = np.arange(len(row)) + width / 2
-    line, = ax_comm.plot(
-        x, row.values,
-        color=commidity_colors[name],
-        linewidth=2, zorder=0,
-        marker='o', markersize=5,
-        markerfacecolor='white',
-        markeredgecolor=commidity_colors[name],
-        markeredgewidth=1,
-    )
-    comm_handles.append(line)
-    comm_labels.append(commidity_nice_names[name])
-
-# annotate the marginal unit cost of gas and electricity at selected gas levels
-_price_label_levels = [0, 1000, 2000, 3000, 4000]
-_comm_cols = list(commodity_prices.columns)
-for _name in ['gas', 'low voltage']:
-    _row = commodity_prices.loc[_name]
-    _color = commidity_colors[_name]
-    for _lvl in _price_label_levels:
-        if _lvl not in _comm_cols:
-            continue
-        _j = _comm_cols.index(_lvl)
-        _x = _j + width / 2
-        _val = _row.iloc[_j]
-        ax_comm.plot(_x, _val, marker='o', color=_color, markersize=8,
-                     markerfacecolor='white', markeredgecolor=_color,
-                     markeredgewidth=2, zorder=15)
-        ax_comm.annotate(
-            f"{_val:.0f}",
-            xy=(_x, _val),
-            xytext=(0, 7),
-            textcoords="offset points",
-            ha='center', va='bottom',
-            fontsize=8,
-            bbox=dict(boxstyle="round,pad=0.2", fc="white", ec=_color, lw=1, alpha=0.85),
-            zorder=20,
-        )
-
-ax_comm.set_ylim(commodity_y_min, commodity_y_max)
-ax_comm.set_ylabel('Commodity\nPrice [€/MWh]')
-ax_comm.legend(comm_handles, comm_labels, loc='upper right', frameon=False, ncol=2, fontsize=8)
-
-ax_comm.text(-0.04, 1.13, "b", transform=ax_comm.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
-
 # --- Left: Sectoral Gas Allocation ---
 ax_alloc.axhline(0, **line_kwargs)
 
@@ -709,9 +665,9 @@ ax_alloc.legend([_sup_handle], ['biomethane'], loc='upper left',
                 bbox_to_anchor=(_LEG_X, _bb.y0 - 0.01), frameon=False, ncol=1,
                 title='Supply', fontsize=8, title_fontsize=8, alignment='left')
 
-ax_alloc.text(-0.04, 1.02, "c", transform=ax_alloc.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
+ax_alloc.text(-0.04, 1.02, "b", transform=ax_alloc.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
 
-for ax in [ax_cost, ax_comm, ax_alloc]:
+for ax in [ax_cost, ax_alloc]:
     ax.set_xlim(*sector_xlim)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -719,9 +675,7 @@ for ax in [ax_cost, ax_comm, ax_alloc]:
     ax.set_axisbelow(True)
 
 ax_cost.set_xticks(sector_xticks)
-ax_comm.set_xticks(sector_xticks)
 ax_cost.tick_params(labelbottom=False)
-ax_comm.tick_params(labelbottom=False)
 ax_alloc.set_xlabel('Total Net Gas Consumption [TWh/a]')
 
 # --- Right column ---
@@ -796,7 +750,7 @@ for i, (bc, panel) in enumerate(right_panel_data.items()):
             bbox=dict(fc='white', alpha=1, ec='grey', lw=0.5))
 
     if i == 0:
-        ax.text(-0.04, 1.3, "d", transform=ax.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
+        ax.text(-0.04, 1.3, "c", transform=ax.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
         ax.text(2000, 103, "Autarky\n(2000 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
         ax.text(2750, 103, "No LNG\n(2750 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
         ax.text(4000, 103, "Today's\nDemand", color='dimgray', ha='center', va='bottom', fontsize=8, fontweight='bold')
@@ -825,7 +779,7 @@ for i, (bc, panel) in enumerate(right_panel_data.items()):
     if i < n_right - 1:
         ax.tick_params(labelbottom=False)
 
-for i, ax in enumerate([ax_cost, ax_comm, ax_alloc]):
+for i, ax in enumerate([ax_cost, ax_alloc]):
     ax.axvline(8.5, color=consumption_threshold_color, linestyle='--', linewidth=1.5, alpha=0.7)
     ax.axvline(11.5, color=consumption_threshold_color, linestyle='--', linewidth=1.5, alpha=0.7)
     ax.axvspan(14.5, 18.5, color='grey', alpha=0.4, zorder=-1)
