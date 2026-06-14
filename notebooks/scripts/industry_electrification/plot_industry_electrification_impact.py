@@ -52,7 +52,15 @@ def style_ax(ax):
 
 # --- Quantity functions ---
 
-EXCLUDE_CARRIERS = ["ammonia store"]
+# methanol & uranium: both are feedstock/fuel "stockpile" Stores carrying a small
+# capital_cost that the solver fills to physically meaningless levels (methanol
+# 10,000-24,000 TWh; uranium 90,000-180,000 TWh, >100x annual use). Their size is set
+# by solver degeneracy, not economics -- e.g. nuclear output is identical (~625 TWh)
+# across all scenarios yet the uranium stockpile swings by 85,000 TWh, injecting
+# 9-18 bn EUR/a of fake, run-to-run-volatile capex. Both swamp the real cost signal
+# (a few bn), so exclude them alongside the ammonia store. With both removed the cost
+# delta is monotonic in electrification pace (free < fast < medium < slow), as expected.
+EXCLUDE_CARRIERS = ["ammonia store", "methanol", "uranium"]
 
 
 def get_total_system_cost(n):
