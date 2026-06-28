@@ -676,7 +676,7 @@ for ax in [ax_cost, ax_alloc]:
 
 ax_cost.set_xticks(sector_xticks)
 ax_cost.tick_params(labelbottom=False)
-ax_alloc.set_xlabel('Total Net Gas Consumption [TWh/a]')
+ax_alloc.set_xlabel('Total fossil gas supply [TWh/a]')
 
 # --- Right column ---
 middle_ax_index = n_right // 2
@@ -795,7 +795,7 @@ for i, ax in enumerate([ax_cost, ax_alloc]):
 
 ax_right[-1].set_xticks(range(0, 4750, 250))
 ax_right[-1].set_xticklabels(sector_xticklabels)
-ax_right[-1].set_xlabel('Total Net Gas Consumption [TWh/a]')
+ax_right[-1].set_xlabel('Total fossil gas supply [TWh/a]')
 ax_right[-1].spines['bottom'].set_visible(True)
 
 plt.tight_layout()
