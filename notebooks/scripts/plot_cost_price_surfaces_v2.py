@@ -405,7 +405,8 @@ def plot_panel(ax, results_dict, minima_label, y_lo, y_hi, label_offset=(0, 0),
     ax.set_ylim(y_lo, y_hi)
     _xticks = list(range(0, WIGGLE_MAX + 1, 500))  # thin labels (data at every 250)
     ax.set_xticks(_xticks)
-    ax.set_xticklabels([str(t) for t in _xticks])
+    # Display gas consumption in bcm (10 TWh per bcm); data stays in TWh.
+    ax.set_xticklabels([str(t // 10) for t in _xticks])
     return minima_x, minima_y, fits_local
 
 
@@ -430,8 +431,8 @@ for xv in (2000, 2750):
 
 y_range_t = y_hi_t - y_lo_t
 for xv, label, ha, side in [
-    (2000, "Autarky\n(2000 TWh)", "right", -1),
-    (2750, "No-LNG\n(2750 TWh)",  "left",   1),
+    (2000, "Autarky\n(200 bcm)", "right", -1),
+    (2750, "No-LNG\n(275 bcm)",  "left",   1),
 ]:
     ax_top.text(xv + side * 70, y_hi_t - 0.03 * y_range_t - 10, label,
                 color="black", alpha=0.95, fontsize=9,
@@ -448,7 +449,7 @@ ax_top.text(4000, y_hi_t - 0.03 * y_range_t - 10, "Today's\nDemand",
             bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                       edgecolor="0.4", linewidth=0.8, alpha=1.0))
 
-ax_top.set_xlabel("Total Net Gas Consumption [TWh/a]")
+ax_top.set_xlabel("Total fossil gas supply [bcm/a]")
 ax_top.set_ylabel("System cost [B €/a]")
 
 fig.tight_layout()
@@ -466,8 +467,8 @@ _, _, top_fits2 = plot_panel(
 for xv in (2000, 2750):
     ax2.axvline(xv, color="black", alpha=0.5, linestyle="--", lw=2, zorder=2)
 for xv, label, ha, side in [
-    (2000, "Autarky\n(2000 TWh)", "right", -1),
-    (2750, "No-LNG\n(2750 TWh)",  "left",   1),
+    (2000, "Autarky\n(200 bcm)", "right", -1),
+    (2750, "No-LNG\n(275 bcm)",  "left",   1),
 ]:
     ax2.text(xv + side * 70, y_hi_t - 0.03 * y_range_t - 10, label,
              color="black", alpha=0.95, fontsize=9,
@@ -524,7 +525,7 @@ ax2.text(x_arrow + 60, (_y_right_low + _y_min_low) / 2,
 ax2.plot([_x_min_low, x_arrow], [_y_min_low, _y_min_low],
          color="black", linestyle="--", lw=0.8, alpha=0.6, zorder=2)
 
-ax2.set_xlabel("Total Net Gas Consumption [TWh/a]")
+ax2.set_xlabel("Total fossil gas supply [bcm/a]")
 ax2.set_ylabel("System cost [B €/a]")
 
 fig2.tight_layout()

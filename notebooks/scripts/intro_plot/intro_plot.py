@@ -1015,7 +1015,7 @@ import matplotlib as mpl
 import math
 twh_vals_for_legend = [100, 500]
 size_scalings_for_legend = [v * _SIZE_PER_TWH for v in twh_vals_for_legend]
-size_labels_for_legend = [f"{int(v)}" for v in twh_vals_for_legend]
+size_labels_for_legend = [f"{int(v / 10)}" for v in twh_vals_for_legend]
 size_handles = [
     ax_map.scatter([], [], s=s, c='gray', edgecolors='white',
                    linewidths=0.7, label=l)
@@ -1024,7 +1024,7 @@ size_handles = [
 ax_map.legend(handles=size_handles, loc='upper left', frameon=True,
               framealpha=0.9, edgecolor='#cccccc', fontsize=8,
               bbox_to_anchor=(0.01, 0.575), handletextpad=1.3, scatterpoints=1,
-              title='2024 gas supply (TWh)', title_fontsize=8.5)
+              title='2024 gas supply (bcm)', title_fontsize=8.5)
 
 # =============================================================================
 # RIGHT: Vertical stacked bar charts
@@ -1248,11 +1248,15 @@ ax_bar.spines['top'].set_visible(False)
 
 # Move yticks (and labels) to the right spine
 ax_bar.yaxis.tick_right()
-ax_bar.set_ylabel('Gas Supply and Demand [TWh]')
+ax_bar.set_ylabel('Gas Supply and Demand [bcm]')
 ax_bar.yaxis.set_label_position("right")
 ax_bar.spines['right'].set_visible(True)
 # Optionally, lighten right spine
 ax_bar.spines['right'].set_color('#aaaaaa')
+
+# Display gas volumes in bcm (10 TWh per bcm); bar data stays in TWh.
+from matplotlib.ticker import FuncFormatter as _FuncFormatter
+ax_bar.yaxis.set_major_formatter(_FuncFormatter(lambda y, _pos: f"{y / 10:.0f}"))
 # ax_bar.tick_params(left=False, labelleft=False)
 # ax_bar.spines['bottom'].set_color('#cccccc')
 
@@ -1322,7 +1326,9 @@ export_frontend_data("intro_plot", {
     "colors": _palette,
 })
 
-plt.show()
+# No plt.show(): the figure is written to PDF above; showing it opens an
+# interactive window (popup) on rerun, which is undesirable for a batch script.
+plt.close('all')
 print("Done.")
 
 # %%

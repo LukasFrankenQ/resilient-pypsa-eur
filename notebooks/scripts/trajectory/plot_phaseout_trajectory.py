@@ -621,8 +621,8 @@ for i, ax in enumerate(axs.flatten()):
             )
 
 handles = [
-    plt.Line2D([0], [0], color='magenta', lw=1.5, ls='--', label='No LNG (2750 TWh)'),
-    plt.Line2D([0], [0], color='firebrick', lw=1.5, ls='--', label='Autarky (2000 TWh)'),
+    plt.Line2D([0], [0], color='magenta', lw=1.5, ls='--', label='No LNG (275 bcm)'),
+    plt.Line2D([0], [0], color='firebrick', lw=1.5, ls='--', label='Autarky (200 bcm)'),
 ]
 fig.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.5, 1.08),
            ncol=2, frameon=False, title='Cost Optimal Build-Out for...')
@@ -718,27 +718,28 @@ v2_techs = [
     'Building Electric Heating',
     'Gas-Displacing\nIndustry Electrification\nand Solid Biomass',
 ]
-v2_units = ['GW/yr', 'GW/yr', 'M/yr', 'TWh/yr']
+v2_units = ['GW/yr', 'GW/yr', 'M/yr', 'bcm/yr']
 v2_colors = ['#f9d71c', '#235ebc', '#d35050', '#b8544f']
 v2_ylabels = [
     'installed capacity [GW]',
     'installed capacity [GW]',
     'households [million]',
-    'supply volume [TWh/a]',
+    'supply volume [bcm/a]',
 ]
+# Gas-displacing supply volume expressed in bcm (10 TWh per bcm).
 v2_vals = [
     renewables['solar'],
     renewables['wind'],
     heat_pumps_europe.loc[2018:],
-    pd.Series(22, index=[2024]),  # industry electric heat (22) + solid biomass (0)
+    pd.Series(2.2, index=[2024]),  # industry electric heat (22) + solid biomass (0) TWh -> bcm
 ]
 v2_target_nolng = [
     target_nolng[0], target_nolng[1], target_nolng[3],
-    target_nolng[4] + target_nolng[5],
+    (target_nolng[4] + target_nolng[5]) / 10.0,
 ]
 v2_target_autarky = [
     target_autarky[0], target_autarky[1], target_autarky[3],
-    target_autarky[4] + target_autarky[5],
+    (target_autarky[4] + target_autarky[5]) / 10.0,
 ]
 v2_has_history = [True, True, True, False]
 v2_labels = ['a', 'b', 'c', 'd']
@@ -980,7 +981,8 @@ _frame = _FancyBboxPatch(
 fig2.add_artist(_frame)
 
 # merged industry panel: NECP increment = electric heat (80) + solid biomass (40.5)
-fr_points_v2 = {(1, 1): 80 + 40.5}
+# TWh, expressed in bcm (10 TWh per bcm)
+fr_points_v2 = {(1, 1): (80 + 40.5) / 10.0}
 for (_r, _c), _y in fr_points_v2.items():
     axs2[_r, _c].plot(
         2030, _y,

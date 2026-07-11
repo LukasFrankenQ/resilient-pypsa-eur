@@ -324,7 +324,8 @@ for carrier in sector_items:
 alloc_x = np.arange(len(gb.columns)) + 0.5
 sector_xlim = (0, len(bottoms_pos) - 0.5)
 sector_xticks = np.arange(len(bottoms_pos)) + 0.5
-sector_xticklabels = [label if i % 4 == 0 else '' for i, label in enumerate(bottoms_pos.index)]
+# Tick labels in bcm (10 TWh per bcm); underlying gas levels stay in TWh.
+sector_xticklabels = [f"{int(label) // 10}" if i % 4 == 0 else '' for i, label in enumerate(bottoms_pos.index)]
 
 # Right column data: full technology share per bus carrier
 gas_prices = prices.loc['gas']
@@ -633,7 +634,10 @@ for env_pos, env_neg in envelope_data:
 ax_alloc.set_xlim(*sector_xlim)
 ax_alloc.set_xticks(sector_xticks)
 ax_alloc.set_xticklabels(sector_xticklabels, rotation=0)
-ax_alloc.set_ylabel('Sectoral Gas Allocation [TWh/a]')
+ax_alloc.set_ylabel('Sectoral Gas Allocation [bcm/a]')
+# Display allocation in bcm (10 TWh per bcm); data stays in TWh.
+from matplotlib.ticker import FuncFormatter as _FuncFormatter
+ax_alloc.yaxis.set_major_formatter(_FuncFormatter(lambda y, _pos: f"{y / 10:.0f}"))
 
 ax_alloc.set_ylim(-500, 4700)
 _existing_yticks = [t for t in ax_alloc.get_yticks() if -500 <= t <= 4700]
@@ -676,7 +680,7 @@ for ax in [ax_cost, ax_alloc]:
 
 ax_cost.set_xticks(sector_xticks)
 ax_cost.tick_params(labelbottom=False)
-ax_alloc.set_xlabel('Total fossil gas supply [TWh/a]')
+ax_alloc.set_xlabel('Total fossil gas supply [bcm/a]')
 
 # --- Right column ---
 middle_ax_index = n_right // 2
@@ -751,8 +755,8 @@ for i, (bc, panel) in enumerate(right_panel_data.items()):
 
     if i == 0:
         ax.text(-0.04, 1.3, "c", transform=ax.transAxes, fontsize=16, fontweight="bold", va="top", ha="left")
-        ax.text(2000, 103, "Autarky\n(2000 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
-        ax.text(2750, 103, "No LNG\n(2750 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
+        ax.text(2000, 103, "Autarky\n(200 bcm)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
+        ax.text(2750, 103, "No LNG\n(275 bcm)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
         ax.text(4000, 103, "Today's\nDemand", color='dimgray', ha='center', va='bottom', fontsize=8, fontweight='bold')
 
     if i == middle_ax_index:
@@ -788,14 +792,14 @@ for i, ax in enumerate([ax_cost, ax_alloc]):
         ylim = ax.get_ylim()
         y_text = ylim[1] + (ylim[1] - ylim[0]) * 0.03
 
-        ax.text(8, y_text, "Autarky\n(2000 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
-        ax.text(11, y_text, "No LNG\n(2750 TWh)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
+        ax.text(8, y_text, "Autarky\n(200 bcm)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
+        ax.text(11, y_text, "No LNG\n(275 bcm)", color=consumption_threshold_color, ha='center', va='bottom', fontsize=8, fontweight='bold')
         ax.text(16.5, y_text, "Today's\nDemand", color='dimgray', ha='center', va='bottom', fontsize=8, fontweight='bold')
 
 
 ax_right[-1].set_xticks(range(0, 4750, 250))
 ax_right[-1].set_xticklabels(sector_xticklabels)
-ax_right[-1].set_xlabel('Total fossil gas supply [TWh/a]')
+ax_right[-1].set_xlabel('Total fossil gas supply [bcm/a]')
 ax_right[-1].spines['bottom'].set_visible(True)
 
 plt.tight_layout()
