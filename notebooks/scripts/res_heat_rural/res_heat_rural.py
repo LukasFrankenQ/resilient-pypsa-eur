@@ -191,9 +191,10 @@ def make_residential_heat_plot(mode):
 
     ax_bar.set_xticks(range(len(ms_sorted)))
     ax_bar.set_xticklabels(ms_sorted.index, rotation=90, fontsize=7)
-    ax_bar.set_ylabel("System Gas Consumption [TWh]")
+    ax_bar.set_ylabel("System Gas Consumption [bcm]")
     ax_bar.set_yticks([j + 0.5 for j in range(n_segments)])
-    ax_bar.set_yticklabels(ms.columns)
+    # Display gas consumption levels in bcm (10 TWh per bcm).
+    ax_bar.set_yticklabels([int(c) // 10 for c in ms.columns])
 
     legend_handles = [
         mpatches.Patch(color=tech_colors.get(t, "#999999"), label=t)
@@ -313,10 +314,11 @@ def make_residential_heat_plot(mode):
     sm.set_array([])
     divider = make_axes_locatable(axes_row[-1])
     cax = divider.append_axes("right", size="3%", pad=0.2)
-    cbar = plt.colorbar(sm, cax=cax, label="System Gas Consumption [TWh]")
-    cbar.set_ticks(
-        np.linspace(ss.columns.min(), ss.columns.max(), 5).astype(int)
-    )
+    cbar = plt.colorbar(sm, cax=cax, label="System Gas Consumption [bcm]")
+    _cticks = np.linspace(ss.columns.min(), ss.columns.max(), 5).astype(int)
+    cbar.set_ticks(_cticks)
+    # Display gas consumption in bcm (10 TWh per bcm).
+    cbar.set_ticklabels([str(int(t) // 10) for t in _cticks])
 
     plt.tight_layout()
     out_lcoh_local = SCRIPT_DIR / f"res-heat_{mode}_lcoh-technology-panels.pdf"

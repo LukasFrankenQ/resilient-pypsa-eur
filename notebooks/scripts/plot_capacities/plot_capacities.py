@@ -183,11 +183,11 @@ for carrier, color in zip(caps.index, colors):
            edgecolor="black", linewidth=0.6, label=carrier)
     bottom += y
 
-ax.set_xlabel("Total Net Gas Consumption [TWh/a]")
+ax.set_xlabel("Total fossil gas supply [bcm/a]")
 ax.set_ylabel("Optimal installed capacity [GW]")
 
-# Show only every second xticklabel, horizontal.
-labels = [str(int(w)) if i % 2 == 0 else "" for i, w in enumerate(x)]
+# Show only every second xticklabel, horizontal; display in bcm (10 TWh per bcm).
+labels = [str(int(w) // 10) if i % 2 == 0 else "" for i, w in enumerate(x)]
 ax.set_xticks(x)
 ax.set_xticklabels(labels, rotation=0)
 

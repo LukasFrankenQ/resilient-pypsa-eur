@@ -161,7 +161,10 @@ def _plot_panel(ax, df, consumer_agg, prod_handles, prod_labels,
     ax.axhline(0, color="#888888", linewidth=0.8, zorder=3)
     ax.set_xlim(cols[0], cols[-1])
     ax.set_title(title)
-    ax.set_xlabel("Gas consumption constraint [TWh]", fontsize=11, color="#333333")
+    # Gas consumption axis in bcm (10 TWh per bcm); data stays in TWh.
+    from matplotlib.ticker import FuncFormatter as _FuncFormatter
+    ax.xaxis.set_major_formatter(_FuncFormatter(lambda v, _pos: f"{v / 10:.0f}"))
+    ax.set_xlabel("Gas consumption constraint [bcm]", fontsize=11, color="#333333")
     ax.set_ylabel("Energy [TWh]", fontsize=11, color="#333333")
 
     return {"producers": producers_payload, "consumers_grouped": consumers_payload}

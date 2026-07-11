@@ -210,7 +210,7 @@ def main():
         cbar.ax.tick_params(labelsize=8)
 
     fig.suptitle(
-        "Regional Commodity Prices for 2000 TWh Gas Consumption",
+        "Regional Commodity Prices for 200 bcm Gas Consumption",
         fontsize=15,
     )
 

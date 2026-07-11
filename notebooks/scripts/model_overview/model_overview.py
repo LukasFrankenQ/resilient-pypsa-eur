@@ -605,7 +605,7 @@ def plot_balance_timeseries_group(
 
     if wiggle_twh is not None:
         ax.text(
-            0.985, 0.96, f"{wiggle_twh} TWh\ntotal gas consumption",
+            0.985, 0.96, f"{int(wiggle_twh) / 10:.0f} bcm\ntotal gas consumption",
             transform=ax.transAxes, ha="right", va="top",
             fontsize=8, fontweight="bold", color="#222",
             linespacing=1.05,

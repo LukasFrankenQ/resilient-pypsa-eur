@@ -718,28 +718,27 @@ v2_techs = [
     'Building Electric Heating',
     'Gas-Displacing\nIndustry Electrification\nand Solid Biomass',
 ]
-v2_units = ['GW/yr', 'GW/yr', 'M/yr', 'bcm/yr']
+v2_units = ['GW/yr', 'GW/yr', 'M/yr', 'TWh/yr']
 v2_colors = ['#f9d71c', '#235ebc', '#d35050', '#b8544f']
 v2_ylabels = [
     'installed capacity [GW]',
     'installed capacity [GW]',
     'households [million]',
-    'supply volume [bcm/a]',
+    'supply volume [TWh/a]',
 ]
-# Gas-displacing supply volume expressed in bcm (10 TWh per bcm).
 v2_vals = [
     renewables['solar'],
     renewables['wind'],
     heat_pumps_europe.loc[2018:],
-    pd.Series(2.2, index=[2024]),  # industry electric heat (22) + solid biomass (0) TWh -> bcm
+    pd.Series(22, index=[2024]),  # industry electric heat (22) + solid biomass (0)
 ]
 v2_target_nolng = [
     target_nolng[0], target_nolng[1], target_nolng[3],
-    (target_nolng[4] + target_nolng[5]) / 10.0,
+    target_nolng[4] + target_nolng[5],
 ]
 v2_target_autarky = [
     target_autarky[0], target_autarky[1], target_autarky[3],
-    (target_autarky[4] + target_autarky[5]) / 10.0,
+    target_autarky[4] + target_autarky[5],
 ]
 v2_has_history = [True, True, True, False]
 v2_labels = ['a', 'b', 'c', 'd']
@@ -981,8 +980,7 @@ _frame = _FancyBboxPatch(
 fig2.add_artist(_frame)
 
 # merged industry panel: NECP increment = electric heat (80) + solid biomass (40.5)
-# TWh, expressed in bcm (10 TWh per bcm)
-fr_points_v2 = {(1, 1): (80 + 40.5) / 10.0}
+fr_points_v2 = {(1, 1): 80 + 40.5}
 for (_r, _c), _y in fr_points_v2.items():
     axs2[_r, _c].plot(
         2030, _y,

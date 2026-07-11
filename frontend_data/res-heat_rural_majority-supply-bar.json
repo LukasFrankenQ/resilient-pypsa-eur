@@ -508,10 +508,10 @@
     ]
   },
   "tech_colors": {
-    "rural gas boiler": "#d4722e",
-    "rural oil boiler": "#999999",
     "rural ground heat pump": "#999999",
+    "rural oil boiler": "#999999",
     "rural biomass boiler": "#a1a066",
-    "rural resistive heater": "#999999"
+    "rural resistive heater": "#999999",
+    "rural gas boiler": "#d4722e"
   }
 }

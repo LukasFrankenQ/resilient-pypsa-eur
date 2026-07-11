@@ -355,12 +355,11 @@ def gas_co2_per_input(net, carrier_n):
 scatter_kwargs = {"s": 30, "edgecolor": "black", "linewidth": 0.5, "alpha": 0.7}
 
 fig, axs = plt.subplots(
-    4, 1, figsize=(12, 14), gridspec_kw={"height_ratios": [2, 1, 0.7, 1]}
+    3, 1, figsize=(12, 11), gridspec_kw={"height_ratios": [2, 1, 0.7]}
 )
 axs[0].set_ylabel("Overnight Investment Cost\n[EUR/kW$_{th}$ output]")
 axs[1].set_ylabel("VOM + fuel cost\n[EUR/MWh$_{th}$]")
 axs[2].set_ylabel("Weighted-avg\nefficiency / COP [-]")
-axs[3].set_ylabel("Levelised Cost of Heat (LCOH)\n[EUR/MWh$_{th}$]")
 
 xticklocs, xticklabels = [], []
 group_spans = []  # (display name, first xloc, last xloc) per demand section
@@ -537,18 +536,11 @@ for load, carriers in shown_techs.items():
             s=55, edgecolor="black", linewidth=0.6, zorder=3,
         )
 
-        # ── LCOH / LCOE ──────────────────────────────────────────────────────
-        # capex annuity per output + variable cost per output (= VOM above).
-        lcoe = capital_cost * built / supply + vom
-
+        # ── Panel b carbon-price lift (gas techs only) ────────────────────────
         if fuels.get(carrier) == "gas":
-            # Panel b: base VOM + carbon-price lift. Panel d: only the
-            # CO2-price-adjusted LCOH cloud (no base / no lift).
+            # Panel b: base VOM + carbon-price lift.
             carbon_out = (CO2_PRICE * gas_co2_per_input(n, carrier_n)) / efficiency
             draw_carbon_lift(axs[1], vom + carbon_out, vom, xloc_tracker, tech_colors[carrier])
-            draw_violin_scatter(axs[3], lcoe + carbon_out, xloc_tracker, tech_colors[carrier])
-        else:
-            draw_violin_scatter(axs[3], lcoe, xloc_tracker, tech_colors[carrier])
 
         if carrier == "urban decentral air heat pump":
             air_hp_xloc = xloc_tracker
@@ -583,7 +575,6 @@ for ax in axs:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
-axs[-1].set_ylim(-3, 180)
 axs[2].set_ylim(bottom=0)  # efficiency / COP panel starts at 0
 
 # Centered demand-section headers above the top panel.
@@ -670,7 +661,7 @@ axs[0].legend(
 )
 
 # Bold A/B/C panel labels at the top-left of each panel.
-for ax, lab in zip(axs, "abcd"):
+for ax, lab in zip(axs, "abc"):
     ax.text(
         -0.045, 1.06, lab, transform=ax.transAxes,
         fontsize=19, fontweight="bold", va="top", ha="right",
