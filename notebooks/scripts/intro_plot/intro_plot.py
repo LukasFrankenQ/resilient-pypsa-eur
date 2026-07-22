@@ -1082,7 +1082,12 @@ for i, (name, value) in enumerate(_sector_series.items()):
             zorder=5,
         )
     else:
-        ax_bar.text(2, bottom + value / 2, sector_nicenames[name],
+        _y_lbl = bottom + value / 2
+        if name == 'Power sector':
+            # Nudge up so the label clears the 'Autarky' threshold label that
+            # sits at y=2000 just to the left of the Future Supply bar.
+            _y_lbl += 350
+        ax_bar.text(2, _y_lbl, sector_nicenames[name],
                     ha='center', va='center',
                     fontsize=7.5, color=_text_color_for(color), weight='medium')
     bottom += value
@@ -1201,16 +1206,24 @@ for i, (name, value) in enumerate(_future_segments):
     bottom += value
 
 # -----------------------------------------------------------------------------
-# Threshold lines on top of the bars: No-LNG (2750 TWh) and Autarky (2000 TWh).
-# Framed labels float to the left and may overlap the map (clip_on=False).
+# Light grey backdrop behind the three "2024 balance" bars (Source, Country,
+# Sectoral) to set them apart from the forward-looking Future Supply bar.
 # -----------------------------------------------------------------------------
-# Left end pulled past the axis spine so labels + lines shift ~half a label
-# width to the left (over the map); clip_on=False lets them render off-axis.
-_line_x_left = -0.55
+ax_bar.axvspan(-0.35, 2.5, color='#f2f2f2', zorder=-2)
+
+# -----------------------------------------------------------------------------
+# Threshold lines: No-LNG (2750 TWh) and Autarky (2000 TWh). These targets apply
+# only to the fourth ("Future Supply") bar, so the dashed lines traverse that bar
+# alone. Framed labels sit just to its left with an opaque box so they stay
+# readable over the neighbouring bar.
+# -----------------------------------------------------------------------------
+_bar3 = 3
+_line_x_left = _bar3 - width / 2 - 0.05   # 2.65
+_line_x_right = _bar3 + width / 2 + 0.05  # 3.35
 for _y, _lbl in [(2750, "No-LNG"), (2000, "Autarky")]:
-    ax_bar.plot([_line_x_left, 3.55], [_y, _y], color='red', linestyle='--',
+    ax_bar.plot([_line_x_left, _line_x_right], [_y, _y], color='red', linestyle='--',
                 linewidth=1.3, zorder=6, clip_on=False)
-    ax_bar.text(_line_x_left, _y, _lbl, ha='right', va='center',
+    ax_bar.text(_line_x_left - 0.03, _y, _lbl, ha='right', va='center',
                 fontsize=9, color='red', weight='medium',
                 bbox=dict(boxstyle='round,pad=0.3', fc='white',
                           ec='red', lw=0.8, alpha=0.95),
@@ -1233,8 +1246,11 @@ for xi, (vals, colors, texts) in zip(x_positions, all_bars):
         bottom += v
 '''
 
-# Place title inside the bar axes, just below the top spine of the map.
-ax_bar.text(0.5, 0.97, "2024 European Gas Balance",
+# Title centred over the left three bars (the 2024 balance) to which it applies;
+# the fourth ("Future Supply") bar is a separate, forward-looking column. Bars
+# sit at data x=0..3 over xlim (-0.35, 3.55); the centre of bars 0-2 (data x=1)
+# maps to axes fraction (1 + 0.35) / 3.9 ≈ 0.346.
+ax_bar.text(0.346, 0.97, "2024 European Gas Balance",
             transform=ax_bar.transAxes,
             ha='center', va='top',
             fontsize=12, weight='bold')

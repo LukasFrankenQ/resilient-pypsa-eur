@@ -13,5 +13,8 @@ See [ANALYSE_MODEL_OUTPUT_DATA.md](./claude_instructions/ANALYSE_MODEL_OUTPUT_DA
 ## Plotting instructions and default
 See [PLOTTING.md](./claude_instructions/PLOTTING.md)
 
+## Building the paper figures (which script makes which figure, and which network files it needs)
+See [PAPER_FIGURES.md](./claude_instructions/PAPER_FIGURES.md)
+
 
 
