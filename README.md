@@ -15,6 +15,16 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # PyPSA-Eur: A Sector-Coupled Open Optimisation Model of the European Energy System
 
+> [!NOTE]
+> This repository is a fork of PyPSA-Eur used to build the results of the paper
+> **"Accelerating fossil gas independence in Europe"** by Lukas Franken, Iegor
+> Riepin and Tom Brown. See [CLAUDE.md](./CLAUDE.md) for instructions on how to
+> reproduce the results and figures of the paper.
+>
+> Note the computational overhead of a full reconstruction of the paper
+> findings: around 200 model runs (~95 at 3-hourly and ~100 at 168-hourly
+> temporal resolution), each requiring up to 40 GB of RAM to solve.
+
 PyPSA-Eur is an open model dataset of the European energy system at the
 transmission network level that covers the full ENTSO-E area. The model is suitable both for operational studies and generation and transmission expansion planning studies.
 The continental scope and highly resolved spatial scale enables a proper description of the long-range
