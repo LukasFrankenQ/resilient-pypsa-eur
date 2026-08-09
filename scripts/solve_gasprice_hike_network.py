@@ -351,61 +351,61 @@ def add_capacity_market_batteries(n, gw, hours=4.0):
     weights = profiles.mean()
     weights /= weights.sum()
     # electricity-load names coincide with the AC bus names ("AL0 0" etc.)
-    nodes = weights.index
+    # NB: bus references and names are passed as plain lists throughout -
+    # pypsa >= 1.0 label-aligns pd.Index/pd.Series attribute values against
+    # the new component names, silently yielding empty bus references.
+    nodes = list(weights.index)
 
     eff_s = n.links.loc[n.links.carrier == "battery charger", "efficiency"]
     eff = float(eff_s.iloc[0]) if len(eff_s) else 0.96
 
-    p_grid = gw * 1e3 * weights  # MW delivered per node
+    p_grid = (gw * 1e3 * weights).to_numpy()  # MW delivered per node
 
     for carrier in ["battery CM", "battery CM charger", "battery CM discharger"]:
         if carrier not in n.carriers.index:
             n.add("Carrier", carrier, color="#b8ea04", nice_name=carrier)
 
-    cm_buses = n.add(
+    cm_buses = [f"{b} battery CM" for b in nodes]
+    n.add(
         "Bus",
-        nodes,
-        suffix=" battery CM",
+        cm_buses,
         carrier="battery CM",
-        x=n.buses.loc[nodes, "x"].values,
-        y=n.buses.loc[nodes, "y"].values,
-        country=n.buses.loc[nodes, "country"].values,
+        x=n.buses.loc[nodes, "x"].to_numpy(),
+        y=n.buses.loc[nodes, "y"].to_numpy(),
+        country=n.buses.loc[nodes, "country"].to_list(),
     )
 
     n.add(
         "Link",
-        nodes,
-        suffix=" battery CM charger",
+        [f"{b} battery CM charger" for b in nodes],
         bus0=nodes,
         bus1=cm_buses,
         carrier="battery CM charger",
         efficiency=eff,
-        p_nom=p_grid.values,
-        p_nom_opt=p_grid.values,
+        p_nom=p_grid,
+        p_nom_opt=p_grid,
         p_nom_extendable=False,
         capital_cost=0.0,
     )
     n.add(
         "Link",
-        nodes,
-        suffix=" battery CM discharger",
+        [f"{b} battery CM discharger" for b in nodes],
         bus0=cm_buses,
         bus1=nodes,
         carrier="battery CM discharger",
         efficiency=eff,
-        p_nom=(p_grid / eff).values,
-        p_nom_opt=(p_grid / eff).values,
+        p_nom=p_grid / eff,
+        p_nom_opt=p_grid / eff,
         p_nom_extendable=False,
         capital_cost=0.0,
     )
     n.add(
         "Store",
-        nodes,
-        suffix=" battery CM",
+        [f"{b} battery CM" for b in nodes],
         bus=cm_buses,
         carrier="battery CM",
-        e_nom=(hours * p_grid / eff).values,
-        e_nom_opt=(hours * p_grid / eff).values,
+        e_nom=hours * p_grid / eff,
+        e_nom_opt=hours * p_grid / eff,
         e_nom_extendable=False,
         e_cyclic=True,
         capital_cost=0.0,
