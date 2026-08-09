@@ -328,6 +328,96 @@ def add_load_shedding(
     )    
 
 
+def add_capacity_market_batteries(n, gw, hours=4.0):
+    """Inject out-of-market ("capacity market") utility-scale batteries.
+
+    Adds ``gw`` GW of grid-delivered discharge power, distributed over AC
+    buses proportional to mean electricity demand, under a dedicated
+    carrier "battery CM" (own bus + charger/discharger links + cyclic
+    ``hours``-duration store per node). All capacities are fixed
+    (non-extendable) with zero capital cost: in the operation-only hike
+    solve the asset exists regardless of energy-market revenues, i.e. it
+    is "out of money" by construction.
+
+    Sizing convention per node (P = allocated grid-side power in MW):
+      * discharger p_nom = P / eff  -> delivers exactly P to the AC bus
+      * charger    p_nom = P       -> symmetric grid connection
+      * store      e_nom = hours * P / eff -> hours * P deliverable energy
+    """
+    elec_loads = n.loads.query("carrier == 'electricity'")
+    profiles = n.loads_t.p_set.reindex(columns=elec_loads.index).dropna(
+        axis=1, how="all"
+    )
+    weights = profiles.mean()
+    weights /= weights.sum()
+    # electricity-load names coincide with the AC bus names ("AL0 0" etc.)
+    nodes = weights.index
+
+    eff_s = n.links.loc[n.links.carrier == "battery charger", "efficiency"]
+    eff = float(eff_s.iloc[0]) if len(eff_s) else 0.96
+
+    p_grid = gw * 1e3 * weights  # MW delivered per node
+
+    for carrier in ["battery CM", "battery CM charger", "battery CM discharger"]:
+        if carrier not in n.carriers.index:
+            n.add("Carrier", carrier, color="#b8ea04", nice_name=carrier)
+
+    cm_buses = n.add(
+        "Bus",
+        nodes,
+        suffix=" battery CM",
+        carrier="battery CM",
+        x=n.buses.loc[nodes, "x"].values,
+        y=n.buses.loc[nodes, "y"].values,
+        country=n.buses.loc[nodes, "country"].values,
+    )
+
+    n.add(
+        "Link",
+        nodes,
+        suffix=" battery CM charger",
+        bus0=nodes,
+        bus1=cm_buses,
+        carrier="battery CM charger",
+        efficiency=eff,
+        p_nom=p_grid.values,
+        p_nom_opt=p_grid.values,
+        p_nom_extendable=False,
+        capital_cost=0.0,
+    )
+    n.add(
+        "Link",
+        nodes,
+        suffix=" battery CM discharger",
+        bus0=cm_buses,
+        bus1=nodes,
+        carrier="battery CM discharger",
+        efficiency=eff,
+        p_nom=(p_grid / eff).values,
+        p_nom_opt=(p_grid / eff).values,
+        p_nom_extendable=False,
+        capital_cost=0.0,
+    )
+    n.add(
+        "Store",
+        nodes,
+        suffix=" battery CM",
+        bus=cm_buses,
+        carrier="battery CM",
+        e_nom=(hours * p_grid / eff).values,
+        e_nom_opt=(hours * p_grid / eff).values,
+        e_nom_extendable=False,
+        e_cyclic=True,
+        capital_cost=0.0,
+    )
+
+    logger.info(
+        f"Added {gw} GW / {gw * hours} GWh of out-of-market 'battery CM' "
+        f"capacity across {len(nodes)} AC buses (load-proportional, "
+        f"round-trip efficiency {eff**2:.3f})."
+    )
+
+
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
@@ -336,15 +426,15 @@ if __name__ == "__main__":
         from scripts._helpers import mock_snakemake
 
         snakemake = mock_snakemake(
-            "solve_sector_network",
+            "solve_gasprice_hike_network",
             opts="",
             clusters="50",
             configfiles="config.basicrun.yaml",
             sector_opts="168H-T-H-B-I-A-dist1",
             planning_horizons="2030",
-            tyndp_scenario="NT",
-            wiggle=3000,
-            hike=50,
+            tyndp_scenario="free",
+            wiggle=2000,
+            hike="10u-cm10",
         )
     
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -369,7 +459,15 @@ if __name__ == "__main__":
     #                      the "u" suffix (e.g. "50u") keeps fix_capacities active
     #                      (capacities locked from ..._free_{wiggle}.nc) but drops
     #                      the gas equality, so only dispatch re-optimises.
+    #   * hike="<n>u-cm<gw>" - like "<n>u", but additionally injects <gw> GW of
+    #                      out-of-market ("capacity market") 4h batteries before
+    #                      the operation-only solve (see
+    #                      add_capacity_market_batteries), e.g. "10u-cm20".
     hike_str = str(snakemake.wildcards["hike"])
+    cm_gw = 0.0
+    if "-cm" in hike_str:
+        hike_str, _cm = hike_str.split("-cm", 1)
+        cm_gw = float(_cm)
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
                      or hike_str.endswith("u"))
     if unconstrained:
@@ -423,6 +521,11 @@ if __name__ == "__main__":
     # fix_all_optimal_capacities(n)
     # set_minimum_investment(n, snakemake.wildcards.planning_horizons)
     # add_load_shedding(n)
+
+    # After the small-capacity cleanup above, so the injected links cannot be
+    # caught by the p_nom_opt < threshold reset.
+    if cm_gw > 0:
+        add_capacity_market_batteries(n, cm_gw)
 
     gasprice_markup = float(hike_str.rstrip("u"))
     # logger.info(f"Applying gas price markup of {gasprice_markup}")
