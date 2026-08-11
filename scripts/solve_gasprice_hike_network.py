@@ -328,6 +328,54 @@ def add_load_shedding(
     )    
 
 
+BROWNFIELD_GENERATORS = [
+    "onwind",
+    "offwind-ac",
+    "offwind-dc",
+    "offwind-float",
+    "solar",
+    "solar-hsat",
+]
+BROWNFIELD_LINKS = ["battery charger", "battery discharger"]
+BROWNFIELD_STORES = ["battery"]
+
+
+def enable_brownfield_expansion(n, n_lt):
+    """Re-open capacity expansion for wind, solar and utility batteries.
+
+    Brownfield: the planning-run optimal capacity is the floor (no
+    tear-down), the original resource potential the ceiling, and the
+    annualized capital costs from the planning network price the new
+    build. Everything else stays locked by ``fix_capacities``, so the
+    solve answers: given the inherited system and a (hiked) gas price,
+    what wind/solar/battery overbuild pays for itself?
+
+    Must run AFTER the small-capacity cleanup loop, which caps tiny
+    links at p_nom_max=0.1 — the potentials are restored here.
+    """
+    specs = [
+        ("generators", "p_nom", BROWNFIELD_GENERATORS),
+        ("links", "p_nom", BROWNFIELD_LINKS),
+        ("stores", "e_nom", BROWNFIELD_STORES),
+    ]
+    for name, attr, carriers in specs:
+        df = getattr(n, name)
+        lt = getattr(n_lt, name)
+        # only assets the planning run optimised; exogenous ones stay fixed
+        idx = lt.index[
+            lt.carrier.isin(carriers) & lt[f"{attr}_extendable"]
+        ].intersection(df.index)
+        df.loc[idx, f"{attr}_extendable"] = True
+        df.loc[idx, f"{attr}_min"] = lt.loc[idx, f"{attr}_opt"]
+        df.loc[idx, f"{attr}_max"] = lt.loc[idx, f"{attr}_max"]
+        df.loc[idx, attr] = lt.loc[idx, attr]
+        logger.info(
+            f"Brownfield: {len(idx)} {name} ({', '.join(carriers)}) extendable "
+            f"again, floored at planning optimum "
+            f"({lt.loc[idx, f'{attr}_opt'].sum() / 1e3:.1f} GW(h) installed)."
+        )
+
+
 def add_capacity_market_batteries(n, gw, hours=4.0):
     """Inject out-of-market ("capacity market") utility-scale batteries.
 
@@ -434,7 +482,7 @@ if __name__ == "__main__":
             planning_horizons="2030",
             tyndp_scenario="free",
             wiggle=2000,
-            hike="10u-cm10",
+            hike="10b",
         )
     
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -463,13 +511,21 @@ if __name__ == "__main__":
     #                      out-of-market ("capacity market") 4h batteries before
     #                      the operation-only solve (see
     #                      add_capacity_market_batteries), e.g. "10u-cm20".
+    #   * hike="<n>b"    - brownfield expansion: like "<n>u" (gas equality
+    #                      dropped, realism levers on) but wind, solar and
+    #                      utility batteries become extendable again, floored
+    #                      at the planning optimum (see
+    #                      enable_brownfield_expansion) - the cost-optimal
+    #                      overbuild in response to the gas price hike.
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
         hike_str, _cm = hike_str.split("-cm", 1)
         cm_gw = float(_cm)
+    brownfield = hike_str.endswith("b")
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
-                     or hike_str.endswith("u"))
+                     or hike_str.endswith("u")
+                     or brownfield)
     if unconstrained:
         logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
                     "equality and applying gas-stickiness realism levers.")
@@ -524,10 +580,13 @@ if __name__ == "__main__":
 
     # After the small-capacity cleanup above, so the injected links cannot be
     # caught by the p_nom_opt < threshold reset.
+    if brownfield:
+        enable_brownfield_expansion(n, n_lt)
+
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
-    gasprice_markup = float(hike_str.rstrip("u"))
+    gasprice_markup = float(hike_str.rstrip("ub"))
     # logger.info(f"Applying gas price markup of {gasprice_markup}")
     mask = n.generators.carrier == 'gas'
     n.generators.loc[mask, 'marginal_cost'] += gasprice_markup
