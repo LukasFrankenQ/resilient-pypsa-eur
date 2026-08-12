@@ -57,10 +57,13 @@ wildcard_constraints:
     # "u" suffix = unconstrained (price-responsive) operation-only run;
     # "b" suffix = like "u" but with brownfield expansion of wind, solar
     # and utility batteries (floored at the planning optimum);
+    # "q" suffix = like "b" but freeing only queue-free assets (no new
+    # transmission-level grid connection): decentral/district heat pumps
+    # and resistive heaters, home batteries, solar thermal, H2 chain;
     # optional "-cm<GW>" suffix injects that many GW of out-of-market
     # ("capacity market") 4h batteries before the operation-only solve,
     # e.g. "10u-cm20" = 10 EUR/MWh gas markup + 20 GW added batteries
-    hike=r"[0-9]+[ub]?(-cm[0-9]+)?",
+    hike=r"[0-9]+[ubq]?(-cm[0-9]+)?",
     # tyndp_scenario=r"NT\+(very_slow|slow|medium|fast|freepumps)\+(freepumps|NT)|free",
     # tyndp_scenario=r"NT(\+[a-zA-Z_=\-]+)+|free",
     tyndp_scenario=r"[-+a-zA-Z0-9\.\s]*",

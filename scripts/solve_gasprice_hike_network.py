@@ -339,25 +339,63 @@ BROWNFIELD_GENERATORS = [
 BROWNFIELD_LINKS = ["battery charger", "battery discharger"]
 BROWNFIELD_STORES = ["battery"]
 
+BROWNFIELD_SPECS = [
+    ("generators", "p_nom", BROWNFIELD_GENERATORS),
+    ("links", "p_nom", BROWNFIELD_LINKS),
+    ("stores", "e_nom", BROWNFIELD_STORES),
+]
 
-def enable_brownfield_expansion(n, n_lt):
-    """Re-open capacity expansion for wind, solar and utility batteries.
+# Queue-free expansion: only technologies that do not need a new
+# transmission-level (AC bus) grid connection — behind-the-meter /
+# low-voltage electric heat and storage, plus heat-side solar thermal.
+# Deliberate exceptions: the H2 chain (AC-connected; kept to show that
+# electrolytic hydrogen is not a gas-hike hedge) and the distribution
+# grid (reinforcement of existing infrastructure, not a new connection;
+# freed so the low-voltage bus cannot act as an artificial queue).
+# Industry electric heating (HPs and electric boilers, AC bus) and all
+# biomass stay locked — biomass additionally keeps its dispatch band.
+QUEUEFREE_GENERATORS = [
+    "rural solar thermal",
+    "urban decentral solar thermal",
+    "urban central solar thermal",
+]
+QUEUEFREE_LINKS = [
+    "rural air heat pump",
+    "rural ground heat pump",
+    "urban decentral air heat pump",
+    "urban central air heat pump",
+    "rural resistive heater",
+    "urban decentral resistive heater",
+    "urban central resistive heater",
+    "home battery charger",
+    "home battery discharger",
+    "H2 Electrolysis",
+    "heat200-500 industry hydrogen",
+    "heat>500 industry hydrogen",
+    "electricity distribution grid",
+]
+QUEUEFREE_STORES = ["home battery", "H2 Store"]
 
-    Brownfield: the planning-run optimal capacity is the floor (no
+QUEUEFREE_SPECS = [
+    ("generators", "p_nom", QUEUEFREE_GENERATORS),
+    ("links", "p_nom", QUEUEFREE_LINKS),
+    ("stores", "e_nom", QUEUEFREE_STORES),
+]
+
+
+def enable_expansion(n, n_lt, specs, label):
+    """Re-open capacity expansion for a whitelist of carriers.
+
+    Brownfield logic: the planning-run optimal capacity is the floor (no
     tear-down), the original resource potential the ceiling, and the
     annualized capital costs from the planning network price the new
     build. Everything else stays locked by ``fix_capacities``, so the
     solve answers: given the inherited system and a (hiked) gas price,
-    what wind/solar/battery overbuild pays for itself?
+    what buildout of the whitelisted assets pays for itself?
 
     Must run AFTER the small-capacity cleanup loop, which caps tiny
     links at p_nom_max=0.1 — the potentials are restored here.
     """
-    specs = [
-        ("generators", "p_nom", BROWNFIELD_GENERATORS),
-        ("links", "p_nom", BROWNFIELD_LINKS),
-        ("stores", "e_nom", BROWNFIELD_STORES),
-    ]
     for name, attr, carriers in specs:
         df = getattr(n, name)
         lt = getattr(n_lt, name)
@@ -370,7 +408,7 @@ def enable_brownfield_expansion(n, n_lt):
         df.loc[idx, f"{attr}_max"] = lt.loc[idx, f"{attr}_max"]
         df.loc[idx, attr] = lt.loc[idx, attr]
         logger.info(
-            f"Brownfield: {len(idx)} {name} ({', '.join(carriers)}) extendable "
+            f"{label}: {len(idx)} {name} ({', '.join(carriers)}) extendable "
             f"again, floored at planning optimum "
             f"({lt.loc[idx, f'{attr}_opt'].sum() / 1e3:.1f} GW(h) installed)."
         )
@@ -482,7 +520,7 @@ if __name__ == "__main__":
             planning_horizons="2030",
             tyndp_scenario="free",
             wiggle=2000,
-            hike="10b",
+            hike="10q",
         )
     
     configure_logging(snakemake)  # pylint: disable=E0606
@@ -514,18 +552,26 @@ if __name__ == "__main__":
     #   * hike="<n>b"    - brownfield expansion: like "<n>u" (gas equality
     #                      dropped, realism levers on) but wind, solar and
     #                      utility batteries become extendable again, floored
-    #                      at the planning optimum (see
-    #                      enable_brownfield_expansion) - the cost-optimal
-    #                      overbuild in response to the gas price hike.
+    #                      at the planning optimum (see enable_expansion) -
+    #                      the cost-optimal overbuild in response to the gas
+    #                      price hike.
+    #   * hike="<n>q"    - queue-free expansion: like "<n>b" but the freed
+    #                      assets are those needing no new transmission-level
+    #                      grid connection (decentral & district-heating heat
+    #                      pumps and resistive heaters, home batteries, solar
+    #                      thermal, the H2 chain, distribution grid) - see
+    #                      QUEUEFREE_SPECS for the rationale.
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
         hike_str, _cm = hike_str.split("-cm", 1)
         cm_gw = float(_cm)
     brownfield = hike_str.endswith("b")
+    queuefree = hike_str.endswith("q")
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
                      or hike_str.endswith("u")
-                     or brownfield)
+                     or brownfield
+                     or queuefree)
     if unconstrained:
         logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
                     "equality and applying gas-stickiness realism levers.")
@@ -581,12 +627,15 @@ if __name__ == "__main__":
     # After the small-capacity cleanup above, so the injected links cannot be
     # caught by the p_nom_opt < threshold reset.
     if brownfield:
-        enable_brownfield_expansion(n, n_lt)
+        enable_expansion(n, n_lt, BROWNFIELD_SPECS, "Brownfield")
+
+    if queuefree:
+        enable_expansion(n, n_lt, QUEUEFREE_SPECS, "Queue-free")
 
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
-    gasprice_markup = float(hike_str.rstrip("ub"))
+    gasprice_markup = float(hike_str.rstrip("ubq"))
     # logger.info(f"Applying gas price markup of {gasprice_markup}")
     mask = n.generators.carrier == 'gas'
     n.generators.loc[mask, 'marginal_cost'] += gasprice_markup
