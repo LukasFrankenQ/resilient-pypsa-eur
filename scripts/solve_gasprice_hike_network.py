@@ -414,6 +414,35 @@ def enable_expansion(n, n_lt, specs, label):
         )
 
 
+def fix_overbuild_capacities(n, n_b, specs, label="Premium"):
+    """Freeze the brownfield overbuild into an operation-only network.
+
+    Premium ("no-hike regret") run: the fleet is the <n>b brownfield optimum,
+    but gas stays at its base price. The whitelisted carriers take the b-run
+    optimal capacities and are locked (non-extendable); everything else was
+    already fixed against the planning network by ``fix_capacities``, so the
+    solve differs from a plain 0u run only by the overbuild. Comparing total
+    system cost (annualised capex + dispatch cost, computed identically for
+    both networks — not the solver objective) against 0u yields the hedge's
+    insurance premium.
+
+    Must run AFTER the small-capacity cleanup loop (like ``enable_expansion``):
+    sites tiny in the planning run but large in the b run would otherwise be
+    capped at p_nom_max=0.1 before their b-run capacity is written in.
+    """
+    for name, attr, carriers in specs:
+        df = getattr(n, name)
+        b = getattr(n_b, name)
+        idx = b.index[b.carrier.isin(carriers)].intersection(df.index)
+        added = (b.loc[idx, f"{attr}_opt"] - df.loc[idx, attr]).clip(lower=0)
+        df.loc[idx, attr] = b.loc[idx, f"{attr}_opt"]
+        df.loc[idx, f"{attr}_extendable"] = False
+        logger.info(
+            f"{label}: {len(idx)} {name} ({', '.join(carriers)}) fixed at the "
+            f"brownfield optimum (+{added.sum() / 1e3:.1f} GW(h) overbuild)."
+        )
+
+
 def add_capacity_market_batteries(n, gw, hours=4.0):
     """Inject out-of-market ("capacity market") utility-scale batteries.
 
@@ -561,6 +590,12 @@ if __name__ == "__main__":
     #                      pumps and resistive heaters, home batteries, solar
     #                      thermal, the H2 chain, distribution grid) - see
     #                      QUEUEFREE_SPECS for the rationale.
+    #   * hike="<n>p"    - premium / no-hike-regret run: operation-only like
+    #                      "0u", but with the overbuild fleet of the
+    #                      corresponding "<n>b" solve frozen in (see
+    #                      fix_overbuild_capacities) and the gas markup set
+    #                      to ZERO - prices the hedge in the world where the
+    #                      hike never materialises. Compare to "0u".
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
@@ -568,10 +603,12 @@ if __name__ == "__main__":
         cm_gw = float(_cm)
     brownfield = hike_str.endswith("b")
     queuefree = hike_str.endswith("q")
+    premium = hike_str.endswith("p")
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
                      or hike_str.endswith("u")
                      or brownfield
-                     or queuefree)
+                     or queuefree
+                     or premium)
     if unconstrained:
         logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
                     "equality and applying gas-stickiness realism levers.")
@@ -632,10 +669,20 @@ if __name__ == "__main__":
     if queuefree:
         enable_expansion(n, n_lt, QUEUEFREE_SPECS, "Queue-free")
 
+    if premium:
+        n_b = pypsa.Network(snakemake.input.brownfield_network)
+        fix_overbuild_capacities(n, n_b, BROWNFIELD_SPECS)
+
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
-    gasprice_markup = float(hike_str.rstrip("ubq"))
+    gasprice_markup = float(hike_str.rstrip("ubqp"))
+    if premium:
+        logger.info(
+            f"Premium run: overbuild fleet from the {gasprice_markup:.0f}b "
+            "brownfield solve, dispatched at the base gas price (markup 0)."
+        )
+        gasprice_markup = 0.0
     # logger.info(f"Applying gas price markup of {gasprice_markup}")
     mask = n.generators.carrier == 'gas'
     n.generators.loc[mask, 'marginal_cost'] += gasprice_markup

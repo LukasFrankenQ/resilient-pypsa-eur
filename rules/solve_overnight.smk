@@ -51,6 +51,19 @@ rule solve_sector_network:
         "../scripts/solve_network.py"
 
 
+def gasprice_hike_input(w):
+    stem = (
+        RESULTS
+        + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}"
+    ).format(**w)
+    inputs = {"network": stem + ".nc"}
+    hike = str(w.hike)
+    # premium run: needs the brownfield solve whose fleet it freezes in
+    if hike.endswith("p"):
+        inputs["brownfield_network"] = stem + f"_{hike[:-1]}b.nc"
+    return inputs
+
+
 rule solve_gasprice_hike_network:
     params:
         options=config_provider("solving", "options"),
@@ -61,10 +74,7 @@ rule solve_gasprice_hike_network:
         ),
         custom_extra_functionality=input_custom_extra_functionality,
     input:
-        network=(
-            RESULTS +
-            "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}.nc"
-        ),
+        unpack(gasprice_hike_input),
     output:
         network=RESULTS
         + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}_{hike}.nc",
