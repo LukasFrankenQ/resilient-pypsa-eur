@@ -596,6 +596,9 @@ if __name__ == "__main__":
     #                      fix_overbuild_capacities) and the gas markup set
     #                      to ZERO - prices the hedge in the world where the
     #                      hike never materialises. Compare to "0u".
+    #   * hike="<n>qp"   - like "<n>p" but freezing in the fleet of the
+    #                      corresponding "<n>q" (queue-free) solve instead
+    #                      of the "<n>b" brownfield solve.
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
@@ -604,6 +607,7 @@ if __name__ == "__main__":
     brownfield = hike_str.endswith("b")
     queuefree = hike_str.endswith("q")
     premium = hike_str.endswith("p")
+    queue_premium = hike_str.endswith("qp")
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
                      or hike_str.endswith("u")
                      or brownfield
@@ -671,16 +675,20 @@ if __name__ == "__main__":
 
     if premium:
         n_b = pypsa.Network(snakemake.input.brownfield_network)
-        fix_overbuild_capacities(n, n_b, BROWNFIELD_SPECS)
+        if queue_premium:
+            fix_overbuild_capacities(n, n_b, QUEUEFREE_SPECS, "Queue-premium")
+        else:
+            fix_overbuild_capacities(n, n_b, BROWNFIELD_SPECS)
 
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
     gasprice_markup = float(hike_str.rstrip("ubqp"))
     if premium:
+        fleet = f"{gasprice_markup:.0f}q queue-free" if queue_premium else f"{gasprice_markup:.0f}b brownfield"
         logger.info(
-            f"Premium run: overbuild fleet from the {gasprice_markup:.0f}b "
-            "brownfield solve, dispatched at the base gas price (markup 0)."
+            f"Premium run: overbuild fleet from the {fleet} solve, "
+            "dispatched at the base gas price (markup 0)."
         )
         gasprice_markup = 0.0
     # logger.info(f"Applying gas price markup of {gasprice_markup}")

@@ -58,8 +58,10 @@ def gasprice_hike_input(w):
     ).format(**w)
     inputs = {"network": stem + ".nc"}
     hike = str(w.hike)
-    # premium run: needs the brownfield solve whose fleet it freezes in
-    if hike.endswith("p"):
+    # premium run: needs the brownfield/queue-free solve whose fleet it freezes in
+    if hike.endswith("qp"):
+        inputs["brownfield_network"] = stem + f"_{hike[:-2]}q.nc"
+    elif hike.endswith("p"):
         inputs["brownfield_network"] = stem + f"_{hike[:-1]}b.nc"
     return inputs
 
