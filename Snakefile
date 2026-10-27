@@ -66,10 +66,16 @@ wildcard_constraints:
     # the world where the hike never materialises;
     # "qp" suffix = like "p" but freezing in the fleet of the
     # corresponding "q" (queue-free) run instead of the "b" run;
+    # "d" suffix = dispatch-only robustness run: the fleet of the
+    # corresponding "b" run frozen in (as for "p") but dispatched at the
+    # HIKED gas price - same fleet and gas price as "b", so it re-derives
+    # the hedged marginal prices from a short-run (operation-only) solve;
+    # "qd" suffix = like "d" but freezing in the fleet of the
+    # corresponding "q" (queue-free) run instead of the "b" run;
     # optional "-cm<GW>" suffix injects that many GW of out-of-market
     # ("capacity market") 4h batteries before the operation-only solve,
     # e.g. "10u-cm20" = 10 EUR/MWh gas markup + 20 GW added batteries
-    hike=r"[0-9]+(qp|[ubqp])?(-cm[0-9]+)?",
+    hike=r"[0-9]+(qp|qd|[ubqpd])?(-cm[0-9]+)?",
     # tyndp_scenario=r"NT\+(very_slow|slow|medium|fast|freepumps)\+(freepumps|NT)|free",
     # tyndp_scenario=r"NT(\+[a-zA-Z_=\-]+)+|free",
     tyndp_scenario=r"[-+a-zA-Z0-9\.\s]*",

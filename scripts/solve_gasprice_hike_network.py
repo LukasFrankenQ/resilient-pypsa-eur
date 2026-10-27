@@ -599,6 +599,14 @@ if __name__ == "__main__":
     #   * hike="<n>qp"   - like "<n>p" but freezing in the fleet of the
     #                      corresponding "<n>q" (queue-free) solve instead
     #                      of the "<n>b" brownfield solve.
+    #   * hike="<n>d"    - dispatch-only robustness run: like "<n>p" (the
+    #                      "<n>b" fleet frozen in), but dispatched at the
+    #                      HIKED gas price. Same fleet and gas price as
+    #                      "<n>b", so dispatch should match it; the marginal
+    #                      prices are re-derived from an operation-only solve
+    #                      instead of the investment solve. Compare to "<n>u".
+    #   * hike="<n>qd"   - like "<n>d" but freezing in the fleet of the
+    #                      corresponding "<n>q" (queue-free) solve.
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
@@ -608,11 +616,16 @@ if __name__ == "__main__":
     queuefree = hike_str.endswith("q")
     premium = hike_str.endswith("p")
     queue_premium = hike_str.endswith("qp")
+    dispatch = hike_str.endswith("d")
+    queue_dispatch = hike_str.endswith("qd")
+    # both freeze in an overbuild fleet; only "p" resets the gas markup
+    frozen_fleet = premium or dispatch
+    queue_fleet = queue_premium or queue_dispatch
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
                      or hike_str.endswith("u")
                      or brownfield
                      or queuefree
-                     or premium)
+                     or frozen_fleet)
     if unconstrained:
         logger.info("Unconstrained gas run: dropping the fixed-gas-consumption "
                     "equality and applying gas-stickiness realism levers.")
@@ -673,17 +686,23 @@ if __name__ == "__main__":
     if queuefree:
         enable_expansion(n, n_lt, QUEUEFREE_SPECS, "Queue-free")
 
-    if premium:
+    if frozen_fleet:
         n_b = pypsa.Network(snakemake.input.brownfield_network)
-        if queue_premium:
-            fix_overbuild_capacities(n, n_b, QUEUEFREE_SPECS, "Queue-premium")
-        else:
-            fix_overbuild_capacities(n, n_b, BROWNFIELD_SPECS)
+        label = "premium" if premium else "dispatch"
+        label = f"Queue-{label}" if queue_fleet else label.capitalize()
+        specs = QUEUEFREE_SPECS if queue_fleet else BROWNFIELD_SPECS
+        fix_overbuild_capacities(n, n_b, specs, label)
 
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
-    gasprice_markup = float(hike_str.rstrip("ubqp"))
+    gasprice_markup = float(hike_str.rstrip("ubqpd"))
+    if dispatch:
+        fleet = f"{gasprice_markup:.0f}q queue-free" if queue_dispatch else f"{gasprice_markup:.0f}b brownfield"
+        logger.info(
+            f"Dispatch-only run: overbuild fleet from the {fleet} solve, "
+            f"dispatched at the hiked gas price (markup {gasprice_markup:.0f})."
+        )
     if premium:
         fleet = f"{gasprice_markup:.0f}q queue-free" if queue_premium else f"{gasprice_markup:.0f}b brownfield"
         logger.info(
