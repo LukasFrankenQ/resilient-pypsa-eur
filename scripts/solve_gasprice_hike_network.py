@@ -1,5 +1,6 @@
 
 import logging
+import re
 import pandas as pd
 import numpy as np
 import importlib
@@ -607,22 +608,34 @@ if __name__ == "__main__":
     #                      instead of the investment solve. Compare to "<n>u".
     #   * hike="<n>qd"   - like "<n>d" but freezing in the fleet of the
     #                      corresponding "<n>q" (queue-free) solve.
+    #   * hike="<y>d<x>" - fleet-by-shock matrix: the "<x>b" fleet frozen in
+    #                      and dispatched at gas markup y ("<y>qd<x>" for the
+    #                      "<x>q" fleet). "<n>d" is shorthand for "<n>d<n>",
+    #                      and "0d<x>" poses the same problem as "<x>p".
     hike_str = str(snakemake.wildcards["hike"])
     cm_gw = 0.0
     if "-cm" in hike_str:
         hike_str, _cm = hike_str.split("-cm", 1)
         cm_gw = float(_cm)
-    brownfield = hike_str.endswith("b")
-    queuefree = hike_str.endswith("q")
-    premium = hike_str.endswith("p")
-    queue_premium = hike_str.endswith("qp")
-    dispatch = hike_str.endswith("d")
-    queue_dispatch = hike_str.endswith("qd")
+    _m = re.fullmatch(r"([0-9]+)(qp|qd|[ubqpd])?([0-9]*)", hike_str)
+    if _m is None:
+        raise ValueError(f"Cannot parse hike wildcard {hike_str!r}")
+    _markup, suffix, _fleet = _m.groups()
+    suffix = suffix or ""
+    brownfield = suffix == "b"
+    queuefree = suffix == "q"
+    premium = suffix in ("p", "qp")
+    queue_premium = suffix == "qp"
+    dispatch = suffix in ("d", "qd")
+    queue_dispatch = suffix == "qd"
+    # gas markup of the run, and the hike whose overbuild fleet is frozen in
+    gasprice_markup = float(_markup)
+    fleet_hike = float(_fleet) if _fleet else gasprice_markup
     # both freeze in an overbuild fleet; only "p" resets the gas markup
     frozen_fleet = premium or dispatch
     queue_fleet = queue_premium or queue_dispatch
     unconstrained = (str(snakemake.wildcards["wiggle"]) == "endo"
-                     or hike_str.endswith("u")
+                     or suffix == "u"
                      or brownfield
                      or queuefree
                      or frozen_fleet)
@@ -696,15 +709,14 @@ if __name__ == "__main__":
     if cm_gw > 0:
         add_capacity_market_batteries(n, cm_gw)
 
-    gasprice_markup = float(hike_str.rstrip("ubqpd"))
     if dispatch:
-        fleet = f"{gasprice_markup:.0f}q queue-free" if queue_dispatch else f"{gasprice_markup:.0f}b brownfield"
+        fleet = f"{fleet_hike:.0f}q queue-free" if queue_dispatch else f"{fleet_hike:.0f}b brownfield"
         logger.info(
             f"Dispatch-only run: overbuild fleet from the {fleet} solve, "
             f"dispatched at the hiked gas price (markup {gasprice_markup:.0f})."
         )
     if premium:
-        fleet = f"{gasprice_markup:.0f}q queue-free" if queue_premium else f"{gasprice_markup:.0f}b brownfield"
+        fleet = f"{fleet_hike:.0f}q queue-free" if queue_premium else f"{fleet_hike:.0f}b brownfield"
         logger.info(
             f"Premium run: overbuild fleet from the {fleet} solve, "
             "dispatched at the base gas price (markup 0)."

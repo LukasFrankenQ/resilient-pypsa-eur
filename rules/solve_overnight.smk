@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+import re
+
 
 rule solve_sector_network:
     params:
@@ -57,13 +59,13 @@ def gasprice_hike_input(w):
         + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}_{tyndp_scenario}_{wiggle}"
     ).format(**w)
     inputs = {"network": stem + ".nc"}
-    hike = str(w.hike)
     # premium / dispatch-only runs: need the brownfield/queue-free solve
-    # whose fleet they freeze in
-    if hike.endswith(("qp", "qd")):
-        inputs["brownfield_network"] = stem + f"_{hike[:-2]}q.nc"
-    elif hike.endswith(("p", "d")):
-        inputs["brownfield_network"] = stem + f"_{hike[:-1]}b.nc"
+    # whose fleet they freeze in; "<y>d<x>" freezes the "<x>b" fleet
+    m = re.fullmatch(r"([0-9]+)(qp|qd|p|d)([0-9]*)", str(w.hike).split("-cm")[0])
+    if m:
+        markup, suffix, fleet = m.groups()
+        kind = "q" if suffix.startswith("q") else "b"
+        inputs["brownfield_network"] = stem + f"_{fleet or markup}{kind}.nc"
     return inputs
 
 
